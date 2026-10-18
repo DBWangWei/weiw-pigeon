@@ -14,3 +14,9 @@ StaggeredMenu:
 https://github.com/DavidHDev/react-bits/tree/main/src/content
 Pigeon implements small dependency-free adaptations with the Web Animations API
 and SVG clipping; the upstream React components are not bundled.
+
+Diagram tool shortcuts and basic editing interactions were reviewed against:
+https://github.com/excalidraw/excalidraw/blob/master/packages/excalidraw/components/HelpDialog.tsx
+Pigeon contains an independent canvas implementation, not the Excalidraw runtime
+or its file format. Triangle, parallelogram, routing and keyboard resize shortcuts
+are Pigeon extensions, identified in the keyboard guide.

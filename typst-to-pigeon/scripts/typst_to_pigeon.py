@@ -23,7 +23,7 @@ GRAPH_MODES = {"local", "lexical", "model"}
 GRAPH_PROVIDERS = {"codex-config", "env"}
 TITLE_EFFECTS = {"none", "split-text", "blur-text", "shiny-text", "gradient-text", "text-type"}
 SLIDE_TRANSITIONS = {"camera", "none", "fade", "blur", "slide", "zoom", "pixel", "staggered-wipe", "stack"}
-PIGEON_VERSION = "1.0.1"
+PIGEON_VERSION = "1.0.2"
 
 
 def run(command: list[str], *, cwd: Path) -> None:
@@ -62,6 +62,12 @@ R resume the talk, F presentation, B blackout. V navigation, L laser, P pen,
 H highlighter, E eraser, M magic wand. Repeat a tool key to turn it off.
 In pen mode, ` toggles Pen down mode: move to draw without holding a button.
 1/2/3/4 select red/blue/dark green/yellow. ? opens the shortcut guide.
+D enters Diagram mode: V select, R rectangle, D diamond, O ellipse, A arrow,
+L line, T text, H pan, S stroke color, G fill; Shift+T triangle, Shift+P
+parallelogram, Shift+L routing. Enter creates/edits; Cmd/Ctrl+D duplicates;
+Cmd/Ctrl+C/V/X copies/pastes/cuts. Arrows move; Cmd/Ctrl+Alt+arrows resize.
+PageUp/PageDown navigate. Escape clears editing/selection, then exits.
+Repeated list-only Overview/Outline pages group slides into numbered sections.
 W inserts a whiteboard, Shift+W a blackboard, K keeps a board.
 +/- zoom from 3% to 3200%; 0 fits the slide; Home fits the whole talk.
 Initial title effect: {manifest.get("titleEffect", "text-type")}. Select None,

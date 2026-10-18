@@ -1,6 +1,6 @@
 {
   "appName": "Pigeon",
-  "version": "1.0.1",
+  "version": "1.0.2",
   "icon": "public/icons/pigeon.png",
   "deckId": "geometry",
   "title": "PDF geometry regression",

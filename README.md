@@ -1,6 +1,6 @@
 # weiw-pigeon
 
-Pigeon **1.0.1** converts a Typst slide source or PDF deck into an offline HTML presentation
+Pigeon **1.0.2** converts a Typst slide source or PDF deck into an offline HTML presentation
 with an infinite canvas, non-linear navigation, a concept graph, search and
 annotation tools. The original page appearance is preserved as SVG artwork.
 
@@ -40,13 +40,17 @@ a standalone launcher on PATH uses the global installation. An explicit
 ## Present
 
 Use arrows or Space to move, `O` for the overview, `/` to search, `F` for
-presentation mode and `?` for the keyboard guide. About Pigeon provides a short
-usage guide and the version number.
+presentation mode and `?` for the keyboard guide. About Pigeon shows the icon, version and author contact.
 
 The `M` magic wand outlines, brightens and gently enlarges detected text blocks,
 images and tables. Recognized `#takeaway(message)` regions pop forward with a
 stronger glow while the surrounding slide dims. Pen, highlighter, eraser,
 laser, inserted whiteboards/blackboards, zoom and pan are also available.
+
+Pages titled **Overview** or **Outline** that contain only flat bullet or numbered
+items become section boundaries. Repeated outline pages advance through those
+sections, and the hierarchy overview groups slides accordingly. Review inferred
+boundaries in `build-report.json`; explicit navigation sections take precedence.
 
 In Pen mode (`P`), press backtick (`` ` ``) to enter **Pen down mode**. Move the
 pointer to draw without holding a mouse button; a prominent overlay shows the
@@ -100,12 +104,19 @@ tests and Safari/Firefox rehearsal. These checks do not establish browser
 rendering or OCR recognition quality. Animation design references are documented in
 `typst-to-pigeon/assets/pigeon-template/THIRD_PARTY_NOTICES.txt`.
 
-Version 1.0.1 passed 20 Python tests and 17 DOM runtime tests (15 general and
-2 PDF-specific), including SVG raster reconstruction of original title artwork.
-Safari/Firefox presentation rehearsal remains a manual release check.
+Version 1.0.2 extends the editor with an offline diagram mode (`D`) using
+Excalidraw-style shortcuts for selection, rectangles, diamonds, ellipses,
+triangles, parallelograms, arrows, lines, centered labels, color/fill palettes,
+copy/paste/duplicate, connected endpoints, move and resize handles. Diagram ink
+is included in undo, sessions and PNG export. Validation: **25 Python tests and 26 DOM runtime tests passed**, covering outline
+inference, diagram editing, connector bindings, keyboard controls, sessions and
+export drawing. Both example releases and ZIP archives were rebuilt and verified.
+Firefox aborted during browser launch in the test environment; rendered visuals
+and real fullscreen interaction still need a Safari/Firefox rehearsal.
 
 ## Version documentation
 
+- [1.0.2](docs/versions/1.0.2/README.md): outline sections and diagram mode.
 - [1.0.1](docs/versions/1.0.1/README.md): PDF input, conservative extraction and Pen down mode.
 - [1.0.0](docs/versions/1.0.0/README.md): original Typst-based release.
 

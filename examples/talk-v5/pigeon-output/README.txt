@@ -1,6 +1,6 @@
 Pigeon
 Interactive canvas presentation · From AI Tutors to A New Pedagogy for Learning in the AI-era
-Version 1.0.1
+Version 1.0.2
 
 Double-click index.html to open the presentation directly. Keep the extracted folder together.
 For predictable browser storage, run: python3 scripts/serve.py
@@ -11,6 +11,12 @@ R resume the talk, F presentation, B blackout. V navigation, L laser, P pen,
 H highlighter, E eraser, M magic wand. Repeat a tool key to turn it off.
 In pen mode, ` toggles Pen down mode: move to draw without holding a button.
 1/2/3/4 select red/blue/dark green/yellow. ? opens the shortcut guide.
+D enters Diagram mode: V select, R rectangle, D diamond, O ellipse, A arrow,
+L line, T text, H pan, S stroke color, G fill; Shift+T triangle, Shift+P
+parallelogram, Shift+L routing. Enter creates/edits; Cmd/Ctrl+D duplicates;
+Cmd/Ctrl+C/V/X copies/pastes/cuts. Arrows move; Cmd/Ctrl+Alt+arrows resize.
+PageUp/PageDown navigate. Escape clears editing/selection, then exits.
+Repeated list-only Overview/Outline pages group slides into numbered sections.
 W inserts a whiteboard, Shift+W a blackboard, K keeps a board.
 +/- zoom from 3% to 3200%; 0 fits the slide; Home fits the whole talk.
 Initial title effect: text-type. Select None,

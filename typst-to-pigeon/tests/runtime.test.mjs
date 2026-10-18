@@ -76,10 +76,10 @@ test('old manifests and the initial selector retain the original camera transiti
 test('About Pigeon is available directly and from the keyboard guide',async t=>{
   const {d,w}=await setup(t);
   assert.equal(d.querySelector('#aboutButton').getAttribute('aria-label'),'About Pigeon');
-  assert.match(d.querySelector('#aboutDialog').textContent,/Version 1\.0\.1/);
-  assert.match(d.querySelector('#aboutDialog').textContent,/typst-to-pigeon talk\.typ/);
-  assert.match(d.querySelector('#aboutDialog').textContent,/ordinary blocks, images, and tables/);
-  assert.match(d.querySelector('#aboutDialog').textContent,/#takeaway\(message\)/);
+  assert.match(d.querySelector('#aboutDialog').textContent,/Version 1\.0\.2/);
+  assert.ok(d.querySelector('#aboutDialog img.about-icon'));
+  assert.match(d.querySelector('#aboutDialog').textContent,/Wei Wang \(weiwcs AT ust\.hk\)/);
+  assert.doesNotMatch(d.querySelector('#aboutDialog').textContent,/Typical use|typst-to-pigeon talk/);
   assert.ok(d.querySelector('#aboutFromHelp'));
   d.querySelector('#helpButton').click();
   assert.equal(d.querySelector('#helpDialog').open,true);
@@ -238,4 +238,19 @@ test('a full-page scan image lets the wand emphasize an extracted text block',as
     {id:'ocr-block',kind:'text',x:40,y:40,width:200,height:100}];
   a.setTool('wand');a.showWand({clientX:100/slide.width*1440,clientY:80/slide.height*1000});
   assert.equal(d.querySelector('.wand-highlight').dataset.region,'ocr-block');
+});
+
+test('outline section labels group overview slides and arrow navigation crosses sections', async t => {
+  const {a,d,w} = await setup(t);
+  const manifest=structuredClone(w.PIGEON_DECK_BUNDLE.json['public/deck/manifest.json']);
+  manifest.hierarchy=null;
+  manifest.slides.forEach((s,i)=>s.section=i<2?'1. Foundations':'2. Practice');
+  a.state.deck=a.normaliseManifest(manifest);
+  a.openOverview();
+  const sections=[...d.querySelectorAll('.section-block')];
+  assert.equal(sections.length,2);assert.match(sections[0].textContent,/1\. Foundations/);
+  assert.equal(sections[0].querySelectorAll('.slide-tile').length,2);assert.match(sections[1].textContent,/2\. Practice/);
+  press(w,d,'ArrowDown');press(w,d,'ArrowDown');
+  assert.equal(d.activeElement.dataset.jump,'03');press(w,d,'Enter');assert.equal(a.state.currentId,'03');
+  assert.equal(a.state.overview,false);
 });

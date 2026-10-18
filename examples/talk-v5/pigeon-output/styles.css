@@ -1596,3 +1596,23 @@ dialog {
 .page-transition-artwork { position: absolute; overflow: hidden; transform-origin: center; }
 .page-transition-artwork > img, .page-transition-artwork > canvas { position: absolute; inset: 0; width: 100%; height: 100%; }
 @media(max-width: 900px) { .title-effect-control span { display: none; } .title-effect-control select { max-width: 100px; } }
+
+/* Diagram tools remain visible in presentation mode and never scale with slides. */
+.diagram-indicator { position:absolute; z-index:42; top:10px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; background:#312e81f2; color:white; border:2px solid #a5b4fc; border-radius:12px; padding:8px 20px; pointer-events:none; box-shadow:0 5px 24px #0004; }
+.diagram-indicator strong { font-size:22px; }
+.diagram-indicator span { font-size:12px; }
+.diagram-toolbar { position:absolute; z-index:43; left:50%; top:85px; transform:translateX(-50%); width:max-content; max-width:95%; padding:8px; display:flex; flex-wrap:wrap; justify-content:center; gap:5px; background:#fffef8f5; color:#172554; border:1px solid #94a3b8; border-radius:10px; box-shadow:0 5px 24px #0003; }
+.diagram-toolbar button,.diagram-toolbar select { background:white; border:1px solid #cbd5e1; border-radius:5px; min-height:34px; padding:5px 9px; color:#172554; font-size:14px; cursor:pointer; }
+.diagram-toolbar button.active { background:#e0e7ff; border-color:#6366f1; }
+.diagram-toolbar label { display:flex; align-items:center; gap:4px; font-size:12px; }
+.diagram-toolbar :focus-visible { outline:3px solid #6366f1; outline-offset:2px; }
+.diagram-toolbar[hidden],.diagram-indicator[hidden] { display:none; }
+.diagram-palette { flex-basis:100%; display:flex; gap:5px; justify-content:center; flex-wrap:wrap; }
+.diagram-selection { position:absolute; border:1px dashed #6366f1; pointer-events:none; z-index:15; }
+.diagram-marquee { position:absolute; border:1px solid #6366f1; background:#6366f122; pointer-events:none; z-index:15; }
+.diagram-knob { position:absolute; transform:translate(-50%,-50%); border:1px solid #6366f1; background:white; border-radius:2px; }
+.diagram-text-editor { position:absolute; z-index:20; resize:none; padding:8px; border:2px solid #6366f1; background:#fffffff5; text-align:center; font-family:system-ui,sans-serif; line-height:1.25; }
+.diagram-mode .stage,.diagram-mode .annotation-canvas { cursor:crosshair !important; }
+.diagram-help { padding:0 28px 20px; font-size:19px; line-height:1.6; }
+.diagram-help p { margin:8px 0; }
+.about-icon { display:block; object-fit:contain; margin:0 auto 16px; }

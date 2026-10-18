@@ -6,7 +6,7 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-const PIGEON_VERSION = "1.0.1";
+const PIGEON_VERSION = "1.0.2";
 const fileMode = window.location.protocol === "file:";
 const embeddedDeck = fileMode ? (window.PIGEON_DECK_BUNDLE || window.TALK_DECK_BUNDLE) : null;
 const deckAsset = path => path.startsWith("public/") ? path : `public/deck/${path}`;
@@ -36,6 +36,7 @@ const pageTransitions = PigeonTransitions.create();
 let pageTransitionPending = false;
 let pageTransitionRequest = 0;
 let cameraTransitionTimer = null;
+let diagram = null;
 const COLORS = {
   red: "#DC2626",
   blue: "#2563EB",
@@ -527,6 +528,7 @@ function framePosition(index, name = null, sequence = viewSequence()) {
   };
 }
 function renderFrames() {
+  diagram?.reset();
   cancelPageTransition();
   stopTitleEffect();
   lastTitleFrame = null;
@@ -631,8 +633,10 @@ function updateCamera() {
   hideWand();
   els.world.style.transform = `translate(${state.camera.x}px,${state.camera.y}px) scale(${state.camera.scale})`;
   els.zoom.textContent = `${Math.round(state.camera.scale * 100)}%`;
+  diagram?.renderSelection();
 }
 function fitCurrent(animate = true) {
+  diagram?.finish();
   if (state.currentStroke?.sticky) finishActiveStroke();
   if (state.currentStroke || !state.deck.slides.length) return;
   state.autoFit = true;
@@ -655,6 +659,7 @@ function fitCurrent(animate = true) {
   }, 430);
 }
 function fitWhole() {
+  diagram?.finish();
   if (state.currentStroke?.sticky) finishActiveStroke();
   if (state.currentStroke || !state.deck.slides.length) return;
   const rect = els.stage.getBoundingClientRect();
@@ -678,6 +683,7 @@ function fitWhole() {
   persist();
 }
 function zoomAt(factor, clientX, clientY) {
+  diagram?.finish();
   if (state.currentStroke?.sticky) finishActiveStroke();
   if (state.currentStroke) return;
   state.autoFit = false;
@@ -718,7 +724,7 @@ function updateUI() {
       link.tabIndex = link.disabled ? -1 : 0;
     });
     frame.querySelector(".annotation-canvas").style.pointerEvents =
-      ["pen", "highlighter", "eraser"].includes(state.tool) && active ? "auto" : "none";
+      ["pen", "highlighter", "eraser", "diagram"].includes(state.tool) && active ? "auto" : "none";
   });
   state.deck.slides.forEach(slide => drawSurface(slide.id));
   const info = boardInfo();
@@ -740,6 +746,8 @@ function updateUI() {
   );
   els.stage.classList.toggle("wand-mode", state.tool === "wand");
   els.stage.classList.toggle("laser-mode", state.tool === "laser");
+  els.app.classList.toggle("diagram-mode", state.tool === "diagram");
+  diagram?.sync();
   els.app.classList.toggle("presentation-mode", state.presentation);
   updateCamera();
   syncTitleEffect();
@@ -767,6 +775,7 @@ function addHistory(id) {
 function navigateTo(id, options = {}) {
   const target = state.deck.slides.find((s) => s.id === id);
   if (!target) return;
+  diagram?.reset();
   finishActiveStroke();
   if (state.overview) closeOverview();
   if (els.concept.open) els.concept.close();
@@ -858,6 +867,7 @@ function continueFromHere() {
   persist();
 }
 function historyMove(direction) {
+  diagram?.reset();
   finishActiveStroke();
   recordHistoryView();
   const next = clamp(
@@ -892,11 +902,13 @@ function drawSurface(id) {
     const ops = canvas.dataset.boardName
       ? state.boards[`${id}::${canvas.dataset.boardName}`] || []
       : state.annotations[id] || [];
-    ops.forEach(op => drawOperation(ctx, op));
+    ops.forEach(op => drawOperation(ctx, op, ops));
   }
 }
-function drawOperation(ctx, op) {
-  if (op.type === "stroke") {
+function drawOperation(ctx, op, ops = surfaceOps()) {
+  if (op.type === "diagram") {
+    PigeonDiagram.draw(ctx, op, ops);
+  } else if (op.type === "stroke") {
     if (!op.points.length) return;
     ctx.save();
     ctx.globalAlpha = op.opacity ?? 1;
@@ -1004,6 +1016,7 @@ function bindCanvas(canvas) {
     drawOperation(canvas.getContext("2d"), state.currentStroke);
   };
   canvas.addEventListener("pointerdown", (event) => {
+    if (diagram?.down(event, canvas)) return;
     if (
       canvas.closest(".slide-frame").dataset.frameKey !== activeFrameKey() ||
       !["pen", "highlighter", "eraser"].includes(state.tool) ||
@@ -1025,6 +1038,7 @@ function bindCanvas(canvas) {
     startStroke(event);
   });
   canvas.addEventListener("pointermove", (event) => {
+    if (diagram?.move(event, canvas)) return;
     if (state.stickyPen && state.tool === "pen") {
       if (!canDraw()) { finishActiveStroke(); return; }
       if (pageTransitions.active) return;
@@ -1051,10 +1065,13 @@ function bindCanvas(canvas) {
     drawOperation(canvas.getContext("2d"), state.currentStroke);
   });
   canvas.addEventListener("pointerup", event => {
+    diagram?.finish();
     if (!state.currentStroke?.sticky) finishActiveStroke(event);
   });
-  canvas.addEventListener("pointercancel", finishActiveStroke);
+  canvas.addEventListener("pointercancel", event => { diagram?.cancel(); finishActiveStroke(event); });
+  canvas.addEventListener("dblclick", event => diagram?.doubleClick(event, canvas));
   canvas.addEventListener("lostpointercapture", event => {
+    diagram?.finish();
     if (!state.currentStroke?.sticky) finishActiveStroke(event);
   });
   canvas.addEventListener("pointerleave", event => {
@@ -1088,6 +1105,7 @@ function eraseAt(id, point) {
   }
 }
 function clearSurface() {
+  diagram?.reset();
   finishActiveStroke();
   checkpoint();
   setSurface([]);
@@ -1104,6 +1122,7 @@ function undo() {
     drawSurface(state.currentId);
     persist();
   }
+  diagram?.sync();
 }
 function redo() {
   const key = surfaceKey();
@@ -1113,6 +1132,7 @@ function redo() {
     drawSurface(state.currentId);
     persist();
   }
+  diagram?.sync();
 }
 
 function toggleTool(tool) { setTool(state.tool === tool ? "navigate" : tool); }
@@ -1126,6 +1146,7 @@ function toggleStickyPen() {
   setStickyPen(!state.stickyPen);
 }
 function setTool(tool) {
+  if (state.tool === "diagram" && tool !== "diagram") diagram?.reset();
   finishActiveStroke();
   if (tool !== "pen") setStickyPen(false);
   hideWand();
@@ -1392,11 +1413,13 @@ function focusConcept(id, moveFocus = true) {
 }
 
 function openOverview() {
+  diagram?.reset();
   cancelPageTransition();
   syncTitleEffect();
   finishActiveStroke();
   if (!state.overview) state.hierarchyFocus = activeFrameKey();
   state.overview = true;
+  diagram?.sync();
   if (state.mode === "graph" && state.graphError) state.mode = "hierarchy";
   els.overview.classList.add("open");
   els.overview.setAttribute("aria-hidden", "false");
@@ -1407,6 +1430,7 @@ function openOverview() {
 }
 function closeOverview() {
   state.overview = false;
+  diagram?.sync();
   els.overview.classList.remove("open");
   els.overview.setAttribute("aria-hidden", "true");
   document.body.classList.remove("overview-mode");
@@ -1726,7 +1750,11 @@ function validateSession(input) {
     const {width, height} = slideSize(id);
     if (!Array.isArray(value) || value.length > 10000)
       fail("annotation collection");
-    return value.map((op) => {
+    const cleaned = value.map((op) => {
+      if (op?.type === "diagram") {
+        try { return PigeonDiagram.validate(op, {width, height}); }
+        catch(error) { fail(error.message); }
+      }
       if (
         !object(op) ||
         op.type !== "stroke" ||
@@ -1762,6 +1790,13 @@ function validateSession(input) {
         points,
       };
     });
+    const diagramIds = cleaned.filter(o => o.type === "diagram").map(o => o.id);
+    if (new Set(diagramIds).size !== diagramIds.length) fail("duplicate diagram IDs");
+    const shapeIds = new Set(cleaned.filter(o => o.type === "diagram" && !["line", "arrow"].includes(o.kind)).map(o => o.id));
+    for (const o of cleaned) if (o.type === "diagram" && ["line", "arrow"].includes(o.kind)) {
+      if ([o.startBinding, o.endBinding].some(id => id !== null && !shapeIds.has(id))) fail("unknown connector target");
+    }
+    return cleaned;
   };
   const boardId = (key) => {
     const parts = key.split("::");
@@ -1821,7 +1856,7 @@ function validateSession(input) {
     typeof input.whiteboard !== "boolean" ||
     typeof input.overview !== "boolean" ||
     !["hierarchy", "graph"].includes(input.mode) ||
-    !["navigate", "laser", "pen", "highlighter", "eraser", "wand"].includes(
+    !["navigate", "laser", "pen", "highlighter", "eraser", "wand", "diagram"].includes(
       input.tool,
     ) ||
     !Object.values(COLORS).includes(input.color)
@@ -1981,6 +2016,7 @@ function persist() {
     toast("Browser storage is unavailable · export a session copy");
 }
 function applySession(input) {
+  diagram?.reset();
   const payload = validateSession(input);
   for (const key of Object.keys(undoStacks)) delete undoStacks[key];
   for (const key of Object.keys(redoStacks)) delete redoStacks[key];
@@ -2143,6 +2179,8 @@ async function recoverBackup() {
 }
 
 async function exportPng() {
+  diagram?.finish();
+  diagram?.closeEditor();
   try {
     finishActiveStroke();
     const output = document.createElement("canvas");
@@ -2227,6 +2265,7 @@ function keyHandler(event) {
   if (event.isComposing) return;
   const key = event.key;
   const mod = event.metaKey || event.ctrlKey;
+  if (!state.overview && !document.querySelector("dialog[open]") && diagram?.key(event)) return;
   if (key === "Escape") {
     if (dismissTopOverlay()) {
       event.preventDefault();
@@ -2238,6 +2277,7 @@ function keyHandler(event) {
       setStickyPen(false);
       return;
     }
+    if (state.tool === "diagram" && diagram?.key(event)) return;
     if (!typing && state.tool !== "navigate") {
       event.preventDefault();
       setTool("navigate");
@@ -2272,6 +2312,7 @@ function keyHandler(event) {
   }
   if (key === " " && target.closest?.("button,a,select")) return;
   if (key === " " && !state.overview) {
+    diagram?.finish();
     finishActiveStroke();
     spaceDown = true;
     event.preventDefault();
@@ -2332,6 +2373,7 @@ function keyHandler(event) {
     e: () => toggleTool("eraser"),
     w: () => event.shiftKey ? insertBoard("black") : toggleWhiteboard(),
     m: () => toggleTool("wand"),
+    d: () => setTool("diagram"),
     k: keepBoard,
     "+": () => zoomAt(1.3),
     "=": () => zoomAt(1.3),
@@ -2506,6 +2548,7 @@ els.stage.addEventListener(
   "wheel",
   (event) => {
     event.preventDefault();
+    diagram?.finish();
     if (state.currentStroke?.sticky) finishActiveStroke();
     if (state.currentStroke) return;
     if (event.ctrlKey || event.metaKey) {
@@ -2533,8 +2576,8 @@ els.stage.addEventListener("pointermove", (event) => {
 els.stage.addEventListener("pointerdown", (event) => {
   if (
     state.currentStroke ||
-    (state.tool !== "navigate" && !spaceDown) ||
-    (event.target.closest(".slide-frame") && !spaceDown)
+    (state.tool !== "navigate" && !spaceDown && !diagram?.isHand()) ||
+    (event.target.closest(".slide-frame") && !spaceDown && !diagram?.isHand())
   )
     return;
   suppressSpace = spaceDown;
@@ -2638,7 +2681,7 @@ for (const dialog of $$("dialog")) dialog.addEventListener("cancel", event => {
   dialog.close();
 });
 for (const dialog of $$("dialog")) new MutationObserver(() => {
-  if (dialog.open) finishActiveStroke();
+  if (dialog.open) { finishActiveStroke(); diagram?.finish(); diagram?.closeEditor(); }
 }).observe(dialog, {attributes:true, attributeFilter:["open"]});
 els.help.addEventListener("close", () => els.stage.focus());
 els.stage.addEventListener("pointerleave", hideWand);
@@ -2657,6 +2700,7 @@ document.addEventListener("keyup", (event) => {
   }
 });
 window.addEventListener("blur", () => {
+  diagram?.finish();
   setStickyPen(false);
   pan = null;
   spaceDown = false;
@@ -2858,3 +2902,21 @@ $("#readingButton").addEventListener("click", () => {
 $("#readingSlideSelect").addEventListener("change", (event) =>
   updateReadingView(event.target.value),
 );
+
+// Canvas operations share the ink history and session/export paths.
+diagram = PigeonDiagram.create({
+  active: () => state.tool === "diagram" && !state.overview && !state.blackout,
+  frame: () => $(".slide-frame.current"),
+  surface: surfaceKey,
+  getOps: surfaceOps,
+  setOps: setSurface,
+  size: slideSize,
+  point: canvasPoint,
+  checkpoint, persist, undo, redo,
+  draw: () => drawSurface(state.currentId),
+  focus: () => els.stage.focus(),
+  exit: () => setTool("navigate"),
+  canDraw: canvas => canvas.closest(".slide-frame").dataset.frameKey === activeFrameKey()
+    && !spaceDown && !state.overview && !state.blackout && !document.querySelector("dialog[open]"),
+  stopMotion: () => { cancelPageTransition(); clearTimeout(cameraTransitionTimer); els.world.style.transition = "none"; },
+});

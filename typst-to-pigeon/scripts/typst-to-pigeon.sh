@@ -34,10 +34,7 @@ Examples:
   typst-to-pigeon slides.typ --graph model --graph-provider env
 
 Requires Python 3.11+ and Node.js 20.11+.
-Typst input: Typst with eval support and Poppler (pdftotext, pdftoppm).
-PDF input: PyMuPDF (python3 -m pip install 'PyMuPDF>=1.24.4,<2').
-Uses PIGEON_SKILL_DIR when set, otherwise the skill bundled beside this
-launcher, otherwise ${CODEX_HOME:-$HOME/.codex}/skills/typst-to-pigeon.
+
 EOF
 }
 

@@ -128,7 +128,7 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
     nav_path=navigation or source.with_name(source.stem+'.navigation.json')
     nav=json.loads(nav_path.read_text()) if nav_path.exists() else {}
     snippets=[] if is_pdf else takeaway_texts(source)
-    slides=[]; used_ids=set(); page_reports=[]
+    slides=[]; used_ids=set(); page_reports=[]; explicit_sections=set()
     resources={}
     for href,path in nav.get('resources',{}).items():
         local=(nav_path.parent/path).resolve()
@@ -155,6 +155,7 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
         if '::' in sid: raise ValueError('Slide IDs cannot contain ::')
         used_ids.add(sid)
         overrides=nav.get('slides',{}).get(str(page),{})
+        if overrides.get('section') or content_text(record.get('section','')): explicit_sections.add(sid)
         slide_title=overrides.get('title', geo.get('title','') if is_pdf else content_text(record.get('title',''))) or ''
         title_words=geo.get('titleWords',[]) if is_pdf and 'title' not in overrides else match_words(geo['words'],slide_title)
         if not slide_title and not is_pdf:
@@ -199,6 +200,8 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
             page_reports.append(dict(page=page,title=slide_title,titleDetection=detection,textMode=geo['textMode'],
                                      textBlocks=len(geo['regions']),images=sum(r['kind']=='image' for r in visual),
                                      tables=sum(r['kind']=='table' for r in visual)))
+    from outline_sections import assign_sections
+    outlines = assign_sections(slides, geometry, explicit_sections, warnings)
     # Include metadata and geometry: edits to IDs/titles/regions also invalidate sessions/KG caches.
     revision=hashlib.sha256(json.dumps(slides,sort_keys=True,ensure_ascii=False).encode()).hexdigest()[:16]
     route=nav.get('defaultRoute',[s['id'] for s in slides])
@@ -209,7 +212,7 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
                   resources=list(resources.values()),slides=slides)
     (deck/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
     if not is_pdf: run(['pdftoppm','-png','-scale-to','320',str(pdf),str(thumbs/'page')],source.parent)
-    (output/'build-report.json').write_text(json.dumps(dict(slides=len(slides),revision=revision,warnings=warnings,pages=page_reports),indent=2)+'\n')
+    (output/'build-report.json').write_text(json.dumps(dict(slides=len(slides),revision=revision,warnings=warnings,pages=page_reports,outlines=outlines),indent=2)+'\n')
     print(json.dumps(dict(slides=len(slides),revision=revision,warnings=len(warnings),output=str(output))))
     return manifest
 

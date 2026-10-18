@@ -126,6 +126,25 @@
         <div id="penDownIndicator" class="pen-down-indicator" role="status" aria-live="polite" hidden>
           <strong>Pen down mode</strong><span>Move to draw · press ` to lift the pen</span>
         </div>
+        <div id="diagramIndicator" class="diagram-indicator" role="status" hidden><strong>Diagram mode</strong><span>Esc clears selection, then exits · ? shortcuts</span></div>
+        <div id="diagramToolbar" class="diagram-toolbar" role="toolbar" aria-label="Diagram tools" hidden>
+          <button data-diagram-tool="select" title="Select (V / 1)">Select</button>
+          <button data-diagram-tool="rectangle" title="Rectangle (R / 2)">▭</button>
+          <button data-diagram-tool="diamond" title="Diamond (D / 3)">◇</button>
+          <button data-diagram-tool="ellipse" title="Ellipse (O / 4); Shift-drag for circle">○</button>
+          <button data-diagram-tool="triangle" title="Triangle (Shift+T)">△</button>
+          <button data-diagram-tool="parallelogram" title="Parallelogram (Shift+P)">▱</button>
+          <button data-diagram-tool="arrow" title="Arrow (A / 5)">→</button>
+          <button data-diagram-tool="line" title="Line (L / 6)">╱</button>
+          <button data-diagram-tool="text" title="Text (T / 8)">Text</button>
+          <button data-diagram-tool="hand" title="Pan (H)">Hand</button>
+          <button id="diagramStroke" title="Stroke color (S)">Stroke</button>
+          <button id="diagramFill" title="Fill color (G)">Fill</button>
+          <label>Connector <select id="diagramConnector" aria-label="Connector routing" title="Toggle routing (Shift+L)"><option value="elbow">Elbow</option><option value="straight">Straight</option></select></label>
+          <button id="diagramDuplicate" title="Duplicate (Cmd/Ctrl+D)">Duplicate</button>
+          <button id="diagramDelete" title="Delete selection (Delete)">Delete</button>
+          <button id="diagramExit">Exit</button>
+        </div>
         <div
           class="stage"
           id="stage"
@@ -197,6 +216,7 @@
             <span>⌫</span>
           </button>
           <button class="tool-button" data-tool="wand" type="button" title="Magic wand: text, tables, images, takeaways (M)" aria-label="Magic wand"><span>✧</span></button>
+          <button class="tool-button" data-tool="diagram" type="button" title="Diagram mode (D)" aria-label="Diagram mode"><span>◇</span></button>
           <span class="tray-divider" aria-hidden="true"></span>
           <div class="swatches" role="group" aria-label="Annotation colour">
             <button
@@ -462,7 +482,19 @@
           <p>Session exports include boards and ink.</p>
           </div>
         </div>
-        <p class="help-about-link"><button class="text-link" id="aboutFromHelp" type="button">About Pigeon · version 1.0.1</button></p>
+        <div class="diagram-help">
+          <h3>Diagram mode · D to enter</h3>
+          <p><kbd>V / 1</kbd> select · <kbd>R / 2</kbd> rectangle · <kbd>D / 3</kbd> diamond · <kbd>O / 4</kbd> ellipse</p>
+          <p><kbd>A / 5</kbd> arrow · <kbd>L / 6</kbd> line · <kbd>T / 8</kbd> text · <kbd>H</kbd> hand / pan</p>
+          <p><kbd>S</kbd> stroke color · <kbd>G</kbd> fill color. Arrows choose a color; <kbd>Enter</kbd> applies it. Choices also apply to subsequent shapes.</p>
+          <p><kbd>Enter</kbd> edits selected text · <kbd>Esc</kbd> or <kbd>⌘/Ctrl Enter</kbd> finishes text. Shape labels are centered.</p>
+          <p><kbd>⌘/Ctrl C / V / X</kbd> copy / paste / cut · <kbd>⌘/Ctrl D</kbd> duplicate · <kbd>⌘/Ctrl A</kbd> select all</p>
+          <p><kbd>Arrows</kbd> move selection · <kbd>Shift Arrows</kbd> move faster · <kbd>Delete</kbd> remove · <kbd>⌘/Ctrl Z</kbd> undo · <kbd>⌘/Ctrl Shift Z</kbd> redo</p>
+          <p>Drag the handles to resize. Hold <kbd>Shift</kbd> when drawing for a square/circle. Arrow endpoints attach to shapes and follow them when moved.</p>
+          <p>Pigeon additions: <kbd>Shift T</kbd> triangle · <kbd>Shift P</kbd> parallelogram · <kbd>Shift L</kbd> straight / elbow connectors · <kbd>Enter</kbd> creates the chosen shape at center · <kbd>Tab</kbd> cycles objects · <kbd>⌘/Ctrl Alt Arrows</kbd> resize selection.</p>
+          <p><kbd>PageUp / PageDown</kbd> change slides. <kbd>Esc</kbd> clears an edit/selection, then exits diagram mode.</p>
+        </div>
+        <p class="help-about-link"><button class="text-link" id="aboutFromHelp" type="button">About Pigeon · version 1.0.2</button></p>
       </dialog>
 
       <dialog class="modal about-modal" id="aboutDialog" aria-labelledby="aboutHeading">
@@ -474,14 +506,11 @@
           <button class="close-button" data-close="aboutDialog" type="button" aria-label="Close About Pigeon">×</button>
         </div>
         <div class="about-content">
-          <p class="about-version">Version 1.0.1</p>
-          <p>Give Pigeon a Typst source file or PDF slide deck and it builds an offline, interactive presentation. Typical use is simply:</p>
-          <pre><code>typst-to-pigeon talk.typ
-typst-to-pigeon talk.pdf</code></pre>
-          <p>Open <code>pigeon-output/index.html</code>. Use the arrow keys or Space to move, <kbd>O</kbd> for the overview, <kbd>/</kbd> to search, and <kbd>F</kbd> for presentation mode. The defaults handle the graph, title effect, transition, and output folder.</p>
-          <p>With the <kbd>M</kbd> magic wand, ordinary blocks, images, and tables are outlined, brightened, and gently enlarged under the pointer. A Typst <code>#takeaway(message)</code> receives a stronger spotlight: the surrounding slide dims while the takeaway pops forward with a larger glow. PDF input uses the ordinary treatment.</p>
-          <p>In <kbd>P</kbd> pen mode, press <kbd>`</kbd> to draw by moving the pointer without holding a button. Press it again to lift the pen; Pen stays selected.</p>
-          <p class="about-footer">Press <kbd>?</kbd> for the complete keyboard guide.</p>
+          <img class="about-icon" src="public/icons/pigeon.png" width="96" height="96" alt="Pigeon icon">
+          <p class="about-version">Version 1.0.2</p>
+          <p>Give Pigeon a Typst source file or PDF slide deck and it builds an offline, interactive presentation.</p>
+          <p>Collaboration, bug reports, and comments are welcome.</p>
+          <p class="about-footer">Author: Wei Wang (weiwcs AT ust.hk)</p>
         </div>
       </dialog>
 
