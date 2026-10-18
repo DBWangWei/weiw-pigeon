@@ -6,6 +6,7 @@ const root=resolve(process.env.PIGEON_FIXTURE_ROOT);
 const markup=await readFile(resolve(root,'index.html'),'utf8');
 const app=await readFile(resolve(root,'src/app.js'),'utf8');
 const effects=await readFile(resolve(root,'src/title-effects.js'),'utf8');
+const wandEffects=await readFile(resolve(root,'src/wand-effects.js'),'utf8');
 const transitions=await readFile(resolve(root,'src/slide-transitions.js'),'utf8');
 const diagrams=await readFile(resolve(root,'src/diagram.js'),'utf8');
 const pdfExport=await readFile(resolve(root,'src/pdf-export.js'),'utf8');
@@ -32,7 +33,7 @@ export async function setup(t) {
   w.structuredClone=structuredClone;
   w.fetch=()=>{throw new Error('Unexpected fetch in file mode');};
   w.document.write(markup.replace(/<script[\s\S]*?<\/script>/g,''));
-  w.eval(effects);w.eval(transitions);w.eval(diagrams);w.eval(pdfExport);w.eval(embedded);
+  w.eval(effects);w.eval(wandEffects);w.eval(transitions);w.eval(diagrams);w.eval(pdfExport);w.eval(embedded);
   w.eval(app+'\nwindow.testApp={diagram,state,normaliseManifest,navigateTo,nextSlide,fitCurrent,fitWhole,canvasPoint,sessionPayload,validateSession,toggleWhiteboard,keyHandler,setTool,openOverview,closeOverview,syncTitleEffect,stopTitleEffect,viewSequence,showWand,pageTransitions,cancelPageTransition,zoomAt,historyMove,resumeRoute,reconcilePresentation,undo,redo,applySession,drawSurface,exportPng,exportPdf};');
   await new Promise(r=>setTimeout(r,40));
   return {w,a:w.testApp,d:w.document,calls};

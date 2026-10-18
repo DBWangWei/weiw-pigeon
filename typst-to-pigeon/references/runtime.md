@@ -14,6 +14,7 @@ Core controls are:
 | `V`; `L`; `P`; `H`; `E`; `M` | Navigation; laser; pen; highlighter; eraser; magic wand |
 | Backtick (in Pen mode) | Single tap toggles Pen down after a 300 ms double-tap window |
 | Double backtick (Pen or Diagram mode) | Undo the last stroke/object/edit without changing tool or Pen down state |
+| Backtick (with a wand object lit) | Cycle Pop-out → Focus → Spotlight → Pop-out; Escape dismisses emphasis |
 | `1`–`4` | Red, blue, dark green, yellow |
 | `W`; Shift+W; `K` | Insert whiteboard; insert blackboard; keep current board |
 | `+` / `-`; `0`; `Home` | Zoom; fit slide; fit whole talk |
@@ -45,6 +46,21 @@ not change the source PDF, selected tool or current slide. `src/pdf-export.js`
 loads the bundled `src/vendor/pdf-lib.min.js` only on demand, with its MIT license
 included. Everything works offline; keep the complete generated folder together.
 
-Magic-wand highlights use the same opaque white backing as the slide frame, under
-the original cropped SVG. This prevents transparent PDF text from overlapping its
-original position during enlargement, while preserving explicit background artwork.
+Magic-wand Pop-out and Spotlight use the same opaque white backing as the slide
+frame, under the original cropped SVG. This prevents transparent PDF text from
+overlapping its original position during enlargement, while preserving explicit
+background artwork. Ordinary targets start at Pop-out; takeaways start at Spotlight.
+Backtick cycles through Pop-out, Focus and Spotlight. Focus covers the whole canvas
+with midnight navy, subtle blue corner gradients, a raised navy panel and a thin
+warm-yellow border with a restrained glow. It enlarges the source crop to fit the
+viewport. `src/wand-effects.js` conservatively isolates text on uniform paper and
+recolors its pixels off-white, preserving glyph geometry and equations. Images,
+tables and uncertain text keep the original SVG with opaque backing. Canvas/decode
+failure safely retains that original artwork. No remote service or font is needed.
+
+Focus and Spotlight reached by cycling keep the selected target fixed, including
+when the pointer leaves the canvas. Returning to Pop-out resumes hover selection.
+Escape dismisses the effect while keeping Wand selected. Navigation, zoom/pan,
+overview, dialogs, blackout and tool changes clear it. Held keys, modified
+backticks and typing do not cycle. Reduced motion disables animations. These
+effects are transient and excluded from annotations, sessions and exports.

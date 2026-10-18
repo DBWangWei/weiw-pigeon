@@ -68,3 +68,23 @@ test('denied Escape locks fall back cleanly and late lock completion after exit 
   press(w,d,'f');press(w,d,'f');const before=pending.counts.unlocks;
   resolveLock();await tick();assert.ok(pending.counts.unlocks>before);assert.equal(a.state.presentation,false);
 });
+
+test('fullscreen Escape dismisses wand focus first and preserves presentation if native fullscreen exits early',async t=>{
+  const env=await setup(t),{a,d,w}=env;
+  const {counts,exit}=fullscreen(env,async()=>{});
+  const slide=a.state.deck.slides[0];
+  slide.wandRegions=[{id:'body',kind:'text',x:80,y:80,width:120,height:80}];
+  press(w,d,'f');await tick();
+  a.setTool('wand');
+  const focus=()=>{
+    a.showWand({clientX:100/slide.width*1440,clientY:100/slide.height*1000});
+    press(w,d,'`');assert.ok(d.querySelector('.wand-focus-overlay'));
+  };
+  focus();press(w,d,'Escape');
+  assert.equal(d.querySelector('.wand-focus-overlay'),null);
+  assert.equal(d.fullscreenElement,d.documentElement);assert.equal(counts.exits,0);
+  assert.equal(a.state.tool,'wand');
+  focus();exit();
+  assert.equal(d.querySelector('.wand-focus-overlay'),null);
+  assert.equal(a.state.presentation,true);
+});

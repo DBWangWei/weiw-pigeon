@@ -73,6 +73,21 @@ Magic-wand regions now have an opaque paper backing. Transparent PDF text artwor
 therefore stays legible when it pops forward instead of blending with the original
 text underneath. Explicit colored background artwork remains visible.
 
+With an object emphasized by the magic wand (`M`), backtick cycles
+**Pop-out → Focus → Spotlight → Pop-out**. Recognized takeaways start at Spotlight.
+Focus covers the entire canvas in midnight navy (`#0B1220`), with faint blue light
+at the corners, a raised navy panel (`#141C2A`) and a thin warm-yellow border
+(`#FFD86B`). Confidently isolated text becomes off-white while retaining its
+original glyph layout and equations. Images, tables and uncertain text retain
+the source artwork on opaque paper. Spotlight uses the existing takeaway glow
+and dims the surrounding slide.
+
+Focus and cycled Spotlight keep the target fixed; returning to Pop-out resumes
+hover selection. Escape dismisses emphasis before exiting Wand. Navigation,
+zoom/pan, overview, dialogs and tool changes clear the effect. It is transient
+and does not appear in saved sessions or PDF exports. Pen/Diagram backtick
+shortcuts keep their existing behavior.
+
 ## About and command-line help
 
 About Pigeon shows a larger 160 × 160 Pigeon icon, version, and a short
@@ -110,3 +125,11 @@ against both Typst and PDF fixtures with real canvas rendering and independent
 PyMuPDF text/pixel checks. The page-38 text region in `07.lecture-slides.pdf` was
 reproduced and checked with opaque compositing. Full browser interaction and
 fullscreen rendering still require a Safari/Firefox rehearsal.
+
+The wand emphasis update passed 44 DOM runtime checks and 5 text-mask/SVG-rendering
+checks, covering all three modes, fullscreen dismissal, drawing-shortcut isolation,
+late rendering, source glyph geometry and conservative artwork fallbacks. The real
+page-38 PDF crop was also rendered and inspected on navy. Both examples and the
+41-page lecture output were refreshed, preserving deck revisions and SVG hashes;
+ZIP runtime contents match their output folders. These checks do not establish
+full browser rendering or native fullscreen behavior.

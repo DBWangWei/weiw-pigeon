@@ -42,6 +42,8 @@ let pageTransitionRequest = 0;
 let cameraTransitionTimer = null;
 let diagram = null;
 let backtickTimer = null;
+// Wand emphasis is transient: it is never included in saved ink or exports.
+let wandTarget = null;
 const COLORS = {
   red: "#DC2626",
   blue: "#2563EB",
@@ -1209,11 +1211,17 @@ function showLaser(event) {
   els.laser.classList.add("on");
 }
 
+function clearWandArtwork() {
+  $$(".wand-focus-overlay, .wand-highlight, .wand-shade").forEach(node => node.remove());
+}
 function hideWand() {
-  $$(".wand-highlight, .wand-shade").forEach(node => node.remove());
+  wandTarget = null;
+  clearWandArtwork();
 }
 function showWand(event) {
-  if (state.tool !== "wand" || state.whiteboard || state.overview) { hideWand(); return; }
+  if (state.tool !== "wand" || state.whiteboard || state.overview || state.blackout ||
+      document.querySelector("dialog[open]")) { hideWand(); return; }
+  if (wandTarget?.pinned) return;
   const frame = $(".slide-frame.current");
   if (!frame) return;
   const bounds = frame.getBoundingClientRect();
@@ -1231,29 +1239,84 @@ function showWand(event) {
         (a.width * a.height - b.width * b.height);
     })[0];
   if (!region) { hideWand(); return; }
-  const current = frame.querySelector(".wand-highlight");
-  if (current?.dataset.region === region.id) return;
-  hideWand();
-  if (region.kind === "takeaway") {
+  if (wandTarget?.slideId === state.currentId && wandTarget.region.id === region.id) return;
+  wandTarget = {slideId: state.currentId, region,
+    mode: region.kind === "takeaway" ? "spotlight" : "pop", pinned: false};
+  renderWand();
+}
+function cycleWand() {
+  if (!wandTarget) { toast("Point at an object with the wand, then press ` to change emphasis"); return; }
+  const modes = ["pop", "focus", "spotlight"];
+  wandTarget.mode = modes[(modes.indexOf(wandTarget.mode) + 1) % modes.length];
+  wandTarget.pinned = wandTarget.mode !== "pop";
+  renderWand();
+  els.stage.focus({preventScroll: true});
+}
+function renderWand() {
+  clearWandArtwork();
+  const frame = $(".slide-frame.current");
+  if (!wandTarget || !frame) return;
+  const {region, mode} = wandTarget;
+  const {width, height} = slideSize();
+  const pad = 6, left = Math.max(0, region.x - pad), top = Math.max(0, region.y - pad);
+  const crop = {x: left, y: top,
+    width: Math.min(width, region.x + region.width + pad) - left,
+    height: Math.min(height, region.y + region.height + pad) - top};
+  const url = assetUrl(deckAsset(getSlide().asset));
+  const highlight = document.createElement("div");
+  highlight.className = "wand-highlight";
+  highlight.dataset.region = region.id;
+  highlight.dataset.kind = region.kind || "text";
+  highlight.dataset.mode = mode;
+  highlight.setAttribute("aria-hidden", "true");
+  if (mode === "focus") {
+    const overlay = document.createElement("div");
+    overlay.className = "wand-focus-overlay";
+    const artwork = document.createElement("div");
+    artwork.className = "wand-focus-artwork";
+    artwork.dataset.rendering = "original";
+    const bounds = els.stage.getBoundingClientRect();
+    const scale = Math.min(2.4, Math.max(1, bounds.width - 160) / crop.width,
+      Math.max(1, bounds.height - 200) / crop.height);
+    Object.assign(artwork.style, {
+      width: `${crop.width * scale}px`, height: `${crop.height * scale}px`,
+      backgroundImage: `url("${url}")`,
+      backgroundSize: `${width * scale}px ${height * scale}px`,
+      backgroundPosition: `${-left * scale}px ${-top * scale}px`,
+    });
+    highlight.style.animation = state.reducedMotion ? "none" : "wand-focus 240ms ease-out both";
+    highlight.append(artwork);
+    const hint = document.createElement("p");
+    hint.className = "wand-focus-hint";
+    hint.innerHTML = 'Focus · <kbd>`</kbd> change emphasis · <kbd>Esc</kbd> dismiss';
+    overlay.append(highlight, hint);
+    els.stage.append(overlay);
+    if (["text", "takeaway"].includes(region.kind || "text")) {
+      // Preserve the source glyph positions and equations. Recolor only when a
+      // uniform background can be separated confidently; otherwise keep artwork.
+      PigeonWandEffects.textArtwork(url, crop, {width, height}, scale).then(mask => {
+        if (!mask || !artwork.isConnected) return;
+        artwork.style.backgroundImage = `url("${mask}")`;
+        artwork.style.backgroundSize = "100% 100%";
+        artwork.style.backgroundPosition = "0 0";
+        artwork.dataset.rendering = "text-mask";
+      });
+    }
+    return;
+  }
+  if (mode === "spotlight") {
     const shade = document.createElement("div");
     shade.className = "wand-shade";
     shade.setAttribute("aria-hidden", "true");
     frame.append(shade);
   }
-  const highlight = document.createElement("div");
-  highlight.className = "wand-highlight";
-  highlight.dataset.region = region.id;
-  highlight.dataset.kind = region.kind || "text";
-  highlight.setAttribute("aria-hidden", "true");
-  const pad = 6, left = Math.max(0, region.x - pad), top = Math.max(0, region.y - pad);
   Object.assign(highlight.style, {
     left: `${left}px`, top: `${top}px`,
-    width: `${Math.min(width, region.x + region.width + pad) - left}px`,
-    height: `${Math.min(height, region.y + region.height + pad) - top}px`,
-    backgroundImage: `url("${assetUrl(deckAsset(getSlide().asset))}")`,
+    width: `${crop.width}px`, height: `${crop.height}px`,
+    backgroundImage: `url("${url}")`,
     backgroundSize: `${width}px ${height}px`, backgroundPosition: `${-left}px ${-top}px`,
     animation: state.reducedMotion ? "none" :
-      region.kind === "takeaway" ? "wand-takeaway 320ms cubic-bezier(.2,.9,.2,1) both" :
+      mode === "spotlight" ? "wand-takeaway 320ms cubic-bezier(.2,.9,.2,1) both" :
       "wand-pop 180ms ease-out both",
   });
   frame.append(highlight);
@@ -1443,6 +1506,7 @@ function focusConcept(id, moveFocus = true) {
 
 function openOverview() {
   clearBacktickTap();
+  hideWand();
   diagram?.reset();
   cancelPageTransition();
   syncTitleEffect();
@@ -1690,6 +1754,7 @@ function openPresentation() {
 
 function toggleBlackout(force) {
   finishActiveStroke();
+  hideWand();
   state.blackout = force ?? !state.blackout;
   els.blackout.classList.toggle("open", state.blackout);
   els.blackout.setAttribute("aria-hidden", String(!state.blackout));
@@ -2450,7 +2515,10 @@ function keyHandler(event) {
   }
   if (backtick) {
     event.preventDefault();
-    if (!event.repeat && drawingContext) toggleStickyPen();
+    if (!event.repeat && drawingContext) {
+      if (state.tool === "wand") cycleWand();
+      else toggleStickyPen();
+    }
     return;
   }
   if (key === " " && target.closest?.("button,a,select")) return;
@@ -2606,6 +2674,7 @@ function dismissTopOverlay() {
   if (open) { open.close(); return true; }
   if (state.blackout) { toggleBlackout(false); return true; }
   if (state.overview) { closeOverview(); return true; }
+  if (wandTarget) { hideWand(); return true; }
   return false;
 }
 function relayoutBoards() {
@@ -2825,10 +2894,10 @@ for (const dialog of $$("dialog")) dialog.addEventListener("cancel", event => {
   dialog.close();
 });
 for (const dialog of $$("dialog")) new MutationObserver(() => {
-  if (dialog.open) { clearBacktickTap(); finishActiveStroke(); diagram?.finish(); diagram?.closeEditor(); }
+  if (dialog.open) { clearBacktickTap(); hideWand(); finishActiveStroke(); diagram?.finish(); diagram?.closeEditor(); }
 }).observe(dialog, {attributes:true, attributeFilter:["open"]});
 els.help.addEventListener("close", () => els.stage.focus());
-els.stage.addEventListener("pointerleave", hideWand);
+els.stage.addEventListener("pointerleave", () => { if (!wandTarget?.pinned) hideWand(); });
 document.addEventListener("keyup", (event) => {
   if (event.key === " ") {
     if (
@@ -2863,10 +2932,10 @@ document.addEventListener("fullscreenchange", () => {
   // Some browsers exit native fullscreen even after a canceled Escape. Their
   // fullscreenchange can arrive either before or after the dialog's close.
   // Preserve Pigeon's layout in both orders without forcing fullscreen back on.
-  const dialogOpen = !!document.querySelector("dialog[open]");
+  const overlayOpen = !!document.querySelector("dialog[open]") || !!wandTarget;
   const dismissedJustNow = performance.now() - fullscreenOverlayDismissedAt < 1000;
-  const keepPresentation = state.presentation && (dialogOpen || dismissedJustNow);
-  if (keepPresentation && dialogOpen) dismissTopOverlay();
+  const keepPresentation = state.presentation && (overlayOpen || dismissedJustNow);
+  if (keepPresentation && overlayOpen) dismissTopOverlay();
   fullscreenOverlayDismissedAt = -Infinity;
   reconcilePresentation(keepPresentation);
 });

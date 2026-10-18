@@ -60,6 +60,8 @@ Then open http://127.0.0.1:8765 in Safari or Firefox.
 Keys: O overview, T hierarchy/graph, arrows/Enter select/open, / search, G jump,
 R resume the talk, F presentation, B blackout. V navigation, L laser, P pen,
 H highlighter, E eraser, M magic wand. Repeat a tool key to turn it off.
+With a wand object lit, ` cycles Pop-out, Focus (isolated navy), Spotlight.
+Takeaways start at Spotlight. Escape dismisses emphasis and keeps Wand selected.
 In pen mode, a single ` toggles Pen down after a 300 ms double-tap window.
 Double-tap ` in Pen or Diagram mode to undo while keeping the current tool.
 Pen down draws without holding a button; compact mode notices sit at top right.

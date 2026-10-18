@@ -46,7 +46,15 @@ presentation mode and `?` for the keyboard guide. About Pigeon shows the icon, v
 
 The `M` magic wand outlines, brightens and gently enlarges detected text blocks,
 images and tables. Recognized `#takeaway(message)` regions pop forward with a
-stronger glow while the surrounding slide dims. Pen, highlighter, eraser,
+stronger glow while the surrounding slide dims. While an object is lit, press
+backtick (`` ` ``) to cycle **Pop-out → Focus → Spotlight → Pop-out**.
+Focus hides the surrounding canvas behind midnight navy, with a raised panel,
+thin warm-yellow border and restrained glow. Confidently isolated text becomes
+off-white without changing glyph positions; images, tables and uncertain text
+crops retain their original artwork. Focus and cycled Spotlight keep the chosen
+object fixed; Pop-out resumes hover selection. `Esc` dismisses emphasis while
+keeping Wand selected. These effects do not change saved ink or PDF exports.
+Pen, highlighter, eraser,
 laser, inserted whiteboards/blackboards, zoom and pan are also available.
 
 Pages titled **Overview** or **Outline** that contain only flat bullet or numbered
@@ -81,7 +89,8 @@ Titles are inferred from font size relative to body text and placement near the
 top, including wrapped titles and headings without separators. Uncertain pages
 remain untitled and use `Slide N` in navigation. Native text, images, ruled tables,
 strongly aligned borderless tables and vector illustrations supply wand targets.
-PDFs use the ordinary wand effect; Typst's automatic takeaway effect is unchanged.
+PDF objects start with ordinary Pop-out and support all three emphasis modes;
+recognized Typst takeaways start with Spotlight.
 The original PDF is included unchanged.
 
 Scan-only pages attempt optional local English OCR when Tesseract language data

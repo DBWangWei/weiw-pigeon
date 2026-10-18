@@ -4,7 +4,7 @@ After a build:
 
 1. Inspect the page count and `build-report.json`. Review inferred titles, static-title warnings, custom wand targets and disabled local links. For PDF input, inspect per-page title detection, text mode (native/OCR/visual-only) and image/table counts.
 2. Check manifest/graph deck IDs and revisions, slide SVG hashes, native dimensions, PDF and optional title-layer assets.
-3. Run `node --check` on `src/app.js`, `src/bootstrap.js`, `src/title-effects.js` and `src/slide-transitions.js` and `src/diagram.js`, and compile-check `scripts/serve.py`.
+3. Run `node --check` on `src/app.js`, `src/bootstrap.js`, `src/title-effects.js`, `src/wand-effects.js`, `src/slide-transitions.js` and `src/diagram.js`, and compile-check `scripts/serve.py`.
 4. Confirm `public/deck/embedded-deck.js` exists and `index.html` contains no unresolved template title.
 5. Open `index.html` directly, then serve with `python3 scripts/serve.py` and rehearse in Safari or Firefox. Test both opening modes; do not use Chrome for this user's testing.
 6. Check overview arrow selection, graph evidence jumps, search, presentation mode, help dismissal (Escape with Keyboard Lock, repeated Escape, lock denial, fullscreen event ordering, and `?` toggling), repeated tool toggles, navigation with tools active, deep zoom, board recovery and magic-wand targets. Check P then backtick: no-button drawing, compact top-right mode notices, single backtick retaining Pen, double-backtick undo without changing tool/Pen down state (including held-key repeats and cancelled pending taps), navigation splitting strokes, undo, modal pauses and focus loss. Check Overview/Outline pages, repeated section numbering, mismatched-list warnings and explicit section overrides.
@@ -18,7 +18,7 @@ Automated regression checks from the skill folder:
 python3 -m pip install -r requirements-pdf.txt
 python3 -m unittest discover -s tests -p 'test_*.py' -v
 python3 scripts/typst_to_pigeon.py tests/fixtures/geometry.typ --output /tmp/pigeon-geometry-check --graph local --no-zip
-PIGEON_FIXTURE_ROOT=/tmp/pigeon-geometry-check PIGEON_TEST_DEPS=/path/to/node_modules node --test tests/runtime.test.mjs tests/runtime-diagram.test.mjs tests/runtime-fullscreen.test.mjs
+PIGEON_FIXTURE_ROOT=/tmp/pigeon-geometry-check PIGEON_TEST_DEPS=/path/to/node_modules node --test tests/runtime.test.mjs tests/runtime-diagram.test.mjs tests/runtime-fullscreen.test.mjs tests/runtime-backtick.test.mjs tests/runtime-wand.test.mjs tests/wand-effects.test.mjs
 # PDF runtime smoke, using the repository's generated PDF example:
 PIGEON_FIXTURE_ROOT=/path/to/weiw-pigeon/examples/pdf/pigeon-geometry PIGEON_TEST_DEPS=/path/to/node_modules node --test tests/runtime-pdf.test.mjs
 ```
@@ -35,6 +35,13 @@ The ZIP includes static runtime/assets, title layers, mapped resources, notices,
 13. Hover PDF text with the magic wand, particularly transparent text artwork.
     The enlarged region must cover the original text without ghosting, while
     preserving any explicit colored background in the source artwork.
+14. While a text/image/table/takeaway is lit, cycle Pop-out → Focus → Spotlight
+    with backtick. Focus must cover the whole canvas and keep the target fixed.
+    Check equations, transparent PDF text, colored text panels, images and tables;
+    uncertain text must retain its original artwork. Check Escape, pointer leave,
+    rapid cycling, fullscreen, reduced motion and unchanged ink/PDF exports.
+    Test the glyph mask with `wand-effects.test.mjs`; with `PIGEON_CANVAS_DEPS`
+    set, `wand-rendering.test.mjs` exercises real SVG decoding and crop rendering.
 
 PDF export regression tests additionally use `@napi-rs/canvas` and a Python with
 PyMuPDF. Set `PIGEON_CANVAS_DEPS` to that installation's `node_modules` and

@@ -3,6 +3,7 @@
 The reusable shell originated in the completed `talk-v5.typ` release:
 
 - `assets/pigeon-template/index.html`, `styles.css`, `src/app.js` and `src/bootstrap.js`: canvas, overview, keyboard tools, sessions and direct-file startup.
+- `assets/pigeon-template/src/wand-effects.js`: conservative text isolation for the navy Focus mode; Pop-out and Spotlight preserve the original SVG crops.
 - `src/title-effects.js`: original SVG title animation, with Text Type as default and five React Bits design adaptations.
 - `scripts/wand_regions.py` and `scripts/slide_artwork.py` in the skill: object bounds, native page geometry, text matching and title layers. These are build tools, not runtime scripts.
 - Template `prompts/concept-extraction.md` and `schemas/knowledge-graph.schema.json`: domain-independent model extraction and evidence contract.
