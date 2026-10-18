@@ -59,7 +59,9 @@ extensions. This editor does not import or export Excalidraw files.
 About Pigeon shows the Pigeon icon, version, a short description, collaboration
 invitation and `Wei Wang (weiwcs AT ust.hk) · GPT-6-Astra/xhigh (in Codex)`.
 The command-line launcher help is
-compact; dependency details remain in the README and skill docs.
+compact; dependency details remain in the README and skill docs. The keyboard
+guide uses the same key styling throughout, with separate Excalidraw-like tools
+and editing, Pigeon additions, and presentation controls.
 
 ## Fullscreen help
 

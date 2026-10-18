@@ -482,18 +482,51 @@
           <p>Session exports include boards and ink.</p>
           </div>
         </div>
-        <div class="diagram-help">
-          <h3>Diagram mode · D to enter</h3>
-          <p><kbd>V / 1</kbd> select · <kbd>R / 2</kbd> rectangle · <kbd>D / 3</kbd> diamond · <kbd>O / 4</kbd> ellipse</p>
-          <p><kbd>A / 5</kbd> arrow · <kbd>L / 6</kbd> line · <kbd>T / 8</kbd> text · <kbd>H</kbd> hand / pan</p>
-          <p><kbd>S</kbd> stroke color · <kbd>G</kbd> fill color. Arrows choose a color; <kbd>Enter</kbd> applies it. Choices also apply to subsequent shapes.</p>
-          <p><kbd>Enter</kbd> edits selected text · <kbd>Esc</kbd> or <kbd>⌘/Ctrl Enter</kbd> finishes text. Shape labels are centered.</p>
-          <p><kbd>⌘/Ctrl C / V / X</kbd> copy / paste / cut · <kbd>⌘/Ctrl D</kbd> duplicate · <kbd>⌘/Ctrl A</kbd> select all</p>
-          <p><kbd>Arrows</kbd> move selection · <kbd>Shift Arrows</kbd> move faster · <kbd>Delete</kbd> remove · <kbd>⌘/Ctrl Z</kbd> undo · <kbd>⌘/Ctrl Shift Z</kbd> redo</p>
-          <p>Drag the handles to resize. Hold <kbd>Shift</kbd> when drawing for a square/circle. Arrow endpoints attach to shapes and follow them when moved.</p>
-          <p>Pigeon additions: <kbd>Shift T</kbd> triangle · <kbd>Shift P</kbd> parallelogram · <kbd>Shift L</kbd> straight / elbow connectors · <kbd>Enter</kbd> creates the chosen shape at center · <kbd>Tab</kbd> cycles objects · <kbd>⌘/Ctrl Alt Arrows</kbd> resize selection.</p>
-          <p><kbd>PageUp / PageDown</kbd> change slides. <kbd>Esc</kbd> clears an edit/selection, then exits diagram mode.</p>
-        </div>
+        <section class="shortcut-grid diagram-help" aria-labelledby="diagramHelpHeading">
+          <div class="diagram-help-intro">
+            <h3 id="diagramHelpHeading">Diagram mode</h3>
+            <p><kbd>D</kbd> enters Diagram mode. The shortcuts below apply while this mode is active.</p>
+          </div>
+          <div>
+            <h3>Excalidraw-like tools</h3>
+            <p><kbd>V</kbd> / <kbd>1</kbd> select · <kbd>R</kbd> / <kbd>2</kbd> rectangle</p>
+            <p><kbd>D</kbd> / <kbd>3</kbd> diamond · <kbd>O</kbd> / <kbd>4</kbd> ellipse</p>
+            <p><kbd>A</kbd> / <kbd>5</kbd> arrow · <kbd>L</kbd> / <kbd>6</kbd> line</p>
+            <p><kbd>T</kbd> / <kbd>8</kbd> text · <kbd>H</kbd> hand / pan</p>
+            <p><kbd>S</kbd> stroke color · <kbd>G</kbd> fill color</p>
+            <p><kbd>Arrows</kbd> choose a color · <kbd>Enter</kbd> apply</p>
+            <p>Colors also apply to subsequent shapes.</p>
+            <p>Hold <kbd>Shift</kbd> while drawing for a square or circle.</p>
+          </div>
+          <div>
+            <h3>Excalidraw-like editing</h3>
+            <p><kbd>Enter</kbd> edit centered shape text</p>
+            <p><kbd>Esc</kbd> / <kbd>⌘/Ctrl Enter</kbd> finish text</p>
+            <p><kbd>⌘/Ctrl C</kbd> copy · <kbd>⌘/Ctrl V</kbd> paste</p>
+            <p><kbd>⌘/Ctrl X</kbd> cut · <kbd>⌘/Ctrl D</kbd> duplicate</p>
+            <p><kbd>⌘/Ctrl A</kbd> select all · <kbd>Delete</kbd> remove</p>
+            <p><kbd>Arrows</kbd> move · <kbd>Shift Arrows</kbd> move faster</p>
+            <p><kbd>Tab</kbd> / <kbd>Shift Tab</kbd> cycle objects</p>
+            <p><kbd>⌘/Ctrl Z</kbd> undo · <kbd>⌘/Ctrl Shift Z</kbd> redo</p>
+            <p>Drag handles to resize. Attached connectors follow moved shapes.</p>
+          </div>
+          <div>
+            <h3>Pigeon additions</h3>
+            <p><kbd>Shift T</kbd> triangle</p>
+            <p><kbd>Shift P</kbd> parallelogram</p>
+            <p><kbd>Shift L</kbd> straight / elbow connectors</p>
+            <p><kbd>Enter</kbd> create the chosen shape at center</p>
+            <p><kbd>⌘/Ctrl Alt Arrows</kbd> resize selection</p>
+            <p>Add <kbd>Shift</kbd> to resize in larger steps.</p>
+          </div>
+          <div>
+            <h3>Present while drawing</h3>
+            <p><kbd>PageUp</kbd> previous · <kbd>PageDown</kbd> next slide</p>
+            <p><kbd>+</kbd> <kbd>−</kbd> zoom · <kbd>Space</kbd> + drag to pan</p>
+            <p><kbd>F</kbd> presentation / fullscreen · <kbd>?</kbd> help</p>
+            <p><kbd>Esc</kbd> clears an edit or selection, then exits Diagram mode.</p>
+          </div>
+        </section>
         <p class="help-about-link"><button class="text-link" id="aboutFromHelp" type="button">About Pigeon · version 1.0.2</button></p>
       </dialog>
 

@@ -1613,6 +1613,6 @@ dialog {
 .diagram-knob { position:absolute; transform:translate(-50%,-50%); border:1px solid #6366f1; background:white; border-radius:2px; }
 .diagram-text-editor { position:absolute; z-index:20; resize:none; padding:8px; border:2px solid #6366f1; background:#fffffff5; text-align:center; font-family:system-ui,sans-serif; line-height:1.25; }
 .diagram-mode .stage,.diagram-mode .annotation-canvas { cursor:crosshair !important; }
-.diagram-help { padding:0 28px 20px; font-size:19px; line-height:1.6; }
-.diagram-help p { margin:8px 0; }
+.diagram-help { border-top:1px solid #d5dce8; }
+.diagram-help-intro { grid-column:1 / -1; }
 .about-icon { display:block; object-fit:contain; margin:0 auto 16px; }
