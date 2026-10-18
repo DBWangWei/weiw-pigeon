@@ -27,7 +27,7 @@ The Python tests use real Typst/Poppler with a loopback fake Responses API: TOML
 
 The ZIP includes static runtime/assets, title layers, mapped resources, notices, README, release metadata and `scripts/serve.py`. It must exclude source `.typ` files, caches, credentials, test fixtures and development dependencies. Report browser launch failures separately from successful static/DOM checks.
 
-12. Export an annotated PDF from Save and export. Check all slide ink, diagram text,
+12. Export an annotated PDF using Export PDF beside Present in the top bar. Check all slide ink, diagram text,
     draft/kept/empty white and black boards, omitted removed boards, original text
     extraction, page order, mixed sizes, crops and all four quarter-turn rotations.
     Verify export errors restore the button and allow retry. Open from `file://`

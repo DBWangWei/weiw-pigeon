@@ -15,7 +15,7 @@ const root = resolve(process.env.PIGEON_FIXTURE_ROOT);
 
 async function exporter(t) {
   const env = await setup(t), { w, d } = env;
-  assert.ok(d.querySelector("#exportPdfButton"), "Save and export offers an annotated PDF");
+  assert.ok(d.querySelector("#exportPdfButton"), "The top bar offers an annotated PDF");
   w.eval(await readFile(resolve(root, "src/vendor/pdf-lib.min.js"), "utf8"));
   // Match a browser's same-realm clone; pdf-lib validates Array via instanceof.
   const parse = w.eval("JSON.parse");

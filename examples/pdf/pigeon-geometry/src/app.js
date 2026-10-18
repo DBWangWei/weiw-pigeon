@@ -2259,10 +2259,10 @@ async function pdfInk(slide, ops) {
 async function exportPdf() {
   const button = $("#exportPdfButton");
   if (button.disabled) return;
-  const label = button.querySelector("strong"), originalLabel = label.textContent;
+  const label = button.querySelector(".button-label"), originalLabel = label.textContent;
   button.disabled = true;
   button.setAttribute("aria-busy", "true");
-  label.textContent = "Preparing PDF…";
+  label.textContent = "PDF…";
   try {
     clearBacktickTap();
     diagram?.finish();
@@ -2280,7 +2280,7 @@ async function exportPdf() {
       source = new Uint8Array(await response.arrayBuffer());
     }
     const result = await PigeonPdf.export({ ...snapshot, source, renderInk: pdfInk,
-      onProgress: (done, total) => { label.textContent = `Exporting PDF… ${done} / ${total}`; } });
+      onProgress: (done, total) => { label.textContent = `PDF ${done}/${total}`; } });
     download(new Blob([result.bytes], { type: "application/pdf" }), filename);
     toast(`PDF exported · ${result.pages} pages including drawings and inserted boards`);
   } catch (error) {

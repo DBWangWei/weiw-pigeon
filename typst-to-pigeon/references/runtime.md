@@ -35,7 +35,7 @@ The default slide transition is the original **Camera** movement: **0.38 seconds
 
 `embedded-deck.js` contains the manifest, graph, original SVGs, title layers, PDF and explicitly mapped resources for direct-file opening. Storage is namespaced by deck ID and revision so unrelated annotations are not silently applied. The manifest controls PDF/resource paths; no original talk filename or demo is required.
 
-**PDF export:** Save and export → Export slides and drawings as PDF preserves the
+**PDF export:** the **Export PDF** button beside **Present** preserves the
 original PDF pages and adds transparent PNG ink overlays (3×, maximum 4096 pixels
 per side). It exports every slide and all inserted white/black boards in deck
 order, including drafts and empty boards; removed boards are omitted. Overlays

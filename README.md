@@ -67,7 +67,7 @@ Choose a slide transition with `--slide-transition NAME` or the in-app selector:
 
 ## Export an annotated PDF
 
-Open **Save and export → Export slides and drawings as PDF**. The downloaded
+Click **Export PDF** beside **Present** in the top bar. The downloaded
 `DECK-annotated.pdf` includes all slides in deck order and all inserted whiteboards
 and blackboards immediately after their parent slides, including draft boards.
 Removed boards are excluded. Source PDF pages keep their original text and vector
@@ -127,6 +127,13 @@ inference, diagram editing, connector bindings, keyboard controls, sessions,
 double-backtick undo, and PDF overlays on cropped/rotated pages. Both example releases and ZIP archives were refreshed and verified.
 Firefox aborted during browser launch in the test environment; rendered visuals
 and real fullscreen interaction still need a Safari/Firefox rehearsal.
+
+## TODO
+
+Browser testing currently covers Google Chrome on macOS.
+
+- [ ] Test on other browsers, including Safari, Firefox, and Edge.
+- [ ] Test on other operating systems, including Windows and Linux.
 
 ## Version documentation
 

@@ -28,5 +28,5 @@ Use the Transition selector to change it for this viewing session.
 The graph was generated in lexical mode (45 concepts,
 88 relationships). Review graph evidence before publishing claims.
 The slide source is typst; the PDF is bundled.
-Save and export > Export slides and drawings as PDF preserves the original pages
+Export PDF beside Present in the top bar preserves the original pages
 and adds all ink and inserted white/black boards, including drafts. Works offline.

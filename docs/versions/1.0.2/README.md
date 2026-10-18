@@ -60,7 +60,7 @@ extensions. This editor does not import or export Excalidraw files.
 
 ## Annotated PDF export and PDF wand
 
-**Save and export → Export slides and drawings as PDF** downloads the entire deck
+**Export PDF** beside **Present** in the top bar downloads the entire deck
 with annotations. Original PDF pages retain their text and vector artwork. Ink,
 highlights, diagram objects and labels use transparent overlays at 3× canvas
 resolution (up to 4096 pixels per side). Inserted whiteboards/blackboards, including
@@ -75,8 +75,9 @@ text underneath. Explicit colored background artwork remains visible.
 
 ## About and command-line help
 
-About Pigeon shows the Pigeon icon, version, a short description, collaboration
-invitation and `Wei Wang (weiwcs AT ust.hk) · GPT-6-Astra/xhigh (in Codex)`.
+About Pigeon shows a larger 160 × 160 Pigeon icon, version, and a short
+description of browser-only offline use, familiar presentation/drawing tools,
+and keyboard shortcuts. It includes the collaboration invitation and `Wei Wang (weiwcs AT ust.hk) · GPT-6-Astra/xhigh (in Codex)`.
 The command-line launcher help is
 compact; dependency details remain in the README and skill docs. The keyboard
 guide uses the same key styling throughout, with separate Excalidraw-like tools

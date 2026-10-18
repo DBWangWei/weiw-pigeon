@@ -83,6 +83,16 @@
           </button>
           <button
             class="icon-button"
+            id="exportPdfButton"
+            type="button"
+            title="Export all slides, drawings, and inserted boards as PDF"
+            aria-label="Export slides and drawings as PDF"
+          >
+            <span aria-hidden="true">⤓</span
+            ><span class="button-label">Export PDF</span>
+          </button>
+          <button
+            class="icon-button"
             id="sessionButton"
             type="button"
             title="Save, import, and export"
@@ -480,7 +490,7 @@
             <p><kbd>←</kbd> previous · <kbd>→</kbd> next slide</p>
             <p><kbd>W</kbd> on a board returns to the original</p>
             <p><kbd>K</kbd> keep / mark as draft</p>
-          <p>Save and export → PDF includes all slides, drawings and inserted boards.</p>
+          <p>Export PDF beside Present includes all slides, drawings and inserted boards.</p>
           </div>
         </div>
         <section class="shortcut-grid diagram-help" aria-labelledby="diagramHelpHeading">
@@ -541,9 +551,10 @@
           <button class="close-button" data-close="aboutDialog" type="button" aria-label="Close About Pigeon">×</button>
         </div>
         <div class="about-content">
-          <img class="about-icon" src="public/icons/pigeon.png" width="96" height="96" alt="Pigeon icon">
+          <img class="about-icon" src="public/icons/pigeon.png" width="160" height="160" alt="Pigeon icon">
           <p class="about-version">Version 1.0.2</p>
-          <p>Give Pigeon a Typst source file or PDF slide deck and it builds an offline, interactive presentation.</p>
+          <p>Give Pigeon a Typst source file or PDF slide deck and it builds an offline, interactive presentation. You only need a browser to present.</p>
+          <p>Pigeon combines and extends tools familiar from PowerPoint, tablet drawing apps, and Excalidraw, adding a zoomable canvas, concept graph, and magic wand. Most operations are available through keyboard shortcuts.</p>
           <p>Collaboration, bug reports, and comments are welcome.</p>
           <p class="about-footer">Author: Wei Wang (weiwcs AT ust.hk) · GPT-6-Astra/xhigh (in Codex)</p>
         </div>
@@ -617,10 +628,7 @@
               >Restore the previous work; preserve the current work as another
               backup</span
             ></button
-          ><button class="session-action" id="exportPdfButton" type="button">
-            <strong>Export slides and drawings as PDF</strong>
-            <span>Original sharp pages, all annotations, and inserted whiteboards / blackboards</span>
-          </button><button class="session-action" id="exportPngButton" type="button">
+          ><button class="session-action" id="exportPngButton" type="button">
             <strong>Export current surface as PNG</strong
             ><span>The current slide or whiteboard with its annotations</span>
           </button>
