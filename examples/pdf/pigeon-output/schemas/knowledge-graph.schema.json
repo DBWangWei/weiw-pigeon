@@ -1,0 +1,12 @@
+{
+  "$schema": "https://json-schema.org/draft/2020-12/schema",
+  "type": "object",
+  "required": ["schemaVersion", "deckId", "extraction", "concepts", "relationships"],
+  "properties": {
+    "schemaVersion": {"type": "string"},
+    "deckId": {"type": "string"},
+    "extraction": {"type": "object", "required": ["mode", "reviewRequired"]},
+    "concepts": {"type": "array", "items": {"type": "object", "required": ["id", "label", "mentions"]}},
+    "relationships": {"type": "array", "items": {"type": "object", "required": ["id", "source", "target", "predicate", "evidence"]}}
+  }
+}

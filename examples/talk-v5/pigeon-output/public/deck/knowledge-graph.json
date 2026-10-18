@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0",
   "deckId": "talk-v5",
-  "revision": "6baefb9a267273ec",
+  "revision": "b33f7925ddc4b327",
   "extraction": {
     "mode": "lexical",
     "provider": "local",
     "reviewRequired": true,
-    "inputRevision": "6baefb9a267273ec",
+    "inputRevision": "b33f7925ddc4b327",
     "method": "titles-sections-recurring-terms"
   },
   "concepts": [

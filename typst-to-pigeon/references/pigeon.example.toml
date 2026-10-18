@@ -1,4 +1,4 @@
-# Copy beside a Typst source as pigeon.toml. CLI options take precedence.
+# Copy beside a Typst or PDF input as pigeon.toml. CLI options take precedence.
 graph = "local"
 graph_provider = "codex-config"
 title_effect = "text-type"

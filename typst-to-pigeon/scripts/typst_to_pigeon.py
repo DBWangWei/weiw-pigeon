@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Create a portable Pigeon presentation from a Typst slide source."""
+"""Create a portable Pigeon presentation from a Typst source or PDF deck."""
 from __future__ import annotations
 
 import argparse
@@ -23,7 +23,7 @@ GRAPH_MODES = {"local", "lexical", "model"}
 GRAPH_PROVIDERS = {"codex-config", "env"}
 TITLE_EFFECTS = {"none", "split-text", "blur-text", "shiny-text", "gradient-text", "text-type"}
 SLIDE_TRANSITIONS = {"camera", "none", "fade", "blur", "slide", "zoom", "pixel", "staggered-wipe", "stack"}
-PIGEON_VERSION = "1.0.0"
+PIGEON_VERSION = "1.0.1"
 
 
 def run(command: list[str], *, cwd: Path) -> None:
@@ -60,6 +60,7 @@ Then open http://127.0.0.1:8765 in Safari or Firefox.
 Keys: O overview, T hierarchy/graph, arrows/Enter select/open, / search, G jump,
 R resume the talk, F presentation, B blackout. V navigation, L laser, P pen,
 H highlighter, E eraser, M magic wand. Repeat a tool key to turn it off.
+In pen mode, ` toggles Pen down mode: move to draw without holding a button.
 1/2/3/4 select red/blue/dark green/yellow. ? opens the shortcut guide.
 W inserts a whiteboard, Shift+W a blackboard, K keeps a board.
 +/- zoom from 3% to 3200%; 0 fits the slide; Home fits the whole talk.
@@ -69,7 +70,7 @@ Initial slide transition: {manifest.get("slideTransition", "camera")}.
 Use the Transition selector to change it for this viewing session.
 The graph was generated in {graph.get("extraction", {}).get("mode", "unknown")} mode ({len(graph['concepts'])} concepts,
 {len(graph['relationships'])} relationships). Review graph evidence before publishing claims.
-The source Typst file is not copied into this release.
+The slide source is {manifest.get("sourceType", "typst")}; the PDF is bundled.
 """, encoding="utf-8")
     (output / "release.json").write_text(json.dumps({
         "appName": "Pigeon", "version": PIGEON_VERSION, "icon": "public/icons/pigeon.png", "deckId": manifest["deckId"],
@@ -78,6 +79,7 @@ The source Typst file is not copied into this release.
         "graphMode": graph.get("extraction", {}).get("mode", "unknown"),
         "titleEffect": manifest.get("titleEffect", "text-type"),
         "slideTransition": manifest.get("slideTransition", "camera"),
+        "sourceType": manifest.get("sourceType", "typst"),
     }, indent=2) + "\n", encoding="utf-8")
 
 
@@ -105,7 +107,7 @@ def load_pigeon_config(source: Path, requested: Path | None) -> tuple[dict, Path
     """Load an adjacent pigeon.toml, with an optional [pigeon] namespace.
 
     Values in the optional table override same-named top-level values. Keeping
-    the file beside the Typst source makes a deck reproducible without putting
+    the file beside the input makes a deck reproducible without putting
     presentation settings in the generated output.
     """
     path = requested.expanduser().resolve() if requested else source.parent / "pigeon.toml"
@@ -162,7 +164,7 @@ def choose(cli_value, config: dict, key: str, default):
 
 def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
-    parser.add_argument("source", type=Path, help="Typst slide source")
+    parser.add_argument("source", type=Path, help="Typst (.typ) source or PDF (.pdf) slide deck")
     parser.add_argument("--config", type=Path, default=None, help="Pigeon TOML file; default: pigeon.toml beside the source")
     parser.add_argument("--output", type=Path, default=None, help="Output directory; default: config value or pigeon-output beside the source")
     parser.add_argument("--deck-id", default=None)
@@ -179,8 +181,11 @@ def main() -> int:
     parser.add_argument("--force", action="store_true", help="Replace an existing output directory")
     args = parser.parse_args()
     source = args.source.expanduser().resolve()
-    if not source.is_file() or source.suffix.lower() != ".typ":
-        raise ValueError(f"Cannot read Typst source: {source}")
+    if not source.is_file() or source.suffix.lower() not in {".typ", ".pdf"}:
+        raise ValueError(f"Cannot read .typ or .pdf source: {source}")
+    if source.suffix.lower() == '.pdf':
+        from pdf_input import pdf_library
+        pdf_library()  # Fail before creating output if the optional dependency is absent.
     config, config_path = load_pigeon_config(source, args.config)
     validate_config(config)
     configured_output = config_file_path(config, "output", config_path)

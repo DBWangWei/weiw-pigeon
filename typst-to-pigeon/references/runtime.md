@@ -12,6 +12,7 @@ Core controls are:
 | `/` or Cmd/Ctrl+K; `G` | Search; jump by source/physical slide label |
 | `R`; `F`; `B` | Resume a detoured route; presentation mode; blackout |
 | `V`; `L`; `P`; `H`; `E`; `M` | Navigation; laser; pen; highlighter; eraser; magic wand |
+| Backtick (in Pen mode) | Toggle Pen down mode; move to draw without holding a button |
 | `1`–`4` | Red, blue, dark green, yellow |
 | `W`; Shift+W; `K` | Insert whiteboard; insert blackboard; keep current board |
 | `+` / `-`; `0`; `Home` | Zoom; fit slide; fit whole talk |
@@ -19,9 +20,11 @@ Core controls are:
 
 Repeating a tool key turns that tool off; another tool key switches tools. The selected tool remains active while slide navigation advances. The laser dot stays visible while laser mode is selected. Magic wand targets include text, rendered images, connected bordered tables and recognized takeaways; takeaway regions receive the strongest spotlight. In presentation mode the wand keeps the pointer visible. Escape is handled by dialogs first, although browsers may reserve Escape for leaving native fullscreen.
 
-The **Title effect** selector offers Text Type (default), None, Split Text, Blur Text, Shiny Text and Gradient Text. The choice is saved per deck in browser storage. `title_effect` in `pigeon.toml` sets the initial release choice and `--title-effect NAME` overrides it; an already-saved browser preference takes precedence. None uses the untouched original slide SVG. Other choices swap to the body SVG plus an inline title glyph layer only after both are ready. Title fonts, line breaks and positions come from Typst, not browser typesetting. Effects replay on entering a slide; Shiny and Gradient repeat while it is active. Reduced-motion preference suppresses animation. Boards and unmatched titles stay static. PNG exports use the original complete slide artwork.
+**Pen down mode** shows a prominent overlay in normal and presentation layouts. Backtick again (or Escape after closing overlays) lifts the pen and keeps Pen selected. Slide/board navigation retains the setting and finishes the previous stroke. Leaving a canvas, zooming, changing colors, undoing, holding Space to pan, or opening a dialog finishes the stroke; subsequent movement starts a new one. Switching tools, repeating P to turn Pen off, or losing window/tab focus disables the mode. It is never saved in sessions.
 
-Pigeon is version **1.0.0**. Open **About** in the top bar, or choose **About Pigeon** at the bottom of the `?` keyboard guide, for the short typical-use guide. It describes the default command, the output entry point and the magic-wand behavior.
+The **Title effect** selector offers Text Type (default), None, Split Text, Blur Text, Shiny Text and Gradient Text. The choice is saved per deck in browser storage. `title_effect` in `pigeon.toml` sets the initial release choice and `--title-effect NAME` overrides it; an already-saved browser preference takes precedence. None uses the untouched original slide SVG. Other choices swap to the body SVG plus an inline title glyph layer only after both are ready. Title fonts, line breaks and positions come from the original Typst/PDF artwork, not browser typesetting. Effects replay on entering a slide; Shiny and Gradient repeat while it is active. Reduced-motion preference suppresses animation. Boards and unmatched titles stay static. PNG exports use the original complete slide artwork.
+
+Pigeon is version **1.0.1**. Open **About** in the top bar, or choose **About Pigeon** at the bottom of the `?` keyboard guide, for the short typical-use guide. It describes the default command, the output entry point and the magic-wand behavior.
 
 These are independent SVG adaptations of five React Bits designs, not the entire React Bits catalog or the upstream React components. Split and Blur stagger glyphs, Text Type reveals them once, Shiny sweeps a highlight, and Gradient moves colors through a title mask. No React, remote scripts or runtime dependencies are needed. See `THIRD_PARTY_NOTICES.txt`.
 

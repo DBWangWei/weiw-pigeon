@@ -1,0 +1,42 @@
+Geometry without a separator
+
+
+Body words stay visible during title effects.Ordinary text at the top.
+
+Equally sized body text.
+
+This page has no heading.A wrapped heading
+on two lines
+
+
+
+
+
+The body uses a smaller font.Tables and pictures
+
+
+
+
+
+ Name             Value
+
+ Alpha            10
+
+ Beta             20Borderless table
+
+
+
+Method                       Accuracy
+Alpha                          0.92
+Beta                           0.87Rotated heading
+
+
+
+ data         data
+
+ data         dataCropped heading
+
+
+
+
+Body after crop.

@@ -1,14 +1,15 @@
 {
   "appName": "Pigeon",
-  "version": "1.0.0",
+  "version": "1.0.1",
   "icon": "public/icons/pigeon.png",
   "deckId": "talk-v5",
   "title": "From AI Tutors to A New Pedagogy for Learning in the AI-era",
-  "revision": "6baefb9a267273ec",
+  "revision": "b33f7925ddc4b327",
   "slides": 16,
   "concepts": 45,
   "relationships": 88,
   "graphMode": "lexical",
   "titleEffect": "text-type",
-  "slideTransition": "camera"
+  "slideTransition": "camera",
+  "sourceType": "typst"
 }

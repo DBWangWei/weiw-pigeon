@@ -1,32 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {readFile} from 'node:fs/promises';
-import {resolve} from 'node:path';
-import {pathToFileURL} from 'node:url';
-const {Window} = await import(process.env.PIGEON_TEST_DEPS ? pathToFileURL(resolve(process.env.PIGEON_TEST_DEPS,'happy-dom/lib/index.js')).href : 'happy-dom');
-const root=resolve(process.env.PIGEON_FIXTURE_ROOT);
-const markup=await readFile(resolve(root,'index.html'),'utf8');
-const app=await readFile(resolve(root,'src/app.js'),'utf8');
-const effects=await readFile(resolve(root,'src/title-effects.js'),'utf8');
-const transitions=await readFile(resolve(root,'src/slide-transitions.js'),'utf8');
-const embedded=await readFile(resolve(root,'public/deck/embedded-deck.js'),'utf8');
-async function setup(t) {
-  const w=new Window({url:'file:///pigeon/index.html',settings:{disableCSSFileLoading:true,disableJavaScriptFileLoading:true}});
-  t.after(()=>w.happyDOM.abort());
-  const calls=[];
-  w.Element.prototype.animate=function(frames,options){const record={element:this,frames,options,cancelled:false};calls.push(record);return {cancel(){record.cancelled=true;}};};
-  w.HTMLImageElement.prototype.decode=async()=>{};
-  w.HTMLCanvasElement.prototype.getContext=()=>new Proxy({}, {get:(t,k)=>t[k] || (()=>{}),set:(t,k,v)=>(t[k]=v,true)});
-  w.HTMLElement.prototype.getBoundingClientRect=function(){return {left:0,top:0,x:0,y:0,width:1440,height:1000,right:1440,bottom:1000};};
-  w.Element.prototype.setPointerCapture=()=>{};w.Element.prototype.releasePointerCapture=()=>{};
-  w.structuredClone=structuredClone;
-  w.fetch=()=>{throw new Error('Unexpected fetch in file mode');};
-  w.document.write(markup.replace(/<script[\s\S]*?<\/script>/g,''));
-  w.eval(effects);w.eval(transitions);w.eval(embedded);
-  w.eval(app+'\nwindow.testApp={state,normaliseManifest,navigateTo,nextSlide,fitCurrent,fitWhole,canvasPoint,sessionPayload,validateSession,toggleWhiteboard,keyHandler,setTool,openOverview,closeOverview,syncTitleEffect,stopTitleEffect,viewSequence,showWand,pageTransitions,cancelPageTransition,zoomAt,historyMove,resumeRoute,reconcilePresentation};');
-  await new Promise(r=>setTimeout(r,40));
-  return {w,a:w.testApp,d:w.document,calls};
-}
+import {setup,press,pointer} from './runtime-harness.mjs';
 
 test('file opening uses matching assets and variable frame/canvas geometry',async t=>{
   const {a,d}=await setup(t);
@@ -102,7 +76,7 @@ test('old manifests and the initial selector retain the original camera transiti
 test('About Pigeon is available directly and from the keyboard guide',async t=>{
   const {d,w}=await setup(t);
   assert.equal(d.querySelector('#aboutButton').getAttribute('aria-label'),'About Pigeon');
-  assert.match(d.querySelector('#aboutDialog').textContent,/Version 1\.0\.0/);
+  assert.match(d.querySelector('#aboutDialog').textContent,/Version 1\.0\.1/);
   assert.match(d.querySelector('#aboutDialog').textContent,/typst-to-pigeon talk\.typ/);
   assert.match(d.querySelector('#aboutDialog').textContent,/ordinary blocks, images, and tables/);
   assert.match(d.querySelector('#aboutDialog').textContent,/#takeaway\(message\)/);
@@ -171,4 +145,97 @@ test('slide direction reverses, presentation boards recover, and resume clears a
   a.navigateTo('03',{detour:true});a.resumeRoute();
   assert.equal(a.state.currentId,'intro');
   assert.equal(d.querySelectorAll('.page-transition-overlay').length,0);
+});
+
+test('backtick toggles button-free pen strokes and lifting keeps ordinary Pen selected',async t=>{
+  const {a,d,w}=await setup(t);
+  const canvas=d.querySelector('.slide-frame.current canvas');
+  press(w,d,'`');assert.equal(a.state.stickyPen,false,'requires Pen first');
+  press(w,d,'p');press(w,d,'`');
+  assert.equal(a.state.stickyPen,true);
+  assert.equal(d.querySelector('#penDownIndicator').hidden,false);
+  assert.match(d.querySelector('#penDownIndicator').textContent,/Pen down mode/);
+  press(w,d,'`',{repeat:true});assert.equal(a.state.stickyPen,true);
+  pointer(w,canvas);pointer(w,canvas,'pointermove',{clientX:200});
+  assert.equal(a.state.currentStroke.points.length,2);
+  pointer(w,canvas,'pointerup');assert.ok(a.state.currentStroke,'button up does not lift sticky pen');
+  press(w,d,'`');
+  assert.equal(a.state.tool,'pen');assert.equal(a.state.stickyPen,false);
+  assert.equal(a.state.currentStroke,null);
+  assert.equal(d.querySelector('#penDownIndicator').hidden,true);
+  assert.equal(a.state.annotations.intro.length,1);
+  assert.equal(a.state.annotations.intro[0].sticky,undefined,'transient drawing mode is not saved');
+  pointer(w,canvas);assert.equal(a.state.currentStroke,null,'ordinary Pen needs held button');
+  pointer(w,canvas,'pointerdown',{buttons:1});
+  pointer(w,canvas,'pointermove',{buttons:1,clientX:260});
+  pointer(w,canvas,'pointerup');
+  assert.equal(a.state.annotations.intro.length,2);
+  assert.equal(a.state.currentStroke,null);
+  assert.equal(a.validateSession(a.sessionPayload()).annotations.intro.length,2);
+});
+
+test('sticky navigation, pointer boundaries and zoom create separate strokes without changing tool',async t=>{
+  const {a,d,w}=await setup(t);press(w,d,'p');press(w,d,'`');
+  let canvas=d.querySelector('.slide-frame.current canvas');
+  pointer(w,canvas);pointer(w,canvas,'pointerleave');
+  pointer(w,canvas,'pointermove',{clientX:500});
+  assert.equal(a.state.currentStroke.points.length,1,'reentering starts a separate stroke');
+  press(w,d,'ArrowRight');
+  assert.equal(a.state.currentId,'portrait');assert.equal(a.state.stickyPen,true);
+  assert.equal(a.state.annotations.intro.length,2);assert.equal(a.state.currentStroke,null);
+  canvas=d.querySelector('.slide-frame.current canvas');pointer(w,canvas);
+  assert.equal(a.state.currentStroke.points.length,1);
+  const scale=a.state.camera.scale;press(w,d,'+');
+  assert.ok(a.state.camera.scale>scale);assert.equal(a.state.currentStroke,null);
+  pointer(w,canvas);assert.equal(a.state.currentStroke.points.length,1,'zoom cannot connect transformed coordinates');
+  press(w,d,'Escape');
+  assert.equal(a.state.stickyPen,false);assert.equal(a.state.tool,'pen');
+  press(w,d,'`');press(w,d,'h');
+  assert.equal(a.state.tool,'highlighter');assert.equal(a.state.stickyPen,false);
+  press(w,d,'p');press(w,d,'`');press(w,d,'p');
+  assert.equal(a.state.tool,'navigate');assert.equal(a.state.stickyPen,false);
+});
+
+test('dialogs, overview and window blur prevent accidental sticky drawing',async t=>{
+  const {a,d,w}=await setup(t);press(w,d,'p');press(w,d,'`');
+  const canvas=d.querySelector('.slide-frame.current canvas');pointer(w,canvas);
+  press(w,d,'?');
+  await new Promise(r=>setTimeout(r,5));
+  assert.equal(a.state.currentStroke,null);
+  pointer(w,canvas);assert.equal(a.state.currentStroke,null);
+  press(w,d,'Escape');
+  assert.equal(d.querySelector('#helpDialog').open,false);
+  assert.equal(a.state.stickyPen,true,'Escape closes the dialog before lifting the pen');
+  press(w,d,'o');pointer(w,canvas);assert.equal(a.state.currentStroke,null);
+  press(w,d,'o');pointer(w,canvas);assert.ok(a.state.currentStroke);
+  w.dispatchEvent(new w.Event('blur'));
+  assert.equal(a.state.currentStroke,null);assert.equal(a.state.stickyPen,false);
+  assert.equal(a.state.tool,'pen');assert.equal(d.querySelector('#penDownIndicator').hidden,true);
+});
+
+test('sticky strokes support undo, boards, and held Space panning',async t=>{
+  const {a,d,w}=await setup(t);press(w,d,'p');press(w,d,'`');
+  let canvas=d.querySelector('.slide-frame.current canvas');pointer(w,canvas);
+  press(w,d,'z',{ctrlKey:true});assert.equal(a.state.annotations.intro.length,0);
+  pointer(w,canvas);press(w,d,'w');
+  assert.equal(a.state.whiteboard,true);assert.equal(a.state.stickyPen,true);
+  canvas=d.querySelector('.slide-frame.current canvas');pointer(w,canvas);
+  press(w,d,' ');assert.equal(a.state.currentStroke,null);
+  pointer(w,canvas);assert.equal(a.state.currentStroke,null,'Space pauses drawing for panning');
+  canvas.dispatchEvent(new w.PointerEvent('pointerdown',{pointerId:1,button:0,bubbles:true}));
+  d.querySelector('#stage').dispatchEvent(new w.KeyboardEvent('keyup',{key:' ',bubbles:true}));
+  pointer(w,canvas);press(w,d,'`');
+  assert.equal(a.state.tool,'pen');
+  assert.equal(Object.values(a.state.boards).flat().length,2);
+  assert.equal(Object.values(a.validateSession(a.sessionPayload()).boards).flat().length,2);
+  press(w,d,'w');assert.equal(a.state.whiteboard,false);
+  assert.equal(a.state.annotations.intro.length,1,'board ink never leaks onto the source slide');
+});
+
+test('a full-page scan image lets the wand emphasize an extracted text block',async t=>{
+  const {a,d}=await setup(t);const slide=a.state.deck.slides[0];
+  slide.wandRegions=[{id:'scan',kind:'image',x:0,y:0,width:slide.width,height:slide.height},
+    {id:'ocr-block',kind:'text',x:40,y:40,width:200,height:100}];
+  a.setTool('wand');a.showWand({clientX:100/slide.width*1440,clientY:80/slide.height*1000});
+  assert.equal(d.querySelector('.wand-highlight').dataset.region,'ocr-block');
 });

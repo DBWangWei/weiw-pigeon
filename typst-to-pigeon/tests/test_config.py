@@ -32,8 +32,8 @@ class ConfigTests(unittest.TestCase):
             release = json.loads((output / 'release.json').read_text())
             self.assertEqual(manifest['titleEffect'], 'text-type')
             self.assertEqual(manifest['slideTransition'], 'camera')
-            self.assertEqual(manifest['pigeonVersion'], '1.0.0')
-            self.assertEqual(release['version'], '1.0.0')
+            self.assertEqual(manifest['pigeonVersion'], '1.0.1')
+            self.assertEqual(release['version'], '1.0.1')
             self.assertTrue((output / 'src/slide-transitions.js').is_file())
             self.assertEqual(graph['extraction']['mode'], 'lexical')
 

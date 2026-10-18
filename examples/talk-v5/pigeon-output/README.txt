@@ -1,6 +1,6 @@
 Pigeon
 Interactive canvas presentation · From AI Tutors to A New Pedagogy for Learning in the AI-era
-Version 1.0.0
+Version 1.0.1
 
 Double-click index.html to open the presentation directly. Keep the extracted folder together.
 For predictable browser storage, run: python3 scripts/serve.py
@@ -9,6 +9,7 @@ Then open http://127.0.0.1:8765 in Safari or Firefox.
 Keys: O overview, T hierarchy/graph, arrows/Enter select/open, / search, G jump,
 R resume the talk, F presentation, B blackout. V navigation, L laser, P pen,
 H highlighter, E eraser, M magic wand. Repeat a tool key to turn it off.
+In pen mode, ` toggles Pen down mode: move to draw without holding a button.
 1/2/3/4 select red/blue/dark green/yellow. ? opens the shortcut guide.
 W inserts a whiteboard, Shift+W a blackboard, K keeps a board.
 +/- zoom from 3% to 3200%; 0 fits the slide; Home fits the whole talk.
@@ -18,4 +19,4 @@ Initial slide transition: camera.
 Use the Transition selector to change it for this viewing session.
 The graph was generated in lexical mode (45 concepts,
 88 relationships). Review graph evidence before publishing claims.
-The source Typst file is not copied into this release.
+The slide source is typst; the PDF is bundled.

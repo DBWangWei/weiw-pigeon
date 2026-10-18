@@ -170,6 +170,10 @@ input:focus-visible,
   overflow: hidden;
   background: var(--canvas);
 }
+.pen-down-indicator { position: absolute; z-index: 40; top: 12px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 24px; max-width: calc(100% - 24px); border: 2px solid #fbbf24; border-radius: 12px; background: #991b1bee; color: white; box-shadow: 0 6px 24px #0004; pointer-events: none; text-align: center; }
+.pen-down-indicator[hidden] { display: none; }
+.pen-down-indicator strong { font-size: 22px; }
+.pen-down-indicator span { font-size: 13px; }
 .stage {
   position: absolute;
   inset: 0;

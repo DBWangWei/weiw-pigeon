@@ -196,11 +196,25 @@ def main() -> int:
         return 0
     content = [{"type": "input_text", "text": json.dumps({"slides": [{key: slide[key] for key in ("id", "page", "title", "section", "text", "source")} for slide in manifest["slides"]]}, ensure_ascii=False)}]
     visual_slides = manifest["slides"]  # Include vector diagrams and image-only pages too.
-    for slide in visual_slides:
-        image_path = cache / f"page-{slide['page']}.png"
-        subprocess.run(["pdftoppm", "-f", str(slide["page"]), "-l", str(slide["page"]), "-singlefile", "-scale-to", "1200", "-png", str(deck / manifest.get("pdf", f"{manifest['deckId']}.pdf")), str(image_path.with_suffix(""))], check=True, capture_output=True)
-        content.append({"type": "input_text", "text": f"Rendered slide {slide['id']}; use visible diagrams only when relevant. Visual evidence requires normalized [x,y,width,height]."})
-        content.append({"type": "input_image", "image_url": "data:image/png;base64," + base64.b64encode(image_path.read_bytes()).decode()})
+    pdf_path = deck / manifest.get("pdf", f"{manifest['deckId']}.pdf")
+    document = None
+    try:
+        if manifest.get('sourceType') == 'pdf':
+            from pdf_input import pdf_library
+            fitz = pdf_library()
+            document = fitz.open(pdf_path)
+        for slide in visual_slides:
+            image_path = cache / f"page-{slide['page']}.png"
+            if document is not None:
+                page = document[slide['page']-1]
+                scale = 1200 / max(page.rect.width, page.rect.height)
+                page.get_pixmap(matrix=fitz.Matrix(scale, scale), alpha=False).save(image_path)
+            else:
+                subprocess.run(["pdftoppm", "-f", str(slide["page"]), "-l", str(slide["page"]), "-singlefile", "-scale-to", "1200", "-png", str(pdf_path), str(image_path.with_suffix(""))], check=True, capture_output=True)
+            content.append({"type": "input_text", "text": f"Rendered slide {slide['id']}; use visible diagrams only when relevant. Visual evidence requires normalized [x,y,width,height]."})
+            content.append({"type": "input_image", "image_url": "data:image/png;base64," + base64.b64encode(image_path.read_bytes()).decode()})
+    finally:
+        if document is not None: document.close()
     graph = request_model(base, key, model, content, prompt)
     (cache / "candidate.json").write_text(json.dumps(graph, ensure_ascii=False, indent=2))
     try:

@@ -1,0 +1,15 @@
+{
+  "appName": "Pigeon",
+  "version": "1.0.1",
+  "icon": "public/icons/pigeon.png",
+  "deckId": "geometry",
+  "title": "PDF geometry regression",
+  "revision": "a799cfaba8a9d346",
+  "slides": 9,
+  "concepts": 34,
+  "relationships": 36,
+  "graphMode": "lexical",
+  "titleEffect": "text-type",
+  "slideTransition": "camera",
+  "sourceType": "pdf"
+}

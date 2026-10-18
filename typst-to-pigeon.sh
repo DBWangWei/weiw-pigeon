@@ -4,7 +4,7 @@ set -euo pipefail
 
 usage() {
   cat <<'EOF'
-Usage: typst-to-pigeon INPUT.typ [OPTIONS]
+Usage: typst-to-pigeon INPUT.typ|INPUT.pdf [OPTIONS]
 
 Build Pigeon using pigeon.toml beside INPUT. Explicit options override that file.
 Without a config, output defaults to INPUT's directory/pigeon-output.
@@ -29,13 +29,15 @@ Options:
 
 Examples:
   typst-to-pigeon talk.typ
+  typst-to-pigeon talk.pdf
   typst-to-pigeon "/path/to/My Talk/slides.typ" --force
   typst-to-pigeon slides.typ --graph model --graph-provider env
 
-Requires Python 3.11+, Node.js 20.11+, Typst with eval support, and Poppler.
-Poppler must provide pdftotext and pdftoppm.
-Uses ${CODEX_HOME:-$HOME/.codex}/skills/typst-to-pigeon by default;
-set PIGEON_SKILL_DIR to override the skill's location.
+Requires Python 3.11+ and Node.js 20.11+.
+Typst input: Typst with eval support and Poppler (pdftotext, pdftoppm).
+PDF input: PyMuPDF (python3 -m pip install 'PyMuPDF>=1.24.4,<2').
+Uses PIGEON_SKILL_DIR when set, otherwise the skill bundled beside this
+launcher, otherwise ${CODEX_HOME:-$HOME/.codex}/skills/typst-to-pigeon.
 EOF
 }
 
@@ -59,15 +61,32 @@ while [[ $# -gt 0 ]]; do
   esac
 done
 
-[[ -f "$input" && -r "$input" ]] || die "Cannot read Typst file: $input"
-[[ "$input" == *.typ ]] || die "Input must be a .typ file: $input"
+[[ -f "$input" && -r "$input" ]] || die "Cannot read source file: $input"
+case "$input" in
+  *.[tT][yY][pP]) dependencies=(python3 node typst pdftotext pdftoppm) ;;
+  *.[pP][dD][fF]) dependencies=(python3 node) ;;
+  *) die "Input must be a .typ or .pdf file: $input" ;;
+esac
 case "$input" in /*) ;; *) input="$PWD/$input" ;; esac
 input_dir=$(cd -- "$(dirname -- "$input")" && pwd -P)
 input="$input_dir/$(basename -- "$input")"
-skill_dir=${PIGEON_SKILL_DIR:-${CODEX_HOME:-$HOME/.codex}/skills/typst-to-pigeon}
+if [[ -n ${PIGEON_SKILL_DIR:-} ]]; then
+  skill_dir=$PIGEON_SKILL_DIR
+else
+  launcher_dir=$(cd -- "$(dirname -- "${BASH_SOURCE[0]}")" && pwd -P)
+  if [[ -r "$launcher_dir/typst_to_pigeon.py" && -r "$launcher_dir/../SKILL.md" ]]; then
+    # Running the script inside a skill must use that same skill version.
+    skill_dir=$(cd -- "$launcher_dir/.." && pwd -P)
+  elif [[ -r "$launcher_dir/typst-to-pigeon/scripts/typst_to_pigeon.py" ]]; then
+    skill_dir="$launcher_dir/typst-to-pigeon"
+  else
+    # A standalone copy on PATH continues to use the globally installed skill.
+    skill_dir=${CODEX_HOME:-$HOME/.codex}/skills/typst-to-pigeon
+  fi
+fi
 builder="$skill_dir/scripts/typst_to_pigeon.py"
 [[ -r "$builder" ]] || die "Skill entry point not found: $builder"
-for dependency in python3 node typst pdftotext pdftoppm; do
+for dependency in "${dependencies[@]}"; do
   command -v "$dependency" >/dev/null 2>&1 || die "Required command is missing from PATH: $dependency"
 done
 

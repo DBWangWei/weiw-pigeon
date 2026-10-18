@@ -62,7 +62,7 @@ requires_openai_auth = true
         builder = Path(__file__).resolve().parents[1] / 'scripts/typst_to_pigeon.py'
         result = subprocess.run([sys.executable, str(builder), '/nonexistent/pigeon-source.typ'], capture_output=True, text=True)
         self.assertNotEqual(result.returncode, 0)
-        self.assertIn('Cannot read Typst source', result.stderr)
+        self.assertIn('Cannot read .typ or .pdf source', result.stderr)
         self.assertNotIn('Traceback', result.stderr)
 
 

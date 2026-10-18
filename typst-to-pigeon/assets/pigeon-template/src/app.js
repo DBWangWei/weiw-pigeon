@@ -6,7 +6,7 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-const PIGEON_VERSION = "1.0.0";
+const PIGEON_VERSION = "1.0.1";
 const fileMode = window.location.protocol === "file:";
 const embeddedDeck = fileMode ? (window.PIGEON_DECK_BUNDLE || window.TALK_DECK_BUNDLE) : null;
 const deckAsset = path => path.startsWith("public/") ? path : `public/deck/${path}`;
@@ -60,6 +60,7 @@ const state = {
   camera: { x: 0, y: 0, scale: 1 },
   autoFit: true,
   tool: "navigate",
+  stickyPen: false,
   color: COLORS.red,
   mode: "hierarchy",
   overview: false,
@@ -632,6 +633,7 @@ function updateCamera() {
   els.zoom.textContent = `${Math.round(state.camera.scale * 100)}%`;
 }
 function fitCurrent(animate = true) {
+  if (state.currentStroke?.sticky) finishActiveStroke();
   if (state.currentStroke || !state.deck.slides.length) return;
   state.autoFit = true;
   const rect = els.stage.getBoundingClientRect();
@@ -653,6 +655,7 @@ function fitCurrent(animate = true) {
   }, 430);
 }
 function fitWhole() {
+  if (state.currentStroke?.sticky) finishActiveStroke();
   if (state.currentStroke || !state.deck.slides.length) return;
   const rect = els.stage.getBoundingClientRect();
   const count = viewSequence().length;
@@ -675,6 +678,7 @@ function fitWhole() {
   persist();
 }
 function zoomAt(factor, clientX, clientY) {
+  if (state.currentStroke?.sticky) finishActiveStroke();
   if (state.currentStroke) return;
   state.autoFit = false;
   hideWand();
@@ -974,7 +978,7 @@ function finishActiveStroke(event) {
   )
     return;
   state.currentStroke = null;
-  const { surface, pointerId, ...operation } = active;
+  const { surface, pointerId, sticky, ...operation } = active;
   if (surface.startsWith("board:"))
     (state.boards[surface.slice(6)] ||= []).push(operation);
   else (state.annotations[surface.slice(6)] ||= []).push(operation);
@@ -983,14 +987,34 @@ function finishActiveStroke(event) {
 }
 
 function bindCanvas(canvas) {
+  const canDraw = () => canvas.closest(".slide-frame").dataset.frameKey === activeFrameKey()
+    && !spaceDown && !state.overview && !state.blackout && !document.querySelector("dialog[open]");
+  const startStroke = (event, sticky = false) => {
+    cancelPageTransition();
+    clearTimeout(cameraTransitionTimer);
+    els.world.style.transition = "none";
+    checkpoint(canvas.dataset.slideId);
+    state.currentStroke = {
+      surface: surfaceKey(canvas.dataset.slideId), pointerId: event.pointerId,
+      id: canvas.dataset.slideId, type: "stroke", tool: state.tool, sticky,
+      color: state.color, width: state.tool === "highlighter" ? 22 : 3.7,
+      opacity: state.tool === "highlighter" ? 0.28 : 1,
+      points: [canvasPoint(event, canvas)],
+    };
+    drawOperation(canvas.getContext("2d"), state.currentStroke);
+  };
   canvas.addEventListener("pointerdown", (event) => {
     if (
       canvas.closest(".slide-frame").dataset.frameKey !== activeFrameKey() ||
       !["pen", "highlighter", "eraser"].includes(state.tool) ||
-      spaceDown
+      !canDraw() || event.button !== 0
     )
       return;
     event.preventDefault();
+    if (state.stickyPen && state.tool === "pen") {
+      if (!state.currentStroke) startStroke(event, true);
+      return;
+    }
     if (state.currentStroke) finishActiveStroke();
     canvas.setPointerCapture(event.pointerId);
     const point = canvasPoint(event, canvas);
@@ -998,21 +1022,14 @@ function bindCanvas(canvas) {
       eraseAt(canvas.dataset.slideId, point);
       return;
     }
-    checkpoint(canvas.dataset.slideId);
-    state.currentStroke = {
-      surface: surfaceKey(canvas.dataset.slideId),
-      pointerId: event.pointerId,
-      id: canvas.dataset.slideId,
-      type: "stroke",
-      tool: state.tool,
-      color: state.color,
-      width: state.tool === "highlighter" ? 22 : 3.7,
-      opacity: state.tool === "highlighter" ? 0.28 : 1,
-      points: [point],
-    };
-    drawOperation(canvas.getContext("2d"), state.currentStroke);
+    startStroke(event);
   });
   canvas.addEventListener("pointermove", (event) => {
+    if (state.stickyPen && state.tool === "pen") {
+      if (!canDraw()) { finishActiveStroke(); return; }
+      if (pageTransitions.active) return;
+      if (!state.currentStroke) { startStroke(event, true); return; }
+    }
     if (
       state.tool === "eraser" &&
       !spaceDown &&
@@ -1033,9 +1050,16 @@ function bindCanvas(canvas) {
     drawSurface(canvas.dataset.slideId);
     drawOperation(canvas.getContext("2d"), state.currentStroke);
   });
-  canvas.addEventListener("pointerup", finishActiveStroke);
+  canvas.addEventListener("pointerup", event => {
+    if (!state.currentStroke?.sticky) finishActiveStroke(event);
+  });
   canvas.addEventListener("pointercancel", finishActiveStroke);
-  canvas.addEventListener("lostpointercapture", finishActiveStroke);
+  canvas.addEventListener("lostpointercapture", event => {
+    if (!state.currentStroke?.sticky) finishActiveStroke(event);
+  });
+  canvas.addEventListener("pointerleave", event => {
+    if (state.currentStroke?.sticky) finishActiveStroke(event);
+  });
 }
 function segmentDistance(point, a, b) {
   const dx = b.x - a.x,
@@ -1092,8 +1116,18 @@ function redo() {
 }
 
 function toggleTool(tool) { setTool(state.tool === tool ? "navigate" : tool); }
+function setStickyPen(enabled) {
+  finishActiveStroke();
+  state.stickyPen = !!enabled && state.tool === "pen";
+  $("#penDownIndicator").hidden = !state.stickyPen;
+}
+function toggleStickyPen() {
+  if (state.tool !== "pen") { toast("Select Pen (P), then press ` for Pen down mode"); return; }
+  setStickyPen(!state.stickyPen);
+}
 function setTool(tool) {
   finishActiveStroke();
+  if (tool !== "pen") setStickyPen(false);
   hideWand();
   window.clearTimeout(showLaser.timeout);
   if (tool !== "laser") els.laser.classList.remove("on");
@@ -1106,6 +1140,7 @@ function setTool(tool) {
   persist();
 }
 function setColor(color) {
+  finishActiveStroke();
   state.color = color;
   $$(".swatch").forEach((s) =>
     s.classList.toggle("active", s.dataset.color === color),
@@ -1139,7 +1174,10 @@ function showWand(event) {
     .filter(region => x >= region.x && x <= region.x + region.width && y >= region.y && y <= region.y + region.height)
     .sort((a, b) => {
       const priority = {takeaway: 4, table: 3, image: 2, text: 1};
-      return (priority[b.kind || "text"] - priority[a.kind || "text"]) ||
+      // A scanned page or background image must not hide its OCR text targets.
+      const rank = r => r.kind === "image" && r.width * r.height > width * height * .8
+        ? 0 : priority[r.kind || "text"];
+      return (rank(b) - rank(a)) ||
         (a.width * a.height - b.width * b.height);
     })[0];
   if (!region) { hideWand(); return; }
@@ -1567,6 +1605,7 @@ function openPresentation() {
 }
 
 function toggleBlackout(force) {
+  finishActiveStroke();
   state.blackout = force ?? !state.blackout;
   els.blackout.classList.toggle("open", state.blackout);
   els.blackout.setAttribute("aria-hidden", String(!state.blackout));
@@ -2194,6 +2233,11 @@ function keyHandler(event) {
       event.stopPropagation();
       return;
     }
+    if (state.stickyPen) {
+      event.preventDefault();
+      setStickyPen(false);
+      return;
+    }
     if (!typing && state.tool !== "navigate") {
       event.preventDefault();
       setTool("navigate");
@@ -2221,13 +2265,20 @@ function keyHandler(event) {
     }
     return;
   }
+  if (key === "`" || event.code === "Backquote") {
+    event.preventDefault();
+    if (!event.repeat) toggleStickyPen();
+    return;
+  }
   if (key === " " && target.closest?.("button,a,select")) return;
   if (key === " " && !state.overview) {
+    finishActiveStroke();
     spaceDown = true;
     event.preventDefault();
     return;
   }
   if (!state.overview && event.shiftKey && key.startsWith("Arrow")) {
+    if (state.currentStroke?.sticky) finishActiveStroke();
     if (state.currentStroke) return;
     event.preventDefault();
     state.autoFit = false;
@@ -2455,6 +2506,7 @@ els.stage.addEventListener(
   "wheel",
   (event) => {
     event.preventDefault();
+    if (state.currentStroke?.sticky) finishActiveStroke();
     if (state.currentStroke) return;
     if (event.ctrlKey || event.metaKey) {
       zoomAt(Math.exp(-event.deltaY * 0.01), event.clientX, event.clientY);
@@ -2585,6 +2637,9 @@ for (const dialog of $$("dialog")) dialog.addEventListener("cancel", event => {
   event.preventDefault();
   dialog.close();
 });
+for (const dialog of $$("dialog")) new MutationObserver(() => {
+  if (dialog.open) finishActiveStroke();
+}).observe(dialog, {attributes:true, attributeFilter:["open"]});
 els.help.addEventListener("close", () => els.stage.focus());
 els.stage.addEventListener("pointerleave", hideWand);
 document.addEventListener("keyup", (event) => {
@@ -2602,9 +2657,12 @@ document.addEventListener("keyup", (event) => {
   }
 });
 window.addEventListener("blur", () => {
-  finishActiveStroke();
+  setStickyPen(false);
   pan = null;
   spaceDown = false;
+});
+document.addEventListener("visibilitychange", () => {
+  if (document.hidden) setStickyPen(false);
 });
 document.addEventListener("fullscreenchange", () =>
   (() => {

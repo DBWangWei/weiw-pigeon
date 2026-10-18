@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Export Typst pages, native geometry, metadata and original title artwork."""
+"""Export Typst or PDF pages, geometry, metadata and original title artwork."""
 from __future__ import annotations
 import argparse
 import hashlib
@@ -90,36 +90,45 @@ def extract_links(svg, source):
 
 def build(source, output, deck_id=None, title=None, navigation=None, skip_compile=False):
     source=source.resolve(); output=output.resolve()
-    if not source.is_file(): raise ValueError(f'Typst source does not exist: {source}')
+    if not source.is_file(): raise ValueError(f'Source does not exist: {source}')
+    is_pdf=source.suffix.lower()=='.pdf'
     deck_id=deck_id or re.sub('[^a-z0-9]+','-',source.stem.lower()).strip('-') or 'pigeon-deck'
     if not re.fullmatch(r'[A-Za-z0-9][A-Za-z0-9_-]*',deck_id): raise ValueError('deck-id must use letters, digits, hyphens or underscores')
-    if not title:
+    if not title and not is_pdf:
         match=re.search(r'#set\s+document\(\s*title:\s*"([^"]+)"',source.read_text())
         title=match.group(1) if match else source.stem
     deck=output/'public/deck'; slides_dir=deck/'slides'; thumbs=deck/'thumbs'
     for directory in [slides_dir,thumbs]: directory.mkdir(parents=True,exist_ok=True)
     pdf=deck/f'{deck_id}.pdf'
-    if not skip_compile:
+    warnings=[]
+    if is_pdf:
+        from pdf_input import prepare_pdf
+        geometry, pdf_title, warnings=prepare_pdf(source,pdf,slides_dir,thumbs)
+        title=title or pdf_title
+        texts=[geo['text'] for geo in geometry]
+        text='\f'.join(texts)+'\f'
+    elif not skip_compile:
         # Re-export safely into these generated subdirectories, removing stale pages.
         for directory,pattern in [(slides_dir,'page-*.svg'),(thumbs,'page-*.png')]:
             for old in directory.glob(pattern): old.unlink()
         run(['typst','compile',str(source),str(pdf)],source.parent)
         run(['typst','compile',str(source),str(slides_dir/'page-{0p}.svg')],source.parent)
     svgs=sorted(slides_dir.glob('page-*.svg'),key=lambda p:int(re.search(r'\d+',p.stem).group()))
-    geometry=text_geometry(pdf)
-    text=run(['pdftotext','-raw',str(pdf),'-'],source.parent)
+    if not is_pdf:
+        geometry=text_geometry(pdf)
+        text=run(['pdftotext','-raw',str(pdf),'-'],source.parent)
+        texts=text.split('\f')
+        if texts and not texts[-1].strip(): texts.pop()
     (deck/f'{deck_id}.txt').write_text(text)
-    texts=text.split('\f')
-    if texts and not texts[-1].strip(): texts.pop()
     if not svgs or len(svgs)!=len(geometry) or len(texts)!=len(svgs): raise ValueError('PDF/SVG/text page counts differ')
-    records=query(source,'slide-record')
+    records=[] if is_pdf else query(source,'slide-record')
     by_page={}
     for row in records:
         by_page.setdefault(row['page'],[]).append(row['value'])
     nav_path=navigation or source.with_name(source.stem+'.navigation.json')
     nav=json.loads(nav_path.read_text()) if nav_path.exists() else {}
-    snippets=takeaway_texts(source)
-    warnings=[]; slides=[]; used_ids=set()
+    snippets=[] if is_pdf else takeaway_texts(source)
+    slides=[]; used_ids=set(); page_reports=[]
     resources={}
     for href,path in nav.get('resources',{}).items():
         local=(nav_path.parent/path).resolve()
@@ -146,9 +155,9 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
         if '::' in sid: raise ValueError('Slide IDs cannot contain ::')
         used_ids.add(sid)
         overrides=nav.get('slides',{}).get(str(page),{})
-        slide_title=overrides.get('title') or content_text(record.get('title',''))
-        title_words=match_words(geo['words'],slide_title)
-        if not slide_title:
+        slide_title=overrides.get('title', geo.get('title','') if is_pdf else content_text(record.get('title',''))) or ''
+        title_words=geo.get('titleWords',[]) if is_pdf and 'title' not in overrides else match_words(geo['words'],slide_title)
+        if not slide_title and not is_pdf:
             candidates=[line for line in geo['lines'] if line['y']<height*.5 and line['text'].strip()]
             first=max(candidates,key=lambda line:(line['height'],-line['y'])) if candidates else None
             slide_title=first['text'] if first else f'Slide {page}'
@@ -156,9 +165,9 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
         if overrides.get('titleRect'):
             rect=overrides['titleRect']
             title_words=[w for w in geo['words'] if rect['x']<=w['x']<rect['x']+rect['width'] and rect['y']<=w['y']<rect['y']+rect['height']]
-        layer=title_layers(svg,title_words,deck/'titles',svg.stem)
-        if not layer: warnings.append(f'Page {page}: no separable title glyphs; title remains static. Set slides.{page}.title/titleRect in navigation JSON if needed.')
-        visual=extract_visual_regions(svg)
+        layer=title_layers(svg,title_words,deck/'titles',svg.stem) if geo.get('textMode')!='ocr' else None
+        if slide_title and not layer: warnings.append(f'Page {page}: no separable title glyphs; title remains static. Set slides.{page}.title/titleRect in navigation JSON if needed.')
+        visual=geo['visual'] if is_pdf else extract_visual_regions(svg)
         # Match the compiled words to active #takeaway content, independent of fill.
         for snippet in snippets:
             matched=match_words(geo['words'],snippet)
@@ -173,27 +182,34 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
             if (region['kind'] not in {'text','table','image','takeaway'} or region['width']<=0 or region['height']<=0 or
                 region['x']<-.01 or region['y']<-.01 or region['x']+region['width']>width+.1 or region['y']+region['height']>height+.1):
                 raise ValueError(f'Page {page}: invalid {region["kind"]} region bounds')
-        links=extract_links(svg,source)
+        links=geo['links'] if is_pdf else extract_links(svg,source)
         for link in links:
             if link.get('local'):
                 if link['href'] in resources:
                     link.update(resource=resources[link['href']],local=False)
                 else: warnings.append(f'Page {page}: local link {link["href"]!r} needs a resources mapping; link is disabled.')
-        slides.append(dict(id=sid,page=page,title=slide_title,section=content_text(record.get('section','')) or 'Talk',
+        slides.append(dict(id=sid,page=page,title=slide_title,navigationLabel=slide_title or f'Slide {page}',
+            section=overrides.get('section') or content_text(record.get('section','')) or 'Talk',
             source=content_text(record.get('source','')),text=page_text,asset=f'slides/{svg.name}',assetHash=sha256(svg),
             width=width,height=height,links=links,imageDescriptions=[],textRegions=geo['regions'],
             wandRegions=geo['regions']+visual,titleLayer=layer))
+        if is_pdf:
+            detection=geo['titleDetection'] if 'title' not in overrides else {'status':'overridden'}
+            slides[-1]['titleDetection']=detection
+            page_reports.append(dict(page=page,title=slide_title,titleDetection=detection,textMode=geo['textMode'],
+                                     textBlocks=len(geo['regions']),images=sum(r['kind']=='image' for r in visual),
+                                     tables=sum(r['kind']=='table' for r in visual)))
     # Include metadata and geometry: edits to IDs/titles/regions also invalidate sessions/KG caches.
     revision=hashlib.sha256(json.dumps(slides,sort_keys=True,ensure_ascii=False).encode()).hexdigest()[:16]
     route=nav.get('defaultRoute',[s['id'] for s in slides])
     if len(route)!=len(slides) or set(route)!=used_ids: raise ValueError('defaultRoute must include each slide ID once')
-    manifest=dict(schemaVersion='1.0',deckId=deck_id,title=title,revision=revision,pdf=f'{deck_id}.pdf',
+    manifest=dict(schemaVersion='1.0',deckId=deck_id,title=title,revision=revision,pdf=f'{deck_id}.pdf',sourceType='pdf' if is_pdf else 'typst',
                   dimensions=dict(width=max(s['width'] for s in slides),height=max(s['height'] for s in slides)),
                   defaultRoute=route,hierarchy=nav.get('hierarchy') or None,focusRegions=nav.get('focusRegions',[]),
                   resources=list(resources.values()),slides=slides)
     (deck/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
-    run(['pdftoppm','-png','-scale-to','320',str(pdf),str(thumbs/'page')],source.parent)
-    (output/'build-report.json').write_text(json.dumps(dict(slides=len(slides),revision=revision,warnings=warnings),indent=2)+'\n')
+    if not is_pdf: run(['pdftoppm','-png','-scale-to','320',str(pdf),str(thumbs/'page')],source.parent)
+    (output/'build-report.json').write_text(json.dumps(dict(slides=len(slides),revision=revision,warnings=warnings,pages=page_reports),indent=2)+'\n')
     print(json.dumps(dict(slides=len(slides),revision=revision,warnings=len(warnings),output=str(output))))
     return manifest
 
@@ -205,4 +221,7 @@ def main():
     p.add_argument('--skip-compile',action='store_true')
     args=p.parse_args(); build(**vars(args))
 
-if __name__=='__main__': main()
+if __name__=='__main__':
+    try: main()
+    except (ValueError, RuntimeError, OSError) as error:
+        raise SystemExit(f'Export failed: {error}') from None

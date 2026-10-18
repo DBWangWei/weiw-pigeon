@@ -1,6 +1,6 @@
 # Pigeon configuration
 
-Place an optional `pigeon.toml` beside the Typst source. The builder discovers
+Place an optional `pigeon.toml` beside the Typst or PDF input. The builder discovers
 that file automatically. An explicit `--config FILE` selects another file.
 Paths inside the TOML file are relative to the config file; paths supplied on
 the command line are relative to the current working directory. A `[pigeon]`
@@ -28,6 +28,9 @@ misspelling cannot silently change the build.
 Copy [pigeon.example.toml](pigeon.example.toml) for a new deck. The portable
 launcher is included at `scripts/typst-to-pigeon.sh`; copy it into a directory
 on PATH if desired.
+`PIGEON_SKILL_DIR` explicitly selects a skill. Otherwise a launcher within a
+skill's `scripts/` directory or beside a bundled `typst-to-pigeon/` folder uses
+that local copy. A standalone PATH launcher falls back to the global skill.
 
 The precedence is:
 
