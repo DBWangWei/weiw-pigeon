@@ -57,12 +57,21 @@ extensions. This editor does not import or export Excalidraw files.
 ## About and command-line help
 
 About Pigeon shows the Pigeon icon, version, a short description, collaboration
-invitation and `Wei Wang (weiwcs AT ust.hk)`. The command-line launcher help is
+invitation and `Wei Wang (weiwcs AT ust.hk) · GPT-6-Astra/xhigh (in Codex)`.
+The command-line launcher help is
 compact; dependency details remain in the README and skill docs.
+
+## Fullscreen help
+
+Escape dismisses Help first when the browser permits Keyboard Lock (currently
+Chrome/Edge). A later Escape can leave fullscreen, and holding Escape keeps the
+browser's emergency exit. Safari/Firefox and denied locks may still let the
+browser leave native fullscreen; Pigeon retains its presentation layout.
+Press `?` again or use Close to dismiss Help without that browser shortcut.
 
 ## Validation
 
-**25 Python tests and 26 DOM runtime tests passed.** The Python suite covers real
+**25 Python tests and 31 DOM runtime tests passed.** The Python suite covers real
 Typst and PDF outline inference alongside PDF,
 configuration and pipeline regressions. The runtime suites cover diagram tools,
 bindings, text, colors, clipboard operations, geometry, sessions and export drawing. DOM tests use

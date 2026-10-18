@@ -31,6 +31,10 @@ let restoredSession = false;
 let backupKey = null;
 let persistenceSuspended = false;
 let presentationRequest = 0;
+let escapeLockRequest = 0;
+let escapeLockWanted = false;
+let escapeLockActive = false;
+let fullscreenOverlayDismissedAt = -Infinity;
 let booting = true;
 const pageTransitions = PigeonTransitions.create();
 let pageTransitionPending = false;
@@ -1596,7 +1600,37 @@ function openResource(path) {
     els.demo.showModal();
   } else window.open(assetUrl(destination), "_blank", "noopener");
 }
+function releasePresentationEscape() {
+  escapeLockRequest++;
+  escapeLockWanted = escapeLockActive = false;
+  try { navigator.keyboard?.unlock?.(); } catch (_) {}
+}
+async function lockPresentationEscape() {
+  if (!state.presentation || !document.fullscreenElement || escapeLockWanted || !navigator.keyboard?.lock) return;
+  const request = ++escapeLockRequest;
+  escapeLockWanted = true;
+  try {
+    // Prevent the browser from consuming the first Escape before our dialog
+    // handler receives it. Only Escape is locked; the browser's hold-Esc exit
+    // remains available. Unsupported or denied locks use the normal fallback.
+    await navigator.keyboard.lock(["Escape"]);
+    if (request !== escapeLockRequest || !state.presentation || !document.fullscreenElement) {
+      if (!escapeLockWanted) { try { navigator.keyboard?.unlock?.(); } catch (_) {} }
+      return;
+    }
+    escapeLockActive = true;
+  } catch (_) {
+    if (request === escapeLockRequest) escapeLockWanted = escapeLockActive = false;
+  }
+}
+function noteFullscreenOverlayDismissal() {
+  if (state.presentation && document.fullscreenElement) fullscreenOverlayDismissedAt = performance.now();
+}
 function reconcilePresentation(enabled) {
+  if (!enabled) {
+    releasePresentationEscape();
+    fullscreenOverlayDismissedAt = -Infinity;
+  }
   state.presentation = enabled;
   document.body.classList.toggle("presentation-mode", enabled);
   els.app.classList.toggle("presentation-mode", enabled);
@@ -2265,9 +2299,21 @@ function keyHandler(event) {
   if (event.isComposing) return;
   const key = event.key;
   const mod = event.metaKey || event.ctrlKey;
+  if (key === "?" && els.help.open && !mod && !typing) {
+    event.preventDefault();
+    event.stopPropagation();
+    if (!event.repeat) els.help.close();
+    return;
+  }
+  if (key === "Escape" && event.repeat) {
+    event.preventDefault();
+    event.stopPropagation();
+    return;
+  }
   if (!state.overview && !document.querySelector("dialog[open]") && diagram?.key(event)) return;
   if (key === "Escape") {
     if (dismissTopOverlay()) {
+      noteFullscreenOverlayDismissal();
       event.preventDefault();
       event.stopPropagation();
       return;
@@ -2281,6 +2327,12 @@ function keyHandler(event) {
     if (!typing && state.tool !== "navigate") {
       event.preventDefault();
       setTool("navigate");
+      return;
+    }
+    if (escapeLockActive && state.presentation && document.fullscreenElement) {
+      event.preventDefault();
+      event.stopPropagation();
+      openPresentation();
     }
     return;
   }
@@ -2678,6 +2730,7 @@ function updateSearchSelection() {
 document.addEventListener("keydown", keyHandler, true);
 for (const dialog of $$("dialog")) dialog.addEventListener("cancel", event => {
   event.preventDefault();
+  noteFullscreenOverlayDismissal();
   dialog.close();
 });
 for (const dialog of $$("dialog")) new MutationObserver(() => {
@@ -2708,15 +2761,24 @@ window.addEventListener("blur", () => {
 document.addEventListener("visibilitychange", () => {
   if (document.hidden) setStickyPen(false);
 });
-document.addEventListener("fullscreenchange", () =>
-  (() => {
-    if (!document.fullscreenElement && document.querySelector("dialog[open]")) {
-      dismissTopOverlay();
-      // Browsers may reserve Escape; preserve the clean presentation layout.
-      reconcilePresentation(true);
-    } else reconcilePresentation(!!document.fullscreenElement);
-  })(),
-);
+document.addEventListener("fullscreenchange", () => {
+  if (document.fullscreenElement) {
+    fullscreenOverlayDismissedAt = -Infinity;
+    reconcilePresentation(true);
+    lockPresentationEscape();
+    return;
+  }
+  releasePresentationEscape();
+  // Some browsers exit native fullscreen even after a canceled Escape. Their
+  // fullscreenchange can arrive either before or after the dialog's close.
+  // Preserve Pigeon's layout in both orders without forcing fullscreen back on.
+  const dialogOpen = !!document.querySelector("dialog[open]");
+  const dismissedJustNow = performance.now() - fullscreenOverlayDismissedAt < 1000;
+  const keepPresentation = state.presentation && (dialogOpen || dismissedJustNow);
+  if (keepPresentation && dialogOpen) dismissTopOverlay();
+  fullscreenOverlayDismissedAt = -Infinity;
+  reconcilePresentation(keepPresentation);
+});
 window.addEventListener("resize", () => {
   if (!state.overview) {
     if (state.autoFit) fitCurrent(false);

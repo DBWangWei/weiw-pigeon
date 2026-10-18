@@ -110,7 +110,7 @@ Version 1.0.2 extends the editor with an offline diagram mode (`D`) using
 Excalidraw-style shortcuts for selection, rectangles, diamonds, ellipses,
 triangles, parallelograms, arrows, lines, centered labels, color/fill palettes,
 copy/paste/duplicate, connected endpoints, move and resize handles. Diagram ink
-is included in undo, sessions and PNG export. Validation: **25 Python tests and 26 DOM runtime tests passed**, covering outline
+is included in undo, sessions and PNG export. Validation: **25 Python tests and 31 DOM runtime tests passed**, covering outline
 inference, diagram editing, connector bindings, keyboard controls, sessions and
 export drawing. Both example releases and ZIP archives were rebuilt and verified.
 Firefox aborted during browser launch in the test environment; rendered visuals

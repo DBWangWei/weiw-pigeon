@@ -78,7 +78,7 @@ test('About Pigeon is available directly and from the keyboard guide',async t=>{
   assert.equal(d.querySelector('#aboutButton').getAttribute('aria-label'),'About Pigeon');
   assert.match(d.querySelector('#aboutDialog').textContent,/Version 1\.0\.2/);
   assert.ok(d.querySelector('#aboutDialog img.about-icon'));
-  assert.match(d.querySelector('#aboutDialog').textContent,/Wei Wang \(weiwcs AT ust\.hk\)/);
+  assert.match(d.querySelector('#aboutDialog').textContent,/Wei Wang \(weiwcs AT ust\.hk\) · GPT-6-Astra\/xhigh \(in Codex\)/);
   assert.doesNotMatch(d.querySelector('#aboutDialog').textContent,/Typical use|typst-to-pigeon talk/);
   assert.ok(d.querySelector('#aboutFromHelp'));
   d.querySelector('#helpButton').click();
