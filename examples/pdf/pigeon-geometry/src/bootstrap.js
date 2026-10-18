@@ -30,6 +30,7 @@
     await load("src/title-effects.js");
     await load("src/slide-transitions.js");
     await load("src/diagram.js");
+    await load("src/pdf-export.js");
     await load("src/app.js");
   })().catch(error => {
     clearTimeout(timer);

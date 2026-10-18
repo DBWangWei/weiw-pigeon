@@ -55,13 +55,25 @@ sections, and the hierarchy overview groups slides accordingly. Review inferred
 boundaries in `build-report.json`; explicit navigation sections take precedence.
 
 In Pen mode (`P`), press backtick (`` ` ``) to enter **Pen down mode**. Move the
-pointer to draw without holding a mouse button; a prominent overlay shows the
-mode. Press backtick again to lift the pen while keeping Pen selected. Slide
+pointer to draw without holding a mouse button; a compact notice at the top right
+shows the mode. A single backtick toggles it after a 300 ms double-tap window.
+Double-tap backtick in Pen or Diagram mode to undo the last drawing or edit,
+while keeping the tool and Pen down setting. Another single tap lifts the pen. Slide
 navigation retains the mode and starts separate strokes. Switching tools or
 leaving the window lifts the pen automatically.
 
 Choose a slide transition with `--slide-transition NAME` or the in-app selector:
 `camera`, `none`, `fade`, `blur`, `slide`, `zoom`, `pixel`, `staggered-wipe`, `stack`.
+
+## Export an annotated PDF
+
+Open **Save and export → Export slides and drawings as PDF**. The downloaded
+`DECK-annotated.pdf` includes all slides in deck order and all inserted whiteboards
+and blackboards immediately after their parent slides, including draft boards.
+Removed boards are excluded. Source PDF pages keep their original text and vector
+artwork; drawings, highlights, diagram shapes and labels are composited as transparent
+high-resolution overlays (3× canvas size, capped at 4096 pixels per side).
+The source PDF is unchanged. Export works offline.
 
 ## PDF behavior
 
@@ -110,9 +122,9 @@ Version 1.0.2 extends the editor with an offline diagram mode (`D`) using
 Excalidraw-style shortcuts for selection, rectangles, diamonds, ellipses,
 triangles, parallelograms, arrows, lines, centered labels, color/fill palettes,
 copy/paste/duplicate, connected endpoints, move and resize handles. Diagram ink
-is included in undo, sessions and PNG export. Validation: **25 Python tests and 31 DOM runtime tests passed**, covering outline
-inference, diagram editing, connector bindings, keyboard controls, sessions and
-export drawing. Both example releases and ZIP archives were rebuilt and verified.
+is included in undo, sessions, PNG and PDF exports. Validation covers outline
+inference, diagram editing, connector bindings, keyboard controls, sessions,
+double-backtick undo, and PDF overlays on cropped/rotated pages. Both example releases and ZIP archives were refreshed and verified.
 Firefox aborted during browser launch in the test environment; rendered visuals
 and real fullscreen interaction still need a Safari/Firefox rehearsal.
 

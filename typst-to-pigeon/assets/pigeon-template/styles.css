@@ -170,10 +170,10 @@ input:focus-visible,
   overflow: hidden;
   background: var(--canvas);
 }
-.pen-down-indicator { position: absolute; z-index: 40; top: 12px; left: 50%; transform: translateX(-50%); display: flex; flex-direction: column; align-items: center; gap: 3px; padding: 10px 24px; max-width: calc(100% - 24px); border: 2px solid #fbbf24; border-radius: 12px; background: #991b1bee; color: white; box-shadow: 0 6px 24px #0004; pointer-events: none; text-align: center; }
+.pen-down-indicator, .diagram-indicator { position: absolute; z-index: 42; top: 12px; right: 12px; display: flex; flex-direction: column; align-items: flex-end; gap: 2px; padding: 7px 10px; max-width: min(280px, calc(100% - 24px)); border: 1px solid #fbbf24; border-radius: 8px; background: #991b1bee; color: white; box-shadow: 0 4px 16px #0003; pointer-events: none; text-align: right; }
 .pen-down-indicator[hidden] { display: none; }
-.pen-down-indicator strong { font-size: 22px; }
-.pen-down-indicator span { font-size: 13px; }
+.pen-down-indicator strong, .diagram-indicator strong { font-size: 14px; line-height: 1.3; }
+.pen-down-indicator span, .diagram-indicator span { font-size: 11px; line-height: 1.4; }
 .stage {
   position: absolute;
   inset: 0;
@@ -1575,7 +1575,8 @@ dialog {
 .board-controls button { border: 1px solid #cbd5e1; padding: 8px 12px; background: #fff; color: #24324a; border-radius: 6px; font-size: 14px; }
 .board-controls button[aria-pressed="true"] { background: #d6f5e9; }
 .blackboard-surface::before { background: #111827 !important; }
-.wand-highlight { position: absolute; z-index: 9; pointer-events: none; background-repeat: no-repeat; border-radius: 6px; box-shadow: 0 0 0 3px #eab308, 0 0 24px 8px #facc1566, 0 10px 20px #0f172a33; transform-origin: center; }
+/* PDF SVGs may leave the paper transparent; match the slide backing before enlarging. */
+.wand-highlight { position: absolute; z-index: 9; pointer-events: none; background-color: #fff; background-repeat: no-repeat; border-radius: 6px; box-shadow: 0 0 0 3px #eab308, 0 0 24px 8px #facc1566, 0 10px 20px #0f172a33; transform-origin: center; }
 @keyframes wand-pop { from { transform: scale(1); filter: brightness(1); } to { transform: scale(1.035); filter: brightness(1.12); } }
 .wand-highlight[data-kind="image"] { border-radius: 12px; box-shadow: 0 0 0 4px #38bdf8, 0 0 34px 12px #38bdf899, 0 16px 30px #0f172a55; }
 .wand-highlight[data-kind="table"] { border-radius: 8px; box-shadow: 0 0 0 4px #a78bfa, 0 0 34px 12px #8b5cf699, 0 16px 30px #0f172a55; }
@@ -1598,9 +1599,7 @@ dialog {
 @media(max-width: 900px) { .title-effect-control span { display: none; } .title-effect-control select { max-width: 100px; } }
 
 /* Diagram tools remain visible in presentation mode and never scale with slides. */
-.diagram-indicator { position:absolute; z-index:42; top:10px; left:50%; transform:translateX(-50%); display:flex; flex-direction:column; align-items:center; background:#312e81f2; color:white; border:2px solid #a5b4fc; border-radius:12px; padding:8px 20px; pointer-events:none; box-shadow:0 5px 24px #0004; }
-.diagram-indicator strong { font-size:22px; }
-.diagram-indicator span { font-size:12px; }
+.diagram-indicator { background:#312e81f2; border-color:#a5b4fc; }
 .diagram-toolbar { position:absolute; z-index:43; left:50%; top:85px; transform:translateX(-50%); width:max-content; max-width:95%; padding:8px; display:flex; flex-wrap:wrap; justify-content:center; gap:5px; background:#fffef8f5; color:#172554; border:1px solid #94a3b8; border-radius:10px; box-shadow:0 5px 24px #0003; }
 .diagram-toolbar button,.diagram-toolbar select { background:white; border:1px solid #cbd5e1; border-radius:5px; min-height:34px; padding:5px 9px; color:#172554; font-size:14px; cursor:pointer; }
 .diagram-toolbar button.active { background:#e0e7ff; border-color:#6366f1; }

@@ -1,5 +1,5 @@
 /*
- * Pigeon canvas presentation. This is intentionally dependency-free: the generated
+ * Pigeon canvas presentation. This is an offline classic-script app: the generated
  * deck is a set of JSON/SVG assets, and this shell keeps working while those
  * assets are being regenerated.
  */
@@ -41,6 +41,7 @@ let pageTransitionPending = false;
 let pageTransitionRequest = 0;
 let cameraTransitionTimer = null;
 let diagram = null;
+let backtickTimer = null;
 const COLORS = {
   red: "#DC2626",
   blue: "#2563EB",
@@ -779,6 +780,7 @@ function addHistory(id) {
 function navigateTo(id, options = {}) {
   const target = state.deck.slides.find((s) => s.id === id);
   if (!target) return;
+  clearBacktickTap();
   diagram?.reset();
   finishActiveStroke();
   if (state.overview) closeOverview();
@@ -1118,6 +1120,7 @@ function clearSurface() {
   toast("Current surface cleared · Cmd/Ctrl+Z to undo");
 }
 function undo() {
+  clearBacktickTap();
   finishActiveStroke();
   const key = surfaceKey();
   if (undoStacks[key]?.length) {
@@ -1129,6 +1132,7 @@ function undo() {
   diagram?.sync();
 }
 function redo() {
+  clearBacktickTap();
   const key = surfaceKey();
   if (redoStacks[key]?.length) {
     (undoStacks[key] ||= []).push(structuredClone(surfaceOps()));
@@ -1140,7 +1144,27 @@ function redo() {
 }
 
 function toggleTool(tool) { setTool(state.tool === tool ? "navigate" : tool); }
+function clearBacktickTap() {
+  clearTimeout(backtickTimer);
+  backtickTimer = null;
+}
+function handleBacktick() {
+  if (backtickTimer !== null) {
+    clearBacktickTap();
+    diagram?.finish();
+    undo();
+    return;
+  }
+  const tool = state.tool, surface = surfaceKey();
+  // Wait briefly so a double tap never toggles Pen down between its two taps.
+  backtickTimer = setTimeout(() => {
+    backtickTimer = null;
+    if (tool === "pen" && state.tool === tool && surfaceKey() === surface)
+      toggleStickyPen();
+  }, 300);
+}
 function setStickyPen(enabled) {
+  clearBacktickTap();
   finishActiveStroke();
   state.stickyPen = !!enabled && state.tool === "pen";
   $("#penDownIndicator").hidden = !state.stickyPen;
@@ -1150,6 +1174,7 @@ function toggleStickyPen() {
   setStickyPen(!state.stickyPen);
 }
 function setTool(tool) {
+  clearBacktickTap();
   if (state.tool === "diagram" && tool !== "diagram") diagram?.reset();
   finishActiveStroke();
   if (tool !== "pen") setStickyPen(false);
@@ -1417,6 +1442,7 @@ function focusConcept(id, moveFocus = true) {
 }
 
 function openOverview() {
+  clearBacktickTap();
   diagram?.reset();
   cancelPageTransition();
   syncTitleEffect();
@@ -2212,6 +2238,60 @@ async function recoverBackup() {
   }
 }
 
+async function pdfInk(slide, ops) {
+  const canvas = document.createElement("canvas");
+  // Only annotations are rasterized; the underlying PDF artwork stays original.
+  const scale = Math.min(3, 4096 / Math.max(slide.width, slide.height));
+  canvas.width = Math.ceil(slide.width * scale);
+  canvas.height = Math.ceil(slide.height * scale);
+  try {
+    const context = canvas.getContext("2d");
+    if (!context) throw new Error("The browser could not create an annotation canvas");
+    context.scale(canvas.width / slide.width, canvas.height / slide.height);
+    ops.forEach(op => drawOperation(context, op, ops));
+    const blob = await new Promise(resolve => canvas.toBlob(resolve, "image/png"));
+    if (!blob) throw new Error("The browser could not encode the annotations");
+    return new Uint8Array(await blob.arrayBuffer());
+  } finally {
+    canvas.width = canvas.height = 0;
+  }
+}
+async function exportPdf() {
+  const button = $("#exportPdfButton");
+  if (button.disabled) return;
+  const label = button.querySelector("strong"), originalLabel = label.textContent;
+  button.disabled = true;
+  button.setAttribute("aria-busy", "true");
+  label.textContent = "Preparing PDF…";
+  try {
+    clearBacktickTap();
+    diagram?.finish();
+    diagram?.closeEditor();
+    finishActiveStroke();
+    // Later edits/navigation cannot change the export while it is being built.
+    const snapshot = structuredClone({ title: state.deck.title, slides: state.deck.slides,
+      annotations: state.annotations, boards: state.boards, boardMeta: state.boardMeta });
+    const filename = `${state.deck.id}-annotated.pdf`;
+    let source;
+    if (fileMode) source = assetUrl(state.deck.pdf);
+    else {
+      const response = await fetch(state.deck.pdf);
+      if (!response.ok) throw new Error(`Cannot load the source PDF (${response.status})`);
+      source = new Uint8Array(await response.arrayBuffer());
+    }
+    const result = await PigeonPdf.export({ ...snapshot, source, renderInk: pdfInk,
+      onProgress: (done, total) => { label.textContent = `Exporting PDF… ${done} / ${total}`; } });
+    download(new Blob([result.bytes], { type: "application/pdf" }), filename);
+    toast(`PDF exported · ${result.pages} pages including drawings and inserted boards`);
+  } catch (error) {
+    toast(`PDF export failed: ${error.message || error}`);
+  } finally {
+    button.disabled = false;
+    button.removeAttribute("aria-busy");
+    label.textContent = originalLabel;
+  }
+}
+
 async function exportPng() {
   diagram?.finish();
   diagram?.closeEditor();
@@ -2296,9 +2376,20 @@ function keyHandler(event) {
     target instanceof HTMLTextAreaElement ||
     target instanceof HTMLSelectElement ||
     target.isContentEditable;
-  if (event.isComposing) return;
+  if (event.isComposing) { clearBacktickTap(); return; }
   const key = event.key;
   const mod = event.metaKey || event.ctrlKey;
+  const backtick = !mod && !event.altKey && !event.shiftKey &&
+    (key === "`" || event.code === "Backquote");
+  const drawingContext = !typing && !state.overview && !state.blackout &&
+    !document.querySelector("dialog[open]");
+  if (!backtick || !drawingContext) clearBacktickTap();
+  // Handle the shared drawing shortcut before Diagram mode reserves its keys.
+  if (backtick && drawingContext && ["pen", "diagram"].includes(state.tool)) {
+    event.preventDefault();
+    if (!event.repeat) handleBacktick();
+    return;
+  }
   if (key === "?" && els.help.open && !mod && !typing) {
     event.preventDefault();
     event.stopPropagation();
@@ -2357,9 +2448,9 @@ function keyHandler(event) {
     }
     return;
   }
-  if (key === "`" || event.code === "Backquote") {
+  if (backtick) {
     event.preventDefault();
-    if (!event.repeat) toggleStickyPen();
+    if (!event.repeat && drawingContext) toggleStickyPen();
     return;
   }
   if (key === " " && target.closest?.("button,a,select")) return;
@@ -2734,7 +2825,7 @@ for (const dialog of $$("dialog")) dialog.addEventListener("cancel", event => {
   dialog.close();
 });
 for (const dialog of $$("dialog")) new MutationObserver(() => {
-  if (dialog.open) { finishActiveStroke(); diagram?.finish(); diagram?.closeEditor(); }
+  if (dialog.open) { clearBacktickTap(); finishActiveStroke(); diagram?.finish(); diagram?.closeEditor(); }
 }).observe(dialog, {attributes:true, attributeFilter:["open"]});
 els.help.addEventListener("close", () => els.stage.focus());
 els.stage.addEventListener("pointerleave", hideWand);
@@ -2839,6 +2930,7 @@ $("#importSessionInput").addEventListener("change", (event) => {
   event.target.value = "";
 });
 $("#exportPngButton").addEventListener("click", exportPng);
+$("#exportPdfButton").addEventListener("click", exportPdf);
 $("#continueHereButton").addEventListener("click", () => {
   continueFromHere();
   $("#sessionDialog").close();

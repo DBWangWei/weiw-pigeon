@@ -32,7 +32,8 @@ overrides an inferred boundary.
 
 ## Diagram mode
 
-Press `D` to enter Diagram mode. The overlay and toolbar show the active mode.
+Press `D` to enter Diagram mode. A compact notice at the top right and the toolbar
+show the active mode. The Pen down notice uses the same position and smaller type.
 The editor uses familiar Excalidraw shortcuts:
 
 - `V/1` select, `R/2` rectangle, `D/3` diamond, `O/4` ellipse, `A/5` arrow,
@@ -41,18 +42,36 @@ The editor uses familiar Excalidraw shortcuts:
 - `Shift+T` triangle and `Shift+P` parallelogram are Pigeon additions.
 - `Cmd/Ctrl+C/V/X/D` copy, paste, cut and duplicate; arrows move; Delete removes;
   Tab cycles; Enter edits or creates; Escape clears selection before exiting.
+- Double-tap backtick (within 300 ms) to undo the last drawing or edit in Diagram
+  or Pen mode, including Pen down. The selected tool and Pen down state stay the
+  same; a single backtick still toggles Pen down after the double-tap window.
 - `Shift+L` switches between elbow and straight connectors.
   `Cmd/Ctrl+Alt+arrows` resizes; Shift increases the step size.
 
 Shapes have editable centered labels, transparent or solid fills, color selection,
 resize knobs, and basic smart connectors. Connector endpoints bind to shapes and
 follow them when moved. Diagram data is saved with the existing slide/board ink,
-undo history, session files and PNG exports. `PageUp/PageDown` continue slide
+undo history, session files, PNG and PDF exports. `PageUp/PageDown` continue slide
 navigation. Copy/paste works within the current Pigeon window.
 
 The supported shortcuts were checked against the [Excalidraw keyboard guide](https://github.com/excalidraw/excalidraw/blob/master/packages/excalidraw/components/HelpDialog.tsx).
 Triangle, parallelogram, routing, keyboard creation and resizing are Pigeon
 extensions. This editor does not import or export Excalidraw files.
+
+## Annotated PDF export and PDF wand
+
+**Save and export → Export slides and drawings as PDF** downloads the entire deck
+with annotations. Original PDF pages retain their text and vector artwork. Ink,
+highlights, diagram objects and labels use transparent overlays at 3× canvas
+resolution (up to 4096 pixels per side). Inserted whiteboards/blackboards, including
+drafts and empty boards, appear after their parent slides; removed boards are omitted.
+Cropped/rotated source pages and mixed page sizes are supported. The source and
+current presentation are unchanged. The bundled pdf-lib 1.17.1 loads only when
+export is requested; no network connection is needed.
+
+Magic-wand regions now have an opaque paper backing. Transparent PDF text artwork
+therefore stays legible when it pops forward instead of blending with the original
+text underneath. Explicit colored background artwork remains visible.
 
 ## About and command-line help
 
@@ -82,3 +101,11 @@ rendering. The 16-slide Typst and 9-page PDF examples and ZIPs were rebuilt;
 revision consistency, SVG hashes, embedded assets and template equality passed.
 Firefox aborted during launch, so rendered visuals and real fullscreen behavior
 remain unverified. The PDF scan fixture reports unavailable optional OCR data.
+
+## Latest validation
+
+25 Python tests and 41 runtime regression cases passed. PDF export was checked
+against both Typst and PDF fixtures with real canvas rendering and independent
+PyMuPDF text/pixel checks. The page-38 text region in `07.lecture-slides.pdf` was
+reproduced and checked with opaque compositing. Full browser interaction and
+fullscreen rendering still require a Safari/Firefox rehearsal.

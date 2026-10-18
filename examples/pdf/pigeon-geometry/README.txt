@@ -9,7 +9,9 @@ Then open http://127.0.0.1:8765 in Safari or Firefox.
 Keys: O overview, T hierarchy/graph, arrows/Enter select/open, / search, G jump,
 R resume the talk, F presentation, B blackout. V navigation, L laser, P pen,
 H highlighter, E eraser, M magic wand. Repeat a tool key to turn it off.
-In pen mode, ` toggles Pen down mode: move to draw without holding a button.
+In pen mode, a single ` toggles Pen down after a 300 ms double-tap window.
+Double-tap ` in Pen or Diagram mode to undo while keeping the current tool.
+Pen down draws without holding a button; compact mode notices sit at top right.
 1/2/3/4 select red/blue/dark green/yellow. ? opens the shortcut guide.
 D enters Diagram mode: V select, R rectangle, D diamond, O ellipse, A arrow,
 L line, T text, H pan, S stroke color, G fill; Shift+T triangle, Shift+P
@@ -26,3 +28,5 @@ Use the Transition selector to change it for this viewing session.
 The graph was generated in lexical mode (34 concepts,
 36 relationships). Review graph evidence before publishing claims.
 The slide source is pdf; the PDF is bundled.
+Save and export > Export slides and drawings as PDF preserves the original pages
+and adds all ink and inserted white/black boards, including drafts. Works offline.

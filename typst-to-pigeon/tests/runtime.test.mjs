@@ -1,6 +1,6 @@
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {setup,press,pointer} from './runtime-harness.mjs';
+import {setup,press,pointer,singleBacktick} from './runtime-harness.mjs';
 
 test('file opening uses matching assets and variable frame/canvas geometry',async t=>{
   const {a,d}=await setup(t);
@@ -150,8 +150,8 @@ test('slide direction reverses, presentation boards recover, and resume clears a
 test('backtick toggles button-free pen strokes and lifting keeps ordinary Pen selected',async t=>{
   const {a,d,w}=await setup(t);
   const canvas=d.querySelector('.slide-frame.current canvas');
-  press(w,d,'`');assert.equal(a.state.stickyPen,false,'requires Pen first');
-  press(w,d,'p');press(w,d,'`');
+  await singleBacktick(w,d);assert.equal(a.state.stickyPen,false,'requires Pen first');
+  press(w,d,'p');await singleBacktick(w,d);
   assert.equal(a.state.stickyPen,true);
   assert.equal(d.querySelector('#penDownIndicator').hidden,false);
   assert.match(d.querySelector('#penDownIndicator').textContent,/Pen down mode/);
@@ -159,7 +159,7 @@ test('backtick toggles button-free pen strokes and lifting keeps ordinary Pen se
   pointer(w,canvas);pointer(w,canvas,'pointermove',{clientX:200});
   assert.equal(a.state.currentStroke.points.length,2);
   pointer(w,canvas,'pointerup');assert.ok(a.state.currentStroke,'button up does not lift sticky pen');
-  press(w,d,'`');
+  await singleBacktick(w,d);
   assert.equal(a.state.tool,'pen');assert.equal(a.state.stickyPen,false);
   assert.equal(a.state.currentStroke,null);
   assert.equal(d.querySelector('#penDownIndicator').hidden,true);
@@ -175,7 +175,7 @@ test('backtick toggles button-free pen strokes and lifting keeps ordinary Pen se
 });
 
 test('sticky navigation, pointer boundaries and zoom create separate strokes without changing tool',async t=>{
-  const {a,d,w}=await setup(t);press(w,d,'p');press(w,d,'`');
+  const {a,d,w}=await setup(t);press(w,d,'p');await singleBacktick(w,d);
   let canvas=d.querySelector('.slide-frame.current canvas');
   pointer(w,canvas);pointer(w,canvas,'pointerleave');
   pointer(w,canvas,'pointermove',{clientX:500});
@@ -190,14 +190,14 @@ test('sticky navigation, pointer boundaries and zoom create separate strokes wit
   pointer(w,canvas);assert.equal(a.state.currentStroke.points.length,1,'zoom cannot connect transformed coordinates');
   press(w,d,'Escape');
   assert.equal(a.state.stickyPen,false);assert.equal(a.state.tool,'pen');
-  press(w,d,'`');press(w,d,'h');
+  await singleBacktick(w,d);press(w,d,'h');
   assert.equal(a.state.tool,'highlighter');assert.equal(a.state.stickyPen,false);
-  press(w,d,'p');press(w,d,'`');press(w,d,'p');
+  press(w,d,'p');await singleBacktick(w,d);press(w,d,'p');
   assert.equal(a.state.tool,'navigate');assert.equal(a.state.stickyPen,false);
 });
 
 test('dialogs, overview and window blur prevent accidental sticky drawing',async t=>{
-  const {a,d,w}=await setup(t);press(w,d,'p');press(w,d,'`');
+  const {a,d,w}=await setup(t);press(w,d,'p');await singleBacktick(w,d);
   const canvas=d.querySelector('.slide-frame.current canvas');pointer(w,canvas);
   press(w,d,'?');
   await new Promise(r=>setTimeout(r,5));
@@ -214,7 +214,7 @@ test('dialogs, overview and window blur prevent accidental sticky drawing',async
 });
 
 test('sticky strokes support undo, boards, and held Space panning',async t=>{
-  const {a,d,w}=await setup(t);press(w,d,'p');press(w,d,'`');
+  const {a,d,w}=await setup(t);press(w,d,'p');await singleBacktick(w,d);
   let canvas=d.querySelector('.slide-frame.current canvas');pointer(w,canvas);
   press(w,d,'z',{ctrlKey:true});assert.equal(a.state.annotations.intro.length,0);
   pointer(w,canvas);press(w,d,'w');
@@ -224,7 +224,7 @@ test('sticky strokes support undo, boards, and held Space panning',async t=>{
   pointer(w,canvas);assert.equal(a.state.currentStroke,null,'Space pauses drawing for panning');
   canvas.dispatchEvent(new w.PointerEvent('pointerdown',{pointerId:1,button:0,bubbles:true}));
   d.querySelector('#stage').dispatchEvent(new w.KeyboardEvent('keyup',{key:' ',bubbles:true}));
-  pointer(w,canvas);press(w,d,'`');
+  pointer(w,canvas);await singleBacktick(w,d);
   assert.equal(a.state.tool,'pen');
   assert.equal(Object.values(a.state.boards).flat().length,2);
   assert.equal(Object.values(a.validateSession(a.sessionPayload()).boards).flat().length,2);

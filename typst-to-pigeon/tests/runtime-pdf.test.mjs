@@ -1,7 +1,7 @@
 // Run against examples/pdf/pigeon-geometry; the shared harness forbids fetch.
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
-import {setup,press,pointer} from './runtime-harness.mjs';
+import {setup,press,pointer,singleBacktick} from './runtime-harness.mjs';
 
 test('PDF bundle loads offline with untitled pages, graph, search and page jumps',async t=>{
   const {a,d,w}=await setup(t);
@@ -41,7 +41,7 @@ test('PDF images and tables respond to the wand; native titles and pen down rema
     assert.equal(d.querySelector('.wand-highlight')?.dataset.kind,kind);
     assert.equal(d.querySelector('.wand-shade'),null,'PDF has no inferred takeaway spotlight');
   }
-  press(w,d,'p');press(w,d,'`');
+  press(w,d,'p');await singleBacktick(w,d);
   pointer(w,d.querySelector('.slide-frame.current canvas'));
   press(w,d,'ArrowRight');assert.equal(a.state.annotations['04'].length,1);
   assert.equal(a.state.stickyPen,true);assert.equal(a.state.tool,'pen');

@@ -8,9 +8,14 @@ const app=await readFile(resolve(root,'src/app.js'),'utf8');
 const effects=await readFile(resolve(root,'src/title-effects.js'),'utf8');
 const transitions=await readFile(resolve(root,'src/slide-transitions.js'),'utf8');
 const diagrams=await readFile(resolve(root,'src/diagram.js'),'utf8');
+const pdfExport=await readFile(resolve(root,'src/pdf-export.js'),'utf8');
 const embedded=await readFile(resolve(root,'public/deck/embedded-deck.js'),'utf8');
 export function press(w,d,key,options={}) {
   d.querySelector('#stage').dispatchEvent(new w.KeyboardEvent('keydown',{key,bubbles:true,...options}));
+}
+export async function singleBacktick(w,d) {
+  press(w,d,"`");
+  await new Promise(resolve=>setTimeout(resolve,360));
 }
 export function pointer(w,canvas,type='pointermove',options={}) {
   canvas.dispatchEvent(new w.PointerEvent(type,{pointerId:1,pointerType:'mouse',clientX:120,clientY:240,button:0,buttons:0,bubbles:true,...options}));
@@ -27,9 +32,8 @@ export async function setup(t) {
   w.structuredClone=structuredClone;
   w.fetch=()=>{throw new Error('Unexpected fetch in file mode');};
   w.document.write(markup.replace(/<script[\s\S]*?<\/script>/g,''));
-  w.eval(effects);w.eval(transitions);w.eval(diagrams);w.eval(embedded);
-  w.eval(app+'\nwindow.testApp={diagram,state,normaliseManifest,navigateTo,nextSlide,fitCurrent,fitWhole,canvasPoint,sessionPayload,validateSession,toggleWhiteboard,keyHandler,setTool,openOverview,closeOverview,syncTitleEffect,stopTitleEffect,viewSequence,showWand,pageTransitions,cancelPageTransition,zoomAt,historyMove,resumeRoute,reconcilePresentation,undo,redo,applySession,drawSurface,exportPng};');
+  w.eval(effects);w.eval(transitions);w.eval(diagrams);w.eval(pdfExport);w.eval(embedded);
+  w.eval(app+'\nwindow.testApp={diagram,state,normaliseManifest,navigateTo,nextSlide,fitCurrent,fitWhole,canvasPoint,sessionPayload,validateSession,toggleWhiteboard,keyHandler,setTool,openOverview,closeOverview,syncTitleEffect,stopTitleEffect,viewSequence,showWand,pageTransitions,cancelPageTransition,zoomAt,historyMove,resumeRoute,reconcilePresentation,undo,redo,applySession,drawSurface,exportPng,exportPdf};');
   await new Promise(r=>setTimeout(r,40));
   return {w,a:w.testApp,d:w.document,calls};
 }
-

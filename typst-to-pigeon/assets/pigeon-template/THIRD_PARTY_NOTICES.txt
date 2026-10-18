@@ -20,3 +20,9 @@ https://github.com/excalidraw/excalidraw/blob/master/packages/excalidraw/compone
 Pigeon contains an independent canvas implementation, not the Excalidraw runtime
 or its file format. Triangle, parallelogram, routing and keyboard resize shortcuts
 are Pigeon extensions, identified in the keyboard guide.
+
+PDF export bundles pdf-lib 1.17.1 (MIT license), loaded locally on demand:
+https://github.com/Hopding/pdf-lib
+https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js
+The full license is included at src/vendor/pdf-lib.LICENSE.md.
+Original PDF pages are copied; annotation artwork uses transparent PNG overlays.

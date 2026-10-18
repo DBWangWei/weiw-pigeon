@@ -124,9 +124,9 @@
 
       <main class="stage-shell" id="stageShell">
         <div id="penDownIndicator" class="pen-down-indicator" role="status" aria-live="polite" hidden>
-          <strong>Pen down mode</strong><span>Move to draw · press ` to lift the pen</span>
+          <strong>Pen down mode</strong><span>` lift pen · double-tap ` undo</span>
         </div>
-        <div id="diagramIndicator" class="diagram-indicator" role="status" hidden><strong>Diagram mode</strong><span>Esc clears selection, then exits · ? shortcuts</span></div>
+        <div id="diagramIndicator" class="diagram-indicator" role="status" hidden><strong>Diagram mode</strong><span>Double-tap ` undo · Esc clear / exit · ? help</span></div>
         <div id="diagramToolbar" class="diagram-toolbar" role="toolbar" aria-label="Diagram tools" hidden>
           <button data-diagram-tool="select" title="Select (V / 1)">Select</button>
           <button data-diagram-tool="rectangle" title="Rectangle (R / 2)">▭</button>
@@ -454,6 +454,7 @@
             <p><kbd>P</kbd> pen · <kbd>H</kbd> highlighter</p>
             <p><kbd>`</kbd> in pen mode: draw without holding a button</p>
             <p>Press <kbd>`</kbd> again to lift the pen and keep Pen selected.</p>
+            <p>Double-tap <kbd>`</kbd> to undo; works with Pen down too.</p>
             <p><kbd>E</kbd> eraser · <kbd>L</kbd> laser</p>
             <p><kbd>M</kbd> illuminate text, tables and images</p>
             <p>Takeaways pop out with a stronger spotlight.</p>
@@ -479,7 +480,7 @@
             <p><kbd>←</kbd> previous · <kbd>→</kbd> next slide</p>
             <p><kbd>W</kbd> on a board returns to the original</p>
             <p><kbd>K</kbd> keep / mark as draft</p>
-          <p>Session exports include boards and ink.</p>
+          <p>Save and export → PDF includes all slides, drawings and inserted boards.</p>
           </div>
         </div>
         <section class="shortcut-grid diagram-help" aria-labelledby="diagramHelpHeading">
@@ -512,6 +513,7 @@
           </div>
           <div>
             <h3>Pigeon additions</h3>
+            <p>Double-tap <kbd>`</kbd> undo the last drawing or edit</p>
             <p><kbd>Shift T</kbd> triangle</p>
             <p><kbd>Shift P</kbd> parallelogram</p>
             <p><kbd>Shift L</kbd> straight / elbow connectors</p>
@@ -615,7 +617,10 @@
               >Restore the previous work; preserve the current work as another
               backup</span
             ></button
-          ><button class="session-action" id="exportPngButton" type="button">
+          ><button class="session-action" id="exportPdfButton" type="button">
+            <strong>Export slides and drawings as PDF</strong>
+            <span>Original sharp pages, all annotations, and inserted whiteboards / blackboards</span>
+          </button><button class="session-action" id="exportPngButton" type="button">
             <strong>Export current surface as PNG</strong
             ><span>The current slide or whiteboard with its annotations</span>
           </button>
