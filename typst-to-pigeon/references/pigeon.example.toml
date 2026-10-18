@@ -3,7 +3,8 @@ graph = "local"
 graph_provider = "codex-config"
 title_effect = "text-type"
 slide_transition = "camera"
-output = "pigeon-output"
+# Omit output to use pigeon-FILENAME beside each input.
+# output = "my-presentation"
 no_zip = true
 
 # Optional: paths are relative to this file.

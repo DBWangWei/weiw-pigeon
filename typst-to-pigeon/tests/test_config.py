@@ -24,9 +24,9 @@ class ConfigTests(unittest.TestCase):
 
     def test_without_config_builds_offline_with_text_type(self):
         with tempfile.TemporaryDirectory(prefix='pigeon-config ') as tmp:
-            root = Path(tmp); source = root / 'slides.typ'; source.write_text(FIXTURE.read_text())
+            root = Path(tmp); source = root / 'My talk.v2.typ'; source.write_text(FIXTURE.read_text())
             self.run_builder(source, '--no-zip', cwd=SKILL)
-            output = root / 'pigeon-output'
+            output = root / 'pigeon-My talk.v2'
             manifest = json.loads((output / 'public/deck/manifest.json').read_text())
             graph = json.loads((output / 'public/deck/knowledge-graph.json').read_text())
             release = json.loads((output / 'release.json').read_text())
@@ -83,7 +83,7 @@ no_zip = true
             root = Path(tmp); source = root / 'slides.typ'; source.write_text(FIXTURE.read_text())
             (root / 'pigeon.toml').write_text('[pigeon]\ngraph = "local"\ntitle_effect = "text-type"\n')
             self.run_builder(source)
-            manifest = json.loads((root / 'pigeon-output/public/deck/manifest.json').read_text())
+            manifest = json.loads((root / 'pigeon-slides/public/deck/manifest.json').read_text())
             self.assertEqual(manifest['titleEffect'], 'text-type')
             (root / 'pigeon.toml').write_text('graph = "local"\nunknown = true\n')
             failed = subprocess.run([sys.executable, str(BUILDER), str(source), '--force'],
@@ -120,7 +120,7 @@ no_zip = true
                     result = subprocess.run([sys.executable, str(BUILDER), str(source)], capture_output=True, text=True)
                     self.assertNotEqual(result.returncode, 0)
                     self.assertNotIn('Traceback', result.stderr)
-                    self.assertFalse((root / 'pigeon-output').exists())
+                    self.assertFalse((root / 'pigeon-slides').exists())
             result = subprocess.run([sys.executable, str(BUILDER), str(source), '--config', str(root / 'missing.toml')], capture_output=True, text=True)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('does not exist', result.stderr)

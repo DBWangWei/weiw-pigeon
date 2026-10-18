@@ -9,7 +9,8 @@ top-level values.
 
 ```toml
 # pigeon.toml
-output = "pigeon-output"
+# Optional fixed output; omit to use pigeon-FILENAME beside each input.
+# output = "my-presentation"
 navigation = "talk-v5.navigation.json"
 graph = "local"
 graph_provider = "codex-config"
@@ -38,7 +39,8 @@ The precedence is:
 2. the matching value in `pigeon.toml`; and
 3. the built-in default.
 
-The built-in defaults are `pigeon-output` beside the source, `graph = "local"`,
+The built-in defaults are `pigeon-{FILENAME}` beside the source (its basename
+without the last suffix; `my.talk.pdf` becomes `pigeon-my.talk`), `graph = "local"`,
 `graph_provider = "codex-config"`, `title_effect = "text-type"`,
 `slide_transition = "camera"`, and ZIP creation enabled. `--no-zip` and
 `--zip` explicitly override `no_zip`.

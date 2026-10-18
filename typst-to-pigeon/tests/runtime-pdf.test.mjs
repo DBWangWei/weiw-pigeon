@@ -1,4 +1,4 @@
-// Run against examples/pdf/pigeon-output; the shared harness forbids fetch.
+// Run against examples/pdf/pigeon-geometry; the shared harness forbids fetch.
 import {test} from 'node:test';
 import assert from 'node:assert/strict';
 import {setup,press,pointer} from './runtime-harness.mjs';

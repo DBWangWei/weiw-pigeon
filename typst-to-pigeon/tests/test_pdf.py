@@ -138,7 +138,7 @@ class PDFTests(unittest.TestCase):
 
     def test_local_pdf_launcher_needs_no_typst_and_obeys_config(self):
         with tempfile.TemporaryDirectory(prefix='pigeon PDF cli ') as tmp:
-            root = Path(tmp); source = root / 'input.PDF'; shutil.copy2(self.source, source)
+            root = Path(tmp); source = root / '07.lecture slides.PDF'; shutil.copy2(self.source, source)
             bin_dir = root / 'bin'; bin_dir.mkdir()
             for name, exe in [('python3', sys.executable), ('node', shutil.which('node'))]:
                 (bin_dir / name).symlink_to(exe)
@@ -149,7 +149,7 @@ class PDFTests(unittest.TestCase):
             command = ['/bin/bash', str(SKILL/'scripts/typst-to-pigeon.sh'), str(source), '--title-effect', 'none']
             result = subprocess.run(command, env=env, capture_output=True, text=True)
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
-            output = root / 'pigeon-output'; deck = output / 'public/deck'
+            output = root / 'pigeon-07.lecture slides'; deck = output / 'public/deck'
             manifest = json.loads((deck/'manifest.json').read_text())
             graph = json.loads((deck/'knowledge-graph.json').read_text())
             release = json.loads((output/'release.json').read_text())

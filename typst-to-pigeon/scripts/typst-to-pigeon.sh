@@ -7,13 +7,14 @@ usage() {
 Usage: typst-to-pigeon INPUT.typ|INPUT.pdf [OPTIONS]
 
 Build Pigeon using pigeon.toml beside INPUT. Explicit options override that file.
-Without a config, output defaults to INPUT's directory/pigeon-output.
+By default, output is INPUT's directory/pigeon-FILENAME (without the suffix).
+For example, /talks/my.talk.pdf produces /talks/pigeon-my.talk/.
 Relative paths and paths containing spaces are supported.
 
 Options:
   --config FILE            Pigeon TOML file (default: INPUT directory/pigeon.toml)
   --output DIR             Override output directory from pigeon.toml
-  --force                  Replace an existing pigeon-output directory
+  --force                  Replace the existing output directory
   --title TEXT             Override the presentation title
   --deck-id ID             Override the deck identifier
   --navigation FILE        Use navigation JSON (relative to your current directory)

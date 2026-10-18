@@ -62,7 +62,7 @@ class PipelineTests(unittest.TestCase):
             (root / 'pigeon.toml').write_text('graph = "model"\ngraph_provider = "env"\nno_zip = true\n')
             command = [sys.executable, str(BUILDER), str(source)]
             execute(command, env=env, cwd=SKILL)
-            output = root / 'pigeon-output'
+            output = root / 'pigeon-slides'
             deck = output / 'public/deck'
             manifest = json.loads((deck / 'manifest.json').read_text())
             graph = json.loads((deck / 'knowledge-graph.json').read_text())

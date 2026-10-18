@@ -172,7 +172,7 @@ def main() -> int:
     parser = argparse.ArgumentParser(description=__doc__)
     parser.add_argument("source", type=Path, help="Typst (.typ) source or PDF (.pdf) slide deck")
     parser.add_argument("--config", type=Path, default=None, help="Pigeon TOML file; default: pigeon.toml beside the source")
-    parser.add_argument("--output", type=Path, default=None, help="Output directory; default: config value or pigeon-output beside the source")
+    parser.add_argument("--output", type=Path, default=None, help="Output directory; default: config value or pigeon-{source filename without suffix} beside the source")
     parser.add_argument("--deck-id", default=None)
     parser.add_argument("--title", default=None)
     parser.add_argument("--navigation", type=Path, default=None)
@@ -195,7 +195,7 @@ def main() -> int:
     config, config_path = load_pigeon_config(source, args.config)
     validate_config(config)
     configured_output = config_file_path(config, "output", config_path)
-    requested_output = args.output.expanduser() if args.output is not None else configured_output or source.parent / "pigeon-output"
+    requested_output = args.output.expanduser() if args.output is not None else configured_output or source.parent / f"pigeon-{source.stem}"
     output = requested_output.resolve()
     if source.is_relative_to(output) or SKILL_ROOT.is_relative_to(output):
         raise ValueError("Output must not contain the source or skill directory")

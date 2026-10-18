@@ -13,8 +13,10 @@ From the repository, run:
 ./typst-to-pigeon.sh /path/to/slides.pdf
 ```
 
-The same command accepts a `.typ` slide source. Open `pigeon-output/index.html`
-beside the input. Add `--force` to rebuild an existing output. Defaults remain
+The same command accepts a `.typ` slide source. Open `pigeon-FILENAME/index.html`
+beside the input, where `FILENAME` is its basename without the last suffix
+(e.g. `slides.pdf` produces `pigeon-slides/`). Add `--force` to rebuild an
+existing output. Defaults remain
 local graph extraction, Text Type titles and Camera transitions; `pigeon.toml`
 beside the source supplies settings, and CLI options override them.
 

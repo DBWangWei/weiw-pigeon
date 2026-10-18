@@ -1,10 +1,10 @@
-# PDF input example · Pigeon 1.0.1
+# PDF input example · Pigeon 1.0.2
 
 This nine-page PDF includes a large title without a separator, an untitled page,
 a wrapped title, an image and ruled table, a borderless table, a blank page,
 an image-only page, a rotated page with an internal link and table, and a cropped page.
 
-Open `pigeon-output/index.html`. Rebuild from the repository root:
+Open `pigeon-geometry/index.html`. Rebuild from the repository root:
 
 ```bash
 PIGEON_SKILL_DIR="$PWD/typst-to-pigeon" ./typst-to-pigeon.sh examples/pdf/geometry.pdf --force

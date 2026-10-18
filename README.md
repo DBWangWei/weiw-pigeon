@@ -24,7 +24,9 @@ From this repository:
 ./typst-to-pigeon.sh /path/to/talk.pdf
 ```
 
-Open `pigeon-output/index.html` beside the input source. Defaults are local graph
+Open `pigeon-FILENAME/index.html` beside the input source, where `FILENAME` is
+the basename without its last suffix
+(for example, `talk.v2.pdf` produces `pigeon-talk.v2/`). Defaults are local graph
 extraction, the Text Type title effect and the original Camera transition.
 Optional `pigeon.toml` settings beside the source are overridden by explicit CLI
 options. Add `--force` when replacing an existing output.
@@ -83,7 +85,7 @@ can correct titles or regions. See [the input contract](typst-to-pigeon/referenc
 - `typst-to-pigeon.sh`: portable launcher.
 - `install-typst-to-pigeon.sh`: global skill installer, with an installation backup.
 - `examples/talk-v5/`: current talk source, required inputs, configuration and
-  the generated 16-slide presentation in `pigeon-output/`.
+  the generated 16-slide presentation in `pigeon-talk-v5/`.
 - `examples/pdf/`: a nine-page PDF fixture and its generated presentation.
 
 Rebuild the example from this repository:
