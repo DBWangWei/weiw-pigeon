@@ -1,0 +1,8 @@
+# Pigeon build settings. Explicit CLI options override these values.
+output = "pigeon-output"
+navigation = "talk-v5.navigation.json"
+graph = "local"
+graph_provider = "codex-config"
+title_effect = "text-type"
+slide_transition = "camera"
+no_zip = true

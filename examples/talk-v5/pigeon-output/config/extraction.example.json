@@ -1,0 +1,10 @@
+{
+  "defaultProvider": "codex-config",
+  "alternative": {
+    "provider": "env",
+    "requiredEnvironmentVariable": "OPENAI_API_KEY",
+    "optionalEnvironmentVariables": ["OPENAI_BASE_URL", "OPENAI_MODEL"]
+  },
+  "runtimeModelCalls": false,
+  "credentialPolicy": "Read existing credentials at build time only. Never copy credentials into this folder or the static release."
+}

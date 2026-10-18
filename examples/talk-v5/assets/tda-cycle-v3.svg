@@ -1,0 +1,21 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1200 360" width="1200" height="360">
+  <rect width="1200" height="360" rx="16" fill="#F7FAFB"/>
+  <defs><marker id="arr" markerWidth="11" markerHeight="11" refX="10" refY="5.5" orient="auto"><path d="M0 0 11 5.5 0 11Z" fill="#007E87"/></marker></defs>
+  <g font-family="Arial, sans-serif" text-anchor="middle">
+    <rect x="50" y="58" width="300" height="190" rx="10" fill="#FCEDEA" stroke="#B6504A" stroke-width="3"/>
+    <rect x="450" y="58" width="300" height="190" rx="10" fill="#EDF5F5" stroke="#007E87" stroke-width="3"/>
+    <rect x="850" y="58" width="300" height="190" rx="10" fill="#EAF0F6" stroke="#416782" stroke-width="3"/>
+    <text x="200" y="110" font-size="30" font-weight="700" fill="#B6504A">(3) TEST</text>
+    <text x="200" y="159" font-size="24" fill="#172C43">Independent check</text>
+    <text x="200" y="204" font-size="23" fill="#516071">30 min · no AI</text>
+    <text x="600" y="110" font-size="30" font-weight="700" fill="#007E87">(1) STUDY</text>
+    <text x="600" y="159" font-size="24" fill="#172C43">Self-paced exploration</text>
+    <text x="600" y="204" font-size="23" fill="#516071">120 min · AI + instructor</text>
+    <text x="1000" y="110" font-size="30" font-weight="700" fill="#416782">(2) DISCUSS</text>
+    <text x="1000" y="159" font-size="24" fill="#172C43">Problems with peers</text>
+    <text x="1000" y="204" font-size="23" fill="#516071">20 min</text>
+    <line x1="350" y1="151" x2="434" y2="151" stroke="#007E87" stroke-width="5" marker-end="url(#arr)"/>
+    <line x1="750" y1="151" x2="834" y2="151" stroke="#007E87" stroke-width="5" marker-end="url(#arr)"/>
+    <path d="M1000 258 V287 Q1000 311 974 311 H223 Q200 311 200 288 V258" fill="none" stroke="#007E87" stroke-width="4" marker-end="url(#arr)"/>
+  </g>
+</svg>

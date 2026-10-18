@@ -1,0 +1,4 @@
+interface:
+  display_name: "Typst to Pigeon"
+  short_description: "Build a Pigeon HTML presentation from Typst slides"
+  default_prompt: "Use $typst-to-pigeon to turn a Typst slide source into a static Pigeon presentation."

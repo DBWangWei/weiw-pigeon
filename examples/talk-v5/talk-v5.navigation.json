@@ -1,0 +1,80 @@
+{
+  "hierarchy": [
+    {
+      "id": "root",
+      "label": "AI and university learning",
+      "children": [
+        "why-change",
+        "tdaa",
+        "directions",
+        "invitation"
+      ]
+    },
+    {
+      "id": "why-change",
+      "label": "Why change?",
+      "children": [
+        "02",
+        "03a",
+        "03b",
+        "04"
+      ]
+    },
+    {
+      "id": "tdaa",
+      "label": "TDAA in practice",
+      "children": [
+        "05",
+        "06",
+        "07",
+        "08",
+        "08b",
+        "09",
+        "10"
+      ]
+    },
+    {
+      "id": "directions",
+      "label": "Three directions",
+      "children": [
+        "11",
+        "12",
+        "13"
+      ]
+    },
+    {
+      "id": "invitation",
+      "label": "Research and invitation",
+      "children": [
+        "14"
+      ]
+    }
+  ],
+  "focusRegions": [
+    {
+      "id": "tdaa-cycle",
+      "slideId": "05",
+      "label": "TDAA cycle",
+      "rect": {
+        "x": 90,
+        "y": 130,
+        "width": 620,
+        "height": 250
+      }
+    },
+    {
+      "id": "personalization-loop",
+      "slideId": "13",
+      "label": "Personalization control loop",
+      "rect": {
+        "x": 50,
+        "y": 110,
+        "width": 460,
+        "height": 220
+      }
+    }
+  ],
+  "resources": {
+    "./demo/IPF/index.html": "demo/IPF/index.html"
+  }
+}

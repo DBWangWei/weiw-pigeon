@@ -1,0 +1,203 @@
+AI + EDUCATION
+From AI Tutors to A New Pedagogy for
+Learning in the AI-era
+What should universities teach when expert, adaptive explanations are available to
+every student?
+Wei Wang
+DSA · INFH
+The Hong Kong University of Science and Technology
+(Guangzhou) October 20261 · WHY CHANGE 02
+Students are already using AI to study
+57%
+of surveyed U.S. college students use AI for
+coursework at least weekly.
+Available anytime and (way too) powerful
+e.g., subtlties, and multi-modal
+💡 Common phenomena: (1) attendence rate
+even lower (2) no one asks questions
+Lumina–Gallup 2026: 57% of surveyed U.S. college students use AI for coursework at least weekly; Bastani et al., PNAS 20251 · WHY CHANGE 03a
+A powerful AI does not necessarily help learning
+Multiple studies showed that learning with access to AI may
+lead to worse independent test performance (i.e., without
+AI).
+• Bastani et al., “Generative AI without guardrails can harm
+learning: Evidence from high school mathematics.” PNAS, 2025
+• Kosmyna et al., “Your Brain on ChatGPT: Accumulation of
+Cognitive Debt when Using an AI Assistant for Essay Writing
+Task.” arXiv preprint 2506.08872
+• Stadler et al., “Cognitive ease at a cost: LLMs reduce mental
+effort but compromise depth in student scientific inquiry.”
+Computers in Human Behavior, 2024.
+Question depth varies across courses, and surface
+fluency can hide shallow learning.
+Bastani et al. (2025); Kosmyna et al. (2025); Stadler et al. (2024); Tao, Mathematics in the Age of AI (2026)1 · WHY CHANGE 03b
+Why assisted learning can miss the learning goal
+Most observed questions are surface questions
+Translation, explanation, summarize/quick-learn, and answer-course-test-question requests dominate the
+observed interactions.
+Possible explanations
+1 · Incorrect use of AI
+Lack of active retrieval and productive struggle.
+2 · Partial assessments
+Current assessments cannot fully assess capabilities
+developed by AI-assisted learning, such as system
+thinking and dealing with complexities.
+TDAA question-depth coding; curriculum interpretation1 · WHY CHANGE 04
+Exploration teaches what an answer cannot
+Similar to Tao’s argument between Math 1.0 and 2.02 · TDAA 05
+TDAA: Learning and exploring in class
+(3) TEST
+Independent check
+30 min · no AI
+(1) STUDY
+Self-paced exploration
+120 min · AI + instructor
+(2) DISCUSS
+Problems with peers
+20 min
+• (1) Self-paced learning: cater for different types/learning-styles of students
+• (1+2) AI, instructors, and classmates: offer a learning community, feedback, alternative
+views, emotional support, and guided exploration, where solitary study rarely provides.
+• (3) Internalization: coerced by the test
+Spring 2026 Theory of Computation course; TDAA = Test-Driven, AI-Assisted2 · TDAA 06
+The test anchors mastery without limiting exploration
+1. Reduce procrastination. Key for courses that have deep dependency.
+2. Reward internalization. Sense of achievement.
+3. Test core understanding. Questions target the average expected level; exploration is not
+examined.
+4. Leave room to explore. 120/130 points on paper, but capped at 100.
+TDAA v1 course design; FCES 2026 deck2 · TDAA 07
+AI-generated materials and AI platform
+Materials
+• Prose guided by questions,
+examples, and applications
+• A pedagogy playground: three
+tiers, scaffolding, and
+alternative materials
+AI platform
+• Personal highlighting and notes
+• Instructor “to read / to answer”
+tasks
+• Contextual questions and
+answers
+Course platform screenshot: input/AI-platform-1.png; anonymized example2 · TDAA 08
+The importance of the instructor
+Offline
+1. Architect the learning
+2. Generate learning materials
+3. Prepare and collect good questions
+Online
+1. Support the learner mentally. Notice frustration, restore
+confidence, and sustain motivation.
+2. Guide learning and exploration. Check understanding,
+give suggestions, answer and solicit questions.
+3. Read the room. Decide when to intervene with a mini-
+lecture, discussion, or student sharing.
+💡 The instructor is the composer and conductor; let the class be water.
+TDAA instructor role; course-design interpretation2 · TDAA 08b
+The importance of the instructor
+Why will a student want to learn something hard?
+1. Love the teacher (their passion for knowledge)
+2. Has an interest in the course content
+3. Has a need that the course can (partially) fulfill
+4. Has a plan/dream
+💡 The instructor is the key — they can influence all four fundamental motivations.
+Adapted from Principal Rui BAO2 · TDAA 09
+On exploration: teaching takes more preparation
+AI or AI-assisted students can raise questions beyond the textbook. Instructors need full-stack
+knowledge, preparation, and on-the-fly learning with AI.
+Diverse perspective/routes
+Proof of RREF’s uniqueness:
+1. Construct the canonical form from the row
+space (textbook).
+2. Assume two different reduced forms; derive a
+contradiction (student).
+3. Use a dual-basis perspective (AI under
+prompting).
+Great questions
+• Why does the Halting Problem proof not
+apply to the halting problem for DFAs?
+• A probability space has disjoint outcomes.
+How should we model people’s menu choices?
+• When extending a finite-class PAC bound to
+an infinite class, can the growth function
+Π(ℱ︀) replace ℋ︀, rather than using
+Rademacher complexities?
+💡 An underprepared or passive instructor may reasonably appear less helpful than AI.
+Illustrative proof paths for uniqueness of reduced row echelon form; questions from learning and exploration2 · TDAA 10
+Version 1 feedback points to a broader Version 2
+TDAA VERSION 1 · SURVEY RESULTS DSAA3073 · Theory of Computation
+10 of 18respondents reported learning both deeper and faster.
+Six reported deeper but slower learning; two reported similar or worse. These are student perceptions.
+TDAA VERSION 2 · TESTING DIFFERENT IDEAS
+Design changes
+• Adapt to different cohorts of students & course
+content
+• Fewer tests; more time for depth
+• More in-class learning activities
+• Ask students to generate: questions, discussion,
+mind maps
+• Test alternative pedagogies for generated
+materials
+• Trace finer-grained learning activities
+Courses represented
+• DSAA1001: Introduction of Data Science and Analytics
+• DSAA3073: Theories in Data Science
+• UFUG1601: Introduction to Computer Science
+• UFUG2103: Linear Algebra
+DSAA3073: Theory of Computation survey; Version 2 courses listed on slide3 · THREE THESES 11
+Hone higher-order skills
+Take critical thinking as an example:
+1. AI-generated sufficient number of
+effective training examples when learning
+the knowledge
+2. Transfer to human or AI generated
+contents
+💡 Knowledge is cheap; hone the skills⟹ select content to teach
+Curriculum proposal; linear algebra examples are illustrative3 · THREE THESES 12
+DFS-style Learning
+Bound the probability of some rare event (typically |𝑋 − 𝔼[𝑋]|)
+1 · CLT
+Asymptotic bound
+2 · Tail inequalities
+Markov, Chebyshev, Hoeffding
+3 · Extend the proof technique
+(Upper) bound 𝑝(𝑥) ⟹ optimization problem
+4 · Experiment
+(Numerically) find the worst-case for a tight bound
+Deeper: D. Bertsimas, I. Popescu. “Optimal Inequalities in Probability Theory: A Convex Optimization Approach.”, SIAM Journal
+on Optimization, 2005.
+💡 This is depth-first learning, or mini-research (enabled by AI): solve a real question, learn the needed tools,
+explore in depth and make associations; periodically patch and consolidate.
+Illustrative first-principles curriculum path; increase in abstraction levels3 · THREE THESES 13
+Extremely personalized learning
+personalization becomes a control loop, not a topic label
+fine-grained trace
+attempts, errors, questions learner state
+reasoning, effort, response
+next action
+material, exercise, schedule
+reward
+extrinsic (passive + proactive) + intrinsic
+learning step
+Reinforcement-learning-style learning
+• State: reasoning, effort, and response.
+• Trace: attempts, wrong steps, rereading,
+questions, and feedback responses.
+• Next action: material, exercise, depth, and
+timing based on current evidence.
+• Reward: based on the trace, next action, and
+state; combine progress, AI feedback, and
+curiosity.
+💡 The current learning system is inefficient; choose a locally optimal policy to improve learning efficiency
+significantly.
+Personalized learning as a reinforcement-learning-style control loop4 · INVITATION 14
+Conclusions
+AI changes both how students learn and what they need to learn.
+Scientific research into AI + education
+• Exploit AI’s capabilities, while keeping the learner’s reasoning visible.
+• Understand and model how people learn, struggle, and transfer.
+• Use technical and scientific methods: build, compare, measure, falsify.
+• Develop and iterate quickly as the models change.
+💡 Call for motivated instructors to join us to try out new ideas in real courses.
+Design agenda; TDAA is a course experiment, not a verified system-wide gain

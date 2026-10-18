@@ -1,0 +1,649 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width,initial-scale=1" />
+    <meta name="theme-color" content="#0d1627" />
+    <meta name="application-name" content="Pigeon" />
+    <meta name="apple-mobile-web-app-title" content="Pigeon" />
+    <meta
+      name="description"
+      content="Pigeon — an interactive canvas presentation with a knowledge graph, live annotation and non-linear navigation."
+    />
+    <title>Pigeon · {{DECK_TITLE}}</title>
+    <link rel="icon" type="image/png" sizes="32x32" href="public/icons/pigeon-32.png" />
+    <link rel="icon" type="image/png" sizes="256x256" href="public/icons/pigeon.png" />
+    <link rel="apple-touch-icon" sizes="180x180" href="public/icons/pigeon-180.png" />
+    <link rel="stylesheet" href="styles.css" />
+  </head>
+  <body>
+    <div class="app" id="app">
+      <header class="topbar" aria-label="Presentation controls">
+        <div class="brand">
+          <img class="brand-mark" src="public/icons/pigeon.png" width="38" height="38" alt="" />
+          <div class="brand-copy">
+            <span class="app-name">Pigeon</span>
+            <span id="deckTitle">{{DECK_TITLE}}</span>
+          </div>
+          <span class="offline-badge" id="readyState">Loading deck…</span>
+        </div>
+        <div class="top-actions">
+          <label class="title-effect-control"><span>Transition</span>
+            <select id="slideTransitionSelect" aria-label="Slide transition">
+              <option value="camera">Camera (default)</option>
+              <option value="none">None</option>
+              <option value="fade">Fade</option>
+              <option value="blur">Blur</option>
+              <option value="slide">Slide</option>
+              <option value="zoom">Zoom</option>
+              <option value="pixel">Pixel</option>
+              <option value="staggered-wipe">Staggered Wipe</option>
+              <option value="stack">Stack</option>
+            </select>
+          </label>
+          <label class="title-effect-control"><span>Title effect</span>
+            <select id="titleEffectSelect" aria-label="Title effect">
+              <option value="none">None</option>
+              <option value="split-text">Split Text</option>
+              <option value="blur-text">Blur Text</option>
+              <option value="shiny-text">Shiny Text</option>
+              <option value="gradient-text">Gradient Text</option>
+              <option value="text-type">Text Type</option>
+            </select>
+          </label>
+          <button
+            class="icon-button"
+            id="overviewButton"
+            type="button"
+            title="Overview (O)"
+            aria-label="Open overview"
+          >
+            <span aria-hidden="true">◈</span
+            ><span class="button-label">Overview</span>
+          </button>
+          <button
+            class="icon-button"
+            id="searchButton"
+            type="button"
+            title="Search (/)"
+            aria-label="Search slides and concepts"
+          >
+            <span aria-hidden="true">⌕</span
+            ><span class="button-label">Search</span>
+          </button>
+          <button
+            class="icon-button"
+            id="presentationButton"
+            type="button"
+            title="Presentation mode (F)"
+            aria-label="Presentation mode"
+          >
+            <span aria-hidden="true">⛶</span
+            ><span class="button-label">Present</span>
+          </button>
+          <button
+            class="icon-button"
+            id="sessionButton"
+            type="button"
+            title="Save, import, and export"
+            aria-label="Save, import, and export"
+          >
+            <span aria-hidden="true">⇩</span
+            ><span class="button-label">Session</span>
+          </button>
+          <button
+            class="icon-button"
+            id="readingButton"
+            type="button"
+            title="Read slide text"
+            aria-label="Read extracted slide text"
+          >
+            <span aria-hidden="true">Aa</span
+            ><span class="button-label">Read</span>
+          </button>
+          <button
+            class="icon-button"
+            id="helpButton"
+            type="button"
+            title="Keyboard help (?)"
+            aria-label="Keyboard help"
+          >
+            <span aria-hidden="true">?</span>
+          </button>
+          <button
+            class="icon-button"
+            id="aboutButton"
+            type="button"
+            title="About Pigeon"
+            aria-label="About Pigeon"
+          >
+            <span aria-hidden="true">ⓘ</span><span class="button-label">About</span>
+          </button>
+        </div>
+      </header>
+
+      <main class="stage-shell" id="stageShell">
+        <div
+          class="stage"
+          id="stage"
+          tabindex="0"
+          aria-label="Slide canvas. Use arrow keys to navigate."
+        >
+          <div class="canvas-world" id="canvasWorld"></div>
+          <div class="empty-state" id="emptyState" hidden>
+            <div class="empty-icon">⌁</div>
+            <h2>Unable to load the presentation</h2>
+            <p>
+              Start the local HTTP launcher and verify that the exported deck is
+              available.
+            </p>
+          </div>
+        </div>
+        <div class="stage-hud" aria-live="polite">
+          <span id="positionLabel">01 · Home</span
+          ><span class="hud-separator">•</span
+          ><span id="detourLabel" hidden
+            >Exploring ·
+            <button id="resumeHud" type="button">Resume</button></span
+          >
+        </div>
+        <div class="tool-tray" id="toolTray" aria-label="Annotation tools">
+          <button
+            class="tool-button active"
+            data-tool="navigate"
+            type="button"
+            title="Navigate (V)"
+            aria-label="Navigate"
+          >
+            <span>✥</span>
+          </button>
+          <button
+            class="tool-button"
+            data-tool="laser"
+            type="button"
+            title="Laser pointer (L)"
+            aria-label="Laser pointer"
+          >
+            <span>◉</span>
+          </button>
+          <button
+            class="tool-button"
+            data-tool="pen"
+            type="button"
+            title="Pen (P)"
+            aria-label="Pen"
+          >
+            <span>✎</span>
+          </button>
+          <button
+            class="tool-button"
+            data-tool="highlighter"
+            type="button"
+            title="Highlighter (H)"
+            aria-label="Highlighter"
+          >
+            <span>▰</span>
+          </button>
+          <button
+            class="tool-button"
+            data-tool="eraser"
+            type="button"
+            title="Rubber / eraser (E)"
+            aria-label="Eraser"
+          >
+            <span>⌫</span>
+          </button>
+          <button class="tool-button" data-tool="wand" type="button" title="Magic wand: text, tables, images, takeaways (M)" aria-label="Magic wand"><span>✧</span></button>
+          <span class="tray-divider" aria-hidden="true"></span>
+          <div class="swatches" role="group" aria-label="Annotation colour">
+            <button
+              class="swatch red active"
+              data-color="#DC2626"
+              type="button"
+              title="Red (1)"
+              aria-label="Red"
+            ></button>
+            <button
+              class="swatch blue"
+              data-color="#2563EB"
+              type="button"
+              title="Blue (2)"
+              aria-label="Blue"
+            ></button>
+            <button
+              class="swatch green"
+              data-color="#166534"
+              type="button"
+              title="Dark green (3)"
+              aria-label="Dark green"
+            ></button>
+            <button
+              class="swatch yellow"
+              data-color="#FACC15"
+              type="button"
+              title="Yellow (4)"
+              aria-label="Yellow"
+            ></button>
+          </div>
+          <span class="tray-divider" aria-hidden="true"></span>
+          <button
+            class="tool-button"
+            id="whiteboardButton"
+            type="button"
+            title="Insert whiteboard (W); return to original when on a board"
+            aria-label="Insert whiteboard or return to original slide"
+          >
+            <span>▤</span>
+          </button>
+          <button class="tool-button" id="blackboardButton" type="button" title="Insert blackboard (Shift+W)" aria-label="Insert blackboard"><span>▣</span></button>
+          <button
+            class="tool-button"
+            id="undoButton"
+            type="button"
+            title="Undo (Cmd/Ctrl+Z)"
+            aria-label="Undo"
+          >
+            <span>↶</span>
+          </button>
+          <button
+            class="tool-button"
+            id="redoButton"
+            type="button"
+            title="Redo (Cmd/Ctrl+Shift+Z)"
+            aria-label="Redo"
+          >
+            <span>↷</span>
+          </button>
+          <button
+            class="tool-button"
+            id="clearButton"
+            type="button"
+            title="Clear current surface"
+            aria-label="Clear annotations"
+          >
+            <span>⌁</span>
+          </button>
+        </div>
+        <div id="boardControls" class="board-controls" hidden>
+          <button id="boardReturnButton" type="button">← Original slide</button>
+          <button id="keepBoardButton" type="button" aria-pressed="false">Keep board</button>
+          <button id="removeBoardButton" type="button">Remove from talk</button>
+        </div>
+        <div class="zoom-tray" aria-label="Canvas controls">
+          <button id="zoomOut" type="button" title="Zoom out (-)">−</button
+          ><span id="zoomLabel">100%</span
+          ><button id="zoomIn" type="button" title="Zoom in (+)">+</button
+          ><button id="fitButton" type="button" title="Fit whole talk (Home)">
+            ⌂
+          </button>
+        </div>
+        <button
+          class="blackout-button"
+          id="blackoutButton"
+          type="button"
+          title="Black screen (B)"
+          aria-label="Black screen"
+        >
+          <span aria-hidden="true">●</span>
+        </button>
+      </main>
+
+      <footer class="bottombar" id="bottombar">
+        <button
+          class="nav-button"
+          id="previousButton"
+          type="button"
+          title="Previous slide (←)"
+        >
+          ← <span>Previous</span>
+        </button>
+        <div class="route-meter">
+          <div class="route-track">
+            <div id="routeProgress" class="route-progress"></div>
+          </div>
+          <span id="routeText">01 / 16</span>
+        </div>
+        <button
+          class="nav-button primary"
+          id="nextButton"
+          type="button"
+          title="Next slide (→)"
+        >
+          <span>Next</span> →
+        </button>
+      </footer>
+
+      <aside
+        class="overview-panel"
+        id="overviewPanel"
+        aria-label="Talk overview"
+        aria-hidden="true"
+      >
+        <div class="panel-heading">
+          <div>
+            <p class="eyebrow">The talk, as a map</p>
+            <h2>Overview</h2>
+          </div>
+          <button
+            class="close-button"
+            id="overviewClose"
+            type="button"
+            aria-label="Close overview"
+          >
+            ×
+          </button>
+        </div>
+        <div class="overview-tabs" role="tablist">
+          <button
+            class="overview-tab active"
+            data-view="hierarchy"
+            role="tab"
+            aria-selected="true"
+            type="button"
+          >
+            Hierarchy <span>Where</span></button
+          ><button
+            class="overview-tab"
+            data-view="graph"
+            role="tab"
+            aria-selected="false"
+            type="button"
+          >
+            Knowledge graph <span>How</span>
+          </button>
+        </div>
+        <div class="overview-content" id="overviewContent"></div>
+      </aside>
+
+      <dialog
+        class="modal search-modal"
+        id="searchDialog"
+        aria-labelledby="searchHeading"
+      >
+        <div class="modal-heading">
+          <div>
+            <p class="eyebrow">Jump anywhere</p>
+            <h2 id="searchHeading">Search slides and concepts</h2>
+          </div>
+          <button
+            class="close-button"
+            data-close="searchDialog"
+            type="button"
+            aria-label="Close search"
+          >
+            ×
+          </button>
+        </div>
+        <label class="search-input-wrap"
+          ><span aria-hidden="true">⌕</span
+          ><input
+            id="searchInput"
+            autocomplete="off"
+            placeholder="Try motivation, #12, p12, or RREF"
+            aria-label="Search query"
+          /><kbd>Esc</kbd></label
+        >
+        <div class="search-hint">
+          Use <kbd>↑</kbd> <kbd>↓</kbd> to choose and <kbd>Enter</kbd> to open.
+          Search also finds graph concepts and commands.
+        </div>
+        <div
+          class="search-results"
+          id="searchResults"
+          role="listbox"
+          aria-label="Search results"
+        ></div>
+      </dialog>
+
+      <dialog
+        class="modal help-modal"
+        id="helpDialog"
+        aria-labelledby="helpHeading"
+      >
+        <div class="modal-heading">
+          <div>
+            <p class="eyebrow">A small command language</p>
+            <h2 id="helpHeading">Keyboard guide</h2>
+          </div>
+          <button
+            class="close-button"
+            data-close="helpDialog"
+            type="button"
+            aria-label="Close keyboard guide"
+          >
+            ×
+          </button>
+        </div>
+        <div class="shortcut-grid">
+          <div>
+            <h3>Move and explore</h3>
+            <p><kbd>→</kbd> <kbd>Space</kbd> next slide</p>
+            <p><kbd>←</kbd> <kbd>Shift Space</kbd> previous</p>
+            <p><kbd>O</kbd> overview · <kbd>T</kbd> hierarchy / graph</p>
+            <p><kbd>↑ ↓ ← →</kbd> select · <kbd>Enter</kbd> open</p>
+            <p><kbd>/</kbd> search · <kbd>G</kbd> slide number</p>
+            <p><kbd>R</kbd> return to the talk before a detour</p>
+            <p><kbd>[</kbd> <kbd>]</kbd> viewing history</p>
+          </div>
+          <div>
+            <h3>Draw and point</h3>
+            <p><kbd>V</kbd> navigation / stop drawing</p>
+            <p><kbd>P</kbd> pen · <kbd>H</kbd> highlighter</p>
+            <p><kbd>E</kbd> eraser · <kbd>L</kbd> laser</p>
+            <p><kbd>M</kbd> illuminate text, tables and images</p>
+            <p>Takeaways pop out with a stronger spotlight.</p>
+            <p><kbd>1</kbd> red · <kbd>2</kbd> blue</p>
+            <p><kbd>3</kbd> dark green · <kbd>4</kbd> yellow</p>
+            <p>Press the active tool’s key again to turn it off.</p>
+            <p>Slide navigation keeps your tool selected.</p>
+          </div>
+          <div>
+            <h3>Zoom and present</h3>
+            <p><kbd>+</kbd> <kbd>−</kbd> zoom · <kbd>0</kbd> fit slide</p>
+            <p>Scroll to pan · <kbd>Space</kbd> + drag to pan</p>
+            <p><kbd>Ctrl / ⌘</kbd> + scroll to zoom</p>
+            <p><kbd>Home</kbd> fit whole talk</p>
+            <p><kbd>F</kbd> presentation / fullscreen</p>
+            <p><kbd>B</kbd> blackout · <kbd>?</kbd> help</p>
+            <p><kbd>Esc</kbd> dismiss this window</p>
+          </div>
+          <div>
+            <h3>Extra board slides</h3>
+            <p><kbd>W</kbd> insert a whiteboard</p>
+            <p><kbd>Shift W</kbd> insert a blackboard</p>
+            <p><kbd>←</kbd> previous · <kbd>→</kbd> next slide</p>
+            <p><kbd>W</kbd> on a board returns to the original</p>
+            <p><kbd>K</kbd> keep / mark as draft</p>
+          <p>Session exports include boards and ink.</p>
+          </div>
+        </div>
+        <p class="help-about-link"><button class="text-link" id="aboutFromHelp" type="button">About Pigeon · version 1.0.0</button></p>
+      </dialog>
+
+      <dialog class="modal about-modal" id="aboutDialog" aria-labelledby="aboutHeading">
+        <div class="modal-heading">
+          <div>
+            <p class="eyebrow">Pigeon presentation system</p>
+            <h2 id="aboutHeading">About Pigeon</h2>
+          </div>
+          <button class="close-button" data-close="aboutDialog" type="button" aria-label="Close About Pigeon">×</button>
+        </div>
+        <div class="about-content">
+          <p class="about-version">Version 1.0.0</p>
+          <p>Give Pigeon a Typst source file and it builds an offline, interactive presentation. Typical use is simply:</p>
+          <pre><code>typst-to-pigeon talk.typ</code></pre>
+          <p>Open <code>pigeon-output/index.html</code>. Use the arrow keys or Space to move, <kbd>O</kbd> for the overview, <kbd>/</kbd> to search, and <kbd>F</kbd> for presentation mode. The defaults handle the graph, title effect, transition, and output folder.</p>
+          <p>With the <kbd>M</kbd> magic wand, ordinary blocks, images, and tables are outlined, brightened, and gently enlarged under the pointer. A <code>#takeaway(message)</code> receives a stronger spotlight: the surrounding slide dims while the takeaway pops forward with a larger glow.</p>
+          <p class="about-footer">Press <kbd>?</kbd> for the complete keyboard guide.</p>
+        </div>
+      </dialog>
+
+      <dialog
+        class="modal concept-modal"
+        id="conceptDialog"
+        aria-labelledby="conceptHeading"
+      >
+        <div class="modal-heading">
+          <div>
+            <p class="eyebrow">Knowledge graph</p>
+            <h2 id="conceptHeading">Concept</h2>
+          </div>
+          <button
+            class="close-button"
+            data-close="conceptDialog"
+            type="button"
+            aria-label="Close concept details"
+          >
+            ×
+          </button>
+        </div>
+        <div id="conceptContent"></div>
+      </dialog>
+      <dialog
+        class="modal session-modal"
+        id="sessionDialog"
+        aria-labelledby="sessionHeading"
+      >
+        <div class="modal-heading">
+          <div>
+            <p class="eyebrow">Your working copy</p>
+            <h2 id="sessionHeading">Save and export</h2>
+          </div>
+          <button
+            class="close-button"
+            data-close="sessionDialog"
+            type="button"
+            aria-label="Close session controls"
+          >
+            ×
+          </button>
+        </div>
+        <div class="session-actions">
+          <p>
+            Your ink and whiteboards save locally after each completed change.
+            Export a portable copy before moving to another computer.
+          </p>
+          <button class="session-action" id="exportSessionButton" type="button">
+            <strong>Export session JSON</strong
+            ><span
+              >All slide ink, whiteboards, and the current return point</span
+            ></button
+          ><label class="session-action"
+            ><strong>Import session JSON</strong
+            ><span
+              >Revision checked; current work is backed up before import</span
+            ><input
+              id="importSessionInput"
+              type="file"
+              accept="application/json,.json" /></label
+          ><button
+            class="session-action"
+            id="recoverBackupButton"
+            type="button"
+          >
+            <strong>Recover last imported-session backup</strong
+            ><span
+              >Restore the previous work; preserve the current work as another
+              backup</span
+            ></button
+          ><button class="session-action" id="exportPngButton" type="button">
+            <strong>Export current surface as PNG</strong
+            ><span>The current slide or whiteboard with its annotations</span>
+          </button>
+          <div class="session-action">
+            <strong>Inserted boards after this slide</strong
+            ><select id="boardSelect" aria-label="Current whiteboard"></select>
+            <div class="board-create">
+              <input
+                id="boardNameInput"
+                placeholder="New board name"
+                aria-label="New whiteboard name"
+              /><select id="boardColorSelect" aria-label="Board background"><option value="white">White</option><option value="black">Black</option></select><button id="addBoardButton" type="button">Add board</button>
+            </div>
+          </div>
+          <button class="session-action" id="continueHereButton" type="button">
+            <strong>Continue talk from this slide</strong
+            ><span>Adopt the current slide as the route position</span></button
+          ><button class="session-action" id="motionButton" type="button">
+            <strong>Toggle reduced motion</strong
+            ><span>Use instant camera transitions</span></button
+          ><a
+            class="session-action"
+            id="pdfLink" href="#"
+            target="_blank"
+            rel="noopener"
+            ><strong>Open PDF fallback ↗</strong
+            ><span>The compiled source deck</span></a
+          >
+        </div>
+      </dialog>
+      <dialog
+        class="modal reading-modal"
+        id="readingDialog"
+        aria-labelledby="readingHeading"
+      >
+        <div class="modal-heading">
+          <div>
+            <p class="eyebrow">Accessible reading view</p>
+            <h2 id="readingHeading">Slide text</h2>
+          </div>
+          <button
+            class="close-button"
+            data-close="readingDialog"
+            type="button"
+            aria-label="Close reading view"
+          >
+            ×
+          </button>
+        </div>
+        <div class="reading-content">
+          <label
+            >Slide
+            <select
+              id="readingSlideSelect"
+              aria-label="Select slide to read"
+            ></select
+          ></label>
+          <pre id="readingText" tabindex="0"></pre>
+        </div>
+      </dialog>
+      <dialog
+        class="modal demo-modal"
+        id="demoDialog"
+        aria-labelledby="demoHeading"
+      >
+        <div class="modal-heading">
+          <div>
+            <p class="eyebrow">Local interactive demo</p>
+            <h2 id="demoHeading">Linked resource</h2>
+          </div>
+          <button
+            class="close-button"
+            data-close="demoDialog"
+            type="button"
+            aria-label="Close demo"
+          >
+            ×
+          </button>
+        </div>
+        <div class="demo-frame-wrap">
+          <iframe
+            id="demoFrame"
+            title="Linked resource"
+            src="about:blank"
+          ></iframe>
+        </div>
+        <p class="demo-note">
+          Press Escape or use Close to return to the slide. The embedded demo
+          keeps keyboard focus until you leave it.
+        </p>
+      </dialog>
+
+      <div class="toast" id="toast" role="status" aria-live="polite"></div>
+      <div class="blackout-screen" id="blackoutScreen" aria-hidden="true">
+        <button type="button" id="blackoutExit">Resume <kbd>B</kbd></button>
+      </div>
+    </div>
+    <script src="src/bootstrap.js"></script>
+  </body>
+</html>
