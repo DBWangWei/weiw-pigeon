@@ -1,0 +1,28 @@
+{
+  "slides": 24,
+  "revision": "901289212eabdbcd",
+  "warnings": [],
+  "pages": [],
+  "outlines": [
+    {
+      "page": 2,
+      "sectionNumber": 1,
+      "label": "The problem and its spaces"
+    },
+    {
+      "page": 6,
+      "sectionNumber": 2,
+      "label": "Projection and optimization"
+    },
+    {
+      "page": 11,
+      "sectionNumber": 3,
+      "label": "Gram matrices and the adjoint"
+    },
+    {
+      "page": 17,
+      "sectionNumber": 4,
+      "label": "Rank, stability and ridge"
+    }
+  ]
+}

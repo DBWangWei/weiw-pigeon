@@ -32,7 +32,9 @@ def match_words(words, text):
         return []
     # Match sequences, preserving the actual PDF word positions and Unicode.
     for start, word in enumerate(words):
-        if not target.startswith(normalized(word['text'])):
+        first = normalized(word['text'])
+        # A preceding block's period or decorative icon is not part of the match.
+        if not first or not target.startswith(first):
             continue
         collected = ''
         for end in range(start, min(len(words), start + 160)):

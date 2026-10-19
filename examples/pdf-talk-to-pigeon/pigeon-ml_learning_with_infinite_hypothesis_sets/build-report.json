@@ -1,0 +1,639 @@
+{
+  "slides": 42,
+  "revision": "6db5b89d773f01a6",
+  "warnings": [],
+  "pages": [
+    {
+      "page": 1,
+      "title": "Learning with Infinite Hypothesis Sets",
+      "titleDetection": {
+        "status": "overridden"
+      },
+      "textMode": "native",
+      "textBlocks": 4,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 2,
+      "title": "Motivation",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 11,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 3,
+      "title": "This lecture",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 8,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 4,
+      "title": "Empirical Rademacher Complexity",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 38,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 5,
+      "title": "Rademacher Complexity",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 29,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 6,
+      "title": "Rademacher Complexity Bound",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 36,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 7,
+      "title": "",
+      "titleDetection": {
+        "status": "absent",
+        "reason": "No confident large-font heading near the top.",
+        "bodyFontSize": 27.9
+      },
+      "textMode": "native",
+      "textBlocks": 33,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 8,
+      "title": "",
+      "titleDetection": {
+        "status": "overridden"
+      },
+      "textMode": "native",
+      "textBlocks": 87,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 9,
+      "title": "",
+      "titleDetection": {
+        "status": "absent",
+        "reason": "No confident large-font heading near the top.",
+        "bodyFontSize": 32.0
+      },
+      "textMode": "native",
+      "textBlocks": 21,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 10,
+      "title": "Loss Functions - Hypothesis Set",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 27.9,
+        "fontRatio": 1.72,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 79,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 11,
+      "title": "Generalization Bounds - Rademacher",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 47.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.47,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 19,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 12,
+      "title": "Remarks",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 12,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 13,
+      "title": "This lecture",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 8,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 14,
+      "title": "Growth Function",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 20,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 15,
+      "title": "Massart\u2019s Lemma",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 17.7,
+        "fontRatio": 2.71,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 94,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 16,
+      "title": "",
+      "titleDetection": {
+        "status": "absent",
+        "reason": "No confident large-font heading near the top.",
+        "bodyFontSize": 28.02
+      },
+      "textMode": "native",
+      "textBlocks": 36,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 17,
+      "title": "Growth Function Bound on Rad. Complexity",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 39.0,
+        "bodyFontSize": 21.51,
+        "fontRatio": 1.81,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 40,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 18,
+      "title": "Generalization Bound - Growth Function",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 42.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.31,
+        "confidence": 0.82
+      },
+      "textMode": "native",
+      "textBlocks": 19,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 19,
+      "title": "This lecture",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 8,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 20,
+      "title": "VC Dimension",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 11,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 21,
+      "title": "Examples",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 15,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 22,
+      "title": "Intervals of The Real Line",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 13,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 23,
+      "title": "Hyperplanes",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 19,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 24,
+      "title": "Axis-Aligned Rectangles in the Plane",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 47.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.47,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 29,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 25,
+      "title": "Convex Polygons in the Plane",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 29,
+      "images": 2,
+      "tables": 0
+    },
+    {
+      "page": 26,
+      "title": "Sine Functions",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 7,
+      "images": 1,
+      "tables": 0
+    },
+    {
+      "page": 27,
+      "title": "Sauer\u2019s Lemma",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 27,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 28,
+      "title": "",
+      "titleDetection": {
+        "status": "absent",
+        "reason": "No confident large-font heading near the top.",
+        "bodyFontSize": 28.12
+      },
+      "textMode": "native",
+      "textBlocks": 42,
+      "images": 0,
+      "tables": 1
+    },
+    {
+      "page": 29,
+      "title": "",
+      "titleDetection": {
+        "status": "absent",
+        "reason": "No confident large-font heading near the top.",
+        "bodyFontSize": 32.0
+      },
+      "textMode": "native",
+      "textBlocks": 46,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 30,
+      "title": "Sauer\u2019s Lemma - Consequence",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 20.64,
+        "fontRatio": 2.33,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 58,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 31,
+      "title": "Remarks",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 9,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 32,
+      "title": "Generalization Bound - VC Dimension",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 42.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.31,
+        "confidence": 0.82
+      },
+      "textMode": "native",
+      "textBlocks": 27,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 33,
+      "title": "Comparison - Standard VC Bound",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 42.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.31,
+        "confidence": 0.82
+      },
+      "textMode": "native",
+      "textBlocks": 30,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 34,
+      "title": "This lecture",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 8,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 35,
+      "title": "VCDim Lower Bound - Realizable Case",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 45.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.41,
+        "confidence": 0.82
+      },
+      "textMode": "native",
+      "textBlocks": 29,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 36,
+      "title": "",
+      "titleDetection": {
+        "status": "absent",
+        "reason": "No confident large-font heading near the top.",
+        "bodyFontSize": 28.14
+      },
+      "textMode": "native",
+      "textBlocks": 44,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 37,
+      "title": "",
+      "titleDetection": {
+        "status": "overridden"
+      },
+      "textMode": "native",
+      "textBlocks": 27,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 38,
+      "title": "",
+      "titleDetection": {
+        "status": "absent",
+        "reason": "No confident large-font heading near the top.",
+        "bodyFontSize": 27.9
+      },
+      "textMode": "native",
+      "textBlocks": 20,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 39,
+      "title": "Agnostic PAC Model",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 32.0,
+        "fontRatio": 1.5,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 19,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 40,
+      "title": "VCDim Lower Bound - Non-Realizable Case",
+      "titleDetection": {
+        "status": "overridden"
+      },
+      "textMode": "native",
+      "textBlocks": 22,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 41,
+      "title": "References",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 18.0,
+        "fontRatio": 2.67,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 16,
+      "images": 0,
+      "tables": 0
+    },
+    {
+      "page": 42,
+      "title": "References",
+      "titleDetection": {
+        "status": "inferred",
+        "method": "top-position-and-font-ratio",
+        "fontSize": 48.0,
+        "bodyFontSize": 18.0,
+        "fontRatio": 2.67,
+        "confidence": 0.93
+      },
+      "textMode": "native",
+      "textBlocks": 14,
+      "images": 0,
+      "tables": 0
+    }
+  ],
+  "outlines": []
+}

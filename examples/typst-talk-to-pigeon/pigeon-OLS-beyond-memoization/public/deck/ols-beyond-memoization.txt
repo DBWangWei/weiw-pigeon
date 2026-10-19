@@ -1,0 +1,493 @@
+DSAA3073 · THEORIES OF DATA SCIENCE
+OLS Beyond Memorization
+Understanding the Normal Equations
+Why does 𝑋⊤
+appear in least squares?
+𝑋⊤
+(𝑦 − 𝑋𝛽 ̂) = 0
+Wei Wang
+The Hong Kong University of Science and Technology (Guangzhou)
+26Summer1 · THE PROBLEM AND ITS SPACES 02
+Outline
+1. The problem and its spaces
+2. Projection and optimization
+3. Gram matrices and the adjoint
+4. Rank, stability and ridge
+DSAA3073 · Theories of Data Science · 26Summer · Week 41 · THE PROBLEM AND ITS SPACES 03
+Start from the least-squares problem
+Why do we left-multiply by 𝑋⊤
+? What makes this choice meaningful?
+Observed data and a linear model
+𝑋 ∈ ℝ𝑛×𝑑
+, 𝑦 ∈ ℝ𝑛
+A model may write 𝑦 = 𝑋𝛽∗ + 𝜀.
+The noise 𝜀 need not be orthogonal to the
+feature columns.
+The fitting problem
+𝛽 ̂∈ argmin
+𝛽
+‖𝑦 − 𝑋𝛽‖2
+Choose coefficients to minimize squared
+residuals.
+The fitted residual is 𝑟 = 𝑦 − 𝑋𝛽 ̂.
+💡 The normal equations characterize a least-squares fit. They do not follow by simply dropping
+the noise term.
+DSAA3073 · Theories of Data Science · 26Summer · Week 41 · THE PROBLEM AND ITS SPACES 04
+1 · Dimensions locate the transpose
+Object Space / size Meaning
+𝛽 ℝ𝑑
+One coefficient per feature
+𝑋𝛽 and 𝑦 ℝ𝑛
+One prediction or response per sample
+𝑋 𝑛 × 𝑑 Maps coefficients to predictions
+𝑋⊤
+𝑑 × 𝑛 Maps a data vector to feature inner products
+𝛽 →
+𝑋
+𝑋𝛽 𝑟 →
+𝑋⊤
+𝑋⊤
+𝑟
+💡 Dimensions explain where 𝑋⊤
+𝑟 lives. They do not yet explain why its value must be zero at the
+fit.
+DSAA3073 · Theories of Data Science · 26Summer · Week 41 · THE PROBLEM AND ITS SPACES 05
+A running example: fit one constant
+We observe three responses and predict the same
+value for each:
+𝑋 =
+(
+1
+1
+1)
+, 𝑦 =
+(
+1
+2
+4)
+, 𝛽 ∈ ℝ.
+𝐿(𝛽) = (1 − 𝛽)2
++ (2 − 𝛽)2
++ (4 − 𝛽)2
+.
+Which constant gives the smallest squared
+error?
+💡 The feasible predictions form a line in ℝ3
+: every vector of the form (𝛽,𝛽,𝛽)⊤
+.
+DSAA3073 · Theories of Data Science · 26Summer · Week 42 · PROJECTION AND OPTIMIZATION 06
+Outline
+1. The problem and its spaces
+2. Projection and optimization
+3. Gram matrices and the adjoint
+4. Rank, stability and ridge
+DSAA3073 · Theories of Data Science · 26Summer · Week 42 · PROJECTION AND OPTIMIZATION 07
+2 · Least squares is orthogonal projection
+All predictions lie in col(𝑋).
+At the closest prediction 𝑦 ̂ = 𝑋𝛽 ̂, 𝑟 = 𝑦 − 𝑦 ̂ is
+perpendicular to this entire subspace.
+𝑋⊤
+𝑟 = 0
+𝑋⊤
+𝑋𝛽 ̂= 𝑋⊤
+𝑦
+“Normal” here means perpendicular.
+💡 𝑦 = 𝑦 ̂+ 𝑟: the fitted part lies in col(𝑋); the unexplained part is orthogonal to it.
+DSAA3073 · Theories of Data Science · 26Summer · Week 42 · PROJECTION AND OPTIMIZATION 08
+Why orthogonality guarantees the minimum
+Suppose 𝑋⊤
+𝑟 = 0, with 𝑟 = 𝑦 − 𝑋𝛽 ̂. Move to any coefficients 𝛽 ̂+ ℎ.
+Compare the losses
+𝐿(𝛽 ̂+ ℎ) = ‖𝑟 − 𝑋ℎ‖2
+= ‖𝑟‖2
+− 2𝑟⊤
+𝑋ℎ + ‖𝑋ℎ‖2
+= 𝐿(𝛽 ̂) + ‖𝑋ℎ‖2
+≥ 𝐿(𝛽 ̂).
+The cross term vanishes because 𝑟⊤
+𝑋ℎ = (𝑋⊤
+𝑟)
+⊤
+ℎ = 0.
+💡 Every feasible change can only increase the loss or leave it unchanged. Full column rank makes
+every nonzero coefficient change increase it.
+DSAA3073 · Theories of Data Science · 26Summer · Week 42 · PROJECTION AND OPTIMIZATION 09
+3 · The gradient yields the same condition
+Differentiate the squared loss
+𝐿(𝛽) = (𝑦 − 𝑋𝛽)⊤
+(𝑦 − 𝑋𝛽)
+∇𝐿(𝛽) = −2𝑋⊤
+(𝑦 − 𝑋𝛽)
+At a stationary point:
+∇𝐿(𝛽 ̂) = 0
+𝑋⊤
+𝑋𝛽 ̂= 𝑋⊤
+𝑦.
+Why this is a global minimum
+The Hessian is positive semidefinite:
+∇2
+𝐿 = 2𝑋⊤
+𝑋,
+ℎ⊤
+∇2
+𝐿ℎ = 2‖𝑋ℎ‖2
+≥ 0.
+The loss is convex. With full column rank, it is
+strictly convex.
+💡 Setting the gradient to zero solves the optimality condition. It is not generally one gradient-
+descent step.
+DSAA3073 · Theories of Data Science · 26Summer · Week 42 · PROJECTION AND OPTIMIZATION 10
+Check the fit in the same example
+Normal equation and residual
+𝑋⊤
+𝑋 = 3, 𝑋⊤
+𝑦 = 7
+𝛽 ̂=
+7
+3
+𝑟 =
+(
+−4
+3
+−1
+3
+5
+3 )
+𝑋⊤
+𝑟 = −
+4
+3
+−
+1
+3
++
+5
+3
+= 0
+Gradient and loss
+𝐿′
+(𝛽) = 6𝛽 − 14
+𝐿′
+(
+7
+3
+) = 0
+𝐿(
+7
+3
+) =
+14
+3
+𝐿(
+7
+3
++ 𝛿) =
+14
+3
++ 3𝛿2
+💡 The mean, the projection, and the zero-gradient solution agree. Here the residuals sum to zero
+because 𝑋 contains the constant feature.
+DSAA3073 · Theories of Data Science · 26Summer · Week 43 · GRAM MATRICES AND THE ADJOINT 11
+Outline
+1. The problem and its spaces
+2. Projection and optimization
+3. Gram matrices and the adjoint
+4. Rank, stability and ridge
+DSAA3073 · Theories of Data Science · 26Summer · Week 43 · GRAM MATRICES AND THE ADJOINT 12
+4 · The Gram matrix records feature geometry
+Let 𝑋𝑗 be column 𝑗 of 𝑋. The Gram matrix 𝐺 = 𝑋⊤
+𝑋 satisfies
+𝐺𝑗𝑘 = 𝑋⊤
+𝑗 𝑋𝑘 = ∑
+𝑛
+𝑖=1
+𝑋𝑖𝑗𝑋𝑖𝑘.
+Its entries
+• 𝐺𝑗𝑗 = ‖𝑋𝑗‖
+2
+: feature magnitude.
+• 𝐺𝑗𝑘: alignment between two feature
+columns.
+• 𝐺 is symmetric and positive semidefinite.
+Its action
+ℎ⊤
+𝐺ℎ = ‖𝑋ℎ‖2
+This measures how much a coefficient change
+alters the predictions.
+𝐺 is invertible exactly when rank(𝑋) = 𝑑.
+💡 The normal equations are square, but their significance comes from feature geometry. Square
+does not imply invertible.
+DSAA3073 · Theories of Data Science · 26Summer · Week 43 · GRAM MATRICES AND THE ADJOINT 13
+5 · Match the feature inner products
+Each normal equation matches one observed inner product with its fitted counterpart.
+𝑋⊤
+𝑗 𝑦 = 𝑋⊤
+𝑗 𝑋𝛽 ̂= ∑
+𝑑
+𝑘=1
+(𝑋⊤
+𝑗 𝑋𝑘)𝛽 ̂
+𝑘
+Quantity Interpretation
+𝑋⊤
+𝑗 𝑦 Alignment of feature 𝑗 with the observed response
+𝑋⊤
+𝑗 𝑋𝑘 Alignment between features 𝑗 and 𝑘
+𝑋⊤
+𝑗 𝑟 = 0 No residual component along feature 𝑗
+💡 Inner products depend on scale and centering. They are not automatically Pearson correlations
+or individual causal contributions.
+DSAA3073 · Theories of Data Science · 26Summer · Week 43 · GRAM MATRICES AND THE ADJOINT 14
+Making a square system is not enough
+For the constant-fit example, choose a different 1 × 3 map 𝐴 = (1 0 0).
+Arbitrary compression
+𝐴𝑋𝛽 = 𝐴𝑦
+𝛽 = 1
+This square system has a unique solution, but
+𝐿(1) = 02
++ 12
++ 32
+= 10.
+Least-squares compression
+𝑋⊤
+𝑋𝛽 = 𝑋⊤
+𝑦
+𝛽 =
+7
+3
+The residual is orthogonal to the model space,
+and
+𝐿(
+7
+3
+) =
+14
+3
+< 10.
+💡 Many maps have the right dimensions. 𝑋⊤
+is special because it tests the residual against every
+feasible prediction direction.
+DSAA3073 · Theories of Data Science · 26Summer · Week 43 · GRAM MATRICES AND THE ADJOINT 15
+6 · The adjoint explains why the transpose
+Under the standard Euclidean inner products, the adjoint of 𝑋 is 𝑋⊤
+:
+⟨𝑋ℎ,𝑟⟩ℝ𝑛 = ⟨ℎ,𝑋⊤
+𝑟⟩
+ℝ𝑑
+.
+A direction in each space
+A parameter direction ℎ produces a prediction
+direction 𝑋ℎ.
+Pairing the residual with 𝑋ℎ gives exactly the
+same scalar as pairing 𝑋⊤
+𝑟 with ℎ.
+The optimality condition
+𝑋⊤
+𝑟 = 0
+↔︎
+⟨𝑋ℎ,𝑟⟩ = 0 ∀ℎ
+Thus the residual is orthogonal to col(𝑋).
+💡 The transpose preserves the pairing between parameter and data directions. The choice of inner
+products matters.
+DSAA3073 · Theories of Data Science · 26Summer · Week 43 · GRAM MATRICES AND THE ADJOINT 16
+Six views, one optimality condition
+View What it explains
+Dimensions 𝑋⊤
+𝑟 lives in parameter space ℝ𝑑
+.
+Geometry 𝑟 is perpendicular to all of col(𝑋).
+Optimization ∇𝐿(𝛽 ̂) = −2𝑋⊤
+𝑟 = 0.
+Gram matrix 𝑋⊤
+𝑋 encodes how coefficient changes affect predictions.
+Inner products 𝑋⊤
+𝑗 𝑦 = 𝑋⊤
+𝑗 𝑦 ̂ for every feature 𝑗.
+Adjoint ⟨𝑋ℎ,𝑟⟩ = ⟨ℎ,𝑋⊤
+𝑟⟩.
+💡 To explain the normal equations, connect the spaces, the loss, and the residual. Each view answers a
+different part of the same question.
+DSAA3073 · Theories of Data Science · 26Summer · Week 44 · RANK, STABILITY AND RIDGE 17
+Outline
+1. The problem and its spaces
+2. Projection and optimization
+3. Gram matrices and the adjoint
+4. Rank, stability and ridge
+DSAA3073 · Theories of Data Science · 26Summer · Week 44 · RANK, STABILITY AND RIDGE 18
+Rank controls coefficient uniqueness
+Full column rank: rank(𝑋) = 𝑑
+𝑋⊤
+𝑋 is positive definite.
+There is one coefficient vector:
+𝛽 ̂= (𝑋⊤
+𝑋)
+−1
+𝑋⊤
+𝑦.
+This formula requires full column rank.
+Rank deficient: rank(𝑋) < 𝑑
+𝑋⊤
+𝑋 is singular, but least squares still has
+minimizers.
+If 𝑋ℎ = 0, then 𝛽 ̂+ ℎ produces the same fitted
+values as 𝛽 ̂.
+The fitted vector 𝑦 ̂ remains unique.
+Example: duplicate the constant feature, 𝑋 = (
+1
+1
+1
+1
+1
+1
+). Every pair with 𝛽1 + 𝛽2 = 7
+3 gives the same fit
+to (1,2,4)⊤
+.
+💡 Different coefficient vectors can represent the same unique projection. Identifiability of
+parameters is a separate question.
+DSAA3073 · Theories of Data Science · 26Summer · Week 44 · RANK, STABILITY AND RIDGE 19
+Separate coefficients from fitted values
+Operator Map What it returns
+𝑋+
+ℝ𝑛
+→ ℝ𝑑
+Minimum-norm least-squares coefficients
+𝑃𝑋 = 𝑋𝑋+
+ℝ𝑛
+→ ℝ𝑛
+Orthogonal projection onto col(𝑋)
+𝛽 ̂
+min = 𝑋+
+𝑦
+With full column rank only:
+𝑋+
+= (𝑋⊤
+𝑋)
+−1
+𝑋⊤
+.
+𝑦 ̂ = 𝑃𝑋𝑦
+The projector is symmetric and idempotent:
+𝑃⊤
+𝑋 = 𝑃𝑋, 𝑃2
+𝑋 = 𝑃𝑋.
+💡 𝑋+
+returns coefficients; 𝑋𝑋+
+returns predictions. These operators have different domains and
+meanings.
+DSAA3073 · Theories of Data Science · 26Summer · Week 44 · RANK, STABILITY AND RIDGE 20
+Small singular values amplify response noise
+Use the compact SVD 𝑋 = 𝑈𝑞Σ𝑞𝑉 ⊤
+𝑞 , with 𝑞 = rank(𝑋) and 𝜎𝑖 > 0.
+𝑋+
+𝑦 = ∑
+𝑞
+𝑖=1
+⟨𝑢𝑖,𝑦⟩
+𝜎𝑖
+𝑣𝑖.
+Perturb one data direction
+If Δ𝑦 = 𝛿𝑢𝑖, then
+Δ𝛽 ̂
+min =
+𝛿
+𝜎𝑖
+𝑣𝑖.
+Small 𝜎𝑖 means large coefficient sensitivity.
+A numerical scale
+Let 𝜎𝑖 = 0.01 and 𝛿 = 0.02.
+‖Δ𝛽 ̂
+min‖ = 2.
+Yet Δ𝑦 ̂ = 𝛿𝑢𝑖: fitted training values need not
+change greatly.
+💡 Coefficient instability is not the same as instability of fitted training values. Small singular
+directions reveal the distinction.
+DSAA3073 · Theories of Data Science · 26Summer · Week 44 · RANK, STABILITY AND RIDGE 21
+Ridge limits amplification in weak directions
+Penalize all coefficients, with 𝜆 > 0:
+𝛽 ̂
+𝜆 = argmin
+𝛽
+(‖𝑦 − 𝑋𝛽‖2
++ 𝜆‖𝛽‖2
+).
+The modified normal equations
+(𝑋⊤
+𝑋 + 𝜆𝐼)𝛽 ̂
+𝜆 = 𝑋⊤
+𝑦
+The compact SVD form
+𝛽 ̂
+𝜆 = ∑
+𝑞
+𝑖=1
+𝜎𝑖
+𝜎2
+𝑖 + 𝜆
+⟨𝑢𝑖,𝑦⟩𝑣𝑖
+The same perturbation
+For 𝜎𝑖 = 0.01, 𝛿 = 0.02, and 𝜆 = 0.01:
+OLS coefficient change: 2.
+Ridge coefficient change:
+0.01
+0.012 + 0.01
+⋅ 0.02 ≈ 0.0198.
+💡 Ridge trades shrinkage bias for reduced sensitivity. The penalty makes the coefficient solution
+unique even when 𝑋 is rank deficient.
+DSAA3073 · Theories of Data Science · 26Summer · Week 44 · RANK, STABILITY AND RIDGE 22
+Ridge fits are shrunk, not orthogonally projected
+The fitted-value operator is
+𝑆𝜆 = 𝑋(𝑋⊤
+𝑋 + 𝜆𝐼)
+−1
+𝑋⊤
+= 𝑈𝑞 diag(
+𝜎2
+𝑖
+𝜎2
+𝑖 + 𝜆
+)𝑈⊤
+𝑞 .
+Orthogonal projection
+𝑃𝑋 keeps each direction in col(𝑋) with weight
+1.
+𝑃2
+𝑋 = 𝑃𝑋
+Applying it again changes nothing.
+Ridge smoothing
+𝑆𝜆 uses weights strictly between 0 and 1 on
+nonzero singular directions.
+For nonzero 𝑋, 𝑆2
+𝜆 ≠ 𝑆𝜆.
+Applying it again shrinks further.
+💡 The ridge residual satisfies 𝑋⊤
+(𝑦 − 𝑋𝛽 ̂
+𝜆) = 𝜆𝛽 ̂
+𝜆. It is generally not orthogonal to col(𝑋).
+DSAA3073 · Theories of Data Science · 26Summer · Week 44 · RANK, STABILITY AND RIDGE 23
+Read the two kinds of spectral weights
+Illustration: 𝜆 = 0.01. Left: how data components affect coefficients. Right: how much each fitted component is
+retained.
+💡 For numerical computation, use QR or SVD-based solvers. Forming 𝑋⊤
+𝑋 squares the 2-norm
+condition number when 𝑋 has full column rank.
+DSAA3073 · Theories of Data Science · 26Summer · Week 44 · RANK, STABILITY AND RIDGE 24
+Explain the equations without memorizing them
+Why 𝑋⊤
+?
+It tests residuals against all feasible prediction
+directions, via the adjoint identity.
+When is the inverse valid?
+Exactly when 𝑋 has full column rank. Otherwise
+use the pseudoinverse or describe all minimizers.
+What is being projected?
+𝑦 is projected to 𝑦 ̂ = 𝑋𝑋+
+𝑦 in data space;
+coefficients live in parameter space.
+What changes under ridge?
+Weak directions receive smaller weights. The fit is a
+linear smoother, with a different residual condition.
+💡 Reconstruct 𝑋⊤
+(𝑦 − 𝑋𝛽 ̂) = 0 from the loss or from geometry. Then state the rank and
+regularization assumptions before using a formula.
+DSAA3073 · Theories of Data Science · 26Summer · Week 4

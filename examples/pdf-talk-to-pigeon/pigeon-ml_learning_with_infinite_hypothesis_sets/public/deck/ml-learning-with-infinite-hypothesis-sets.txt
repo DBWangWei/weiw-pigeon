@@ -1,0 +1,621 @@
+Foundations of Machine Learning
+           Learning with
+        Infinite Hypothesis Sets
+
+                 Mehryar Mohri
+       Courant Institute and Google Research
+               mohri@cims.nyu.edu            Motivation
+
+   With an infinite hypothesis set H, the error bounds
+    of the previous lecture are not informative.
+
+     Is efficient learning from a finite sample possible
+   when H is infinite?
+
+   Our example of axis-aligned rectangles shows that
+      it is possible.
+
+   Can we reduce the infinite case to a finite set?
+    Project over finite samples?
+
+   Are there useful measures of complexity for
+     infinite hypothesis sets?
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 2            This lecture
+
+   Rademacher complexity
+
+   Growth Function
+
+   VC dimension
+
+   Lower bound
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 3 Empirical Rademacher Complexity
+
+    Definition:
+    G family of functions mapping from set Z to [a, b] .  •
+      sample S =(z1, . . . , zm).  •
+       σis (Rademacher variables): independent uniform  •
+     random variables taking values in {−1, +1} .
+                        �      ��                   �                                  m                               g(z1)     X                    1                         1
+                       = E  sup       σig(zi)  .    bRS(G) = E sup     σ1...                                   ...            σ                      σ           m  σm   ·          m                                   g(zm)                                                       i=1               g2G                     g2G
+
+                 correlation with random noise
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 4     Rademacher Complexity
+
+    Definitions: let G be a family of functions mapping
+    from Z to [a, b] .
+      Empirical Rademacher complexity of G :  •                    �               �          �m                           1
+           �RS(G) = E  sup       σig(zi)  ,
+                     σ               m
+                                  i=1                      g∈G
+   where σis are independent uniform random variables
+    taking values in        and S =(z1, . . . , zm) .                 {−1, +1}
+     Rademacher complexity of G :  •
+            Rm(G) = S∼Dm[�RS(G)].E
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 5  Rademacher Complexity Bound
+                                                                      (Koltchinskii and Panchenko, 2002)
+   Theorem: Let G be a family of functions mapping
+    from Z to [0, 1] . Then, for any δ>0 , with probability
+     at least         , the following holds for all          :
+                     ⇥         1−δ                 g∈G
+        �m                       log 1
+             E[g(z)]          g(zi) + 2Rm(G) +        δ .          ≤1m                 2m
+                           i=1         ⇤
+        �m                        log 2                                                                  δ                                                                                         .             E[g(z)]          g(zi) + 2⇥RS(G) + 3          ≤1m                 2m
+                          i=1
+    Proof: Apply McDiarmid’s inequality to
+              Φ(S) = sup E[g] −�ES[g].                     g∈G
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 6                                                              1    Changing one point of S changes Φ(S) by at most                                             m. •
+      Φ(S0)     = sup         −Φ(S)      {E[g] −bES0[g]} −sup {E[g] −bES[g]}                   g2G               g2G
+              sup {{E[g] −bES0[g]} −{E[g] −bES[g]}}                   g2G
+                                                       1
+           = sup          = sup m(g(zm)     m))   m.                            {bES[g] −bES0[g]}              −g(z0  1                   g2G                g2G
+    Thus, by McDiarmid’s inequality, with probability at •
+     least 1                2                �       −δ                                                     2                                                 log
+                                                       δ .              Φ(S)      +                               2m            ≤ES[Φ(S)]
+
+   We are left with bounding the expectation. •
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                               page 7     Series of observations: •
+                             ⇥                  ⇤
+         ES[Φ(S)] = ES  sup E[g] −bES(g)                        g2G                             ⇥                        ⇤
+             = E  sup E                       S       S0[bES0(g) −bES(g)]                        g2G                               ⇥                    ⇤
+      (sub-add. of sup)       sup bES0(g)         ES,S0           −bES(g)                          g2G
+                               ⇥  Xm                ⇤                               1
+             = E  sup       (g(z0                                                      i)                              S,S0   m         −g(zi))
+                                      i=1                          g2G
+                                ⇥  Xm                  ⇤                                1
+       (swap zi and z0i)             =  E   sup       σi(g(z0i)                               σ,S,S0   m           −g(zi))
+                                        i=1                           g2G
+                               ⇥  Xm        ⇤      ⇥  Xm          ⇤                               1                     1
+   (sub-additiv. of sup)       sup       σig(z0i)         Eσ,S0   m       + σ,SE  sup m    −σig(zi)
+                                      i=1                       i=1                         g2G                  g2G
+                                ⇥  Xm        ⇤                                1
+             = 2 E  sup       σig(zi) = 2Rm(G).
+                              σ,S   m
+                                       i=1                          g2G
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                               page 8   Now, changing one point of S makes �RS(G) vary by •               1     at most     . Thus, again by McDiarmid’s inequality,        m
+    with probability at least 1        ,                                      2                   −δ                ⇥
+                                       log 2
+           Rm(G) ≤�RS(G) +  2mδ .
+    Thus, by the union bound, with probability at •
+                ⇥     least 1−δ ,                                       log 2
+             Φ(S) ≤2�RS(G) + 3  2mδ .
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                               page 9  Loss Functions - Hypothesis Set
+
+    Proposition: Let H be a family of functions taking
+    values in                , G the family of zero-one loss                  �                  �           {−1, +1}                                           Then,    functions of H: G=  (x, y) �→1h(x)̸=y :                                 h ∈H  .
+                          1
+              Rm(G) = 2Rm(H).
+
+                              h  Xm           i                                  1
+             Rm(G) = E  sup    Proof:                                 S,σ   m     σi1h(xi)6=yi                           h2H    i=1
+                              h  Xm                i                                  1      1
+               = E  sup       σi                                 S,σ   m      2(1 −yih(xi))                           h2H    i=1
+                                h  Xm   i       h  Xm           i                          1         1                   1               =  E  sup       σi +1 E  sup                          2 S,σ   m         2 S,σ   m    −σiyih(xi)                             h2H    i=1          h2H    i=1                             |        {z        }
+                                 =0
+                                h  Xm        i                          1         1
+               =  E  sup       σih(xi)  .
+                          2 S,σ   m                             h2H    i=1
+Mehryar Mohri - Foundations of Machine Learning                                                 page 10Generalization Bounds - Rademacher
+
+    Corollary: Let H be a family of functions taking
+    values in {−1, +1} . Then, for any δ>0 , with    probability at least         , for any          ,                 1−δ     h∈H                 ⇥
+                                         log 1
+          R(h) ≤�R(h) + Rm(H) +  2mδ .
+                 ⇥
+                                          log 2                                                      δ                                                                        .          R(h)     + �RS(H) + 3              ≤�R(h)           2m
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 11           Remarks
+
+     First bound distribution-dependent, second data-
+    dependent bound, which makes them attractive.
+
+    But, how do we compute the empirical Rademacher
+    complexity?
+               �m                                1   Computing                     σih(xi)] requires                 m   i=1              Eσ[suph∈H
+    solving ERM problems, typically computationally
+    hard.
+
+    Relation with combinatorial measures easier to
+    compute?
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 12            This lecture
+
+   Rademacher complexity
+
+   Growth Function
+
+   VC dimension
+
+   Lower bound
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 13       Growth Function
+
+    Definition: the growth function ΠH:      for a                     N→N    hypothesis set H is defined by
+
+                                ⇤�                ⇥          ΠH(m) =   max                 ⇧⇧⇧  h(x1), . . . , h(xm) : h         ⌅⇧⇧⇧.   ⇥m ∈N,                        ∈H                           {x1,...,xm}⊆X
+
+                          m    Thus, ΠH(m) is the maximum number of ways
+    points can be classified using H.
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 14          Massart’s Lemma
+                                                                                     (Massart, 2000)
+   Theorem: Let A     be a finite set, with R=max        ,           ⊆Rm                           ∥x∥2                                              x∈A    then, the following holds:
+                ⌅                          ⇥       ⇤m          �1                   2 log        E    sup    σixi              |A| .
+             σ        m      ≤R  m
+                        i=1                x∈A
+
+            �  �       ��   �   �        ��
+          �m        �m
+                exp   t E  sup    σixi         exp  t sup    σixi      (Jensen’s ineq.)    Proof:                        σ                   σ                      ≤E                       x∈A i=1                 x∈A i=1                           �      �      ��
+                  �m
+                         = E  sup exp  t    σixi
+                                            σ
+                                         x∈A       i=1                             �   �      ��
+              �   �m    � �m
+                                E  exp  t    σixi  =     E (exp [tσixi])
+                                                σ                             σ                         ≤
+                                      x∈A           i=1         x∈A i=1                              �  ��m        ��              �                                                                                               t2R2                          (Hoeffding’s ineq.)       exp    i=1 t2(2|xi|)2                         ≤                8        ≤|A|e  2   .
+                                      x∈A
+Mehryar Mohri - Foundations of Machine Learning                                                 page 15    Taking the log yields: •
+            �          ⇥      ⇤m                                    tR2        E  sup    σixi        |A| +       .
+            σ                     ≤logt      2
+                     i=1             x∈A
+
+                                                    2 log                        √    Minimizing the bound by choosing t =        |A|                                    R •
+     gives
+            �          ⇥      ⇤m     ⌅
+        E  sup    σixi       2 log
+            σ              ≤R        |A|.
+                    i=1             x∈A
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                               page 16Growth Function Bound on Rad. Complexity
+
+    Corollary: Let G be a family of functions taking
+    values in                , then the following holds:            {−1, +1}  �
+                          2 log ΠG(m)
+            Rm(G)                            .              ≤    m
+    Proof:
+               �          � �g(z1) ��                     1     �RS(G) = E sup     �σ1...                                   ...               σ            m  σm   ·                g∈G            g(zm)         �
+        √m  2 log              . . . , g(zm)): g                             |{(g(z1),          ∈G}|   (Massart’s Lemma)       ≤          m         �       �
+        √m  2 log ΠG(m)     2 log ΠG(m)                    =                        .       ≤    m         m
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 17 Generalization Bound - Growth Function
+
+    Corollary: Let H be a family of functions taking
+    values in {−1, +1} . Then, for any δ>0 , with    probability at least         , for any          ,                 1−δ     h∈H                  ⇤           ⇥
+                        2 log ΠH(m)      log 1
+       R(h) ≤�R(h) +    m   +  2mδ .
+
+    But, how do we compute the growth function?
+    Relationship with the VC-dimension (Vapnik-
+    Chervonenkis dimension).
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 18            This lecture
+
+   Rademacher complexity
+
+   Growth Function
+
+   VC dimension
+
+   Lower bound
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 19       VC Dimension
+                                      (Vapnik & Chervonenkis, 1968-1971; Vapnik, 1982, 1995, 1998)
+    Definition: the VC-dimension of a hypothesis set H
+      is defined by
+        VCdim(H) = max{m: ΠH(m) = 2m}.
+    Thus, the VC-dimension is the size of the largest set
+    that can be fully shattered by H.
+
+    Purely combinatorial notion.
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 20            Examples
+
+     In the following, we determine the VC dimension
+    for several hypothesis sets.
+
+   To give a lower bound d for VCdim(H) , it suffices
+    to show that a set S of cardinality d can be
+    shattered by H.
+
+   To give an upper bound, we need to prove that no
+    set S of cardinality d+1 can be shattered by H,
+    which is typically more difficult.
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 21      Intervals of The Real Line
+
+    Observations:
+     Any set of two points can be shattered by four  •
+       intervals      - -    + -                - +
+
+                         + +
+    No set of three points can be shattered since  •
+      the following dichotomy “+ - +” is not realizable
+      (by definition of intervals):                             + - +
+
+      Thus, VCdim(intervals in R)=2 .  •
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 22           Hyperplanes
+
+    Observations:
+     Any three non-collinear points can be shattered:  •
+                                      -
+                +
+                   +
+
+      Unrealizable dichotomies for four points:  •
+             +           +
+                    -     -                  -
+             +         +   +
+      Thus, VCdim(hyperplanes in Rd)=d+1 .  •
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 23 Axis-Aligned Rectangles in the Plane
+
+    Observations:
+     The following four points can be shattered:  •
+      +         +       +        +
+      -         -    +        -     -         -      -     +
+      +         +              -               -
+    No set of five points can be shattered: label  •
+       negatively the point that is not near the sides.
+                 +
+             +
+                   +                      -
+               +
+      Thus, VCdim(axis-aligned rectangles)=4 .  •
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 24   Convex Polygons in the Plane
+
+    Observations:
+     2d+1 points on a circle can be shattered by a d-gon:  •
+                    -                                              - +               -           +                         +                     +         -                        -                          --              +                          +                       -              -                                      -                     +       +                                               - +         +
+       |positive points| < |negative points|           |positive points| > |negative points|
+         It can be shown that choosing the points on the  •
+       circle maximizes the number of possible
+      dichotomies. Thus,VCdim(convex d-gons)=2d+1 .
+      Also, VCdim(convex polygons)=+∞ .
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 25           Sine Functions
+
+    Observations:
+     Any finite set of points on the real line can be  •
+                        ω                                                                        .      shattered by {t⇤→sin(ωt):                      ⇥R}
+      Thus,VCdim(sine  •                     functions)=+∞.
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 26           Sauer’s Lemma
+                                                  (Vapnik & Chervonenkis, 1968-1971; Sauer, 1972)
+   Theorem: let H be a hypothesis set with VCdim(H)=d
+    then, for all           ,                      ⇥                                 d         m∈N  ⇤                  �m
+             ΠH(m)                   .               ≤        i
+                               i=0
+    Proof: the proof is by induction on m+d. The
+    statement clearly holds for m=1 and d=0 or d=1.
+   Assume that it holds for (m−1, d−1) and (m−1, d).
+       Fix a set S           . . . ,    with ΠH(m) dichotomies  •               ={x1,   xm}                         H induces     and let G=H|S be the set of concepts
+      by restriction to S .
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 27    Consider the following families over               . . . ,          : •                                      S⇥={x1,   xm−1}
+    G1            G2       =G|S′                ={g′ ⊆S′ : (g′ ⇥G) ⌅(g′ ⇤{xm} ⇥G)}.
+                 x1   x2     · · · xm−1 xm                    1    1    0    1    0
+                    1    1    0    1    1
+                    0    1    1    1    1
+                    1    0    0    1    0
+                    1    0    0    0    1
+                             · · ·    · · ·    · · ·    · · ·    · · ·
+    Observe that   +   = •                   |G1|   |G2|   |G|.
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                               page 28    Since                            , by the induction hypothesis, •        VCdim(G1)≤d                           �          �d                    �m                        −1   .           |G1| ≤ΠG1(m −1) ≤           i
+                                  i=0
+                     Z      is shattered by G2,    By definition of G2 , if a set •                          ⊆S′    then the set            is shattered by G . Thus,            Z∪{xm}
+                                     d         VCdim(G2) ⇥VCdim(G) −1 =                           −1
+   and by the induction hypothesis,
+                           �
+                               d−1�                    �m                        −1   .           |G2| ≤ΠG2(m −1) ≤           i
+                                   i=0
+    Thus,          �m−1⇥ + ⇤d−1 �m−1⇥                    i=0     i        i=0     i •           |G| ≤⇤d
+        =          ⇤d  �m−1⇥ + �m−1⇥ = ⇤d  �m ⇥.
+                    i=0     i       i−1       i=0   i
+Mehryar Mohri - Foundations of Machine Learning                                               page 29   Sauer’s Lemma - Consequence
+
+    Corollary: let H be a hypothesis set with VCdim(H)=d
+    then, for all           ,         m≥d                �em �d
+           ΠH(m)      = O(md).             ≤   d
+                       d   ⌅    d      ⇧   ⇧             ⇤m     ⇤m ⌅�m                                         ⇥d−i    Proof:                                 i  ≤        i    d
+                     i=0         i=0
+          ⇧m                    ⇤m ⌅�m                                         ⇥d−i
+                 ≤        i    d
+                                 i=0
+                         m          ⌅i                  �m ⇥d ⇧ ⇤m ⌅⇤d
+                 =
+                             d            i  m
+                                        i=0
+                       ⇤    ⌅m                  �m ⇥d      d    �m ⇥d
+                 =        1 +                  ed.                             d     m  ≤  d
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 30           Remarks
+
+    Remarkable property of growth function:
+       either                 and ΠH(m)=O(md)  •        VCdim(H)=d<+∞
+      or                    and ΠH(m)=2m .  •         VCdim(H)=+∞
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 31  Generalization Bound - VC Dimension
+
+    Corollary: Let H be a family of functions taking
+                                    d . Then, for    values in {−1, +1} with VC dimension    any δ>0 , with probability at least         , for any          ,                            1−δ     h∈H                 ⇤           ⇥
+                       2d log em      log 1
+       R(h) ≤�R(h) +   m  d +  2mδ .
+    Proof: Corollary combined with Sauer’s lemma.
+    Note: The general form of the result is
+                  �⌅      ⇥
+            R(h)     + O     log(m/d)   .                                      (m/d)                 ≤⇤R(h)
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 32   Comparison - Standard VC Bound
+                                                       (Vapnik & Chervonenkis, 1971; Vapnik, 1982)
+   Theorem: Let H be a family of functions taking
+                                    d . Then, for    values in {−1, +1} with VC dimension    any δ>0 , with probability at least         , for any          ,                            1−δ     h∈H
+            ⇥
+                         8d log 2em + 8 log 4
+          R(h) ≤�R(h) +           d m         δ .
+    Proof: Derived from growth function bound
+                            ⇥    ⇤                           ⌃
+      Pr ⇧���R(h)          ���> ϵ            exp                .              −⌅R(h)    ⇥4ΠH(2m)    −mϵ28
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 33            This lecture
+
+   Rademacher complexity
+
+   Growth Function
+
+   VC dimension
+
+   Lower bound
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 34VCDim Lower Bound - Realizable Case
+                                                                         (Ehrenfeucht et al., 1988)
+   Theorem: let H be a hypothesis set with VC-
+    dimension d>1 . Then, for any learning algorithm L ,
+                     �                �
+                                  d                 Pr   RD(hS, f) >  −1     ∃D, ∃f ∈H,               32m  ≥1/100.              S∼Dm
+    Proof: choose D such that L can do no better than
+    tossing a coin for some points.
+      Let X       x1, . . . ,     be a set fully shattered.  •           ={x0,       xd−1}      For any ϵ>0 , define D with support X by
+                                                   8ϵ
+    Pr[x0] = 1      and        d     Pr[xi] =
+    D                        D           −8ϵ        ⇤i ⇥[1,  −1],        d                                     −1.
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 35   We can assume without loss of generality that L •
+    makes no error on x0 .
+    For a sample S , let S denote the set of its elements •
+      falling in X1 ={x1, . . . , xd−1} and let S be the set of                                        X1.    samples of size m with at most (d −1)/2 points in
+     Fix a sample S      . Using                                  , •             ∈S      |X −S|⇥(d −1)/2         ⇤ ⇤
+          f∼U[RD(hS,E          f)] =  f       1h(x)⇤=f(x) Pr[x] Pr[f]                           x⇥X         ⇤ ⇤
+               ⇥         1h(x)⇤=f(x) Pr[x] Pr[f]
+                                   f
+                                       x⇤⇥S                                        ⇥         ⇤ �⇤
+               =           1h(x)⇤=f(x) Pr[f]  Pr[x]
+                                         f
+                                   x⇤⇥S
+                          1 ⇤         d      8ϵ               =       Pr[x]    −1    = 2ϵ.                          2     ⇥12  2  d                               −1                                      x⇤⇥S
+Mehryar Mohri - Foundations of Machine Learning                                               page 36                                S    Since the inequality holds for all         , it also holds in •                           ∈S
+    expectation:                 f)]        . This implies that                   ES,f∼U[RD(hS,   ≥2ϵ
+    there exists a labeling f0 such that ES[RD(hS,             .                                                   f0)]≥2ϵ
+    Since PrD[X                  , we also have RD(hS,           . Thus, •            −{x0}]⇥8ϵ                     f0)≤8ϵ
+       2ϵ ≤ES[RD(hS, f0)] ≤8ϵ S∈S[RD(hS,Pr         f0) ≥ϵ] + (1 −PrS∈S[RD(hS, f0) ≥ϵ])ϵ.
+     Collecting terms in Pr         f0)        , we obtain: •                               ≥ϵ]                         S∈S[RD(hS,                                                 1
+                              =                                                      7.                Pr         f0) ≥ϵ] ≥17ϵ(2ϵ −ϵ)                S∈S[RD(hS,
+    Thus, the probability over all samples S (not •
+     necessarily in   ) can be lower bounded as              S
+        Pr[RD(hS, f0)                    f0)
+         S                  ≥ϵ] ≥Pr          ≥ϵ] Pr[S] ≥17 Pr[S].                           S∈S[RD(hS,
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                               page 37    This leads us to seeking a lower bound for          . •                                                Pr[S]
+    The probability that more than (d −1)/2 points be    drawn in a sample of size m verifies the Chernoff
+    bound for any γ >0 :
+                                                           γ2
+                                                                  3                                                                                   .       1 −Pr[S] = Pr[Sm ⇤8⇥m(1 + γ)] ⇥e−8ϵm
+    Thus, for ϵ = (d          and γ =1, •                 −1)/(32m)
+      Pr[Sm           ]                    2         ⇤d−1 ⇥e−(d−1)/12 ⇥e−1/12 ⇥1 −7δ,
+     for δ ≤.01. Thus, Pr[S] ≥7δ and
+               Pr[RD(hS, f0)
+                  S                         ≥ϵ] ≥δ.
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                               page 38        Agnostic PAC Model
+
+    Definition: concept class C is PAC-learnable if there
+     exists a learning algorithm L such that:
+       for all c    ⇥>0, δ>0, and all distributions D,  •          ∈C,                h                    i
+           Pr  R(hS) −inf R(h) ✏ ≥1 −δ,         S⇠D        h2H
+       for samples S of size m=poly(1/⇥, 1/δ) for a fixed  •
+      polynomial.
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 39VCDim Lower Bound - Non-Realizable Case
+
+                                                               (Anthony and Bartlett, 1999)
+   Theorem: let H be a hypothesis set with VC
+    dimension d>1 . Then, for any learning algorithm L,
+
+       over                  �            �                           �  ∃D    X×{0, 1},                                      d
+        Pr  RD(hS) −inf RD(h) >  320m  ≥1/64.      S∼Dm          h∈H
+     Equivalently, for any learning algorithm, the sample
+    complexity verifies
+                          d
+            m ≥ 320ϵ2.
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 40            References
+
+
+       Martin Anthony, Peter L. Bartlett. Neural network learning: theoretical foundations. Cambridge  •
+        University Press. 1999.
+
+       Anselm Blumer, A. Ehrenfeucht, David Haussler, and Manfred K. Warmuth. Learnability and  •
+        the Vapnik-Chervonenkis dimension. Journal of the ACM (JACM), Volume 36, Issue 4, 1989.
+
+       A. Ehrenfeucht, David Haussler, Michael Kearns, Leslie Valiant. A general lower bound on  •
+        the number of examples needed for learning. Proceedings of 1st COLT. pp. 139-154, 1988.
+
+         Koltchinskii, Vladimir and Panchenko, Dmitry. Empirical margin distributions and bounding  •
+        the generalization error of combined classifiers. The Annals of Statistics, 30(1), 2002.
+
+        Pascal Massart. Some applications of concentration inequalities to statistics. Annales de la  •
+        Faculte des Sciences de Toulouse, IX:245–303, 2000.
+
+       N. Sauer. On the density of families of sets. Journal of Combinatorial Theory (A), 13:145-147,  •
+       1972.
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 41            References
+
+
+        Vladimir N. Vapnik. Estimation of Dependences Based on Empirical Data. Springer, 1982.  •
+
+        Vladimir N. Vapnik. The Nature of Statistical Learning Theory. Springer, 1995.  •
+
+        Vladimir N. Vapnik. Statistical Learning Theory. Wiley-Interscience, New York, 1998.  •
+
+        Vladimir N. Vapnik and Alexey Chervonenkis. Theory of Pattern Recognition. Nauka, Moscow  •
+          (in Russian). 1974.
+
+        Vladimir N. Vapnik and Alexey Chervonenkis. On the uniform convergence of relative  •
+        frequencies of events to their probabilities. Theory of Prob. and its Appl., vol. 16, no. 2, pp.
+       264-280, 1971.
+
+
+
+
+
+Mehryar Mohri - Foundations of Machine Learning                                                 page 42

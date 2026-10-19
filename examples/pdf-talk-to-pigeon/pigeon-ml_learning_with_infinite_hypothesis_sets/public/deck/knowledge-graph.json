@@ -1,0 +1,3436 @@
+{
+  "schemaVersion": "1.0",
+  "deckId": "ml-learning-with-infinite-hypothesis-sets",
+  "revision": "6db5b89d773f01a6",
+  "extraction": {
+    "mode": "lexical",
+    "provider": "local",
+    "reviewRequired": true,
+    "inputRevision": "6db5b89d773f01a6",
+    "method": "titles-sections-recurring-terms"
+  },
+  "concepts": [
+    {
+      "id": "slide-01-938db8",
+      "label": "Learning with Infinite Hypothesis Sets",
+      "aliases": [
+        "01"
+      ],
+      "type": "slide",
+      "description": "Source slide 01 in the talk.",
+      "importance": 3,
+      "cluster": "Introduction",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "Learning with Infinite Hypothesis Sets",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0",
+      "label": "Motivation",
+      "aliases": [
+        "02"
+      ],
+      "type": "slide",
+      "description": "Source slide 02 in the talk.",
+      "importance": 3,
+      "cluster": "Introduction",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "Motivation",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa",
+      "label": "This lecture",
+      "aliases": [
+        "03"
+      ],
+      "type": "slide",
+      "description": "Source slide 03 in the talk.",
+      "importance": 3,
+      "cluster": "1. Rademacher complexity",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "This lecture",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6",
+      "label": "Empirical Rademacher Complexity",
+      "aliases": [
+        "04"
+      ],
+      "type": "slide",
+      "description": "Source slide 04 in the talk.",
+      "importance": 3,
+      "cluster": "1. Rademacher complexity",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "Empirical Rademacher Complexity",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550",
+      "label": "Rademacher Complexity",
+      "aliases": [
+        "05"
+      ],
+      "type": "slide",
+      "description": "Source slide 05 in the talk.",
+      "importance": 3,
+      "cluster": "1. Rademacher complexity",
+      "mentions": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "Rademacher Complexity",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83",
+      "label": "Rademacher Complexity Bound",
+      "aliases": [
+        "06"
+      ],
+      "type": "slide",
+      "description": "Source slide 06 in the talk.",
+      "importance": 3,
+      "cluster": "1. Rademacher complexity",
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "Rademacher Complexity Bound",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100",
+      "label": "Slide 07",
+      "aliases": [
+        "07"
+      ],
+      "type": "slide",
+      "description": "Source slide 07 in the talk.",
+      "importance": 3,
+      "cluster": "1. Rademacher complexity",
+      "mentions": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "1 Changing one point of S changes Φ(S) by at most m",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-08-323783",
+      "label": "Slide 08",
+      "aliases": [
+        "08"
+      ],
+      "type": "slide",
+      "description": "Source slide 08 in the talk.",
+      "importance": 3,
+      "cluster": "1. Rademacher complexity",
+      "mentions": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "Series of observations: •",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "slide-09-3514ac",
+      "label": "Slide 09",
+      "aliases": [
+        "09"
+      ],
+      "type": "slide",
+      "description": "Source slide 09 in the talk.",
+      "importance": 3,
+      "cluster": "1. Rademacher complexity",
+      "mentions": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "Now, changing one point of S makes �RS(G) vary by • 1 at most",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc",
+      "label": "Loss Functions - Hypothesis Set",
+      "aliases": [
+        "10"
+      ],
+      "type": "slide",
+      "description": "Source slide 10 in the talk.",
+      "importance": 3,
+      "cluster": "1. Rademacher complexity",
+      "mentions": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "Loss Functions - Hypothesis Set",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-11-4fc82b",
+      "label": "Generalization Bounds - Rademacher",
+      "aliases": [
+        "11"
+      ],
+      "type": "slide",
+      "description": "Source slide 11 in the talk.",
+      "importance": 3,
+      "cluster": "1. Rademacher complexity",
+      "mentions": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "Generalization Bounds - Rademacher",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "slide-12-6b51d4",
+      "label": "Remarks",
+      "aliases": [
+        "12"
+      ],
+      "type": "slide",
+      "description": "Source slide 12 in the talk.",
+      "importance": 3,
+      "cluster": "1. Rademacher complexity",
+      "mentions": [
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "Remarks",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "slide-13-3fdba3",
+      "label": "This lecture",
+      "aliases": [
+        "13"
+      ],
+      "type": "slide",
+      "description": "Source slide 13 in the talk.",
+      "importance": 3,
+      "cluster": "2. Growth function",
+      "mentions": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "This lecture",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "slide-14-8527a8",
+      "label": "Growth Function",
+      "aliases": [
+        "14"
+      ],
+      "type": "slide",
+      "description": "Source slide 14 in the talk.",
+      "importance": 3,
+      "cluster": "2. Growth function",
+      "mentions": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "Growth Function",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "slide-15-e629fa",
+      "label": "Massart’s Lemma",
+      "aliases": [
+        "15"
+      ],
+      "type": "slide",
+      "description": "Source slide 15 in the talk.",
+      "importance": 3,
+      "cluster": "2. Growth function",
+      "mentions": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "Massart’s Lemma",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "slide-16-b17ef6",
+      "label": "Slide 16",
+      "aliases": [
+        "16"
+      ],
+      "type": "slide",
+      "description": "Source slide 16 in the talk.",
+      "importance": 3,
+      "cluster": "2. Growth function",
+      "mentions": [
+        {
+          "slideId": "16",
+          "kind": "text",
+          "evidence": "Taking the log yields: •",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "id": "slide-17-452354",
+      "label": "Growth Function Bound on Rad. Complexity",
+      "aliases": [
+        "17"
+      ],
+      "type": "slide",
+      "description": "Source slide 17 in the talk.",
+      "importance": 3,
+      "cluster": "2. Growth function",
+      "mentions": [
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "Growth Function Bound on Rad. Complexity",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "slide-18-4ec959",
+      "label": "Generalization Bound - Growth Function",
+      "aliases": [
+        "18"
+      ],
+      "type": "slide",
+      "description": "Source slide 18 in the talk.",
+      "importance": 3,
+      "cluster": "2. Growth function",
+      "mentions": [
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "Generalization Bound - Growth Function",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "slide-19-9400f1",
+      "label": "This lecture",
+      "aliases": [
+        "19"
+      ],
+      "type": "slide",
+      "description": "Source slide 19 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "19",
+          "kind": "text",
+          "evidence": "This lecture",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "id": "slide-20-f5ca38",
+      "label": "VC Dimension",
+      "aliases": [
+        "20"
+      ],
+      "type": "slide",
+      "description": "Source slide 20 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "VC Dimension",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "slide-21-6f4b66",
+      "label": "Examples",
+      "aliases": [
+        "21"
+      ],
+      "type": "slide",
+      "description": "Source slide 21 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "21",
+          "kind": "text",
+          "evidence": "Examples",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "id": "slide-22-785f3e",
+      "label": "Intervals of The Real Line",
+      "aliases": [
+        "22"
+      ],
+      "type": "slide",
+      "description": "Source slide 22 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "22",
+          "kind": "text",
+          "evidence": "Intervals of The Real Line",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "id": "slide-23-535fa3",
+      "label": "Hyperplanes",
+      "aliases": [
+        "23"
+      ],
+      "type": "slide",
+      "description": "Source slide 23 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "23",
+          "kind": "text",
+          "evidence": "Hyperplanes",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "id": "slide-24-c23560",
+      "label": "Axis-Aligned Rectangles in the Plane",
+      "aliases": [
+        "24"
+      ],
+      "type": "slide",
+      "description": "Source slide 24 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "24",
+          "kind": "text",
+          "evidence": "Axis-Aligned Rectangles in the Plane",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "id": "slide-25-b7a568",
+      "label": "Convex Polygons in the Plane",
+      "aliases": [
+        "25"
+      ],
+      "type": "slide",
+      "description": "Source slide 25 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "25",
+          "kind": "text",
+          "evidence": "Convex Polygons in the Plane",
+          "page": 25
+        }
+      ]
+    },
+    {
+      "id": "slide-26-5f9c4a",
+      "label": "Sine Functions",
+      "aliases": [
+        "26"
+      ],
+      "type": "slide",
+      "description": "Source slide 26 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "26",
+          "kind": "text",
+          "evidence": "Sine Functions",
+          "page": 26
+        }
+      ]
+    },
+    {
+      "id": "slide-27-670671",
+      "label": "Sauer’s Lemma",
+      "aliases": [
+        "27"
+      ],
+      "type": "slide",
+      "description": "Source slide 27 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "27",
+          "kind": "text",
+          "evidence": "Sauer’s Lemma",
+          "page": 27
+        }
+      ]
+    },
+    {
+      "id": "slide-28-59e197",
+      "label": "Slide 28",
+      "aliases": [
+        "28"
+      ],
+      "type": "slide",
+      "description": "Source slide 28 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "28",
+          "kind": "text",
+          "evidence": "Consider the following families over",
+          "page": 28
+        }
+      ]
+    },
+    {
+      "id": "slide-29-35135a",
+      "label": "Slide 29",
+      "aliases": [
+        "29"
+      ],
+      "type": "slide",
+      "description": "Source slide 29 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "29",
+          "kind": "text",
+          "evidence": "Since , by the induction hypothesis, • VCdim(G1)≤d � �d �m −1",
+          "page": 29
+        }
+      ]
+    },
+    {
+      "id": "slide-30-624b60",
+      "label": "Sauer’s Lemma - Consequence",
+      "aliases": [
+        "30"
+      ],
+      "type": "slide",
+      "description": "Source slide 30 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "30",
+          "kind": "text",
+          "evidence": "Sauer’s Lemma - Consequence",
+          "page": 30
+        }
+      ]
+    },
+    {
+      "id": "slide-31-eb1e33",
+      "label": "Remarks",
+      "aliases": [
+        "31"
+      ],
+      "type": "slide",
+      "description": "Source slide 31 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "31",
+          "kind": "text",
+          "evidence": "Remarks",
+          "page": 31
+        }
+      ]
+    },
+    {
+      "id": "slide-32-e29c9c",
+      "label": "Generalization Bound - VC Dimension",
+      "aliases": [
+        "32"
+      ],
+      "type": "slide",
+      "description": "Source slide 32 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "32",
+          "kind": "text",
+          "evidence": "Generalization Bound - VC Dimension",
+          "page": 32
+        }
+      ]
+    },
+    {
+      "id": "slide-33-c6f3ac",
+      "label": "Comparison - Standard VC Bound",
+      "aliases": [
+        "33"
+      ],
+      "type": "slide",
+      "description": "Source slide 33 in the talk.",
+      "importance": 3,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "33",
+          "kind": "text",
+          "evidence": "Comparison - Standard VC Bound",
+          "page": 33
+        }
+      ]
+    },
+    {
+      "id": "slide-34-86e501",
+      "label": "This lecture",
+      "aliases": [
+        "34"
+      ],
+      "type": "slide",
+      "description": "Source slide 34 in the talk.",
+      "importance": 3,
+      "cluster": "4. Lower bounds",
+      "mentions": [
+        {
+          "slideId": "34",
+          "kind": "text",
+          "evidence": "This lecture",
+          "page": 34
+        }
+      ]
+    },
+    {
+      "id": "slide-35-9f1402",
+      "label": "VCDim Lower Bound - Realizable Case",
+      "aliases": [
+        "35"
+      ],
+      "type": "slide",
+      "description": "Source slide 35 in the talk.",
+      "importance": 3,
+      "cluster": "4. Lower bounds",
+      "mentions": [
+        {
+          "slideId": "35",
+          "kind": "text",
+          "evidence": "VCDim Lower Bound - Realizable Case",
+          "page": 35
+        }
+      ]
+    },
+    {
+      "id": "slide-36-76a508",
+      "label": "Slide 36",
+      "aliases": [
+        "36"
+      ],
+      "type": "slide",
+      "description": "Source slide 36 in the talk.",
+      "importance": 3,
+      "cluster": "4. Lower bounds",
+      "mentions": [
+        {
+          "slideId": "36",
+          "kind": "text",
+          "evidence": "We can assume without loss of generality that L •",
+          "page": 36
+        }
+      ]
+    },
+    {
+      "id": "slide-37-7a61b5",
+      "label": "Slide 37",
+      "aliases": [
+        "37"
+      ],
+      "type": "slide",
+      "description": "Source slide 37 in the talk.",
+      "importance": 3,
+      "cluster": "4. Lower bounds",
+      "mentions": [
+        {
+          "slideId": "37",
+          "kind": "text",
+          "evidence": "S Since the inequality holds for all , it also holds in • ∈S",
+          "page": 37
+        }
+      ]
+    },
+    {
+      "id": "slide-38-aea921",
+      "label": "Slide 38",
+      "aliases": [
+        "38"
+      ],
+      "type": "slide",
+      "description": "Source slide 38 in the talk.",
+      "importance": 3,
+      "cluster": "4. Lower bounds",
+      "mentions": [
+        {
+          "slideId": "38",
+          "kind": "text",
+          "evidence": "This leads us to seeking a lower bound for",
+          "page": 38
+        }
+      ]
+    },
+    {
+      "id": "slide-39-0b9189",
+      "label": "Agnostic PAC Model",
+      "aliases": [
+        "39"
+      ],
+      "type": "slide",
+      "description": "Source slide 39 in the talk.",
+      "importance": 3,
+      "cluster": "4. Lower bounds",
+      "mentions": [
+        {
+          "slideId": "39",
+          "kind": "text",
+          "evidence": "Agnostic PAC Model",
+          "page": 39
+        }
+      ]
+    },
+    {
+      "id": "slide-40-d59ece",
+      "label": "VCDim Lower Bound - Non-Realizable Case",
+      "aliases": [
+        "40"
+      ],
+      "type": "slide",
+      "description": "Source slide 40 in the talk.",
+      "importance": 3,
+      "cluster": "4. Lower bounds",
+      "mentions": [
+        {
+          "slideId": "40",
+          "kind": "text",
+          "evidence": "VCDim Lower Bound - Non-Realizable Case",
+          "page": 40
+        }
+      ]
+    },
+    {
+      "id": "slide-41-3d914f",
+      "label": "References",
+      "aliases": [
+        "41"
+      ],
+      "type": "slide",
+      "description": "Source slide 41 in the talk.",
+      "importance": 3,
+      "cluster": "References",
+      "mentions": [
+        {
+          "slideId": "41",
+          "kind": "text",
+          "evidence": "References",
+          "page": 41
+        }
+      ]
+    },
+    {
+      "id": "slide-42-73475c",
+      "label": "References",
+      "aliases": [
+        "42"
+      ],
+      "type": "slide",
+      "description": "Source slide 42 in the talk.",
+      "importance": 3,
+      "cluster": "References",
+      "mentions": [
+        {
+          "slideId": "42",
+          "kind": "text",
+          "evidence": "References",
+          "page": 42
+        }
+      ]
+    },
+    {
+      "id": "section-introduction-b60535",
+      "label": "Introduction",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 2 source slide(s).",
+      "importance": 4,
+      "cluster": "Introduction",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "Learning with Infinite Hypothesis Sets",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "section-1-rademacher-complexity-65b43c",
+      "label": "1. Rademacher complexity",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 10 source slide(s).",
+      "importance": 4,
+      "cluster": "1. Rademacher complexity",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "This lecture",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "section-2-growth-function-12030a",
+      "label": "2. Growth function",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 6 source slide(s).",
+      "importance": 4,
+      "cluster": "2. Growth function",
+      "mentions": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "This lecture",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87",
+      "label": "3. VC dimension",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 15 source slide(s).",
+      "importance": 4,
+      "cluster": "3. VC dimension",
+      "mentions": [
+        {
+          "slideId": "19",
+          "kind": "text",
+          "evidence": "This lecture",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "id": "section-4-lower-bounds-3c1829",
+      "label": "4. Lower bounds",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 7 source slide(s).",
+      "importance": 4,
+      "cluster": "4. Lower bounds",
+      "mentions": [
+        {
+          "slideId": "34",
+          "kind": "text",
+          "evidence": "This lecture",
+          "page": 34
+        }
+      ]
+    },
+    {
+      "id": "section-references-69824d",
+      "label": "References",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 2 source slide(s).",
+      "importance": 4,
+      "cluster": "References",
+      "mentions": [
+        {
+          "slideId": "41",
+          "kind": "text",
+          "evidence": "References",
+          "page": 41
+        }
+      ]
+    },
+    {
+      "id": "concept-mohri-28d0f2",
+      "label": "mohri",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses mohri as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "mohri",
+          "page": 1
+        },
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "mohri",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "mohri",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "concept-mehryar-62e93e",
+      "label": "mehryar",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses mehryar as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "mehryar",
+          "page": 1
+        },
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "mehryar",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "mehryar",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "concept-machine-bc020a",
+      "label": "machine",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses machine as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "machine",
+          "page": 1
+        },
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "machine",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "machine",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "concept-learning-edd957",
+      "label": "learning",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses learning as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "learning",
+          "page": 1
+        },
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "learning",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "learning",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "concept-foundations-3fe005",
+      "label": "foundations",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses foundations as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "foundations",
+          "page": 1
+        },
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "foundations",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "foundations",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "concept-bound-5e1cf4",
+      "label": "bound",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses bound as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "bound",
+          "page": 3
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "bound",
+          "page": 6
+        },
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "bound",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "concept-vcdim-28ec24",
+      "label": "vcdim",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses vcdim as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "vcdim",
+          "page": 20
+        },
+        {
+          "slideId": "21",
+          "kind": "text",
+          "evidence": "vcdim",
+          "page": 21
+        },
+        {
+          "slideId": "22",
+          "kind": "text",
+          "evidence": "vcdim",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "id": "concept-dimension-48eb63",
+      "label": "dimension",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses dimension as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "dimension",
+          "page": 3
+        },
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "dimension",
+          "page": 13
+        },
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "dimension",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "concept-hypothesis-7beb7f",
+      "label": "hypothesis",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses hypothesis as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "hypothesis",
+          "page": 1
+        },
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "hypothesis",
+          "page": 2
+        },
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "hypothesis",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "concept-complexity-9fff2d",
+      "label": "complexity",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses complexity as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "complexity",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "complexity",
+          "page": 3
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "complexity",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "concept-lower-8c6fb1",
+      "label": "lower",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses lower as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "lower",
+          "page": 3
+        },
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "lower",
+          "page": 13
+        },
+        {
+          "slideId": "19",
+          "kind": "text",
+          "evidence": "lower",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "id": "concept-functions-ef7d00",
+      "label": "functions",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses functions as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "functions",
+          "page": 4
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "functions",
+          "page": 5
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "functions",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "concept-taking-c2a5ac",
+      "label": "taking",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses taking as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "taking",
+          "page": 4
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "taking",
+          "page": 5
+        },
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "taking",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "concept-shattered-9eb956",
+      "label": "shattered",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses shattered as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "shattered",
+          "page": 20
+        },
+        {
+          "slideId": "21",
+          "kind": "text",
+          "evidence": "shattered",
+          "page": 21
+        },
+        {
+          "slideId": "22",
+          "kind": "text",
+          "evidence": "shattered",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "id": "concept-rademacher-aee3d3",
+      "label": "rademacher",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses rademacher as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "rademacher",
+          "page": 3
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "rademacher",
+          "page": 4
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "rademacher",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "concept-proof-c1cda2",
+      "label": "proof",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses proof as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "proof",
+          "page": 6
+        },
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "proof",
+          "page": 10
+        },
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "proof",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "concept-probability-3955f8",
+      "label": "probability",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses probability as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "probability",
+          "page": 6
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "probability",
+          "page": 7
+        },
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "probability",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "concept-points-c54a06",
+      "label": "points",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses points as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "points",
+          "page": 14
+        },
+        {
+          "slideId": "22",
+          "kind": "text",
+          "evidence": "points",
+          "page": 22
+        },
+        {
+          "slideId": "23",
+          "kind": "text",
+          "evidence": "points",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "id": "concept-growth-19c641",
+      "label": "growth",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses growth as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "growth",
+          "page": 3
+        },
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "growth",
+          "page": 13
+        },
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "growth",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "concept-function-78f9ac",
+      "label": "function",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses function as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "function",
+          "page": 3
+        },
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "function",
+          "page": 13
+        },
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "function",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "concept-family-d34a56",
+      "label": "family",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses family as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "family",
+          "page": 4
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "family",
+          "page": 5
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "family",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "concept-values-89445e",
+      "label": "values",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses values as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "values",
+          "page": 4
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "values",
+          "page": 5
+        },
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "values",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "concept-least-6bab65",
+      "label": "least",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses least as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "least",
+          "page": 6
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "least",
+          "page": 7
+        },
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "least",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "concept-following-8d0288",
+      "label": "following",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses following as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "following",
+          "page": 6
+        },
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "following",
+          "page": 15
+        },
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "following",
+          "page": 17
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "section-introduction-b60535-contains-slide-01-938db8-01",
+      "source": "section-introduction-b60535",
+      "target": "slide-01-938db8",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "Learning with Infinite Hypothesis Sets",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "section-introduction-b60535-contains-slide-02-a953f0-02",
+      "source": "section-introduction-b60535",
+      "target": "slide-02-a953f0",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "Motivation",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "section-1-rademacher-complexity-65b43c-contains-slide-03-0b8efa-03",
+      "source": "section-1-rademacher-complexity-65b43c",
+      "target": "slide-03-0b8efa",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "This lecture",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "section-1-rademacher-complexity-65b43c-contains-slide-04-6cd5b6-04",
+      "source": "section-1-rademacher-complexity-65b43c",
+      "target": "slide-04-6cd5b6",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "Empirical Rademacher Complexity",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "section-1-rademacher-complexity-65b43c-contains-slide-05-c97550-05",
+      "source": "section-1-rademacher-complexity-65b43c",
+      "target": "slide-05-c97550",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "Rademacher Complexity",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "section-1-rademacher-complexity-65b43c-contains-slide-06-aacd83-06",
+      "source": "section-1-rademacher-complexity-65b43c",
+      "target": "slide-06-aacd83",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "Rademacher Complexity Bound",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "section-1-rademacher-complexity-65b43c-contains-slide-07-19b100-07",
+      "source": "section-1-rademacher-complexity-65b43c",
+      "target": "slide-07-19b100",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "1 Changing one point of S changes Φ(S) by at most m",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "section-1-rademacher-complexity-65b43c-contains-slide-08-323783-08",
+      "source": "section-1-rademacher-complexity-65b43c",
+      "target": "slide-08-323783",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "Series of observations: •",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "section-1-rademacher-complexity-65b43c-contains-slide-09-3514ac-09",
+      "source": "section-1-rademacher-complexity-65b43c",
+      "target": "slide-09-3514ac",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "Now, changing one point of S makes �RS(G) vary by • 1 at most",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "section-1-rademacher-complexity-65b43c-contains-slide-10-4a44dc-10",
+      "source": "section-1-rademacher-complexity-65b43c",
+      "target": "slide-10-4a44dc",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "Loss Functions - Hypothesis Set",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "section-1-rademacher-complexity-65b43c-contains-slide-11-4fc82b-11",
+      "source": "section-1-rademacher-complexity-65b43c",
+      "target": "slide-11-4fc82b",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "Generalization Bounds - Rademacher",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "section-1-rademacher-complexity-65b43c-contains-slide-12-6b51d4-12",
+      "source": "section-1-rademacher-complexity-65b43c",
+      "target": "slide-12-6b51d4",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "Remarks",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "section-2-growth-function-12030a-contains-slide-13-3fdba3-13",
+      "source": "section-2-growth-function-12030a",
+      "target": "slide-13-3fdba3",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "This lecture",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "section-2-growth-function-12030a-contains-slide-14-8527a8-14",
+      "source": "section-2-growth-function-12030a",
+      "target": "slide-14-8527a8",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "Growth Function",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "section-2-growth-function-12030a-contains-slide-15-e629fa-15",
+      "source": "section-2-growth-function-12030a",
+      "target": "slide-15-e629fa",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "Massart’s Lemma",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "section-2-growth-function-12030a-contains-slide-16-b17ef6-16",
+      "source": "section-2-growth-function-12030a",
+      "target": "slide-16-b17ef6",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "16",
+          "kind": "text",
+          "evidence": "Taking the log yields: •",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "id": "section-2-growth-function-12030a-contains-slide-17-452354-17",
+      "source": "section-2-growth-function-12030a",
+      "target": "slide-17-452354",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "Growth Function Bound on Rad. Complexity",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "section-2-growth-function-12030a-contains-slide-18-4ec959-18",
+      "source": "section-2-growth-function-12030a",
+      "target": "slide-18-4ec959",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "Generalization Bound - Growth Function",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-19-9400f1-19",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-19-9400f1",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "19",
+          "kind": "text",
+          "evidence": "This lecture",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-20-f5ca38-20",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-20-f5ca38",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "VC Dimension",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-21-6f4b66-21",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-21-6f4b66",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "21",
+          "kind": "text",
+          "evidence": "Examples",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-22-785f3e-22",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-22-785f3e",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "22",
+          "kind": "text",
+          "evidence": "Intervals of The Real Line",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-23-535fa3-23",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-23-535fa3",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "23",
+          "kind": "text",
+          "evidence": "Hyperplanes",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-24-c23560-24",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-24-c23560",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "24",
+          "kind": "text",
+          "evidence": "Axis-Aligned Rectangles in the Plane",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-25-b7a568-25",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-25-b7a568",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "25",
+          "kind": "text",
+          "evidence": "Convex Polygons in the Plane",
+          "page": 25
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-26-5f9c4a-26",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-26-5f9c4a",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "26",
+          "kind": "text",
+          "evidence": "Sine Functions",
+          "page": 26
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-27-670671-27",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-27-670671",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "27",
+          "kind": "text",
+          "evidence": "Sauer’s Lemma",
+          "page": 27
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-28-59e197-28",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-28-59e197",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "28",
+          "kind": "text",
+          "evidence": "Consider the following families over",
+          "page": 28
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-29-35135a-29",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-29-35135a",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "29",
+          "kind": "text",
+          "evidence": "Since , by the induction hypothesis, • VCdim(G1)≤d � �d �m −1",
+          "page": 29
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-30-624b60-30",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-30-624b60",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "30",
+          "kind": "text",
+          "evidence": "Sauer’s Lemma - Consequence",
+          "page": 30
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-31-eb1e33-31",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-31-eb1e33",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "31",
+          "kind": "text",
+          "evidence": "Remarks",
+          "page": 31
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-32-e29c9c-32",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-32-e29c9c",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "32",
+          "kind": "text",
+          "evidence": "Generalization Bound - VC Dimension",
+          "page": 32
+        }
+      ]
+    },
+    {
+      "id": "section-3-vc-dimension-d4ae87-contains-slide-33-c6f3ac-33",
+      "source": "section-3-vc-dimension-d4ae87",
+      "target": "slide-33-c6f3ac",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "33",
+          "kind": "text",
+          "evidence": "Comparison - Standard VC Bound",
+          "page": 33
+        }
+      ]
+    },
+    {
+      "id": "section-4-lower-bounds-3c1829-contains-slide-34-86e501-34",
+      "source": "section-4-lower-bounds-3c1829",
+      "target": "slide-34-86e501",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "34",
+          "kind": "text",
+          "evidence": "This lecture",
+          "page": 34
+        }
+      ]
+    },
+    {
+      "id": "section-4-lower-bounds-3c1829-contains-slide-35-9f1402-35",
+      "source": "section-4-lower-bounds-3c1829",
+      "target": "slide-35-9f1402",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "35",
+          "kind": "text",
+          "evidence": "VCDim Lower Bound - Realizable Case",
+          "page": 35
+        }
+      ]
+    },
+    {
+      "id": "section-4-lower-bounds-3c1829-contains-slide-36-76a508-36",
+      "source": "section-4-lower-bounds-3c1829",
+      "target": "slide-36-76a508",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "36",
+          "kind": "text",
+          "evidence": "We can assume without loss of generality that L •",
+          "page": 36
+        }
+      ]
+    },
+    {
+      "id": "section-4-lower-bounds-3c1829-contains-slide-37-7a61b5-37",
+      "source": "section-4-lower-bounds-3c1829",
+      "target": "slide-37-7a61b5",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "37",
+          "kind": "text",
+          "evidence": "S Since the inequality holds for all , it also holds in • ∈S",
+          "page": 37
+        }
+      ]
+    },
+    {
+      "id": "section-4-lower-bounds-3c1829-contains-slide-38-aea921-38",
+      "source": "section-4-lower-bounds-3c1829",
+      "target": "slide-38-aea921",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "38",
+          "kind": "text",
+          "evidence": "This leads us to seeking a lower bound for",
+          "page": 38
+        }
+      ]
+    },
+    {
+      "id": "section-4-lower-bounds-3c1829-contains-slide-39-0b9189-39",
+      "source": "section-4-lower-bounds-3c1829",
+      "target": "slide-39-0b9189",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "39",
+          "kind": "text",
+          "evidence": "Agnostic PAC Model",
+          "page": 39
+        }
+      ]
+    },
+    {
+      "id": "section-4-lower-bounds-3c1829-contains-slide-40-d59ece-40",
+      "source": "section-4-lower-bounds-3c1829",
+      "target": "slide-40-d59ece",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "40",
+          "kind": "text",
+          "evidence": "VCDim Lower Bound - Non-Realizable Case",
+          "page": 40
+        }
+      ]
+    },
+    {
+      "id": "section-references-69824d-contains-slide-41-3d914f-41",
+      "source": "section-references-69824d",
+      "target": "slide-41-3d914f",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "41",
+          "kind": "text",
+          "evidence": "References",
+          "page": 41
+        }
+      ]
+    },
+    {
+      "id": "section-references-69824d-contains-slide-42-73475c-42",
+      "source": "section-references-69824d",
+      "target": "slide-42-73475c",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "42",
+          "kind": "text",
+          "evidence": "References",
+          "page": 42
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-mohri-28d0f2-01",
+      "source": "slide-01-938db8",
+      "target": "concept-mohri-28d0f2",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "mohri",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-mohri-28d0f2-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-mohri-28d0f2",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "mohri",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-mohri-28d0f2-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-mohri-28d0f2",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "mohri",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-mehryar-62e93e-01",
+      "source": "slide-01-938db8",
+      "target": "concept-mehryar-62e93e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "mehryar",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-mehryar-62e93e-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-mehryar-62e93e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "mehryar",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-mehryar-62e93e-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-mehryar-62e93e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "mehryar",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-machine-bc020a-01",
+      "source": "slide-01-938db8",
+      "target": "concept-machine-bc020a",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "machine",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-machine-bc020a-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-machine-bc020a",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "machine",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-machine-bc020a-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-machine-bc020a",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "machine",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-learning-edd957-01",
+      "source": "slide-01-938db8",
+      "target": "concept-learning-edd957",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "learning",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-learning-edd957-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-learning-edd957",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "learning",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-learning-edd957-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-learning-edd957",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "learning",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-foundations-3fe005-01",
+      "source": "slide-01-938db8",
+      "target": "concept-foundations-3fe005",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "foundations",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-foundations-3fe005-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-foundations-3fe005",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "foundations",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-foundations-3fe005-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-foundations-3fe005",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "foundations",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-bound-5e1cf4-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-bound-5e1cf4",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "bound",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-bound-5e1cf4-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-bound-5e1cf4",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "bound",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-09-3514ac-mentions-concept-bound-5e1cf4-09",
+      "source": "slide-09-3514ac",
+      "target": "concept-bound-5e1cf4",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "bound",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "slide-20-f5ca38-mentions-concept-vcdim-28ec24-20",
+      "source": "slide-20-f5ca38",
+      "target": "concept-vcdim-28ec24",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "vcdim",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "slide-21-6f4b66-mentions-concept-vcdim-28ec24-21",
+      "source": "slide-21-6f4b66",
+      "target": "concept-vcdim-28ec24",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "21",
+          "kind": "text",
+          "evidence": "vcdim",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "id": "slide-22-785f3e-mentions-concept-vcdim-28ec24-22",
+      "source": "slide-22-785f3e",
+      "target": "concept-vcdim-28ec24",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "22",
+          "kind": "text",
+          "evidence": "vcdim",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-dimension-48eb63-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-dimension-48eb63",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "dimension",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-13-3fdba3-mentions-concept-dimension-48eb63-13",
+      "source": "slide-13-3fdba3",
+      "target": "concept-dimension-48eb63",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "dimension",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "slide-18-4ec959-mentions-concept-dimension-48eb63-18",
+      "source": "slide-18-4ec959",
+      "target": "concept-dimension-48eb63",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "dimension",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-hypothesis-7beb7f-01",
+      "source": "slide-01-938db8",
+      "target": "concept-hypothesis-7beb7f",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "hypothesis",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-hypothesis-7beb7f-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-hypothesis-7beb7f",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "hypothesis",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc-mentions-concept-hypothesis-7beb7f-10",
+      "source": "slide-10-4a44dc",
+      "target": "concept-hypothesis-7beb7f",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "hypothesis",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-complexity-9fff2d-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-complexity-9fff2d",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "complexity",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-complexity-9fff2d-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-complexity-9fff2d",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "complexity",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-complexity-9fff2d-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-complexity-9fff2d",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "complexity",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-lower-8c6fb1-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-lower-8c6fb1",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "lower",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-13-3fdba3-mentions-concept-lower-8c6fb1-13",
+      "source": "slide-13-3fdba3",
+      "target": "concept-lower-8c6fb1",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "lower",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "slide-19-9400f1-mentions-concept-lower-8c6fb1-19",
+      "source": "slide-19-9400f1",
+      "target": "concept-lower-8c6fb1",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "19",
+          "kind": "text",
+          "evidence": "lower",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-functions-ef7d00-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-functions-ef7d00",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "functions",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-functions-ef7d00-05",
+      "source": "slide-05-c97550",
+      "target": "concept-functions-ef7d00",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "functions",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-functions-ef7d00-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-functions-ef7d00",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "functions",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-taking-c2a5ac-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-taking-c2a5ac",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "taking",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-taking-c2a5ac-05",
+      "source": "slide-05-c97550",
+      "target": "concept-taking-c2a5ac",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "taking",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc-mentions-concept-taking-c2a5ac-10",
+      "source": "slide-10-4a44dc",
+      "target": "concept-taking-c2a5ac",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "taking",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-20-f5ca38-mentions-concept-shattered-9eb956-20",
+      "source": "slide-20-f5ca38",
+      "target": "concept-shattered-9eb956",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "shattered",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "slide-21-6f4b66-mentions-concept-shattered-9eb956-21",
+      "source": "slide-21-6f4b66",
+      "target": "concept-shattered-9eb956",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "21",
+          "kind": "text",
+          "evidence": "shattered",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "id": "slide-22-785f3e-mentions-concept-shattered-9eb956-22",
+      "source": "slide-22-785f3e",
+      "target": "concept-shattered-9eb956",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "22",
+          "kind": "text",
+          "evidence": "shattered",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-rademacher-aee3d3-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-rademacher-aee3d3",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "rademacher",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-rademacher-aee3d3-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-rademacher-aee3d3",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "rademacher",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-rademacher-aee3d3-05",
+      "source": "slide-05-c97550",
+      "target": "concept-rademacher-aee3d3",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "rademacher",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-proof-c1cda2-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-proof-c1cda2",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "proof",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc-mentions-concept-proof-c1cda2-10",
+      "source": "slide-10-4a44dc",
+      "target": "concept-proof-c1cda2",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "proof",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-15-e629fa-mentions-concept-proof-c1cda2-15",
+      "source": "slide-15-e629fa",
+      "target": "concept-proof-c1cda2",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "proof",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-probability-3955f8-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-probability-3955f8",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "probability",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-probability-3955f8-07",
+      "source": "slide-07-19b100",
+      "target": "concept-probability-3955f8",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "probability",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-09-3514ac-mentions-concept-probability-3955f8-09",
+      "source": "slide-09-3514ac",
+      "target": "concept-probability-3955f8",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "probability",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "slide-14-8527a8-mentions-concept-points-c54a06-14",
+      "source": "slide-14-8527a8",
+      "target": "concept-points-c54a06",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "points",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "slide-22-785f3e-mentions-concept-points-c54a06-22",
+      "source": "slide-22-785f3e",
+      "target": "concept-points-c54a06",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "22",
+          "kind": "text",
+          "evidence": "points",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "id": "slide-23-535fa3-mentions-concept-points-c54a06-23",
+      "source": "slide-23-535fa3",
+      "target": "concept-points-c54a06",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "23",
+          "kind": "text",
+          "evidence": "points",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-growth-19c641-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-growth-19c641",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "growth",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-13-3fdba3-mentions-concept-growth-19c641-13",
+      "source": "slide-13-3fdba3",
+      "target": "concept-growth-19c641",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "growth",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "slide-14-8527a8-mentions-concept-growth-19c641-14",
+      "source": "slide-14-8527a8",
+      "target": "concept-growth-19c641",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "growth",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-function-78f9ac-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-function-78f9ac",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "function",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-13-3fdba3-mentions-concept-function-78f9ac-13",
+      "source": "slide-13-3fdba3",
+      "target": "concept-function-78f9ac",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "function",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "slide-14-8527a8-mentions-concept-function-78f9ac-14",
+      "source": "slide-14-8527a8",
+      "target": "concept-function-78f9ac",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "function",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-family-d34a56-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-family-d34a56",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "family",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-family-d34a56-05",
+      "source": "slide-05-c97550",
+      "target": "concept-family-d34a56",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "family",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-family-d34a56-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-family-d34a56",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "family",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-values-89445e-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-values-89445e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "values",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-values-89445e-05",
+      "source": "slide-05-c97550",
+      "target": "concept-values-89445e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "values",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc-mentions-concept-values-89445e-10",
+      "source": "slide-10-4a44dc",
+      "target": "concept-values-89445e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "values",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-least-6bab65-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-least-6bab65",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "least",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-least-6bab65-07",
+      "source": "slide-07-19b100",
+      "target": "concept-least-6bab65",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "least",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-09-3514ac-mentions-concept-least-6bab65-09",
+      "source": "slide-09-3514ac",
+      "target": "concept-least-6bab65",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "least",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-following-8d0288-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-following-8d0288",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "following",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-15-e629fa-mentions-concept-following-8d0288-15",
+      "source": "slide-15-e629fa",
+      "target": "concept-following-8d0288",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "following",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "slide-17-452354-mentions-concept-following-8d0288-17",
+      "source": "slide-17-452354",
+      "target": "concept-following-8d0288",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "following",
+          "page": 17
+        }
+      ]
+    }
+  ]
+}

@@ -1,0 +1,146 @@
+{
+  "slides": {
+    "1": {
+      "section": "Introduction",
+      "title": "Learning with Infinite Hypothesis Sets",
+      "titleRect": {
+        "x": 190,
+        "y": 139,
+        "width": 420,
+        "height": 103
+      }
+    },
+    "2": {
+      "section": "Introduction"
+    },
+    "3": {
+      "section": "1. Rademacher complexity"
+    },
+    "4": {
+      "section": "1. Rademacher complexity"
+    },
+    "5": {
+      "section": "1. Rademacher complexity"
+    },
+    "6": {
+      "section": "1. Rademacher complexity"
+    },
+    "7": {
+      "section": "1. Rademacher complexity"
+    },
+    "8": {
+      "section": "1. Rademacher complexity",
+      "title": ""
+    },
+    "9": {
+      "section": "1. Rademacher complexity"
+    },
+    "10": {
+      "section": "1. Rademacher complexity"
+    },
+    "11": {
+      "section": "1. Rademacher complexity"
+    },
+    "12": {
+      "section": "1. Rademacher complexity"
+    },
+    "13": {
+      "section": "2. Growth function"
+    },
+    "14": {
+      "section": "2. Growth function"
+    },
+    "15": {
+      "section": "2. Growth function"
+    },
+    "16": {
+      "section": "2. Growth function"
+    },
+    "17": {
+      "section": "2. Growth function"
+    },
+    "18": {
+      "section": "2. Growth function"
+    },
+    "19": {
+      "section": "3. VC dimension"
+    },
+    "20": {
+      "section": "3. VC dimension"
+    },
+    "21": {
+      "section": "3. VC dimension"
+    },
+    "22": {
+      "section": "3. VC dimension"
+    },
+    "23": {
+      "section": "3. VC dimension"
+    },
+    "24": {
+      "section": "3. VC dimension"
+    },
+    "25": {
+      "section": "3. VC dimension"
+    },
+    "26": {
+      "section": "3. VC dimension"
+    },
+    "27": {
+      "section": "3. VC dimension"
+    },
+    "28": {
+      "section": "3. VC dimension"
+    },
+    "29": {
+      "section": "3. VC dimension"
+    },
+    "30": {
+      "section": "3. VC dimension"
+    },
+    "31": {
+      "section": "3. VC dimension"
+    },
+    "32": {
+      "section": "3. VC dimension"
+    },
+    "33": {
+      "section": "3. VC dimension"
+    },
+    "34": {
+      "section": "4. Lower bounds"
+    },
+    "35": {
+      "section": "4. Lower bounds"
+    },
+    "36": {
+      "section": "4. Lower bounds"
+    },
+    "37": {
+      "section": "4. Lower bounds",
+      "title": ""
+    },
+    "38": {
+      "section": "4. Lower bounds"
+    },
+    "39": {
+      "section": "4. Lower bounds"
+    },
+    "40": {
+      "section": "4. Lower bounds",
+      "title": "VCDim Lower Bound - Non-Realizable Case",
+      "titleRect": {
+        "x": 40,
+        "y": 45,
+        "width": 720,
+        "height": 55
+      }
+    },
+    "41": {
+      "section": "References"
+    },
+    "42": {
+      "section": "References"
+    }
+  }
+}

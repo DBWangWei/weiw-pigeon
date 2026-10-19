@@ -133,3 +133,29 @@ page-38 PDF crop was also rendered and inspected on navy. Both examples and the
 41-page lecture output were refreshed, preserving deck revisions and SVG hashes;
 ZIP runtime contents match their output folders. These checks do not establish
 full browser rendering or native fullscreen behavior.
+
+## Example refresh — 2026-10-19
+
+The public examples now use
+[`typst-talk-to-pigeon`](../../../examples/typst-talk-to-pigeon/), a 24-slide
+**OLS Beyond Memorization** deck for DSAA3073: Theories of Data Science,
+26Summer, and [`pdf-talk-to-pigeon`](../../../examples/pdf-talk-to-pigeon/),
+Mehryar Mohri's 42-page **Learning with Infinite Hypothesis Sets** lecture.
+Both include their source, configuration, and generated offline presentation;
+the Typst example also includes its compiled PDF and editable figures.
+The synthetic PDF remains available under `typst-to-pigeon/tests/fixtures/`.
+
+The OLS example has four inferred outline boundaries and 19 takeaway callouts.
+Text matching now excludes punctuation-only tokens before a matched block,
+preventing stray punctuation from enlarging a takeaway target. The PDF example
+uses reviewed navigation overrides for its section boundaries and ambiguous
+titles; its source PDF is preserved byte for byte.
+
+For this refresh, **27 Python tests, 2 PDF fixture runtime tests, and 6 smoke
+tests against the new examples passed**. Both builds report zero warnings.
+Checks covered revision consistency, graph evidence, SVG hashes, region bounds,
+embedded asset equality, JavaScript syntax, and ZIP integrity and runtime
+contents. The smoke tests forbid network fetches and cover startup, sections,
+search, keyboard navigation, pen, boards, diagrams, sessions, and wand emphasis.
+They use a simulated DOM; live browser rendering and fullscreen behavior were
+not verified for these examples.

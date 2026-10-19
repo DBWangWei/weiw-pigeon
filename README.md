@@ -108,15 +108,28 @@ can correct titles or regions. See [the input contract](typst-to-pigeon/referenc
   and regression tests.
 - `typst-to-pigeon.sh`: portable launcher.
 - `install-typst-to-pigeon.sh`: global skill installer, with an installation backup.
-- `examples/talk-v5/`: current talk source, required inputs, configuration and
-  the generated 16-slide presentation in `pigeon-talk-v5/`.
-- `examples/pdf/`: a nine-page PDF fixture and its generated presentation.
+- [`examples/typst-talk-to-pigeon/`](examples/typst-talk-to-pigeon/): the 24-slide
+  **OLS Beyond Memorization** deck for DSAA3073: Theories of Data Science,
+  26Summer, with editable Typst, compiled PDF, figures, configuration, and Pigeon
+  output. It demonstrates repeated outlines, tables, diagrams, and 19 takeaway
+  callouts.
+- [`examples/pdf-talk-to-pigeon/`](examples/pdf-talk-to-pigeon/): Mehryar Mohri's
+  42-page **Learning with Infinite Hypothesis Sets** PDF and its Pigeon output.
+  The original PDF and its attribution are preserved.
+- `typst-to-pigeon/tests/fixtures/`: Typst and PDF geometry samples used by the
+  regression tests, separate from the presentation examples.
 
-Rebuild the example from this repository:
+Rebuild either example from this repository:
 
 ```bash
-./typst-to-pigeon.sh examples/talk-v5/talk-v5.typ --force
+./typst-to-pigeon.sh examples/typst-talk-to-pigeon/OLS-beyond-memoization.typ --force
+./typst-to-pigeon.sh examples/pdf-talk-to-pigeon/ml_learning_with_infinite_hypothesis_sets.pdf --force
 ```
+
+Open `pigeon-OLS-beyond-memoization/index.html` inside the Typst example, or
+`pigeon-ml_learning_with_infinite_hypothesis_sets/index.html` inside the PDF
+example. Keep each generated folder together for offline use. Rebuilds also
+produce ZIP archives beside the inputs; those archives are ignored by Git.
 
 ## Development checks
 

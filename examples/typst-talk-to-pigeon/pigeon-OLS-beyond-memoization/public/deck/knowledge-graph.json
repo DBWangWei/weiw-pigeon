@@ -1,0 +1,2789 @@
+{
+  "schemaVersion": "1.0",
+  "deckId": "ols-beyond-memoization",
+  "revision": "901289212eabdbcd",
+  "extraction": {
+    "mode": "lexical",
+    "provider": "local",
+    "reviewRequired": true,
+    "inputRevision": "901289212eabdbcd",
+    "method": "titles-sections-recurring-terms"
+  },
+  "concepts": [
+    {
+      "id": "slide-01-938db8",
+      "label": "OLS Beyond Memorization",
+      "aliases": [
+        "01"
+      ],
+      "type": "slide",
+      "description": "Source slide 01 in the talk.",
+      "importance": 3,
+      "cluster": "Introduction",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "OLS Beyond Memorization",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0",
+      "label": "Outline",
+      "aliases": [
+        "02"
+      ],
+      "type": "slide",
+      "description": "Source slide 02 in the talk.",
+      "importance": 3,
+      "cluster": "1 · The problem and its spaces",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "Outline",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa",
+      "label": "Start from the least-squares problem",
+      "aliases": [
+        "03"
+      ],
+      "type": "slide",
+      "description": "Source slide 03 in the talk.",
+      "importance": 3,
+      "cluster": "1 · The problem and its spaces",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "Start from the least-squares problem",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6",
+      "label": "1 · Dimensions locate the transpose",
+      "aliases": [
+        "04"
+      ],
+      "type": "slide",
+      "description": "Source slide 04 in the talk.",
+      "importance": 3,
+      "cluster": "1 · The problem and its spaces",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "1 · Dimensions locate the transpose",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550",
+      "label": "A running example: fit one constant",
+      "aliases": [
+        "05"
+      ],
+      "type": "slide",
+      "description": "Source slide 05 in the talk.",
+      "importance": 3,
+      "cluster": "1 · The problem and its spaces",
+      "mentions": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "A running example: fit one constant",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83",
+      "label": "Outline",
+      "aliases": [
+        "06"
+      ],
+      "type": "slide",
+      "description": "Source slide 06 in the talk.",
+      "importance": 3,
+      "cluster": "2 · Projection and optimization",
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "Outline",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100",
+      "label": "2 · Least squares is orthogonal projection",
+      "aliases": [
+        "07"
+      ],
+      "type": "slide",
+      "description": "Source slide 07 in the talk.",
+      "importance": 3,
+      "cluster": "2 · Projection and optimization",
+      "mentions": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "2 · Least squares is orthogonal projection",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-08-323783",
+      "label": "Why orthogonality guarantees the minimum",
+      "aliases": [
+        "08"
+      ],
+      "type": "slide",
+      "description": "Source slide 08 in the talk.",
+      "importance": 3,
+      "cluster": "2 · Projection and optimization",
+      "mentions": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "Why orthogonality guarantees the minimum",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "slide-09-3514ac",
+      "label": "3 · The gradient yields the same condition",
+      "aliases": [
+        "09"
+      ],
+      "type": "slide",
+      "description": "Source slide 09 in the talk.",
+      "importance": 3,
+      "cluster": "2 · Projection and optimization",
+      "mentions": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "3 · The gradient yields the same condition",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc",
+      "label": "Check the fit in the same example",
+      "aliases": [
+        "10"
+      ],
+      "type": "slide",
+      "description": "Source slide 10 in the talk.",
+      "importance": 3,
+      "cluster": "2 · Projection and optimization",
+      "mentions": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "Check the fit in the same example",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-11-4fc82b",
+      "label": "Outline",
+      "aliases": [
+        "11"
+      ],
+      "type": "slide",
+      "description": "Source slide 11 in the talk.",
+      "importance": 3,
+      "cluster": "3 · Gram matrices and the adjoint",
+      "mentions": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "Outline",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "slide-12-6b51d4",
+      "label": "4 · The Gram matrix records feature geometry",
+      "aliases": [
+        "12"
+      ],
+      "type": "slide",
+      "description": "Source slide 12 in the talk.",
+      "importance": 3,
+      "cluster": "3 · Gram matrices and the adjoint",
+      "mentions": [
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "4 · The Gram matrix records feature geometry",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "slide-13-3fdba3",
+      "label": "5 · Match the feature inner products",
+      "aliases": [
+        "13"
+      ],
+      "type": "slide",
+      "description": "Source slide 13 in the talk.",
+      "importance": 3,
+      "cluster": "3 · Gram matrices and the adjoint",
+      "mentions": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "5 · Match the feature inner products",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "slide-14-8527a8",
+      "label": "Making a square system is not enough",
+      "aliases": [
+        "14"
+      ],
+      "type": "slide",
+      "description": "Source slide 14 in the talk.",
+      "importance": 3,
+      "cluster": "3 · Gram matrices and the adjoint",
+      "mentions": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "Making a square system is not enough",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "slide-15-e629fa",
+      "label": "6 · The adjoint explains why the transpose",
+      "aliases": [
+        "15"
+      ],
+      "type": "slide",
+      "description": "Source slide 15 in the talk.",
+      "importance": 3,
+      "cluster": "3 · Gram matrices and the adjoint",
+      "mentions": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "6 · The adjoint explains why the transpose",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "slide-16-b17ef6",
+      "label": "Six views, one optimality condition",
+      "aliases": [
+        "16"
+      ],
+      "type": "slide",
+      "description": "Source slide 16 in the talk.",
+      "importance": 3,
+      "cluster": "3 · Gram matrices and the adjoint",
+      "mentions": [
+        {
+          "slideId": "16",
+          "kind": "text",
+          "evidence": "Six views, one optimality condition",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "id": "slide-17-452354",
+      "label": "Outline",
+      "aliases": [
+        "17"
+      ],
+      "type": "slide",
+      "description": "Source slide 17 in the talk.",
+      "importance": 3,
+      "cluster": "4 · Rank, stability and ridge",
+      "mentions": [
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "Outline",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "slide-18-4ec959",
+      "label": "Rank controls coefficient uniqueness",
+      "aliases": [
+        "18"
+      ],
+      "type": "slide",
+      "description": "Source slide 18 in the talk.",
+      "importance": 3,
+      "cluster": "4 · Rank, stability and ridge",
+      "mentions": [
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "Rank controls coefficient uniqueness",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "slide-19-9400f1",
+      "label": "Separate coefficients from fitted values",
+      "aliases": [
+        "19"
+      ],
+      "type": "slide",
+      "description": "Source slide 19 in the talk.",
+      "importance": 3,
+      "cluster": "4 · Rank, stability and ridge",
+      "mentions": [
+        {
+          "slideId": "19",
+          "kind": "text",
+          "evidence": "Separate coefficients from fitted values",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "id": "slide-20-f5ca38",
+      "label": "Small singular values amplify response noise",
+      "aliases": [
+        "20"
+      ],
+      "type": "slide",
+      "description": "Source slide 20 in the talk.",
+      "importance": 3,
+      "cluster": "4 · Rank, stability and ridge",
+      "mentions": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "Small singular values amplify response noise",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "slide-21-6f4b66",
+      "label": "Ridge limits amplification in weak directions",
+      "aliases": [
+        "21"
+      ],
+      "type": "slide",
+      "description": "Source slide 21 in the talk.",
+      "importance": 3,
+      "cluster": "4 · Rank, stability and ridge",
+      "mentions": [
+        {
+          "slideId": "21",
+          "kind": "text",
+          "evidence": "Ridge limits amplification in weak directions",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "id": "slide-22-785f3e",
+      "label": "Ridge fits are shrunk, not orthogonally projected",
+      "aliases": [
+        "22"
+      ],
+      "type": "slide",
+      "description": "Source slide 22 in the talk.",
+      "importance": 3,
+      "cluster": "4 · Rank, stability and ridge",
+      "mentions": [
+        {
+          "slideId": "22",
+          "kind": "text",
+          "evidence": "Ridge fits are shrunk, not orthogonally projected",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "id": "slide-23-535fa3",
+      "label": "Read the two kinds of spectral weights",
+      "aliases": [
+        "23"
+      ],
+      "type": "slide",
+      "description": "Source slide 23 in the talk.",
+      "importance": 3,
+      "cluster": "4 · Rank, stability and ridge",
+      "mentions": [
+        {
+          "slideId": "23",
+          "kind": "text",
+          "evidence": "Read the two kinds of spectral weights",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "id": "slide-24-c23560",
+      "label": "Explain the equations without memorizing them",
+      "aliases": [
+        "24"
+      ],
+      "type": "slide",
+      "description": "Source slide 24 in the talk.",
+      "importance": 3,
+      "cluster": "4 · Rank, stability and ridge",
+      "mentions": [
+        {
+          "slideId": "24",
+          "kind": "text",
+          "evidence": "Explain the equations without memorizing them",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "id": "section-introduction-b60535",
+      "label": "Introduction",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 1 source slide(s).",
+      "importance": 4,
+      "cluster": "Introduction",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "OLS Beyond Memorization",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "section-1-the-problem-and-its-spaces-52b596",
+      "label": "1 · The problem and its spaces",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 4 source slide(s).",
+      "importance": 4,
+      "cluster": "1 · The problem and its spaces",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "Outline",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "section-2-projection-and-optimization-75e8bd",
+      "label": "2 · Projection and optimization",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 5 source slide(s).",
+      "importance": 4,
+      "cluster": "2 · Projection and optimization",
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "Outline",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "section-3-gram-matrices-and-the-adjoint-efc0a1",
+      "label": "3 · Gram matrices and the adjoint",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 6 source slide(s).",
+      "importance": 4,
+      "cluster": "3 · Gram matrices and the adjoint",
+      "mentions": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "Outline",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "section-4-rank-stability-and-ridge-d7b1ec",
+      "label": "4 · Rank, stability and ridge",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 8 source slide(s).",
+      "importance": 4,
+      "cluster": "4 · Rank, stability and ridge",
+      "mentions": [
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "Outline",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "concept-theories-710880",
+      "label": "theories",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses theories as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "theories",
+          "page": 1
+        },
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "theories",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "theories",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "concept-summer-e83664",
+      "label": "summer",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses summer as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "summer",
+          "page": 1
+        },
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "summer",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "summer",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "concept-science-790fad",
+      "label": "science",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses science as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "science",
+          "page": 1
+        },
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "science",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "science",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "concept-dsaa3073-aa5977",
+      "label": "dsaa3073",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses dsaa3073 as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "dsaa3073",
+          "page": 1
+        },
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "dsaa3073",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "dsaa3073",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "concept-stability-b1e795",
+      "label": "stability",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses stability as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "stability",
+          "page": 2
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "stability",
+          "page": 6
+        },
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "stability",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "concept-ridge-409e36",
+      "label": "ridge",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses ridge as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 2
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 6
+        },
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "concept-projection-1b250e",
+      "label": "projection",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses projection as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "projection",
+          "page": 2
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "projection",
+          "page": 6
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "projection",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "concept-adjoint-7c13c4",
+      "label": "adjoint",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses adjoint as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "adjoint",
+          "page": 2
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "adjoint",
+          "page": 6
+        },
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "adjoint",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "concept-optimization-be92e9",
+      "label": "optimization",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses optimization as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "optimization",
+          "page": 2
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "optimization",
+          "page": 6
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "optimization",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "concept-matrices-3b095c",
+      "label": "matrices",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses matrices as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "matrices",
+          "page": 2
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "matrices",
+          "page": 6
+        },
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "matrices",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "concept-spaces-ff6f0e",
+      "label": "spaces",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses spaces as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "spaces",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "spaces",
+          "page": 3
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "spaces",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "concept-residual-864ab1",
+      "label": "residual",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses residual as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "residual",
+          "page": 3
+        },
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "residual",
+          "page": 10
+        },
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "residual",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "concept-normal-317b32",
+      "label": "normal",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses normal as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "normal",
+          "page": 1
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "normal",
+          "page": 3
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "normal",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "concept-problem-47a493",
+      "label": "problem",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses problem as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "problem",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "problem",
+          "page": 3
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "problem",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "concept-fitted-c0164c",
+      "label": "fitted",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses fitted as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "fitted",
+          "page": 3
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "fitted",
+          "page": 7
+        },
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "fitted",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "concept-feature-2ad562",
+      "label": "feature",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses feature as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "feature",
+          "page": 3
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "feature",
+          "page": 4
+        },
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "feature",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "concept-column-881d5f",
+      "label": "column",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses column as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "column",
+          "page": 8
+        },
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "column",
+          "page": 9
+        },
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "column",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "concept-coefficients-7dbbfe",
+      "label": "coefficients",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses coefficients as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "coefficients",
+          "page": 3
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "coefficients",
+          "page": 4
+        },
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "coefficients",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "concept-coefficient-7ef50a",
+      "label": "coefficient",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses coefficient as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "coefficient",
+          "page": 4
+        },
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "coefficient",
+          "page": 8
+        },
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "coefficient",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "concept-predictions-174824",
+      "label": "predictions",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses predictions as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "predictions",
+          "page": 4
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "predictions",
+          "page": 5
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "predictions",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "concept-orthogonal-37a54e",
+      "label": "orthogonal",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses orthogonal as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "orthogonal",
+          "page": 3
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "orthogonal",
+          "page": 7
+        },
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "orthogonal",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "concept-equations-f7867d",
+      "label": "equations",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses equations as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "equations",
+          "page": 1
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "equations",
+          "page": 3
+        },
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "equations",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "concept-space-3f49db",
+      "label": "space",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses space as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "space",
+          "page": 4
+        },
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "space",
+          "page": 14
+        },
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "space",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "concept-prediction-70ad7b",
+      "label": "prediction",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses prediction as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "prediction",
+          "page": 4
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "prediction",
+          "page": 7
+        },
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "prediction",
+          "page": 14
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "section-introduction-b60535-contains-slide-01-938db8-01",
+      "source": "section-introduction-b60535",
+      "target": "slide-01-938db8",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "OLS Beyond Memorization",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "section-1-the-problem-and-its-spaces-52b596-contains-slide-02-a953f0-02",
+      "source": "section-1-the-problem-and-its-spaces-52b596",
+      "target": "slide-02-a953f0",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "Outline",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "section-1-the-problem-and-its-spaces-52b596-contains-slide-03-0b8efa-03",
+      "source": "section-1-the-problem-and-its-spaces-52b596",
+      "target": "slide-03-0b8efa",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "Start from the least-squares problem",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "section-1-the-problem-and-its-spaces-52b596-contains-slide-04-6cd5b6-04",
+      "source": "section-1-the-problem-and-its-spaces-52b596",
+      "target": "slide-04-6cd5b6",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "1 · Dimensions locate the transpose",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "section-1-the-problem-and-its-spaces-52b596-contains-slide-05-c97550-05",
+      "source": "section-1-the-problem-and-its-spaces-52b596",
+      "target": "slide-05-c97550",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "A running example: fit one constant",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "section-2-projection-and-optimization-75e8bd-contains-slide-06-aacd83-06",
+      "source": "section-2-projection-and-optimization-75e8bd",
+      "target": "slide-06-aacd83",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "Outline",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "section-2-projection-and-optimization-75e8bd-contains-slide-07-19b100-07",
+      "source": "section-2-projection-and-optimization-75e8bd",
+      "target": "slide-07-19b100",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "2 · Least squares is orthogonal projection",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "section-2-projection-and-optimization-75e8bd-contains-slide-08-323783-08",
+      "source": "section-2-projection-and-optimization-75e8bd",
+      "target": "slide-08-323783",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "Why orthogonality guarantees the minimum",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "section-2-projection-and-optimization-75e8bd-contains-slide-09-3514ac-09",
+      "source": "section-2-projection-and-optimization-75e8bd",
+      "target": "slide-09-3514ac",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "3 · The gradient yields the same condition",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "section-2-projection-and-optimization-75e8bd-contains-slide-10-4a44dc-10",
+      "source": "section-2-projection-and-optimization-75e8bd",
+      "target": "slide-10-4a44dc",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "Check the fit in the same example",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "section-3-gram-matrices-and-the-adjoint-efc0a1-contains-slide-11-4fc82b-11",
+      "source": "section-3-gram-matrices-and-the-adjoint-efc0a1",
+      "target": "slide-11-4fc82b",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "Outline",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "section-3-gram-matrices-and-the-adjoint-efc0a1-contains-slide-12-6b51d4-12",
+      "source": "section-3-gram-matrices-and-the-adjoint-efc0a1",
+      "target": "slide-12-6b51d4",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "4 · The Gram matrix records feature geometry",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "section-3-gram-matrices-and-the-adjoint-efc0a1-contains-slide-13-3fdba3-13",
+      "source": "section-3-gram-matrices-and-the-adjoint-efc0a1",
+      "target": "slide-13-3fdba3",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "5 · Match the feature inner products",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "section-3-gram-matrices-and-the-adjoint-efc0a1-contains-slide-14-8527a8-14",
+      "source": "section-3-gram-matrices-and-the-adjoint-efc0a1",
+      "target": "slide-14-8527a8",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "Making a square system is not enough",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "section-3-gram-matrices-and-the-adjoint-efc0a1-contains-slide-15-e629fa-15",
+      "source": "section-3-gram-matrices-and-the-adjoint-efc0a1",
+      "target": "slide-15-e629fa",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "6 · The adjoint explains why the transpose",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "section-3-gram-matrices-and-the-adjoint-efc0a1-contains-slide-16-b17ef6-16",
+      "source": "section-3-gram-matrices-and-the-adjoint-efc0a1",
+      "target": "slide-16-b17ef6",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "16",
+          "kind": "text",
+          "evidence": "Six views, one optimality condition",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "id": "section-4-rank-stability-and-ridge-d7b1ec-contains-slide-17-452354-17",
+      "source": "section-4-rank-stability-and-ridge-d7b1ec",
+      "target": "slide-17-452354",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "Outline",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "section-4-rank-stability-and-ridge-d7b1ec-contains-slide-18-4ec959-18",
+      "source": "section-4-rank-stability-and-ridge-d7b1ec",
+      "target": "slide-18-4ec959",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "Rank controls coefficient uniqueness",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "section-4-rank-stability-and-ridge-d7b1ec-contains-slide-19-9400f1-19",
+      "source": "section-4-rank-stability-and-ridge-d7b1ec",
+      "target": "slide-19-9400f1",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "19",
+          "kind": "text",
+          "evidence": "Separate coefficients from fitted values",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "id": "section-4-rank-stability-and-ridge-d7b1ec-contains-slide-20-f5ca38-20",
+      "source": "section-4-rank-stability-and-ridge-d7b1ec",
+      "target": "slide-20-f5ca38",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "Small singular values amplify response noise",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "section-4-rank-stability-and-ridge-d7b1ec-contains-slide-21-6f4b66-21",
+      "source": "section-4-rank-stability-and-ridge-d7b1ec",
+      "target": "slide-21-6f4b66",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "21",
+          "kind": "text",
+          "evidence": "Ridge limits amplification in weak directions",
+          "page": 21
+        }
+      ]
+    },
+    {
+      "id": "section-4-rank-stability-and-ridge-d7b1ec-contains-slide-22-785f3e-22",
+      "source": "section-4-rank-stability-and-ridge-d7b1ec",
+      "target": "slide-22-785f3e",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "22",
+          "kind": "text",
+          "evidence": "Ridge fits are shrunk, not orthogonally projected",
+          "page": 22
+        }
+      ]
+    },
+    {
+      "id": "section-4-rank-stability-and-ridge-d7b1ec-contains-slide-23-535fa3-23",
+      "source": "section-4-rank-stability-and-ridge-d7b1ec",
+      "target": "slide-23-535fa3",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "23",
+          "kind": "text",
+          "evidence": "Read the two kinds of spectral weights",
+          "page": 23
+        }
+      ]
+    },
+    {
+      "id": "section-4-rank-stability-and-ridge-d7b1ec-contains-slide-24-c23560-24",
+      "source": "section-4-rank-stability-and-ridge-d7b1ec",
+      "target": "slide-24-c23560",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "24",
+          "kind": "text",
+          "evidence": "Explain the equations without memorizing them",
+          "page": 24
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-theories-710880-01",
+      "source": "slide-01-938db8",
+      "target": "concept-theories-710880",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "theories",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-theories-710880-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-theories-710880",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "theories",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-theories-710880-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-theories-710880",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "theories",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-summer-e83664-01",
+      "source": "slide-01-938db8",
+      "target": "concept-summer-e83664",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "summer",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-summer-e83664-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-summer-e83664",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "summer",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-summer-e83664-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-summer-e83664",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "summer",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-science-790fad-01",
+      "source": "slide-01-938db8",
+      "target": "concept-science-790fad",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "science",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-science-790fad-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-science-790fad",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "science",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-science-790fad-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-science-790fad",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "science",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-dsaa3073-aa5977-01",
+      "source": "slide-01-938db8",
+      "target": "concept-dsaa3073-aa5977",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "dsaa3073",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-dsaa3073-aa5977-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-dsaa3073-aa5977",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "dsaa3073",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-dsaa3073-aa5977-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-dsaa3073-aa5977",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "dsaa3073",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-stability-b1e795-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-stability-b1e795",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "stability",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-stability-b1e795-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-stability-b1e795",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "stability",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-11-4fc82b-mentions-concept-stability-b1e795-11",
+      "source": "slide-11-4fc82b",
+      "target": "concept-stability-b1e795",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "stability",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-ridge-409e36-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-ridge-409e36",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-ridge-409e36-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-ridge-409e36",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-11-4fc82b-mentions-concept-ridge-409e36-11",
+      "source": "slide-11-4fc82b",
+      "target": "concept-ridge-409e36",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-projection-1b250e-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-projection-1b250e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "projection",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-projection-1b250e-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-projection-1b250e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "projection",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-projection-1b250e-07",
+      "source": "slide-07-19b100",
+      "target": "concept-projection-1b250e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "projection",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-adjoint-7c13c4-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-adjoint-7c13c4",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "adjoint",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-adjoint-7c13c4-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-adjoint-7c13c4",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "adjoint",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-11-4fc82b-mentions-concept-adjoint-7c13c4-11",
+      "source": "slide-11-4fc82b",
+      "target": "concept-adjoint-7c13c4",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "adjoint",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-optimization-be92e9-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-optimization-be92e9",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "optimization",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-optimization-be92e9-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-optimization-be92e9",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "optimization",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-optimization-be92e9-07",
+      "source": "slide-07-19b100",
+      "target": "concept-optimization-be92e9",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "optimization",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-matrices-3b095c-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-matrices-3b095c",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "matrices",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-matrices-3b095c-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-matrices-3b095c",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "matrices",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-11-4fc82b-mentions-concept-matrices-3b095c-11",
+      "source": "slide-11-4fc82b",
+      "target": "concept-matrices-3b095c",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "matrices",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-spaces-ff6f0e-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-spaces-ff6f0e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "spaces",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-spaces-ff6f0e-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-spaces-ff6f0e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "spaces",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-spaces-ff6f0e-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-spaces-ff6f0e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "spaces",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-residual-864ab1-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-residual-864ab1",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "residual",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc-mentions-concept-residual-864ab1-10",
+      "source": "slide-10-4a44dc",
+      "target": "concept-residual-864ab1",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "residual",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-13-3fdba3-mentions-concept-residual-864ab1-13",
+      "source": "slide-13-3fdba3",
+      "target": "concept-residual-864ab1",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "residual",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-normal-317b32-01",
+      "source": "slide-01-938db8",
+      "target": "concept-normal-317b32",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "normal",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-normal-317b32-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-normal-317b32",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "normal",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-normal-317b32-07",
+      "source": "slide-07-19b100",
+      "target": "concept-normal-317b32",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "normal",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-problem-47a493-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-problem-47a493",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "problem",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-problem-47a493-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-problem-47a493",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "problem",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-problem-47a493-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-problem-47a493",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "problem",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-fitted-c0164c-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-fitted-c0164c",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "fitted",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-fitted-c0164c-07",
+      "source": "slide-07-19b100",
+      "target": "concept-fitted-c0164c",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "fitted",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-13-3fdba3-mentions-concept-fitted-c0164c-13",
+      "source": "slide-13-3fdba3",
+      "target": "concept-fitted-c0164c",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "fitted",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-feature-2ad562-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-feature-2ad562",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "feature",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-feature-2ad562-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-feature-2ad562",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "feature",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc-mentions-concept-feature-2ad562-10",
+      "source": "slide-10-4a44dc",
+      "target": "concept-feature-2ad562",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "feature",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-08-323783-mentions-concept-column-881d5f-08",
+      "source": "slide-08-323783",
+      "target": "concept-column-881d5f",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "column",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "slide-09-3514ac-mentions-concept-column-881d5f-09",
+      "source": "slide-09-3514ac",
+      "target": "concept-column-881d5f",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "column",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "slide-12-6b51d4-mentions-concept-column-881d5f-12",
+      "source": "slide-12-6b51d4",
+      "target": "concept-column-881d5f",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "column",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-coefficients-7dbbfe-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-coefficients-7dbbfe",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "coefficients",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-coefficients-7dbbfe-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-coefficients-7dbbfe",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "coefficients",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-08-323783-mentions-concept-coefficients-7dbbfe-08",
+      "source": "slide-08-323783",
+      "target": "concept-coefficients-7dbbfe",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "coefficients",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-coefficient-7ef50a-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-coefficient-7ef50a",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "coefficient",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-08-323783-mentions-concept-coefficient-7ef50a-08",
+      "source": "slide-08-323783",
+      "target": "concept-coefficient-7ef50a",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "coefficient",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "slide-12-6b51d4-mentions-concept-coefficient-7ef50a-12",
+      "source": "slide-12-6b51d4",
+      "target": "concept-coefficient-7ef50a",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "coefficient",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-predictions-174824-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-predictions-174824",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "predictions",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-predictions-174824-05",
+      "source": "slide-05-c97550",
+      "target": "concept-predictions-174824",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "predictions",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-predictions-174824-07",
+      "source": "slide-07-19b100",
+      "target": "concept-predictions-174824",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "predictions",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-orthogonal-37a54e-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-orthogonal-37a54e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "orthogonal",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-orthogonal-37a54e-07",
+      "source": "slide-07-19b100",
+      "target": "concept-orthogonal-37a54e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "orthogonal",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-14-8527a8-mentions-concept-orthogonal-37a54e-14",
+      "source": "slide-14-8527a8",
+      "target": "concept-orthogonal-37a54e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "orthogonal",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-equations-f7867d-01",
+      "source": "slide-01-938db8",
+      "target": "concept-equations-f7867d",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "equations",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-equations-f7867d-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-equations-f7867d",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "equations",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-12-6b51d4-mentions-concept-equations-f7867d-12",
+      "source": "slide-12-6b51d4",
+      "target": "concept-equations-f7867d",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "equations",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-space-3f49db-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-space-3f49db",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "space",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-14-8527a8-mentions-concept-space-3f49db-14",
+      "source": "slide-14-8527a8",
+      "target": "concept-space-3f49db",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "space",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "slide-15-e629fa-mentions-concept-space-3f49db-15",
+      "source": "slide-15-e629fa",
+      "target": "concept-space-3f49db",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "space",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-prediction-70ad7b-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-prediction-70ad7b",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "prediction",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-prediction-70ad7b-07",
+      "source": "slide-07-19b100",
+      "target": "concept-prediction-70ad7b",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "prediction",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-14-8527a8-mentions-concept-prediction-70ad7b-14",
+      "source": "slide-14-8527a8",
+      "target": "concept-prediction-70ad7b",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "prediction",
+          "page": 14
+        }
+      ]
+    }
+  ]
+}

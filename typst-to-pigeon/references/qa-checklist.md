@@ -19,8 +19,9 @@ python3 -m pip install -r requirements-pdf.txt
 python3 -m unittest discover -s tests -p 'test_*.py' -v
 python3 scripts/typst_to_pigeon.py tests/fixtures/geometry.typ --output /tmp/pigeon-geometry-check --graph local --no-zip
 PIGEON_FIXTURE_ROOT=/tmp/pigeon-geometry-check PIGEON_TEST_DEPS=/path/to/node_modules node --test tests/runtime.test.mjs tests/runtime-diagram.test.mjs tests/runtime-fullscreen.test.mjs tests/runtime-backtick.test.mjs tests/runtime-wand.test.mjs tests/wand-effects.test.mjs
-# PDF runtime smoke, using the repository's generated PDF example:
-PIGEON_FIXTURE_ROOT=/path/to/weiw-pigeon/examples/pdf/pigeon-geometry PIGEON_TEST_DEPS=/path/to/node_modules node --test tests/runtime-pdf.test.mjs
+# PDF runtime smoke, using the nine-page geometry regression fixture:
+python3 scripts/typst_to_pigeon.py tests/fixtures/geometry.pdf --output /tmp/pigeon-pdf-geometry-check --graph local --no-zip --force
+PIGEON_FIXTURE_ROOT=/tmp/pigeon-pdf-geometry-check PIGEON_TEST_DEPS=/path/to/node_modules node --test tests/runtime-pdf.test.mjs
 ```
 
 The Python tests use real Typst/Poppler with a loopback fake Responses API: TOML discovery, CLI precedence, offline defaults, configured model extraction, repair, cache reuse, transactional failure, Unicode/multiline title reconstruction, duplicate metadata IDs, blank pages, resource bundling and ZIP integrity. PDF tests additionally exercise title/no-title/cover/repeated-header cases, wrapped titles, image/table/vector targets, crop and rotation coordinates, title-artwork raster reconstruction, optional OCR failure and mocked OCR geometry, source-byte preservation, PDF builds without Typst/Poppler, model image preparation and transactional malformed/encrypted-input failures. Without PyMuPDF the PDF tests are skipped; a 1.0.2 release requires running them with that dependency installed. They make no external model calls. The runtime tests use Happy DOM, canvas/image/animation stubs and the generated file bundle; `PIGEON_TEST_DEPS` must point to a directory containing `happy-dom`. They check state and wiring, not actual browser rendering.
