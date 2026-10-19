@@ -4,6 +4,9 @@ Pigeon **1.0.2** converts a Typst slide source or PDF deck into an offline HTML 
 with an infinite canvas, non-linear navigation, a concept graph, search and
 annotation tools. The original page appearance is preserved as SVG artwork.
 
+New computer? Follow [How to run Pigeon](HowToRun.md) for macOS setup, downloading
+from GitHub, and converting your first PDF.
+
 ## Generate a presentation
 
 Both formats require Python 3.11+ and Node.js 20.11+. Typst input also needs
