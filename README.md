@@ -1,3 +1,5 @@
+<img src="typst-to-pigeon/assets/pigeon-icon.png" alt="Pigeon icon" width="128">
+
 # weiw-pigeon
 
 Pigeon **1.0.2** converts a Typst slide source or PDF deck into an offline HTML presentation
