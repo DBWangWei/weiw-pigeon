@@ -1,10 +1,10 @@
 Pigeon
 Interactive canvas presentation · Learning with Infinite Hypothesis Sets
-Version 1.0.2
+Version 1.0.3
 
 Double-click index.html to open the presentation directly. Keep the extracted folder together.
 For predictable browser storage, run: python3 scripts/serve.py
-Then open http://127.0.0.1:8765 in Safari or Firefox.
+Then open http://127.0.0.1:8765 in Chrome for voice recognition.
 
 Keys: O overview, T hierarchy/graph, arrows/Enter select/open, / search, G jump,
 R resume the talk, F presentation, B blackout. V navigation, L laser, P pen,
@@ -27,6 +27,13 @@ Initial title effect: text-type. Select None,
 Split Text, Blur Text, Shiny Text, Gradient Text or Text Type in the top toolbar.
 Initial slide transition: camera.
 Use the Transition selector to change it for this viewing session.
+Voice recognition enabled: True.
+Open Voice, then click Start microphone in a supported browser.
+Default voice backend: local Whisper. First run python3 scripts/setup_voice.py
+once per presenting machine (CMake and a C++ compiler required; 142 MiB English model).
+Then restart scripts/serve.py. Configure voice.backend = "browser" to use
+Chrome's on-device engine instead. No remote recognition fallback is used.
+Manual semantic actions remain available when recognition is disabled or unsupported.
 The graph was generated in lexical mode (72 concepts,
 114 relationships). Review graph evidence before publishing claims.
 The slide source is pdf; the PDF is bundled.

@@ -24,6 +24,8 @@ Options:
   --slide-transition NAME  camera (default), none, fade, blur, slide, zoom,
                            pixel, staggered-wipe, or stack
   --graph-provider NAME    codex-config (default) or env
+  --voice                  Enable local voice controls (explicit start required)
+  --no-voice               Disable recognition; keep manual semantic actions
   --no-zip                 Do not create a ZIP archive
   --zip                    Create a ZIP archive
   -h, --help               Show this help
@@ -54,7 +56,7 @@ while [[ $# -gt 0 ]]; do
     --config|--output|--title|--deck-id|--navigation|--graph|--graph-provider|--title-effect|--slide-transition)
       [[ $# -ge 2 ]] || die "Missing value for $1"
       options+=("$1" "$2"); shift 2 ;;
-    --zip|--no-zip) options+=("$1"); shift ;;
+    --zip|--no-zip|--voice|--no-voice) options+=("$1"); shift ;;
     *) die "Unknown option: $1 (see --help)" ;;
   esac
 done

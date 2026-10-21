@@ -1,0 +1,33 @@
+digraph G {
+graph [bgcolor="transparent", pad="0.2", nodesep="0.32", ranksep="0.48"];
+node [shape=box, style="rounded,filled", fontname="Arial", fontsize=15, margin="0.15,0.12", color="#007e87", fillcolor="#edf5f5", fontcolor="#172c43"];
+edge [fontname="Arial", fontsize=11, color="#64748b", fontcolor="#516071", arrowsize=0.7];
+
+rankdir=LR;
+root [label="Same training fit
+Which failure?", fillcolor="#eaf0f6", penwidth=2];
+spread [label="Large variation across training samples"];
+bias [label="Systematically wrong mean"];
+noise [label="Large noise in a new response"];
+spectral [label="Spread aligned
+with weak directions"];
+other [label="No weak-direction
+evidence"];
+ridge [label="Consider ridge
+Monitor added bias"];
+data [label="Consider more data
+or another variance control"];
+rich [label="Check whether the model represents
+the relationship being predicted"];
+meas [label="Improve measurement
+or accept the floor"];
+risk [label="Later: compare expected prediction error on new data", fillcolor="#f3f0fa", color="#7455a6"];
+root -> {spread bias noise};
+spread -> spectral [label="inspect spectrum"];
+spread -> other [label="inspect spectrum"];
+spectral -> ridge;
+other -> data;
+bias -> rich;
+noise -> meas;
+{ridge data rich meas} -> risk;
+}

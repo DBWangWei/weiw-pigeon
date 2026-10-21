@@ -1,0 +1,39 @@
+digraph G {
+graph [bgcolor="transparent", pad="0.2", nodesep="0.32", ranksep="0.48"];
+node [shape=box, style="rounded,filled", fontname="Arial", fontsize=15, margin="0.15,0.12", color="#007e87", fillcolor="#edf5f5", fontcolor="#172c43"];
+edge [fontname="Arial", fontsize=11, color="#64748b", fontcolor="#516071", arrowsize=0.7];
+
+rankdir=LR;
+root [label="What can the data reveal?", fillcolor="#eaf0f6", penwidth=2];
+missing [label="Missing information
+zero singular value: coefficient undetermined", color="#b6504a", fillcolor="#fcedea"];
+weak [label="Weak information
+small positive singular value"];
+refit [label="Variation across training samples
+random estimator", color="#7455a6", fillcolor="#f3f0fa"];
+model [label="Systematic model error
+stable but wrong", color="#b6504a", fillcolor="#fcedea"];
+fresh [label="Noise in a new response
+new response varies", color="#c77919", fillcolor="#fff6e7"];
+select [label="Unknown best penalty
+training fit alone cannot choose it", color="#7455a6", fillcolor="#f3f0fa"];
+null [label="Squared-norm penalty chooses zero
+No missing coefficient is recovered"];
+shrink [label="Ridge reduces gain
+True signal is also shrunk"];
+align [label="Check whether variation is large
+in weak singular directions"];
+repr [label="Check whether the model represents
+the relationship being predicted"];
+measure [label="Improve measurement if possible
+or accept the noise floor"];
+evidence [label="Later: compare penalties with validation data
+Keep final test untouched"];
+root -> {missing weak refit model fresh select};
+missing -> null [label="limitation"];
+weak -> shrink [label="targeted intervention"];
+refit -> align [label="diagnosis"];
+model -> repr [label="different intervention"];
+fresh -> measure [label="different intervention"];
+select -> evidence [label="different evidence"];
+}

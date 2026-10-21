@@ -10,7 +10,11 @@ test('file opening uses matching assets and variable frame/canvas geometry',asyn
   for(const slide of a.state.deck.slides){
     const frame=d.querySelector(`[data-frame-key="slide:${slide.id}"]`);
     assert.equal(frame.style.width,`${slide.width}px`);
-    assert.equal(frame.querySelector('canvas').height,Math.ceil(slide.height));
+    assert.equal(frame.style.height,`${slide.height}px`);
+    const canvas=frame.querySelector('canvas');
+    assert.ok(canvas.width>=Math.ceil(slide.width));
+    assert.ok(canvas.height>=Math.ceil(slide.height));
+    assert.ok(Math.abs(canvas.width/canvas.height-slide.width/slide.height)<0.002);
   }
 });
 test('portrait annotation/session bounds follow the page, and boards preserve geometry',async t=>{
@@ -21,7 +25,8 @@ test('portrait annotation/session bounds follow the page, and boards preserve ge
   a.state.annotations.portrait=[{type:'stroke',color:'#DC2626',width:4,points:[point]}];
   assert.equal(a.validateSession(a.sessionPayload()).annotations.portrait[0].points[0].y,765);
   a.toggleWhiteboard();assert.equal(a.state.whiteboard,true);
-  assert.equal(d.querySelector('.slide-frame.current canvas').height,850);
+  assert.equal(d.querySelector('.slide-frame.current').style.height,'850px');
+  assert.ok(d.querySelector('.slide-frame.current canvas').height>=850);
   a.toggleWhiteboard();assert.equal(a.state.whiteboard,false);
 });
 test('all five effects animate only isolated title glyphs, then None restores the original',async t=>{
@@ -76,7 +81,7 @@ test('old manifests and the initial selector retain the original camera transiti
 test('About Pigeon is available directly and from the keyboard guide',async t=>{
   const {d,w}=await setup(t);
   assert.equal(d.querySelector('#aboutButton').getAttribute('aria-label'),'About Pigeon');
-  assert.match(d.querySelector('#aboutDialog').textContent,/Version 1\.0\.2/);
+  assert.match(d.querySelector('#aboutDialog').textContent,/Version 1\.0\.3/);
   assert.ok(d.querySelector('#aboutDialog img.about-icon'));
   assert.match(d.querySelector('#aboutDialog').textContent,/Wei Wang \(weiwcs AT ust\.hk\) · GPT-6-Astra\/xhigh \(in Codex\)/);
   assert.doesNotMatch(d.querySelector('#aboutDialog').textContent,/Typical use|typst-to-pigeon talk/);

@@ -1,10 +1,11 @@
 {
   "slides": 42,
-  "revision": "6db5b89d773f01a6",
+  "revision": "a25a0e9dfeec6bf5",
   "warnings": [],
   "pages": [
     {
       "page": 1,
+      "semanticRegions": 0,
       "title": "Learning with Infinite Hypothesis Sets",
       "titleDetection": {
         "status": "overridden"
@@ -16,6 +17,7 @@
     },
     {
       "page": 2,
+      "semanticRegions": 0,
       "title": "Motivation",
       "titleDetection": {
         "status": "inferred",
@@ -32,6 +34,7 @@
     },
     {
       "page": 3,
+      "semanticRegions": 0,
       "title": "This lecture",
       "titleDetection": {
         "status": "inferred",
@@ -48,6 +51,7 @@
     },
     {
       "page": 4,
+      "semanticRegions": 0,
       "title": "Empirical Rademacher Complexity",
       "titleDetection": {
         "status": "inferred",
@@ -64,6 +68,7 @@
     },
     {
       "page": 5,
+      "semanticRegions": 0,
       "title": "Rademacher Complexity",
       "titleDetection": {
         "status": "inferred",
@@ -80,6 +85,7 @@
     },
     {
       "page": 6,
+      "semanticRegions": 0,
       "title": "Rademacher Complexity Bound",
       "titleDetection": {
         "status": "inferred",
@@ -96,6 +102,7 @@
     },
     {
       "page": 7,
+      "semanticRegions": 0,
       "title": "",
       "titleDetection": {
         "status": "absent",
@@ -109,6 +116,7 @@
     },
     {
       "page": 8,
+      "semanticRegions": 0,
       "title": "",
       "titleDetection": {
         "status": "overridden"
@@ -120,6 +128,7 @@
     },
     {
       "page": 9,
+      "semanticRegions": 0,
       "title": "",
       "titleDetection": {
         "status": "absent",
@@ -133,6 +142,7 @@
     },
     {
       "page": 10,
+      "semanticRegions": 0,
       "title": "Loss Functions - Hypothesis Set",
       "titleDetection": {
         "status": "inferred",
@@ -149,6 +159,7 @@
     },
     {
       "page": 11,
+      "semanticRegions": 0,
       "title": "Generalization Bounds - Rademacher",
       "titleDetection": {
         "status": "inferred",
@@ -165,6 +176,7 @@
     },
     {
       "page": 12,
+      "semanticRegions": 0,
       "title": "Remarks",
       "titleDetection": {
         "status": "inferred",
@@ -181,6 +193,7 @@
     },
     {
       "page": 13,
+      "semanticRegions": 0,
       "title": "This lecture",
       "titleDetection": {
         "status": "inferred",
@@ -197,6 +210,7 @@
     },
     {
       "page": 14,
+      "semanticRegions": 0,
       "title": "Growth Function",
       "titleDetection": {
         "status": "inferred",
@@ -213,6 +227,7 @@
     },
     {
       "page": 15,
+      "semanticRegions": 0,
       "title": "Massart\u2019s Lemma",
       "titleDetection": {
         "status": "inferred",
@@ -223,12 +238,13 @@
         "confidence": 0.93
       },
       "textMode": "native",
-      "textBlocks": 94,
+      "textBlocks": 93,
       "images": 0,
       "tables": 0
     },
     {
       "page": 16,
+      "semanticRegions": 0,
       "title": "",
       "titleDetection": {
         "status": "absent",
@@ -236,12 +252,13 @@
         "bodyFontSize": 28.02
       },
       "textMode": "native",
-      "textBlocks": 36,
+      "textBlocks": 35,
       "images": 0,
       "tables": 0
     },
     {
       "page": 17,
+      "semanticRegions": 0,
       "title": "Growth Function Bound on Rad. Complexity",
       "titleDetection": {
         "status": "inferred",
@@ -252,12 +269,13 @@
         "confidence": 0.93
       },
       "textMode": "native",
-      "textBlocks": 40,
+      "textBlocks": 36,
       "images": 0,
       "tables": 0
     },
     {
       "page": 18,
+      "semanticRegions": 0,
       "title": "Generalization Bound - Growth Function",
       "titleDetection": {
         "status": "inferred",
@@ -268,12 +286,13 @@
         "confidence": 0.82
       },
       "textMode": "native",
-      "textBlocks": 19,
+      "textBlocks": 18,
       "images": 0,
       "tables": 0
     },
     {
       "page": 19,
+      "semanticRegions": 0,
       "title": "This lecture",
       "titleDetection": {
         "status": "inferred",
@@ -290,6 +309,7 @@
     },
     {
       "page": 20,
+      "semanticRegions": 0,
       "title": "VC Dimension",
       "titleDetection": {
         "status": "inferred",
@@ -306,6 +326,7 @@
     },
     {
       "page": 21,
+      "semanticRegions": 0,
       "title": "Examples",
       "titleDetection": {
         "status": "inferred",
@@ -322,6 +343,7 @@
     },
     {
       "page": 22,
+      "semanticRegions": 0,
       "title": "Intervals of The Real Line",
       "titleDetection": {
         "status": "inferred",
@@ -338,6 +360,7 @@
     },
     {
       "page": 23,
+      "semanticRegions": 0,
       "title": "Hyperplanes",
       "titleDetection": {
         "status": "inferred",
@@ -354,6 +377,7 @@
     },
     {
       "page": 24,
+      "semanticRegions": 0,
       "title": "Axis-Aligned Rectangles in the Plane",
       "titleDetection": {
         "status": "inferred",
@@ -370,6 +394,7 @@
     },
     {
       "page": 25,
+      "semanticRegions": 0,
       "title": "Convex Polygons in the Plane",
       "titleDetection": {
         "status": "inferred",
@@ -386,6 +411,7 @@
     },
     {
       "page": 26,
+      "semanticRegions": 0,
       "title": "Sine Functions",
       "titleDetection": {
         "status": "inferred",
@@ -402,6 +428,7 @@
     },
     {
       "page": 27,
+      "semanticRegions": 0,
       "title": "Sauer\u2019s Lemma",
       "titleDetection": {
         "status": "inferred",
@@ -418,6 +445,7 @@
     },
     {
       "page": 28,
+      "semanticRegions": 0,
       "title": "",
       "titleDetection": {
         "status": "absent",
@@ -431,6 +459,7 @@
     },
     {
       "page": 29,
+      "semanticRegions": 0,
       "title": "",
       "titleDetection": {
         "status": "absent",
@@ -444,6 +473,7 @@
     },
     {
       "page": 30,
+      "semanticRegions": 0,
       "title": "Sauer\u2019s Lemma - Consequence",
       "titleDetection": {
         "status": "inferred",
@@ -454,12 +484,13 @@
         "confidence": 0.93
       },
       "textMode": "native",
-      "textBlocks": 58,
+      "textBlocks": 57,
       "images": 0,
       "tables": 0
     },
     {
       "page": 31,
+      "semanticRegions": 0,
       "title": "Remarks",
       "titleDetection": {
         "status": "inferred",
@@ -476,6 +507,7 @@
     },
     {
       "page": 32,
+      "semanticRegions": 0,
       "title": "Generalization Bound - VC Dimension",
       "titleDetection": {
         "status": "inferred",
@@ -492,6 +524,7 @@
     },
     {
       "page": 33,
+      "semanticRegions": 0,
       "title": "Comparison - Standard VC Bound",
       "titleDetection": {
         "status": "inferred",
@@ -508,6 +541,7 @@
     },
     {
       "page": 34,
+      "semanticRegions": 0,
       "title": "This lecture",
       "titleDetection": {
         "status": "inferred",
@@ -524,6 +558,7 @@
     },
     {
       "page": 35,
+      "semanticRegions": 0,
       "title": "VCDim Lower Bound - Realizable Case",
       "titleDetection": {
         "status": "inferred",
@@ -540,6 +575,7 @@
     },
     {
       "page": 36,
+      "semanticRegions": 0,
       "title": "",
       "titleDetection": {
         "status": "absent",
@@ -553,17 +589,19 @@
     },
     {
       "page": 37,
+      "semanticRegions": 0,
       "title": "",
       "titleDetection": {
         "status": "overridden"
       },
       "textMode": "native",
-      "textBlocks": 27,
+      "textBlocks": 26,
       "images": 0,
       "tables": 0
     },
     {
       "page": 38,
+      "semanticRegions": 0,
       "title": "",
       "titleDetection": {
         "status": "absent",
@@ -577,6 +615,7 @@
     },
     {
       "page": 39,
+      "semanticRegions": 0,
       "title": "Agnostic PAC Model",
       "titleDetection": {
         "status": "inferred",
@@ -593,6 +632,7 @@
     },
     {
       "page": 40,
+      "semanticRegions": 0,
       "title": "VCDim Lower Bound - Non-Realizable Case",
       "titleDetection": {
         "status": "overridden"
@@ -604,6 +644,7 @@
     },
     {
       "page": 41,
+      "semanticRegions": 0,
       "title": "References",
       "titleDetection": {
         "status": "inferred",
@@ -620,6 +661,7 @@
     },
     {
       "page": 42,
+      "semanticRegions": 0,
       "title": "References",
       "titleDetection": {
         "status": "inferred",
@@ -635,5 +677,12 @@
       "tables": 0
     }
   ],
-  "outlines": []
+  "outlines": [],
+  "semanticRegions": {
+    "total": 0,
+    "visible": 0,
+    "hidden": 0,
+    "pagesWithRegions": 0,
+    "byTarget": {}
+  }
 }

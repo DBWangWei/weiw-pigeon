@@ -1,0 +1,26 @@
+digraph G {
+graph [bgcolor="transparent", pad="0.2", nodesep="0.32", ranksep="0.48"];
+node [shape=box, style="rounded,filled", fontname="Arial", fontsize=15, margin="0.15,0.12", color="#007e87", fillcolor="#edf5f5", fontcolor="#172c43"];
+edge [fontname="Arial", fontsize=11, color="#64748b", fontcolor="#516071", arrowsize=0.7];
+
+rankdir=TB;
+lik [label="Gaussian likelihood
+y | f ~ N(Af, nu^2 I)"];
+prior [label="Isotropic Gaussian prior
+f ~ N(0, tau^2 I)", fillcolor="#f3f0fa", color="#7455a6"];
+post [label="Negative log posterior
+squared residual / (2 nu^2) + norm^2 / (2 tau^2)", fillcolor="#eaf0f6"];
+map [label="MAP = ridge minimizer
+lambda = nu^2 / tau^2", penwidth=2];
+null [label="Missing directions
+Posterior mode follows zero prior"];
+weak [label="Weak directions
+Prior has greater influence"];
+strong [label="Strong directions
+Data have greater influence"];
+limit [label="Prior choice needs justification
+MAP is not a prediction-accuracy guarantee", fillcolor="#fff6e7", color="#c77919"];
+{lik prior} -> post -> map;
+map -> {null weak strong};
+{null weak strong} -> limit;
+}

@@ -94,3 +94,33 @@ bash ./typst-to-pigeon.sh "/full/path/to/another.pdf"
 
 See the [README](README.md) for configuration, presentation tools, and annotated
 PDF export.
+
+## Run a voice-enabled Typst deck
+
+The repository includes a complete example in
+[`examples/voice-enabled/`](examples/voice-enabled/). Build it from the
+repository root with:
+
+```bash
+./typst-to-pigeon.sh \
+  examples/voice-enabled/week5-introduction-voice.typ \
+  --config examples/voice-enabled/pigeon.toml \
+  --output examples/voice-enabled/pigeon-week5-introduction-voice \
+  --graph lexical --voice --force
+```
+
+Voice recognition is enabled by default for generated decks. Install the local
+Whisper helper once on the presenting Mac, then serve the generated folder:
+
+```bash
+cd examples/voice-enabled/pigeon-week5-introduction-voice
+python3 scripts/setup_voice.py
+PIGEON_VOICE_DIR="$HOME/.cache/pigeon-voice" \
+  python3 scripts/serve.py --port 8767
+```
+
+Open the printed `http://127.0.0.1:8767` URL in Chrome, open **Voice**, choose
+the microphone, and click **Start microphone**. The `pigeon.toml` file maps
+phrases such as “this table”, “this figure”, “this example”, and “key message”
+to the marked Typst regions. Use `--no-voice` when building if recognition is
+not needed; manual semantic actions remain available.

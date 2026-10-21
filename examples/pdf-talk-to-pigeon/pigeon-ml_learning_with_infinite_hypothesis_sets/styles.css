@@ -1631,7 +1631,88 @@ dialog {
 .diagram-marquee { position:absolute; border:1px solid #6366f1; background:#6366f122; pointer-events:none; z-index:15; }
 .diagram-knob { position:absolute; transform:translate(-50%,-50%); border:1px solid #6366f1; background:white; border-radius:2px; }
 .diagram-text-editor { position:absolute; z-index:20; resize:none; padding:8px; border:2px solid #6366f1; background:#fffffff5; text-align:center; font-family:system-ui,sans-serif; line-height:1.25; }
+.diagram-label-layer { position:absolute; inset:0; width:100%; height:100%; z-index:6; pointer-events:none; overflow:visible; }
 .diagram-mode .stage,.diagram-mode .annotation-canvas { cursor:crosshair !important; }
 .diagram-help { border-top:1px solid #d5dce8; }
 .diagram-help-intro { grid-column:1 / -1; }
 .about-icon { display:block; object-fit:contain; margin:0 auto 16px; }
+/* Voice feedback is transient and kept outside slide artwork and ink. */
+.voice-toggle { white-space: nowrap; }
+.pigeon-voice-panel {
+  position: fixed; top: 82px; right: 20px; z-index: 90;
+  width: min(390px, calc(100vw - 40px)); max-height: calc(100vh - 110px);
+  overflow: auto; padding: 18px; border: 1px solid #64748b; border-radius: 14px;
+  color: #edf2fa; background: #142137; box-shadow: 0 12px 48px #0008;
+  font-size: 14px; line-height: 1.5;
+}
+.pigeon-voice-panel[hidden], .voice-choices[hidden] { display: none; }
+.pigeon-voice-panel h2 { margin: 0 0 10px; font-size: 18px; }
+.pigeon-voice-panel button {
+  margin: 4px 5px 4px 0; padding: 6px 10px; border: 1px solid #708198;
+  border-radius: 7px; background: #243852; color: #f4f7fc; cursor: pointer;
+}
+.pigeon-voice-panel button:hover { background: #354d6c; }
+.pigeon-voice-panel button:disabled { opacity: .55; cursor: default; }
+.pigeon-voice-panel button:focus-visible, .voice-toggle:focus-visible { outline: 3px solid #facc15; outline-offset: 2px; }
+.voice-status { display: inline-block; padding: 2px 8px; border-radius: 12px; background: #30435d; }
+.voice-status[data-state="listening"] { background: #16634a; }
+.voice-status[data-state="error"],
+.voice-status[data-state="unavailable"] { background: #813d3d; }
+.voice-reason { color: #cbd5e1; }
+.voice-last-words { min-height: 1.5em; overflow-wrap: anywhere; }
+.voice-last-words mark { color: #172033; background: #fde68a; border-radius: 2px; }
+.voice-manual, .voice-choices { margin-top: 10px; }
+.voice-log { max-height: 160px; overflow: auto; padding-left: 22px; color: #cbd5e1; font-size: 12px; }
+.pigeon-voice-overlay {
+  position: fixed; inset: 0; z-index: 75; display: flex; align-items: center;
+  justify-content: center; background: #080f20b8; backdrop-filter: blur(6px);
+  animation: pigeon-voice-fade 200ms ease-out both;
+}
+.pigeon-voice-overlay[data-action="focus"] { background: #0d1627; backdrop-filter: none; }
+.pigeon-voice-overlay[data-action="spotlight"] { background: #050b18c7; backdrop-filter: none; }
+.voice-pop-stack { display: flex; flex-direction: column; align-items: center; gap: 12px; }
+.voice-pop-card { flex: none; border-radius: 10px; background: white; box-shadow: 0 18px 64px #0009; }
+.voice-pop-card[data-rendering="text-mask"] { background: transparent; }
+.pigeon-voice-overlay[data-action="focus"] .voice-pop-card { outline: 2px solid #f8d974; box-shadow: 0 0 24px #f8d97422, 0 18px 64px #0009; }
+.voice-debug-layer { pointer-events: none; z-index: 70; }
+.voice-debug-box { position: absolute; border: 2px solid #e11d48; color: #a80b31; background: #fff2; font: 12px/1.2 monospace; }
+@keyframes pigeon-voice-fade { from { opacity: 0; } to { opacity: 1; } }
+@media (prefers-reduced-motion: reduce) {
+  .pigeon-voice-overlay, .voice-pop-card { animation: none !important; transition: none !important; }
+}
+
+.voice-toggle { border: 1px solid #6b7b91; border-radius: 8px; padding: 8px 12px; color: inherit; background: transparent; cursor: pointer; }
+.voice-toggle[data-state="listening"] { background: #16634a; color: white; }
+.voice-toggle[data-state="error"] { border-color: #ed8989; }
+.voice-panel-header { display: flex; justify-content: space-between; align-items: center; }
+.voice-panel-header strong { font-size: 17px; }
+.voice-privacy { color: #abb9cd; font-size: 12px; }
+.voice-pop-backdrop { position: absolute; inset: 0; width: 100%; height: 100%; border: 0; background: transparent; cursor: pointer; }
+.voice-pop-backdrop:focus-visible { outline: 3px solid #facc15; outline-offset: -8px; }
+.voice-pop-stack { position: relative; z-index: 1; gap: 16px; }
+.voice-pop-hint { position: absolute; bottom: 8px; color: #f4f7fc; font-size: 13px; pointer-events: none; }
+.voice-pop-artwork { display: block; pointer-events: none; user-select: none; }
+.voice-debug-layer { position: absolute; inset: 0; }
+
+.pigeon-voice-panel:has(.voice-diagnostics) { width: min(490px, calc(100vw - 40px)); }
+.voice-diagnostics { margin: 12px 0; padding: 12px 0; border-top: 1px solid #53657e; border-bottom: 1px solid #53657e; }
+.voice-diagnostics h3 { margin: 0 0 6px; font-size: 16px; }
+.voice-diagnostic-help { margin: 6px 0 10px; color: #bdcbe0; font-size: 12px; }
+.voice-pipeline { margin: 0; }
+.voice-pipeline dt { margin-top: 10px; color: #afc9f2; font-size: 12px; font-weight: 700; }
+.voice-pipeline dd { margin: 3px 0 0; padding: 6px 8px; border-left: 3px solid #70839d; background: #0b172a; white-space: pre-wrap; overflow-wrap: anywhere; }
+.voice-stage[data-level="ok"] { border-color: #5bdbac; }
+.voice-stage[data-level="warn"] { border-color: #f2c86b; color: #ffe3a4; }
+.voice-stage[data-level="error"] { border-color: #fb8e8e; color: #ffd0d0; }
+.voice-mic-controls { display: flex; align-items: center; gap: 10px; margin-top: 10px; }
+.voice-mic-label { display: block; margin-top: 12px; color: #bdcbe0; font-size: 12px; }
+.voice-mic-device { display: block; width: 100%; margin: 5px 0 8px; padding: 8px; color: #f3f7ff; background: #0b172a; border: 1px solid #7b8ca6; border-radius: 6px; font: inherit; }
+.voice-input-meter { width: 150px; height: 22px; }
+.voice-test-form { margin: 12px 0; }
+.voice-test-form label { display: block; font-size: 12px; color: #bdcbe0; }
+.pigeon-voice-panel .voice-test-input, .pigeon-voice-panel .voice-report { box-sizing: border-box; width: 100%; color: #f3f7ff; background: #0b172a; border: 1px solid #7b8ca6; padding: 8px; border-radius: 6px; font: inherit; }
+.voice-test-input { margin: 5px 0; }
+.voice-report { margin-top: 8px; font-size: 12px !important; }
+.voice-report[hidden] { display: none; }
+.voice-diagnostic-events summary { cursor: pointer; color: #c5d5eb; }
+.voice-diagnostic-trace { padding-left: 22px; max-height: 180px; overflow: auto; color: #c5d5eb; font-size: 12px; }

@@ -1,0 +1,34 @@
+graph = "lexical"
+no_zip = false
+
+[voice]
+backend = "whisper"
+lang = "en-US"
+
+[[voice.rules]]
+id = "takeaway"
+phrases = ["key message", "key messages", "takeaway", "takeaways", "take-away message", "take away message", "conclusion", "conclusions"]
+target = "takeaway"
+action = "pop"
+multi = "stack"
+
+[[voice.rules]]
+id = "table"
+phrases = ["this table", "show the table"]
+target = "_table"
+action = "focus"
+multi = "ask"
+
+[[voice.rules]]
+id = "figure"
+phrases = ["this figure", "this plot", "show the diagram"]
+target = "_fig"
+action = "spotlight"
+multi = "ask"
+
+[[voice.rules]]
+id = "example"
+phrases = ["this example", "work through this example"]
+target = "_example"
+action = "pop"
+multi = "ask"

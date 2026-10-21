@@ -1,0 +1,31 @@
+digraph G {
+graph [bgcolor="transparent", pad="0.2", nodesep="0.32", ranksep="0.48"];
+node [shape=box, style="rounded,filled", fontname="Arial", fontsize=15, margin="0.15,0.12", color="#007e87", fillcolor="#edf5f5", fontcolor="#172c43"];
+edge [fontname="Arial", fontsize=11, color="#64748b", fontcolor="#516071", arrowsize=0.7];
+
+rankdir=LR;
+obs [label="Noisy observations y", fillcolor="#eaf0f6"];
+rotate [label="Rotate into left singular modes
+t_j = u_j^T y"];
+exact [label="Exact inverse
+gain = 1 / sigma_j", fillcolor="#fcedea", color="#b6504a"];
+amplified [label="Weak modes amplify noise
+No stabilization", fillcolor="#fcedea", color="#b6504a"];
+ridge [label="Ridge filter
+gain = sigma_j / (sigma_j^2 + lambda)"];
+null [label="Null direction
+No observation information", fillcolor="#fff6e7", color="#c77919"];
+retain [label="Fraction of active OLS coefficient
+s_j = sigma_j^2 / (sigma_j^2 + lambda)"];
+cost [label="Noise amplification falls
+True signal is shrunk too"];
+recon [label="Recombine right singular modes
+f_lambda = sum gain_j t_j v_j"];
+loss [label="Coefficient loss or prediction loss?
+Weight directions for the actual goal", fillcolor="#f3f0fa", color="#7455a6"];
+obs -> rotate;
+rotate -> {exact ridge null};
+exact -> amplified;
+ridge -> retain -> cost -> recon -> loss;
+null -> recon [label="squared-norm penalty sets coefficient to 0"];
+}

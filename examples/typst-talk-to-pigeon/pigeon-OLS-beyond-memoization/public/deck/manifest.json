@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "deckId": "ols-beyond-memoization",
   "title": "OLS Beyond Memorization: Understanding the Normal Equations",
-  "revision": "901289212eabdbcd",
+  "revision": "5b0fc76565c8c077",
   "pdf": "ols-beyond-memoization.pdf",
   "sourceType": "typst",
   "dimensions": {
@@ -183,6 +183,7 @@
           "height": 19.379999999999995
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-01-body.svg",
         "asset": "titles/page-01-title.svg",
@@ -357,6 +358,7 @@
           "height": 12.540000000000003
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-02-body.svg",
         "asset": "titles/page-02-title.svg",
@@ -673,6 +675,7 @@
           "height": 58.32
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-03-body.svg",
         "asset": "titles/page-03-title.svg",
@@ -1169,6 +1172,7 @@
           "height": 147.99
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-04-body.svg",
         "asset": "titles/page-04-title.svg",
@@ -1485,6 +1489,7 @@
           "height": 52.0
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-05-body.svg",
         "asset": "titles/page-05-title.svg",
@@ -1659,6 +1664,7 @@
           "height": 12.540000000000003
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-06-body.svg",
         "asset": "titles/page-06-title.svg",
@@ -1929,6 +1935,7 @@
           "height": 52.0
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-07-body.svg",
         "asset": "titles/page-07-title.svg",
@@ -2183,6 +2190,7 @@
           "height": 58.32
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-08-body.svg",
         "asset": "titles/page-08-title.svg",
@@ -2545,6 +2553,7 @@
           "height": 58.32
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-09-body.svg",
         "asset": "titles/page-09-title.svg",
@@ -3159,6 +3168,7 @@
           "height": 58.82
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-10-body.svg",
         "asset": "titles/page-10-title.svg",
@@ -3333,6 +3343,7 @@
           "height": 12.540000000000003
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-11-body.svg",
         "asset": "titles/page-11-title.svg",
@@ -3703,6 +3714,7 @@
           "height": 58.32
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-12-body.svg",
         "asset": "titles/page-12-title.svg",
@@ -4055,6 +4067,7 @@
           "height": 125.761
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-13-body.svg",
         "asset": "titles/page-13-title.svg",
@@ -4543,6 +4556,7 @@
           "height": 58.82
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-14-body.svg",
         "asset": "titles/page-14-title.svg",
@@ -4887,6 +4901,7 @@
           "height": 58.32
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-15-body.svg",
         "asset": "titles/page-15-title.svg",
@@ -5149,6 +5164,7 @@
           "height": 195.119
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-16-body.svg",
         "asset": "titles/page-16-title.svg",
@@ -5323,6 +5339,7 @@
           "height": 12.540000000000003
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-17-body.svg",
         "asset": "titles/page-17-title.svg",
@@ -5729,6 +5746,7 @@
           "height": 58.32
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-18-body.svg",
         "asset": "titles/page-18-title.svg",
@@ -5973,6 +5991,7 @@
           "height": 88.67
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-19-body.svg",
         "asset": "titles/page-19-title.svg",
@@ -6335,6 +6354,7 @@
           "height": 58.32
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-20-body.svg",
         "asset": "titles/page-20-title.svg",
@@ -6805,6 +6825,7 @@
           "height": 58.82
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-21-body.svg",
         "asset": "titles/page-21-title.svg",
@@ -7185,6 +7206,7 @@
           "height": 52.0
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-22-body.svg",
         "asset": "titles/page-22-title.svg",
@@ -7357,6 +7379,7 @@
           "height": 59.32
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-23-body.svg",
         "asset": "titles/page-23-title.svg",
@@ -7575,6 +7598,7 @@
           "height": 60.898
         }
       ],
+      "semanticRegions": [],
       "titleLayer": {
         "baseAsset": "titles/page-24-body.svg",
         "asset": "titles/page-24-title.svg",
@@ -7590,5 +7614,67 @@
   ],
   "titleEffect": "text-type",
   "slideTransition": "camera",
-  "pigeonVersion": "1.0.2"
+  "pigeonVersion": "1.0.3",
+  "voice": {
+    "enabled": true,
+    "backend": "whisper",
+    "lang": "en-US",
+    "boost": 3,
+    "cooldownMs": 3000,
+    "staleMs": 600,
+    "resuppressAfterDismissMs": 10000,
+    "restartDelayMs": 250,
+    "watchdogMs": 90000,
+    "popPadPt": 6,
+    "popMaxFraction": 0.85,
+    "popMaxScale": 4,
+    "autoCloseMs": 0,
+    "rules": [
+      {
+        "id": "takeaway",
+        "phrases": [
+          "key message",
+          "key messages",
+          "takeaway",
+          "takeaways",
+          "take-away message",
+          "takeaway message",
+          "take away message",
+          "conclusion",
+          "conclusions"
+        ],
+        "target": "takeaway",
+        "action": "pop",
+        "multi": "stack"
+      },
+      {
+        "id": "table",
+        "phrases": [
+          "this table"
+        ],
+        "target": "_table",
+        "action": "pop",
+        "multi": "ask"
+      },
+      {
+        "id": "figure",
+        "phrases": [
+          "this figure",
+          "this plot"
+        ],
+        "target": "_fig",
+        "action": "pop",
+        "multi": "ask"
+      },
+      {
+        "id": "example",
+        "phrases": [
+          "this example"
+        ],
+        "target": "_example",
+        "action": "pop",
+        "multi": "ask"
+      }
+    ]
+  }
 }

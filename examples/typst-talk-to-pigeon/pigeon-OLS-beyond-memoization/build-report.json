@@ -1,8 +1,105 @@
 {
   "slides": 24,
-  "revision": "901289212eabdbcd",
+  "revision": "5b0fc76565c8c077",
   "warnings": [],
-  "pages": [],
+  "pages": [
+    {
+      "page": 1,
+      "semanticRegions": 0
+    },
+    {
+      "page": 2,
+      "semanticRegions": 0
+    },
+    {
+      "page": 3,
+      "semanticRegions": 0
+    },
+    {
+      "page": 4,
+      "semanticRegions": 0
+    },
+    {
+      "page": 5,
+      "semanticRegions": 0
+    },
+    {
+      "page": 6,
+      "semanticRegions": 0
+    },
+    {
+      "page": 7,
+      "semanticRegions": 0
+    },
+    {
+      "page": 8,
+      "semanticRegions": 0
+    },
+    {
+      "page": 9,
+      "semanticRegions": 0
+    },
+    {
+      "page": 10,
+      "semanticRegions": 0
+    },
+    {
+      "page": 11,
+      "semanticRegions": 0
+    },
+    {
+      "page": 12,
+      "semanticRegions": 0
+    },
+    {
+      "page": 13,
+      "semanticRegions": 0
+    },
+    {
+      "page": 14,
+      "semanticRegions": 0
+    },
+    {
+      "page": 15,
+      "semanticRegions": 0
+    },
+    {
+      "page": 16,
+      "semanticRegions": 0
+    },
+    {
+      "page": 17,
+      "semanticRegions": 0
+    },
+    {
+      "page": 18,
+      "semanticRegions": 0
+    },
+    {
+      "page": 19,
+      "semanticRegions": 0
+    },
+    {
+      "page": 20,
+      "semanticRegions": 0
+    },
+    {
+      "page": 21,
+      "semanticRegions": 0
+    },
+    {
+      "page": 22,
+      "semanticRegions": 0
+    },
+    {
+      "page": 23,
+      "semanticRegions": 0
+    },
+    {
+      "page": 24,
+      "semanticRegions": 0
+    }
+  ],
   "outlines": [
     {
       "page": 2,
@@ -24,5 +121,12 @@
       "sectionNumber": 4,
       "label": "Rank, stability and ridge"
     }
-  ]
+  ],
+  "semanticRegions": {
+    "total": 0,
+    "visible": 0,
+    "hidden": 0,
+    "pagesWithRegions": 0,
+    "byTarget": {}
+  }
 }

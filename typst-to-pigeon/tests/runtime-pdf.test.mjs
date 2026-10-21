@@ -24,8 +24,10 @@ test('PDF bundle loads offline with untitled pages, graph, search and page jumps
   assert.equal(a.state.currentId,'05');
   press(w,d,'g');input.value='#8';input.dispatchEvent(new w.Event('input'));
   d.querySelector('.search-result').click();assert.equal(a.state.currentId,'08');
-  assert.equal(d.querySelector('.slide-frame.current canvas').width,400);
-  assert.equal(d.querySelector('.slide-frame.current canvas').height,600);
+  const canvas=d.querySelector('.slide-frame.current canvas');
+  assert.ok(canvas.width>=400 && canvas.height>=600);
+  assert.ok(Math.abs(canvas.width/canvas.height-400/600)<.002,
+    'the backing bitmap may scale with zoom while retaining native page geometry');
 });
 
 test('PDF images and tables respond to the wand; native titles and pen down remain available',async t=>{

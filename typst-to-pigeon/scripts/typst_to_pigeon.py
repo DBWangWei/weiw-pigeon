@@ -13,17 +13,19 @@ import tomllib
 import zipfile
 from pathlib import Path
 
+from voice_config import resolve_voice_config
+
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = SKILL_ROOT / "assets" / "pigeon-template"
 CONFIG_KEYS = {
     "output", "deck_id", "title", "navigation", "graph", "graph_provider",
-    "title_effect", "slide_transition", "no_zip",
+    "title_effect", "slide_transition", "no_zip", "voice",
 }
 GRAPH_MODES = {"local", "lexical", "model"}
 GRAPH_PROVIDERS = {"codex-config", "env"}
 TITLE_EFFECTS = {"none", "split-text", "blur-text", "shiny-text", "gradient-text", "text-type"}
 SLIDE_TRANSITIONS = {"camera", "none", "fade", "blur", "slide", "zoom", "pixel", "staggered-wipe", "stack"}
-PIGEON_VERSION = "1.0.2"
+PIGEON_VERSION = "1.0.3"
 
 
 def run(command: list[str], *, cwd: Path) -> None:
@@ -55,7 +57,7 @@ Version {PIGEON_VERSION}
 
 Double-click index.html to open the presentation directly. Keep the extracted folder together.
 For predictable browser storage, run: python3 scripts/serve.py
-Then open http://127.0.0.1:8765 in Safari or Firefox.
+Then open http://127.0.0.1:8765 in Chrome for voice recognition.
 
 Keys: O overview, T hierarchy/graph, arrows/Enter select/open, / search, G jump,
 R resume the talk, F presentation, B blackout. V navigation, L laser, P pen,
@@ -78,6 +80,13 @@ Initial title effect: {manifest.get("titleEffect", "text-type")}. Select None,
 Split Text, Blur Text, Shiny Text, Gradient Text or Text Type in the top toolbar.
 Initial slide transition: {manifest.get("slideTransition", "camera")}.
 Use the Transition selector to change it for this viewing session.
+Voice recognition enabled: {manifest.get("voice", {}).get("enabled", True)}.
+Open Voice, then click Start microphone in a supported browser.
+Default voice backend: local Whisper. First run python3 scripts/setup_voice.py
+once per presenting machine (CMake and a C++ compiler required; 142 MiB English model).
+Then restart scripts/serve.py. Configure voice.backend = "browser" to use
+Chrome's on-device engine instead. No remote recognition fallback is used.
+Manual semantic actions remain available when recognition is disabled or unsupported.
 The graph was generated in {graph.get("extraction", {}).get("mode", "unknown")} mode ({len(graph['concepts'])} concepts,
 {len(graph['relationships'])} relationships). Review graph evidence before publishing claims.
 The slide source is {manifest.get("sourceType", "typst")}; the PDF is bundled.
@@ -92,6 +101,7 @@ and adds all ink and inserted white/black boards, including drafts. Works offlin
         "titleEffect": manifest.get("titleEffect", "text-type"),
         "slideTransition": manifest.get("slideTransition", "camera"),
         "sourceType": manifest.get("sourceType", "typst"),
+        "voiceEnabled": manifest.get("voice", {}).get("enabled", True),
     }, indent=2) + "\n", encoding="utf-8")
 
 
@@ -107,7 +117,8 @@ def write_zip(output: Path, manifest: dict) -> Path:
                 bundle.write(root, Path("pigeon-presentation") / root_name)
             elif root.is_dir():
                 for path in sorted(root.rglob("*")):
-                    if path.is_file() and (root_name != "scripts" or path.relative_to(output).as_posix() == "scripts/serve.py"):
+                    if path.is_file() and (root_name != "scripts" or path.relative_to(root).as_posix() in {
+                        "serve.py", "voice_worker.py", "setup_voice.py", "whisper-helper/main.cpp", "whisper-helper/CMakeLists.txt"}):
                         bundle.write(path, Path("pigeon-presentation") / path.relative_to(output))
     with zipfile.ZipFile(archive) as bundle:
         if bundle.testzip() is not None:
@@ -144,10 +155,15 @@ def load_pigeon_config(source: Path, requested: Path | None) -> tuple[dict, Path
         raise ValueError(f"Unknown Pigeon config key(s): {names}")
     values = {key: raw[key] for key in CONFIG_KEYS if key in raw}
     values.update({key: table[key] for key in CONFIG_KEYS if key in table})
+    # A namespaced voice table replaces the top-level table, like other values.
+    for container in (raw, table):
+        if "voice" in container:
+            resolve_voice_config(container["voice"])
     return values, path
 
 
 def validate_config(config: dict) -> None:
+    resolve_voice_config(config.get("voice", {}))
     for key in ("output", "deck_id", "title", "navigation", "graph", "graph_provider", "title_effect", "slide_transition"):
         if key in config and (not isinstance(config[key], str) or not config[key].strip()):
             raise ValueError(f"pigeon.toml {key} must be a nonempty string")
@@ -189,7 +205,10 @@ def main() -> int:
     zip_group = parser.add_mutually_exclusive_group()
     zip_group.add_argument("--no-zip", dest="no_zip", action="store_true")
     zip_group.add_argument("--zip", dest="no_zip", action="store_false")
-    parser.set_defaults(no_zip=None)
+    voice_group = parser.add_mutually_exclusive_group()
+    voice_group.add_argument("--voice", dest="voice_enabled", action="store_true", help="Enable local voice recognition controls (explicit start required)")
+    voice_group.add_argument("--no-voice", dest="voice_enabled", action="store_false", help="Disable recognition; manual semantic actions remain available")
+    parser.set_defaults(no_zip=None, voice_enabled=None)
     parser.add_argument("--force", action="store_true", help="Replace an existing output directory")
     args = parser.parse_args()
     source = args.source.expanduser().resolve()
@@ -200,6 +219,7 @@ def main() -> int:
         pdf_library()  # Fail before creating output if the optional dependency is absent.
     config, config_path = load_pigeon_config(source, args.config)
     validate_config(config)
+    voice = resolve_voice_config(config.get("voice", {}), args.voice_enabled)
     configured_output = config_file_path(config, "output", config_path)
     requested_output = args.output.expanduser() if args.output is not None else configured_output or source.parent / f"pigeon-{source.stem}"
     output = requested_output.resolve()
@@ -240,6 +260,7 @@ def main() -> int:
         manifest["titleEffect"] = title_effect
         manifest["slideTransition"] = slide_transition
         manifest["pigeonVersion"] = PIGEON_VERSION
+        manifest["voice"] = voice
         manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
         graph_args = [sys.executable, str(graph_builder), "--root", str(staged)]
         if graph_mode == "model":

@@ -31,7 +31,7 @@
     const original = await PDFDocument.load(source);
     const output = await PDFDocument.create();
     output.setTitle(title || original.getTitle() || "Pigeon presentation");
-    output.setCreator("Pigeon 1.0.2");
+    output.setCreator("Pigeon 1.0.3");
     output.setProducer("Pigeon · pdf-lib 1.17.1");
     const indices = slides.map(slide => {
       if (!Number.isInteger(slide.page) || slide.page < 1 || slide.page > original.getPageCount())

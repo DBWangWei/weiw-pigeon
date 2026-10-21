@@ -29,6 +29,9 @@
     if (location.protocol === "file:") await load("public/deck/embedded-deck.js");
     await load("src/title-effects.js");
     await load("src/wand-effects.js");
+    await load("src/voice-diagnostics.js");
+    await load("src/voice-local.js");
+    await load("src/voice.js");
     await load("src/slide-transitions.js");
     await load("src/diagram.js");
     await load("src/pdf-export.js");
