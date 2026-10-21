@@ -137,6 +137,116 @@ Open `pigeon-OLS-beyond-memoization/index.html` inside the Typst example, or
 example. Keep each generated folder together for offline use. Rebuilds also
 produce ZIP archives beside the inputs; those archives are ignored by Git.
 
+## Write a Typst source that exposes Pigeon's features
+
+Pigeon does not interpret an abstract slide model from Typst. For a `.typ` input
+it first compiles the source to PDF and one SVG per physical page, then extracts
+text, positions, images, tables, links and selected metadata. A source file must
+therefore compile normally, and each intended slide must occupy one physical
+page.
+
+### Technical requirements
+
+The minimum build requirements are Python 3.11+, Node.js 20.11+, Typst with
+`eval` support, and Poppler (`pdftotext` and `pdftoppm`). The Typst source must
+also be able to resolve its packages, local images and fonts from the machine
+where it is converted. Pigeon keeps the native page dimensions, so 16:9 is a
+useful convention but a fixed `960pt × 540pt` page is not required.
+
+The following source conventions expose the full set of Typst-specific Pigeon
+behaviors:
+
+| Capability | Typst convention | What Pigeon can use it for |
+| --- | --- | --- |
+| Deck title | `#set document(title: "...")` | Supplies the generated presentation title when no CLI `--title` is given. |
+| Slide identity and navigation | Put `#metadata((id: ..., title: ..., section: ..., source: ...)) <slide-record>` once on every slide. IDs should be unique and must not contain `::`. | Stable slide IDs, exact titles, section grouping, source notes and title effects. Pages without a record remain usable, but titles are inferred heuristically. |
+| Animated titles | Render the title as ordinary Typst text and make it match the metadata `title`. | Pigeon can isolate the original title glyphs for Text Type, Split Text, Blur Text, Shiny Text and Gradient Text effects. Image-only or unmatched titles stay static. |
+| Magic-wand takeaways | Use the source-level form `#takeaway[Important conclusion]`; the macro may live in a local imported `.typ` file. | The callout becomes a recognized `takeaway` wand region and starts in Spotlight mode. |
+| Other wand targets | Use native text, rendered `image(...)`, and ordinary connected bordered tables. | Text, images and tables can be selected and enlarged without hand-authored regions. Complex computed macros, borderless tables and unusual graphics may need `*.navigation.json` `wandRegions`. |
+| Graph and search evidence | Keep meaningful concepts in visible slide text and use `section`/`source` metadata. | Local graph extraction and search receive the compiled text and its slide/page evidence. Model graph extraction also receives each rendered page. |
+
+Metadata is queried from the compiled source, so the label must be exactly
+`<slide-record>`. A custom wrapper can emit the record, but computed or hidden
+content may not match the rendered PDF; use a navigation JSON override when the
+build report reports an uncertain title or region. See the [input contract](typst-to-pigeon/references/input-contract.md)
+for the override format.
+
+### Template already in this repository
+
+The reusable Typst template is [`examples/typst-talk-to-pigeon/shared/style.typ`](examples/typst-talk-to-pigeon/shared/style.typ).
+It defines `deck`, `s`, `takeaway`, `card`, `cols` and related helpers while
+setting a Touying slide theme and page geometry. The complete source using that
+template is [`OLS-beyond-memoization.typ`](examples/typst-talk-to-pigeon/OLS-beyond-memoization.typ),
+and its companion README explains how to rebuild it. A minimal starter source
+can look like this (save it beside the `shared/` directory):
+
+```typst
+#import "shared/style.typ": *
+
+#show: deck
+#set document(
+  title: "How a Hash Table Finds a Key",
+  author: "Your name",
+)
+
+#let talk-slide = s.with(source: [Pigeon demo])
+
+#slide[
+  #metadata((
+    id: "01",
+    title: "How a Hash Table Finds a Key",
+    section: "Introduction",
+    source: [Pigeon demo],
+  )) <slide-record>
+  #align(center + horizon)[
+    #text(size: 38pt, weight: "bold")[How a Hash Table Finds a Key]
+    #v(14pt)
+    #text(size: 22pt, fill: teal)[From a key to a bucket]
+  ]
+]
+
+#talk-slide("02", [The lookup pipeline], section: "Mechanism")[
+  #cols(
+    card([1. Hash], [Compute an integer from the key.], color: violet, fill: violet-pale),
+    card([2. Probe], [Use that value to choose a bucket and inspect its entries.]),
+  )
+  #v(14pt)
+  #takeaway[The hash function chooses where to look; equality checking decides whether the key is present.]
+]
+
+#talk-slide("03", [A useful trade-off], section: "Conclusion")[
+  #hook[Fast average lookup depends on a good distribution of keys.]
+  #v(14pt)
+  #text(size: 24pt)[More buckets reduce collisions, but consume more memory.]
+]
+```
+
+### Prompt for generating a simple talk
+
+When asking an assistant to generate a talk for this repository, give it the
+template path and the source contract explicitly. For example:
+
+```text
+Create a three-slide Typst talk on “How a Hash Table Finds a Key” in
+examples/typst-talk-to-pigeon/hash-table.typ. From that file, import
+`shared/style.typ` (the repository path is
+`examples/typst-talk-to-pigeon/shared/style.typ`) and begin with `#show: deck`.
+Use one physical page per slide and ordinary Typst text for every title. On
+every slide emit exactly one
+`#metadata((id: "...", title: "...", section: "...", source: [...] )) <slide-record>`
+record; use IDs 01, 02 and 03. The supplied `s` helper already emits the record
+for slides made with `s`, so do not add a duplicate. Use the supplied `s`,
+`card`, `cols`, `hook` and `takeaway` helpers, and include one source-level
+`#takeaway[...]` call. Keep the content readable at the template’s 16:9 size,
+avoid image-only titles and computed/borderless tables, and set a document
+title. Do not invent a new runtime or navigation schema. After writing the
+file, run:
+
+  ./typst-to-pigeon.sh examples/typst-talk-to-pigeon/hash-table.typ --force
+
+Then report the generated slide count and any warnings in build-report.json.
+```
+
 ## Development checks
 
 ```bash
