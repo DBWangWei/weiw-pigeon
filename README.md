@@ -36,13 +36,18 @@ extraction, the Text Type title effect and the original Camera transition.
 Optional `pigeon.toml` settings beside the source are overridden by explicit CLI
 options. Add `--force` when replacing an existing output.
 
-To install the global Codex skill, run `bash ./install-typst-to-pigeon.sh`.
-Copy `typst-to-pigeon.sh` to a directory on PATH, optionally naming it
-`typst-to-pigeon`, to use `typst-to-pigeon talk.typ` or `typst-to-pigeon talk.pdf`
-from any folder. Re-run the installer to upgrade an older skill installation.
-Launchers inside this repository or a skill folder use their bundled skill;
-a standalone launcher on PATH uses the global installation. An explicit
-`PIGEON_SKILL_DIR` overrides either choice.
+To run `typst-to-pigeon` from any folder, save an executable wrapper named
+`typst-to-pigeon` in a directory on PATH, such as `~/bin/`:
+
+```bash
+#!/usr/bin/env bash
+exec "$HOME/code/weiw-pigeon/typst-to-pigeon.sh" "$@"
+```
+
+Adjust the repository path to match your checkout, then run
+`chmod +x ~/bin/typst-to-pigeon`. The wrapper uses the skill bundled with that
+repository. Launchers inside a skill folder use that folder's skill. An explicit
+`PIGEON_SKILL_DIR` overrides the selected skill location.
 
 ## Present
 
@@ -109,7 +114,6 @@ can correct titles or regions. See [the input contract](typst-to-pigeon/referenc
 - `typst-to-pigeon/`: reusable skill, builder, runtime template, icon, references
   and regression tests.
 - `typst-to-pigeon.sh`: portable launcher.
-- `install-typst-to-pigeon.sh`: global skill installer, with an installation backup.
 - [`examples/typst-talk-to-pigeon/`](examples/typst-talk-to-pigeon/): the 24-slide
   **OLS Beyond Memorization** deck for DSAA3073: Theories of Data Science,
   26Summer, with editable Typst, compiled PDF, figures, configuration, and Pigeon
