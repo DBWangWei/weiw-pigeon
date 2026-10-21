@@ -2,7 +2,7 @@
 
 # weiw-pigeon
 
-Pigeon **1.0.2** converts a Typst slide source or PDF deck into an offline HTML presentation
+Pigeon **1.0.3** converts a Typst slide source or PDF deck into an offline HTML presentation
 with an infinite canvas, non-linear navigation, a concept graph, search and
 annotation tools. The original page appearance is preserved as SVG artwork.
 
@@ -83,6 +83,33 @@ leaving the window lifts the pen automatically.
 Choose a slide transition with `--slide-transition NAME` or the in-app selector:
 `camera`, `none`, `fade`, `blur`, `slide`, `zoom`, `pixel`, `staggered-wipe`, `stack`.
 
+## Voice triggers for marked Typst content
+
+Voice controls are enabled by default in newly generated presentations. Open
+**Voice** in the toolbar, choose a microphone, and click **Start microphone** in Chrome. Voice uses a
+local Whisper helper managed by Pigeon's server. In a generated presentation,
+run `python3 scripts/setup_voice.py` once per machine, then
+`python3 scripts/serve.py` (CMake and a C++ compiler required; 142 MiB English model).
+Audio stays in memory on your computer. Configure `voice.backend = "browser"`
+to use Chrome's on-device engine instead. Direct-file presentation and manual
+actions still work offline; recognition uses localhost.
+
+Copy [`pigeon-sem.typ`](typst-to-pigeon/assets/pigeon-sem.typ) beside your source
+and use its marker helper inside the functions you want to target. Configure
+phrases, target function names, and `pop`, `focus`, or `spotlight` actions in
+`pigeon.toml`. Takeaways can stack; ambiguous targets offer numbered choices.
+See the [voice guide](typst-to-pigeon/references/voice.md) for the complete setup,
+visibility rules for reveals, config examples, and keyboard controls.
+
+```bash
+./typst-to-pigeon.sh talk.typ --no-voice  # disable recognition; retain manual actions
+./typst-to-pigeon.sh talk.typ --voice     # override voice.enabled = false
+```
+
+Voice feedback stays in memory and is excluded from sessions and exports.
+`M` remains Wand and `D` remains Diagram; voice uses `Shift+M` and `Shift+D`.
+The default manual actions are `Shift+K/T/F/E` outside Diagram mode.
+
 ## Export an annotated PDF
 
 Click **Export PDF** beside **Present** in the top bar. The downloaded
@@ -122,6 +149,9 @@ can correct titles or regions. See [the input contract](typst-to-pigeon/referenc
 - [`examples/pdf-talk-to-pigeon/`](examples/pdf-talk-to-pigeon/): Mehryar Mohri's
   42-page **Learning with Infinite Hypothesis Sets** PDF and its Pigeon output.
   The original PDF and its attribution are preserved.
+- [`examples/voice-enabled/`](examples/voice-enabled/): the 20-slide **Week 5
+  introduction** deck with editable Typst, compiled PDF, semantic markers,
+  configurable voice rules, and all local assets needed to rebuild it.
 - `typst-to-pigeon/tests/fixtures/`: Typst and PDF geometry samples used by the
   regression tests, separate from the presentation examples.
 
@@ -130,6 +160,7 @@ Rebuild either example from this repository:
 ```bash
 ./typst-to-pigeon.sh examples/typst-talk-to-pigeon/OLS-beyond-memoization.typ --force
 ./typst-to-pigeon.sh examples/pdf-talk-to-pigeon/ml_learning_with_infinite_hypothesis_sets.pdf --force
+./typst-to-pigeon.sh examples/voice-enabled/week5-introduction-voice.typ --config examples/voice-enabled/pigeon.toml --output examples/voice-enabled/pigeon-week5-introduction-voice --graph lexical --voice --force
 ```
 
 Open `pigeon-OLS-beyond-memoization/index.html` inside the Typst example, or
@@ -259,7 +290,17 @@ tests and Safari/Firefox rehearsal. These checks do not establish browser
 rendering or OCR recognition quality. Animation design references are documented in
 `typst-to-pigeon/assets/pigeon-template/THIRD_PARTY_NOTICES.txt`.
 
-Version 1.0.2 extends the editor with an offline diagram mode (`D`) using
+Version 1.0.3 adds local Whisper voice triggers for explicitly marked Typst
+content. Voice is enabled by default, while `--no-voice` disables recognition
+without removing manual actions. Phrases, marked target names, `pop`, `focus`,
+or `spotlight` actions, and `ask`/`stack` multi-match behavior are configured
+in `pigeon.toml`. The included voice-enabled Week 5 example demonstrates tables,
+figures, examples, and takeaways on real slides. Chrome is the supported live
+voice browser; the optional browser backend uses Chrome's on-device recognizer.
+The local Whisper backend keeps audio and transcripts on the presenting machine
+and requires a one-time helper/model setup.
+
+Version 1.0.2 added the offline diagram mode (`D`) using
 Excalidraw-style shortcuts for selection, rectangles, diamonds, ellipses,
 triangles, parallelograms, arrows, lines, centered labels, color/fill palettes,
 copy/paste/duplicate, connected endpoints, move and resize handles. Diagram ink
@@ -271,13 +312,14 @@ and real fullscreen interaction still need a Safari/Firefox rehearsal.
 
 ## TODO
 
-Browser testing currently covers Google Chrome on macOS.
+Live voice rehearsal currently targets Google Chrome on macOS. Manual presentation and annotation controls remain available in other browsers.
 
-- [ ] Test on other browsers, including Safari, Firefox, and Edge.
+- [ ] Test voice recognition on other browsers, including Safari, Firefox, and Edge.
 - [ ] Test on other operating systems, including Windows and Linux.
 
 ## Version documentation
 
+- [1.0.3](docs/versions/1.0.3/README.md): local Whisper voice triggers, semantic Typst markers, configurable actions, and the voice-enabled Week 5 example.
 - [1.0.2](docs/versions/1.0.2/README.md): outline sections and diagram mode.
 - [1.0.1](docs/versions/1.0.1/README.md): PDF input, conservative extraction and Pen down mode.
 - [1.0.0](docs/versions/1.0.0/README.md): original Typst-based release.

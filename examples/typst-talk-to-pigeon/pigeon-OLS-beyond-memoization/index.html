@@ -150,6 +150,8 @@
           <button data-diagram-tool="hand" title="Pan (H)">Hand</button>
           <button id="diagramStroke" title="Stroke color (S)">Stroke</button>
           <button id="diagramFill" title="Fill color (G)">Fill</button>
+          <label>Horizontal <select id="diagramTextAlign" aria-label="Horizontal text alignment"><option value="" disabled>Mixed</option><option value="left">Left</option><option value="center">Center</option><option value="right">Right</option></select></label>
+          <label>Vertical <select id="diagramVerticalAlign" aria-label="Vertical text alignment"><option value="" disabled>Mixed</option><option value="top">Top</option><option value="middle">Middle</option><option value="bottom">Bottom</option></select></label>
           <label>Connector <select id="diagramConnector" aria-label="Connector routing" title="Toggle routing (Shift+L)"><option value="elbow">Elbow</option><option value="straight">Straight</option></select></label>
           <button id="diagramDuplicate" title="Duplicate (Cmd/Ctrl+D)">Duplicate</button>
           <button id="diagramDelete" title="Delete selection (Delete)">Delete</button>
@@ -495,6 +497,17 @@
           <p>Export PDF beside Present includes all slides, drawings and inserted boards.</p>
           </div>
         </div>
+        <section class="shortcut-grid" aria-label="Voice and semantic actions">
+          <div>
+            <h3>Voice and marked content</h3>
+            <p>Open Voice in the toolbar, choose a microphone, then Start microphone. Chrome uses local Whisper by default.</p>
+            <p>Audio stays on this computer. Run the generated <code>scripts/setup_voice.py</code> once, then use <code>scripts/serve.py</code>.</p>
+            <p><kbd>Shift M</kbd> mute / resume · <kbd>Shift D</kbd> show marked bounds</p>
+            <p><kbd>Shift K</kbd> takeaway · <kbd>Shift T</kbd> table · <kbd>Shift F</kbd> figure · <kbd>Shift E</kbd> example</p>
+            <p>Choose ambiguous targets with <kbd>1</kbd>–<kbd>9</kbd>. <kbd>Esc</kbd> dismisses emphasis.</p>
+            <p>Manual actions work without a microphone. Voice Shift shortcuts apply outside Diagram mode.</p>
+          </div>
+        </section>
         <section class="shortcut-grid diagram-help" aria-labelledby="diagramHelpHeading">
           <div class="diagram-help-intro">
             <h3 id="diagramHelpHeading">Diagram mode</h3>
@@ -508,12 +521,14 @@
             <p><kbd>T</kbd> / <kbd>8</kbd> text · <kbd>H</kbd> hand / pan</p>
             <p><kbd>S</kbd> stroke color · <kbd>G</kbd> fill color</p>
             <p><kbd>Arrows</kbd> choose a color · <kbd>Enter</kbd> apply</p>
-            <p>Colors also apply to subsequent shapes.</p>
+            <p>Tools stay selected for repeated drawing. Press <kbd>V</kbd> to select and move objects.</p>
+            <p>Colors and text alignment also apply to subsequent objects.</p>
             <p>Hold <kbd>Shift</kbd> while drawing for a square or circle.</p>
           </div>
           <div>
             <h3>Excalidraw-like editing</h3>
-            <p><kbd>Enter</kbd> edit centered shape text</p>
+            <p><kbd>Enter</kbd> edit selected text · double-click a shape to label it</p>
+            <p>Horizontal: Left / Center / Right · Vertical: Top / Middle / Bottom</p>
             <p><kbd>Esc</kbd> / <kbd>⌘/Ctrl Enter</kbd> finish text</p>
             <p><kbd>⌘/Ctrl C</kbd> copy · <kbd>⌘/Ctrl V</kbd> paste</p>
             <p><kbd>⌘/Ctrl X</kbd> cut · <kbd>⌘/Ctrl D</kbd> duplicate</p>
@@ -541,7 +556,7 @@
             <p><kbd>Esc</kbd> clears an edit or selection, then exits Diagram mode.</p>
           </div>
         </section>
-        <p class="help-about-link"><button class="text-link" id="aboutFromHelp" type="button">About Pigeon · version 1.0.2</button></p>
+        <p class="help-about-link"><button class="text-link" id="aboutFromHelp" type="button">About Pigeon · version 1.0.3</button></p>
       </dialog>
 
       <dialog class="modal about-modal" id="aboutDialog" aria-labelledby="aboutHeading">
@@ -554,9 +569,9 @@
         </div>
         <div class="about-content">
           <img class="about-icon" src="public/icons/pigeon.png" width="160" height="160" alt="Pigeon icon">
-          <p class="about-version">Version 1.0.2</p>
+          <p class="about-version">Version 1.0.3</p>
           <p>Give Pigeon a Typst source file or PDF slide deck and it builds an offline, interactive presentation. You only need a browser to present.</p>
-          <p>Pigeon combines and extends tools familiar from PowerPoint, tablet drawing apps, and Excalidraw, adding a zoomable canvas, concept graph, and magic wand. Most operations are available through keyboard shortcuts.</p>
+          <p>Pigeon combines and extends tools familiar from PowerPoint, tablet drawing apps, and Excalidraw, adding a zoomable canvas, concept graph, magic wand, and local voice triggers for marked Typst content. Most operations are available through keyboard shortcuts.</p>
           <p>Collaboration, bug reports, and comments are welcome.</p>
           <p class="about-footer">Author: Wei Wang (weiwcs AT ust.hk) · GPT-6-Astra/xhigh (in Codex)</p>
         </div>

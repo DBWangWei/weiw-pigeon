@@ -1,0 +1,28 @@
+Pigeon title effects are independent SVG adaptations of React Bits designs:
+https://reactbits.dev/c/text-animations
+https://github.com/DavidHDev/react-bits/tree/main/src/content/TextAnimations
+
+Referenced designs: SplitText (staggered entrance), BlurText (blur/fade/move),
+ShinyText (moving shine), GradientText (moving colors), TextType (sequential reveal).
+The upstream React/GSAP/Motion components are not bundled. Pigeon uses original
+Typst glyph outlines and the Web Animations API. Text Type reveals glyphs once;
+Split/Blur operate on glyphs; color effects use a silhouette of the title.
+
+Slide-transition patterns were reviewed from React Bits components including
+FadeContent, AnimatedContent, Carousel, PixelTransition, Stack and
+StaggeredMenu:
+https://github.com/DavidHDev/react-bits/tree/main/src/content
+Pigeon implements small dependency-free adaptations with the Web Animations API
+and SVG clipping; the upstream React components are not bundled.
+
+Diagram tool shortcuts and basic editing interactions were reviewed against:
+https://github.com/excalidraw/excalidraw/blob/master/packages/excalidraw/components/HelpDialog.tsx
+Pigeon contains an independent canvas implementation, not the Excalidraw runtime
+or its file format. Triangle, parallelogram, routing and keyboard resize shortcuts
+are Pigeon extensions, identified in the keyboard guide.
+
+PDF export bundles pdf-lib 1.17.1 (MIT license), loaded locally on demand:
+https://github.com/Hopding/pdf-lib
+https://cdn.jsdelivr.net/npm/pdf-lib@1.17.1/dist/pdf-lib.min.js
+The full license is included at src/vendor/pdf-lib.LICENSE.md.
+Original PDF pages are copied; annotation artwork uses transparent PNG overlays.

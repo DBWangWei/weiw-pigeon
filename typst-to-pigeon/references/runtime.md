@@ -26,9 +26,9 @@ Repeating a tool key turns that tool off; another tool key switches tools. The s
 
 The **Title effect** selector offers Text Type (default), None, Split Text, Blur Text, Shiny Text and Gradient Text. The choice is saved per deck in browser storage. `title_effect` in `pigeon.toml` sets the initial release choice and `--title-effect NAME` overrides it; an already-saved browser preference takes precedence. None uses the untouched original slide SVG. Other choices swap to the body SVG plus an inline title glyph layer only after both are ready. Title fonts, line breaks and positions come from the original Typst/PDF artwork, not browser typesetting. Effects replay on entering a slide; Shiny and Gradient repeat while it is active. Reduced-motion preference suppresses animation. Boards and unmatched titles stay static. PNG exports use the original complete slide artwork.
 
-Pigeon is version **1.0.2**. Open **About** in the top bar, or choose **About Pigeon** at the bottom of the `?` keyboard guide, for the icon, author and collaboration contact.
+Pigeon is version **1.0.3**. Open **About** in the top bar, or choose **About Pigeon** at the bottom of the `?` keyboard guide, for the icon, author and collaboration contact.
 
-Diagram mode is entered with `D`. Within it, Pigeon follows Excalidraw’s familiar `V/1`, `R/2`, `D/3`, `O/4`, `A/5`, `L/6`, `T/8`, `H`, `S`, `G`, `Cmd/Ctrl+C/V/X/D`, arrow movement, Delete, Tab, Enter and Escape conventions. `Shift+T` adds a triangle and `Shift+P` a parallelogram. Shapes have centered editable text, solid or transparent fill, stroke/fill color palettes, selection handles, resize knobs, and connector endpoints that bind to shapes and follow their movement. Diagram operations are stored as diagram ink in the same slide/board session surfaces, so undo, import/export and PNG export include them. `D` is reserved for diagram mode only while that mode is active; `PageUp/PageDown` still navigate slides.
+Diagram mode is entered with `D`. Within it, Pigeon follows Excalidraw’s familiar `V/1`, `R/2`, `D/3`, `O/4`, `A/5`, `L/6`, `T/8`, `H`, `S`, `G`, `Cmd/Ctrl+C/V/X/D`, arrow movement, Delete, Tab, Enter and Escape conventions. `Shift+T` adds a triangle and `Shift+P` a parallelogram. Drawing tools stay active for repeated placement; use `V` to select and move objects. Enter edits the selected object's text, and double-click edits an existing shape without adding another. Shapes default to centered labels; free text starts at the top-left. Horizontal (Left/Center/Right) and Vertical (Top/Middle/Bottom) controls apply to selected objects and carry forward to subsequent objects of the same category (free text or shape labels). Alignment survives undo, copying, session import/export and PNG/PDF export. New diagrams default to blue strokes and yellow fills, with solid or transparent fill, stroke/fill color palettes, selection handles, resize knobs, and connector endpoints that bind to shapes and follow their movement. Display labels use SVG text rather than canvas pixels so zoom does not enlarge a fixed text bitmap; PNG/PDF exports use the same layout. Diagram operations are stored in the same slide/board session surfaces as ink. `D` is reserved for diagram mode only while that mode is active; `PageUp/PageDown` still navigate slides.
 
 These are independent SVG adaptations of five React Bits designs, not the entire React Bits catalog or the upstream React components. Split and Blur stagger glyphs, Text Type reveals them once, Shiny sweeps a highlight, and Gradient moves colors through a title mask. The title and transition effects need no React or remote scripts. See `THIRD_PARTY_NOTICES.txt`.
 
@@ -64,3 +64,30 @@ Escape dismisses the effect while keeping Wand selected. Navigation, zoom/pan,
 overview, dialogs, blackout and tool changes clear it. Held keys, modified
 backticks and typing do not cycle. Reduced motion disables animations. These
 effects are transient and excluded from annotations, sessions and exports.
+
+
+## Voice and semantic emphasis
+
+`src/voice.js` is a classic script loaded before `app.js`. `manifest.voice`
+contains normalized runtime settings; per-slide `semanticRegions` contain exact
+marked Typst bounds, independently of heuristic Wand targets. The app supplies
+the active slide, asset resolver, camera scale, and dispatch context. Recognition
+requires an explicit gesture. `src/voice-local.js` adapts local Whisper to the
+same recognition event interface; its AudioWorklet downmixes/resamples the
+selected input to mono PCM16 at 16 kHz. Silence gates utterances; a pause of
+0.7 seconds ends one, and sustained speech splits at 8 seconds. At most two
+segments wait behind the current request; overload is visible. The server
+validates same-origin requests and bounded bodies, keeps one native decoder/model
+loaded, and passes audio/text through anonymous pipes. Aborting cancels browser
+capture/requests and discards late replies; an inference already running on the
+server may finish. No recordings or transcript files are written. The optional
+`browser` backend still requires `processLocally = true`. Voice status, words,
+log, choices, debug bounds and crop overlays stay outside the saved session and
+export paths. See [voice.md](voice.md) for setup and failure behavior.
+
+`src/voice-diagnostics.js` loads before the voice runtime. It displays microphone
+input tests, recognition events/text, matcher decisions, resolver outcomes and
+artwork loading without changing session/export data. Input tests require their
+own click, run separately from recognition, and close tracks/audio contexts on
+Stop, cancellation, page exit, destruction or the 15-second limit. Typed phrase
+tests call the production matcher and resolver with an explicit test source.

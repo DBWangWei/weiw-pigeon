@@ -7,6 +7,18 @@ const markup=await readFile(resolve(root,'index.html'),'utf8');
 const app=await readFile(resolve(root,'src/app.js'),'utf8');
 const effects=await readFile(resolve(root,'src/title-effects.js'),'utf8');
 const wandEffects=await readFile(resolve(root,'src/wand-effects.js'),'utf8');
+const voiceDiagnostics=await readFile(resolve(root,'src/voice-diagnostics.js'),'utf8').catch(error=>{
+  if(error.code==='ENOENT') return '';
+  throw error;
+});
+const voiceRuntime=await readFile(resolve(root,'src/voice.js'),'utf8').catch(error=>{
+  if(error.code==='ENOENT') return ''; // Older generated fixtures remain readable.
+  throw error;
+});
+const voiceLocal=await readFile(resolve(root,'src/voice-local.js'),'utf8').catch(error=>{
+  if(error.code==='ENOENT') return '';
+  throw error;
+});
 const transitions=await readFile(resolve(root,'src/slide-transitions.js'),'utf8');
 const diagrams=await readFile(resolve(root,'src/diagram.js'),'utf8');
 const pdfExport=await readFile(resolve(root,'src/pdf-export.js'),'utf8');
@@ -21,7 +33,7 @@ export async function singleBacktick(w,d) {
 export function pointer(w,canvas,type='pointermove',options={}) {
   canvas.dispatchEvent(new w.PointerEvent(type,{pointerId:1,pointerType:'mouse',clientX:120,clientY:240,button:0,buttons:0,bubbles:true,...options}));
 }
-export async function setup(t) {
+export async function setup(t, options={}) {
   const w=new Window({url:'file:///pigeon/index.html',settings:{disableCSSFileLoading:true,disableJavaScriptFileLoading:true}});
   t.after(()=>w.happyDOM.abort());
   const calls=[];
@@ -33,8 +45,9 @@ export async function setup(t) {
   w.structuredClone=structuredClone;
   w.fetch=()=>{throw new Error('Unexpected fetch in file mode');};
   w.document.write(markup.replace(/<script[\s\S]*?<\/script>/g,''));
-  w.eval(effects);w.eval(wandEffects);w.eval(transitions);w.eval(diagrams);w.eval(pdfExport);w.eval(embedded);
-  w.eval(app+'\nwindow.testApp={diagram,state,normaliseManifest,navigateTo,nextSlide,fitCurrent,fitWhole,canvasPoint,sessionPayload,validateSession,toggleWhiteboard,keyHandler,setTool,openOverview,closeOverview,syncTitleEffect,stopTitleEffect,viewSequence,showWand,pageTransitions,cancelPageTransition,zoomAt,historyMove,resumeRoute,reconcilePresentation,undo,redo,applySession,drawSurface,exportPng,exportPdf};');
+  w.eval(effects);w.eval(wandEffects);w.eval(voiceDiagnostics);w.eval(voiceLocal);w.eval(voiceRuntime);w.eval(transitions);w.eval(diagrams);w.eval(pdfExport);w.eval(embedded);
+  if(options.voiceBackend) w.PIGEON_DECK_BUNDLE.json['public/deck/manifest.json'].voice.backend=options.voiceBackend;
+  w.eval(app+'\nwindow.testApp={diagram,state,get voice(){return voice},normaliseManifest,navigateTo,nextSlide,fitCurrent,fitWhole,canvasPoint,sessionPayload,validateSession,toggleWhiteboard,keyHandler,setTool,openOverview,closeOverview,toggleBlackout,replaceSessionSafely,syncTitleEffect,stopTitleEffect,viewSequence,showWand,pageTransitions,cancelPageTransition,zoomAt,historyMove,resumeRoute,reconcilePresentation,undo,redo,applySession,drawSurface,exportPng,exportPdf};');
   await new Promise(r=>setTimeout(r,40));
   return {w,a:w.testApp,d:w.document,calls};
 }

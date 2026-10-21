@@ -1,0 +1,2649 @@
+{
+  "schemaVersion": "1.0",
+  "deckId": "week5-introduction-voice",
+  "revision": "2c3072692aade811",
+  "extraction": {
+    "mode": "lexical",
+    "provider": "local",
+    "reviewRequired": true,
+    "inputRevision": "2c3072692aade811",
+    "method": "titles-sections-recurring-terms"
+  },
+  "concepts": [
+    {
+      "id": "slide-01-938db8",
+      "label": "Introduction to Week 5",
+      "aliases": [
+        "01"
+      ],
+      "type": "slide",
+      "description": "Source slide 01 in the talk.",
+      "importance": 3,
+      "cluster": "DSAA3073 · 26Fall",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "Introduction to Week 5",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0",
+      "label": "Two voices, two microphones",
+      "aliases": [
+        "02"
+      ],
+      "type": "slide",
+      "description": "Source slide 02 in the talk.",
+      "importance": 3,
+      "cluster": "1 · A new hook",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "Two voices, two microphones",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa",
+      "label": "From recordings to a linear inverse problem",
+      "aliases": [
+        "03"
+      ],
+      "type": "slide",
+      "description": "Source slide 03 in the talk.",
+      "importance": 3,
+      "cluster": "1 · A new hook",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "From recordings to a linear inverse problem",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6",
+      "label": "A tiny recording error becomes a large source error",
+      "aliases": [
+        "04"
+      ],
+      "type": "slide",
+      "description": "Source slide 04 in the talk.",
+      "importance": 3,
+      "cluster": "1 · A new hook",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "A tiny recording error becomes a large source error",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550",
+      "label": "Why the obvious fixes do not settle the problem",
+      "aliases": [
+        "05"
+      ],
+      "type": "slide",
+      "description": "Source slide 05 in the talk.",
+      "importance": 3,
+      "cluster": "1 · A new hook",
+      "mentions": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "Why the obvious fixes do not settle the problem",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83",
+      "label": "Four ideas that apply beyond this example",
+      "aliases": [
+        "06"
+      ],
+      "type": "slide",
+      "description": "Source slide 06 in the talk.",
+      "importance": 3,
+      "cluster": "2 · The plan",
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "Four ideas that apply beyond this example",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100",
+      "label": "The problem: recover a signal from noisy observations",
+      "aliases": [
+        "07"
+      ],
+      "type": "slide",
+      "description": "Source slide 07 in the talk.",
+      "importance": 3,
+      "cluster": "2 · The plan",
+      "mentions": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "The problem: recover a signal from noisy observations",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-08-323783",
+      "label": "First separate two sources of randomness",
+      "aliases": [
+        "08"
+      ],
+      "type": "slide",
+      "description": "Source slide 08 in the talk.",
+      "importance": 3,
+      "cluster": "2 · The plan",
+      "mentions": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "First separate two sources of randomness",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "slide-09-3514ac",
+      "label": "An inverse can exist and still be unreliable",
+      "aliases": [
+        "09"
+      ],
+      "type": "slide",
+      "description": "Source slide 09 in the talk.",
+      "importance": 3,
+      "cluster": "2 · The plan",
+      "mentions": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "An inverse can exist and still be unreliable",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc",
+      "label": "Tikhonov changes the objective; ridge specializes it",
+      "aliases": [
+        "10"
+      ],
+      "type": "slide",
+      "description": "Source slide 10 in the talk.",
+      "importance": 3,
+      "cluster": "2 · The plan",
+      "mentions": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "Tikhonov changes the objective; ridge specializes it",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-11-4fc82b",
+      "label": "The mechanism: damp weak directions more strongly",
+      "aliases": [
+        "11"
+      ],
+      "type": "slide",
+      "description": "Source slide 11 in the talk.",
+      "importance": 3,
+      "cluster": "2 · The plan",
+      "mentions": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "The mechanism: damp weak directions more strongly",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "slide-12-6b51d4",
+      "label": "What we can prove before testing prediction quality",
+      "aliases": [
+        "12"
+      ],
+      "type": "slide",
+      "description": "Source slide 12 in the talk.",
+      "importance": 3,
+      "cluster": "2 · The plan",
+      "mentions": [
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "What we can prove before testing prediction quality",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "slide-13-3fdba3",
+      "label": "A little bias can buy a useful variance reduction",
+      "aliases": [
+        "13"
+      ],
+      "type": "slide",
+      "description": "Source slide 13 in the talk.",
+      "importance": 3,
+      "cluster": "2 · The plan",
+      "mentions": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "A little bias can buy a useful variance reduction",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "slide-14-8527a8",
+      "label": "Three limits to keep in view",
+      "aliases": [
+        "14"
+      ],
+      "type": "slide",
+      "description": "Source slide 14 in the talk.",
+      "importance": 3,
+      "cluster": "2 · The plan",
+      "mentions": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "Three limits to keep in view",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "slide-15-e629fa",
+      "label": "Six distinctions that beginners often find hard",
+      "aliases": [
+        "15"
+      ],
+      "type": "slide",
+      "description": "Source slide 15 in the talk.",
+      "importance": 3,
+      "cluster": "3 · How to study it",
+      "mentions": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "Six distinctions that beginners often find hard",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "slide-16-b17ef6",
+      "label": "Connections to the undergraduate mathematical core",
+      "aliases": [
+        "16"
+      ],
+      "type": "slide",
+      "description": "Source slide 16 in the talk.",
+      "importance": 3,
+      "cluster": "3 · How to study it",
+      "mentions": [
+        {
+          "slideId": "16",
+          "kind": "text",
+          "evidence": "Connections to the undergraduate mathematical core",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "id": "slide-17-452354",
+      "label": "Connections to other CS, AI, and DS courses",
+      "aliases": [
+        "17"
+      ],
+      "type": "slide",
+      "description": "Source slide 17 in the talk.",
+      "importance": 3,
+      "cluster": "3 · How to study it",
+      "mentions": [
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "Connections to other CS, AI, and DS courses",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "slide-18-4ec959",
+      "label": "Mindmap 1 · The academic progression",
+      "aliases": [
+        "18"
+      ],
+      "type": "slide",
+      "description": "Source slide 18 in the talk.",
+      "importance": 3,
+      "cluster": "4 · Two views of the whole",
+      "mentions": [
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "Mindmap 1 · The academic progression",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "slide-19-9400f1",
+      "label": "Mindmap 2 · What can the data actually reveal?",
+      "aliases": [
+        "19"
+      ],
+      "type": "slide",
+      "description": "Source slide 19 in the talk.",
+      "importance": 3,
+      "cluster": "4 · Two views of the whole",
+      "mentions": [
+        {
+          "slideId": "19",
+          "kind": "text",
+          "evidence": "Mindmap 2 · What can the data actually reveal?",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "id": "slide-20-f5ca38",
+      "label": "Return to the microphones: what should we do?",
+      "aliases": [
+        "20"
+      ],
+      "type": "slide",
+      "description": "Source slide 20 in the talk.",
+      "importance": 3,
+      "cluster": "4 · Two views of the whole",
+      "mentions": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "Return to the microphones: what should we do?",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "section-dsaa3073-26fall-ed2691",
+      "label": "DSAA3073 · 26Fall",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 1 source slide(s).",
+      "importance": 4,
+      "cluster": "DSAA3073 · 26Fall",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "Introduction to Week 5",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "section-1-a-new-hook-5ad725",
+      "label": "1 · A new hook",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 4 source slide(s).",
+      "importance": 4,
+      "cluster": "1 · A new hook",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "Two voices, two microphones",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "section-2-the-plan-a2a432",
+      "label": "2 · The plan",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 9 source slide(s).",
+      "importance": 4,
+      "cluster": "2 · The plan",
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "Four ideas that apply beyond this example",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "section-3-how-to-study-it-ff37d3",
+      "label": "3 · How to study it",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 3 source slide(s).",
+      "importance": 4,
+      "cluster": "3 · How to study it",
+      "mentions": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "Six distinctions that beginners often find hard",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "section-4-two-views-of-the-whole-006832",
+      "label": "4 · Two views of the whole",
+      "aliases": [],
+      "type": "section",
+      "description": "A section containing 3 source slide(s).",
+      "importance": 4,
+      "cluster": "4 · Two views of the whole",
+      "mentions": [
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "Mindmap 1 · The academic progression",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "concept-learning-edd957",
+      "label": "learning",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses learning as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "learning",
+          "page": 3
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "learning",
+          "page": 4
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "learning",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "concept-sheet-78af7b",
+      "label": "sheet",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses sheet as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "sheet",
+          "page": 3
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "sheet",
+          "page": 4
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "sheet",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "concept-noise-efe2a5",
+      "label": "noise",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses noise as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "noise",
+          "page": 3
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "noise",
+          "page": 4
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "noise",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "concept-error-ca00fc",
+      "label": "error",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses error as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "error",
+          "page": 3
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "error",
+          "page": 4
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "error",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "concept-measurement-6c5a69",
+      "label": "measurement",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses measurement as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "measurement",
+          "page": 3
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "measurement",
+          "page": 4
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "measurement",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "concept-dsaa3073-aa5977",
+      "label": "dsaa3073",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses dsaa3073 as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "dsaa3073",
+          "page": 1
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "dsaa3073",
+          "page": 6
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "dsaa3073",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "concept-variance-7c0766",
+      "label": "variance",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses variance as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "variance",
+          "page": 1
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "variance",
+          "page": 5
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "variance",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "concept-source-41cf67",
+      "label": "source",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses source as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "source",
+          "page": 2
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "source",
+          "page": 3
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "source",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "concept-ridge-409e36",
+      "label": "ridge",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses ridge as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 1
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 6
+        },
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "concept-response-a9f4b3",
+      "label": "response",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses response as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "response",
+          "page": 6
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "response",
+          "page": 7
+        },
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "response",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "concept-penalty-debfc5",
+      "label": "penalty",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses penalty as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "penalty",
+          "page": 5
+        },
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "penalty",
+          "page": 10
+        },
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "penalty",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "concept-measurements-5852a8",
+      "label": "measurements",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses measurements as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "measurements",
+          "page": 4
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "measurements",
+          "page": 5
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "measurements",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "concept-inverse-7705ac",
+      "label": "inverse",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses inverse as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "inverse",
+          "page": 1
+        },
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "inverse",
+          "page": 3
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "inverse",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "concept-change-12ea12",
+      "label": "change",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses change as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "change",
+          "page": 3
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "change",
+          "page": 6
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "change",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "concept-prediction-70ad7b",
+      "label": "prediction",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses prediction as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "prediction",
+          "page": 6
+        },
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "prediction",
+          "page": 8
+        },
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "prediction",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "concept-directions-b36fd7",
+      "label": "directions",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses directions as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "directions",
+          "page": 5
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "directions",
+          "page": 6
+        },
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "directions",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "concept-coefficient-7ef50a",
+      "label": "coefficient",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses coefficient as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "coefficient",
+          "page": 10
+        },
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "coefficient",
+          "page": 11
+        },
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "coefficient",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "concept-amplification-ccc52f",
+      "label": "amplification",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses amplification as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "amplification",
+          "page": 5
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "amplification",
+          "page": 6
+        },
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "amplification",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "concept-training-c2fb78",
+      "label": "training",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses training as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "training",
+          "page": 6
+        },
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "training",
+          "page": 8
+        },
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "training",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "concept-sources-878a52",
+      "label": "sources",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses sources as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "sources",
+          "page": 2
+        },
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "sources",
+          "page": 4
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "sources",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "concept-solution-8270f2",
+      "label": "solution",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses solution as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "solution",
+          "page": 4
+        },
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "solution",
+          "page": 9
+        },
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "solution",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "concept-small-81db8e",
+      "label": "small",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses small as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "small",
+          "page": 3
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "small",
+          "page": 5
+        },
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "small",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "concept-signal-d04192",
+      "label": "signal",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses signal as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "signal",
+          "page": 5
+        },
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "signal",
+          "page": 6
+        },
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "signal",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "concept-reduces-90581b",
+      "label": "reduces",
+      "aliases": [],
+      "type": "concept",
+      "description": "The source uses reduces as a recurring talk concept.",
+      "importance": 5,
+      "cluster": "Across the talk",
+      "mentions": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "reduces",
+          "page": 5
+        },
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "reduces",
+          "page": 11
+        },
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "reduces",
+          "page": 13
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "section-dsaa3073-26fall-ed2691-contains-slide-01-938db8-01",
+      "source": "section-dsaa3073-26fall-ed2691",
+      "target": "slide-01-938db8",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "Introduction to Week 5",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "section-1-a-new-hook-5ad725-contains-slide-02-a953f0-02",
+      "source": "section-1-a-new-hook-5ad725",
+      "target": "slide-02-a953f0",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "Two voices, two microphones",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "section-1-a-new-hook-5ad725-contains-slide-03-0b8efa-03",
+      "source": "section-1-a-new-hook-5ad725",
+      "target": "slide-03-0b8efa",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "From recordings to a linear inverse problem",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "section-1-a-new-hook-5ad725-contains-slide-04-6cd5b6-04",
+      "source": "section-1-a-new-hook-5ad725",
+      "target": "slide-04-6cd5b6",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "A tiny recording error becomes a large source error",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "section-1-a-new-hook-5ad725-contains-slide-05-c97550-05",
+      "source": "section-1-a-new-hook-5ad725",
+      "target": "slide-05-c97550",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "Why the obvious fixes do not settle the problem",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "section-2-the-plan-a2a432-contains-slide-06-aacd83-06",
+      "source": "section-2-the-plan-a2a432",
+      "target": "slide-06-aacd83",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "Four ideas that apply beyond this example",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "section-2-the-plan-a2a432-contains-slide-07-19b100-07",
+      "source": "section-2-the-plan-a2a432",
+      "target": "slide-07-19b100",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "The problem: recover a signal from noisy observations",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "section-2-the-plan-a2a432-contains-slide-08-323783-08",
+      "source": "section-2-the-plan-a2a432",
+      "target": "slide-08-323783",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "First separate two sources of randomness",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "section-2-the-plan-a2a432-contains-slide-09-3514ac-09",
+      "source": "section-2-the-plan-a2a432",
+      "target": "slide-09-3514ac",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "An inverse can exist and still be unreliable",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "section-2-the-plan-a2a432-contains-slide-10-4a44dc-10",
+      "source": "section-2-the-plan-a2a432",
+      "target": "slide-10-4a44dc",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "Tikhonov changes the objective; ridge specializes it",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "section-2-the-plan-a2a432-contains-slide-11-4fc82b-11",
+      "source": "section-2-the-plan-a2a432",
+      "target": "slide-11-4fc82b",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "The mechanism: damp weak directions more strongly",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "section-2-the-plan-a2a432-contains-slide-12-6b51d4-12",
+      "source": "section-2-the-plan-a2a432",
+      "target": "slide-12-6b51d4",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "What we can prove before testing prediction quality",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "section-2-the-plan-a2a432-contains-slide-13-3fdba3-13",
+      "source": "section-2-the-plan-a2a432",
+      "target": "slide-13-3fdba3",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "A little bias can buy a useful variance reduction",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "section-2-the-plan-a2a432-contains-slide-14-8527a8-14",
+      "source": "section-2-the-plan-a2a432",
+      "target": "slide-14-8527a8",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "Three limits to keep in view",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "section-3-how-to-study-it-ff37d3-contains-slide-15-e629fa-15",
+      "source": "section-3-how-to-study-it-ff37d3",
+      "target": "slide-15-e629fa",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "Six distinctions that beginners often find hard",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "section-3-how-to-study-it-ff37d3-contains-slide-16-b17ef6-16",
+      "source": "section-3-how-to-study-it-ff37d3",
+      "target": "slide-16-b17ef6",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "16",
+          "kind": "text",
+          "evidence": "Connections to the undergraduate mathematical core",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "id": "section-3-how-to-study-it-ff37d3-contains-slide-17-452354-17",
+      "source": "section-3-how-to-study-it-ff37d3",
+      "target": "slide-17-452354",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "Connections to other CS, AI, and DS courses",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "section-4-two-views-of-the-whole-006832-contains-slide-18-4ec959-18",
+      "source": "section-4-two-views-of-the-whole-006832",
+      "target": "slide-18-4ec959",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "Mindmap 1 · The academic progression",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "section-4-two-views-of-the-whole-006832-contains-slide-19-9400f1-19",
+      "source": "section-4-two-views-of-the-whole-006832",
+      "target": "slide-19-9400f1",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "19",
+          "kind": "text",
+          "evidence": "Mindmap 2 · What can the data actually reveal?",
+          "page": 19
+        }
+      ]
+    },
+    {
+      "id": "section-4-two-views-of-the-whole-006832-contains-slide-20-f5ca38-20",
+      "source": "section-4-two-views-of-the-whole-006832",
+      "target": "slide-20-f5ca38",
+      "predicate": "contains",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "Return to the microphones: what should we do?",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-learning-edd957-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-learning-edd957",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "learning",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-learning-edd957-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-learning-edd957",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "learning",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-learning-edd957-05",
+      "source": "slide-05-c97550",
+      "target": "concept-learning-edd957",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "learning",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-sheet-78af7b-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-sheet-78af7b",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "sheet",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-sheet-78af7b-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-sheet-78af7b",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "sheet",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-sheet-78af7b-05",
+      "source": "slide-05-c97550",
+      "target": "concept-sheet-78af7b",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "sheet",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-noise-efe2a5-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-noise-efe2a5",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "noise",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-noise-efe2a5-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-noise-efe2a5",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "noise",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-noise-efe2a5-05",
+      "source": "slide-05-c97550",
+      "target": "concept-noise-efe2a5",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "noise",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-error-ca00fc-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-error-ca00fc",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "error",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-error-ca00fc-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-error-ca00fc",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "error",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-error-ca00fc-05",
+      "source": "slide-05-c97550",
+      "target": "concept-error-ca00fc",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "error",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-measurement-6c5a69-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-measurement-6c5a69",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "measurement",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-measurement-6c5a69-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-measurement-6c5a69",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "measurement",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-measurement-6c5a69-05",
+      "source": "slide-05-c97550",
+      "target": "concept-measurement-6c5a69",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "measurement",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-dsaa3073-aa5977-01",
+      "source": "slide-01-938db8",
+      "target": "concept-dsaa3073-aa5977",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "dsaa3073",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-dsaa3073-aa5977-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-dsaa3073-aa5977",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "dsaa3073",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-dsaa3073-aa5977-07",
+      "source": "slide-07-19b100",
+      "target": "concept-dsaa3073-aa5977",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "dsaa3073",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-variance-7c0766-01",
+      "source": "slide-01-938db8",
+      "target": "concept-variance-7c0766",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "variance",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-variance-7c0766-05",
+      "source": "slide-05-c97550",
+      "target": "concept-variance-7c0766",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "variance",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-variance-7c0766-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-variance-7c0766",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "variance",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-source-41cf67-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-source-41cf67",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "source",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-source-41cf67-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-source-41cf67",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "source",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-source-41cf67-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-source-41cf67",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "source",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-ridge-409e36-01",
+      "source": "slide-01-938db8",
+      "target": "concept-ridge-409e36",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-ridge-409e36-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-ridge-409e36",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc-mentions-concept-ridge-409e36-10",
+      "source": "slide-10-4a44dc",
+      "target": "concept-ridge-409e36",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-response-a9f4b3-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-response-a9f4b3",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "response",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-response-a9f4b3-07",
+      "source": "slide-07-19b100",
+      "target": "concept-response-a9f4b3",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "response",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-08-323783-mentions-concept-response-a9f4b3-08",
+      "source": "slide-08-323783",
+      "target": "concept-response-a9f4b3",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "response",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-penalty-debfc5-05",
+      "source": "slide-05-c97550",
+      "target": "concept-penalty-debfc5",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "penalty",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc-mentions-concept-penalty-debfc5-10",
+      "source": "slide-10-4a44dc",
+      "target": "concept-penalty-debfc5",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "penalty",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-13-3fdba3-mentions-concept-penalty-debfc5-13",
+      "source": "slide-13-3fdba3",
+      "target": "concept-penalty-debfc5",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "penalty",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-measurements-5852a8-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-measurements-5852a8",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "measurements",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-measurements-5852a8-05",
+      "source": "slide-05-c97550",
+      "target": "concept-measurements-5852a8",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "measurements",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-measurements-5852a8-07",
+      "source": "slide-07-19b100",
+      "target": "concept-measurements-5852a8",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "measurements",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-01-938db8-mentions-concept-inverse-7705ac-01",
+      "source": "slide-01-938db8",
+      "target": "concept-inverse-7705ac",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "inverse",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-inverse-7705ac-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-inverse-7705ac",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "inverse",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-inverse-7705ac-05",
+      "source": "slide-05-c97550",
+      "target": "concept-inverse-7705ac",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "inverse",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-change-12ea12-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-change-12ea12",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "change",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-change-12ea12-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-change-12ea12",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "change",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-change-12ea12-07",
+      "source": "slide-07-19b100",
+      "target": "concept-change-12ea12",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "change",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-prediction-70ad7b-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-prediction-70ad7b",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "prediction",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-08-323783-mentions-concept-prediction-70ad7b-08",
+      "source": "slide-08-323783",
+      "target": "concept-prediction-70ad7b",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "prediction",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "slide-12-6b51d4-mentions-concept-prediction-70ad7b-12",
+      "source": "slide-12-6b51d4",
+      "target": "concept-prediction-70ad7b",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "prediction",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-directions-b36fd7-05",
+      "source": "slide-05-c97550",
+      "target": "concept-directions-b36fd7",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "directions",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-directions-b36fd7-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-directions-b36fd7",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "directions",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-11-4fc82b-mentions-concept-directions-b36fd7-11",
+      "source": "slide-11-4fc82b",
+      "target": "concept-directions-b36fd7",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "directions",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc-mentions-concept-coefficient-7ef50a-10",
+      "source": "slide-10-4a44dc",
+      "target": "concept-coefficient-7ef50a",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "coefficient",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-11-4fc82b-mentions-concept-coefficient-7ef50a-11",
+      "source": "slide-11-4fc82b",
+      "target": "concept-coefficient-7ef50a",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "coefficient",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "slide-13-3fdba3-mentions-concept-coefficient-7ef50a-13",
+      "source": "slide-13-3fdba3",
+      "target": "concept-coefficient-7ef50a",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "coefficient",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-amplification-ccc52f-05",
+      "source": "slide-05-c97550",
+      "target": "concept-amplification-ccc52f",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "amplification",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-amplification-ccc52f-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-amplification-ccc52f",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "amplification",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-11-4fc82b-mentions-concept-amplification-ccc52f-11",
+      "source": "slide-11-4fc82b",
+      "target": "concept-amplification-ccc52f",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "amplification",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-training-c2fb78-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-training-c2fb78",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "training",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-08-323783-mentions-concept-training-c2fb78-08",
+      "source": "slide-08-323783",
+      "target": "concept-training-c2fb78",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "training",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "slide-14-8527a8-mentions-concept-training-c2fb78-14",
+      "source": "slide-14-8527a8",
+      "target": "concept-training-c2fb78",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "training",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "slide-02-a953f0-mentions-concept-sources-878a52-02",
+      "source": "slide-02-a953f0",
+      "target": "concept-sources-878a52",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "sources",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-sources-878a52-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-sources-878a52",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "sources",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-sources-878a52-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-sources-878a52",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "sources",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-04-6cd5b6-mentions-concept-solution-8270f2-04",
+      "source": "slide-04-6cd5b6",
+      "target": "concept-solution-8270f2",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "solution",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "slide-09-3514ac-mentions-concept-solution-8270f2-09",
+      "source": "slide-09-3514ac",
+      "target": "concept-solution-8270f2",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "solution",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "slide-10-4a44dc-mentions-concept-solution-8270f2-10",
+      "source": "slide-10-4a44dc",
+      "target": "concept-solution-8270f2",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "solution",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "slide-03-0b8efa-mentions-concept-small-81db8e-03",
+      "source": "slide-03-0b8efa",
+      "target": "concept-small-81db8e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "small",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-small-81db8e-05",
+      "source": "slide-05-c97550",
+      "target": "concept-small-81db8e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "small",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-09-3514ac-mentions-concept-small-81db8e-09",
+      "source": "slide-09-3514ac",
+      "target": "concept-small-81db8e",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "small",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-signal-d04192-05",
+      "source": "slide-05-c97550",
+      "target": "concept-signal-d04192",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "signal",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-06-aacd83-mentions-concept-signal-d04192-06",
+      "source": "slide-06-aacd83",
+      "target": "concept-signal-d04192",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "signal",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "slide-07-19b100-mentions-concept-signal-d04192-07",
+      "source": "slide-07-19b100",
+      "target": "concept-signal-d04192",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "signal",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "slide-05-c97550-mentions-concept-reduces-90581b-05",
+      "source": "slide-05-c97550",
+      "target": "concept-reduces-90581b",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "reduces",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "slide-11-4fc82b-mentions-concept-reduces-90581b-11",
+      "source": "slide-11-4fc82b",
+      "target": "concept-reduces-90581b",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "reduces",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "slide-13-3fdba3-mentions-concept-reduces-90581b-13",
+      "source": "slide-13-3fdba3",
+      "target": "concept-reduces-90581b",
+      "predicate": "mentions",
+      "status": "observation",
+      "qualification": "",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "reduces",
+          "page": 13
+        }
+      ]
+    }
+  ]
+}

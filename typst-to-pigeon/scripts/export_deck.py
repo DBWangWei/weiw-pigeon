@@ -11,6 +11,7 @@ from pathlib import Path
 from urllib.parse import urlsplit, unquote
 from wand_regions import extract_visual_regions, walk, bounds
 from slide_artwork import match_words, union, title_layers, takeaway_texts, enclosing_background
+from semantic_regions import normalize_semantic_records
 
 
 def run(command, cwd):
@@ -122,6 +123,12 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
     (deck/f'{deck_id}.txt').write_text(text)
     if not svgs or len(svgs)!=len(geometry) or len(texts)!=len(svgs): raise ValueError('PDF/SVG/text page counts differ')
     records=[] if is_pdf else query(source,'slide-record')
+    semantic_records=[] if is_pdf else query(source,'pigeon-sem')
+    page_sizes=[]
+    for svg,geo in zip(svgs,geometry):
+        vbox=[float(v) for v in ET.parse(svg).getroot().get('viewBox').split()]
+        page_sizes.append(dict(width=vbox[2],height=vbox[3],pointWidth=geo['width'],pointHeight=geo['height']))
+    semantic_by_page,semantic_report=normalize_semantic_records(semantic_records,page_sizes)
     by_page={}
     for row in records:
         by_page.setdefault(row['page'],[]).append(row['value'])
@@ -193,13 +200,15 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
             section=overrides.get('section') or content_text(record.get('section','')) or 'Talk',
             source=content_text(record.get('source','')),text=page_text,asset=f'slides/{svg.name}',assetHash=sha256(svg),
             width=width,height=height,links=links,imageDescriptions=[],textRegions=geo['regions'],
-            wandRegions=geo['regions']+visual,titleLayer=layer))
+            wandRegions=geo['regions']+visual,semanticRegions=semantic_by_page[page],titleLayer=layer))
+        page_report=dict(page=page,semanticRegions=len(semantic_by_page[page]))
         if is_pdf:
             detection=geo['titleDetection'] if 'title' not in overrides else {'status':'overridden'}
             slides[-1]['titleDetection']=detection
-            page_reports.append(dict(page=page,title=slide_title,titleDetection=detection,textMode=geo['textMode'],
+            page_report.update(dict(title=slide_title,titleDetection=detection,textMode=geo['textMode'],
                                      textBlocks=len(geo['regions']),images=sum(r['kind']=='image' for r in visual),
                                      tables=sum(r['kind']=='table' for r in visual)))
+        page_reports.append(page_report)
     from outline_sections import assign_sections
     outlines = assign_sections(slides, geometry, explicit_sections, warnings)
     # Include metadata and geometry: edits to IDs/titles/regions also invalidate sessions/KG caches.
@@ -212,7 +221,7 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
                   resources=list(resources.values()),slides=slides)
     (deck/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
     if not is_pdf: run(['pdftoppm','-png','-scale-to','320',str(pdf),str(thumbs/'page')],source.parent)
-    (output/'build-report.json').write_text(json.dumps(dict(slides=len(slides),revision=revision,warnings=warnings,pages=page_reports,outlines=outlines),indent=2)+'\n')
+    (output/'build-report.json').write_text(json.dumps(dict(slides=len(slides),revision=revision,warnings=warnings,pages=page_reports,outlines=outlines,semanticRegions=semantic_report),indent=2)+'\n')
     print(json.dumps(dict(slides=len(slides),revision=revision,warnings=len(warnings),output=str(output))))
     return manifest
 

@@ -1,15 +1,16 @@
 {
   "appName": "Pigeon",
-  "version": "1.0.2",
+  "version": "1.0.3",
   "icon": "public/icons/pigeon.png",
   "deckId": "ml-learning-with-infinite-hypothesis-sets",
   "title": "Learning with Infinite Hypothesis Sets",
-  "revision": "6db5b89d773f01a6",
+  "revision": "a25a0e9dfeec6bf5",
   "slides": 42,
   "concepts": 72,
   "relationships": 114,
   "graphMode": "lexical",
   "titleEffect": "text-type",
   "slideTransition": "camera",
-  "sourceType": "pdf"
+  "sourceType": "pdf",
+  "voiceEnabled": true
 }

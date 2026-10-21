@@ -157,7 +157,63 @@
     }
     return result;
   }
-  function draw(ctx, o, ops) {
+  const textAlignment = (o) => o.textAlign || (o.kind === "text" ? "left" : "center");
+  const verticalAlignment = (o) => o.verticalAlign || (o.kind === "text" ? "top" : "middle");
+  function textLayout(ctx, o, ops) {
+    const b = bounds(o, ops), free = o.kind === "text",
+      align = textAlignment(o), vertical = verticalAlignment(o),
+      width = Math.max(1, free ? b.w - 20 : b.w * (["diamond", "triangle"].includes(o.kind) ? 0.6 : 0.88)),
+      padding = free ? 10 : 6,
+      lineHeight = o.fontSize * 1.25;
+    ctx.font = `${o.fontSize}px system-ui, sans-serif`;
+    const metrics = ctx.measureText("Mg"),
+      ascent = metrics.fontBoundingBoxAscent ?? o.fontSize * 0.8,
+      descent = metrics.fontBoundingBoxDescent ?? o.fontSize * 0.2,
+      baselineOffset = vertical === "top" ? ascent : vertical === "bottom" ? -descent : (ascent - descent) / 2,
+      lines = wrap(ctx, o.text, width),
+      scale = Math.min(1, Math.max(1, b.h - padding * 2) / (lines.length * lineHeight)),
+      x = align === "center" ? b.x + b.w / 2 : b.x + (b.w - width) / 2 + (align === "right" ? width : 0),
+      y = vertical === "middle" ? b.y + b.h / 2 : b.y + (vertical === "bottom" ? b.h - padding : padding),
+      offset = vertical === "middle" ? (lines.length - 1) / 2 : vertical === "bottom" ? lines.length - 1 : 0;
+    return { x, y, scale, align, vertical, lines, lineHeight, offset, baselineOffset };
+  }
+  function renderLabels(frame, ctx, ops, size, editingId) {
+    let layer = frame.querySelector(".diagram-label-layer");
+    if (!layer) {
+      layer = document.createElementNS("http://www.w3.org/2000/svg", "svg");
+      layer.setAttribute("xmlns", "http://www.w3.org/2000/svg");
+      layer.classList.add("diagram-label-layer");
+      layer.setAttribute("aria-hidden", "true");
+      frame.append(layer);
+    }
+    layer.setAttribute("viewBox", `0 0 ${size.width} ${size.height}`);
+    layer.replaceChildren();
+    for (const o of ops.filter(o => o.type === "diagram" && o.text)) {
+      ctx.save();
+      const layout = textLayout(ctx, o, ops);
+      ctx.restore();
+      const group = document.createElementNS(layer.namespaceURI, "g");
+      group.dataset.diagramId = o.id;
+      group.dataset.verticalAlign = layout.vertical;
+      group.setAttribute("transform", `translate(${layout.x} ${layout.y}) scale(${layout.scale})`);
+      if (o.id === editingId) group.setAttribute("visibility", "hidden");
+      layout.lines.forEach((line, i) => {
+        const text = document.createElementNS(layer.namespaceURI, "text");
+        text.setAttribute("x", "0");
+        text.setAttribute("y", String((i - layout.offset) * layout.lineHeight + layout.baselineOffset));
+        text.setAttribute("fill", o.color);
+        text.setAttribute("font-family", "system-ui, sans-serif");
+        text.setAttribute("font-size", String(o.fontSize));
+        text.setAttribute("text-anchor", { left: "start", center: "middle", right: "end" }[layout.align]);
+        text.setAttribute("dominant-baseline", "alphabetic");
+        text.style.whiteSpace = "pre";
+        text.textContent = line;
+        group.append(text);
+      });
+      layer.append(group);
+    }
+  }
+  function draw(ctx, o, ops, { text = true } = {}) {
     ctx.save();
     ctx.strokeStyle = o.color;
     ctx.fillStyle = o.fill === "transparent" ? "transparent" : o.fill;
@@ -210,27 +266,15 @@
       if (o.fill !== "transparent") ctx.fill();
       ctx.stroke();
     }
-    if (o.text) {
-      const b = bounds(o, ops);
-      ctx.font = `${o.fontSize}px system-ui, sans-serif`;
-      ctx.textAlign = "center";
-      ctx.textBaseline = "middle";
+    if (text && o.text) {
+      const layout = textLayout(ctx, o, ops);
+      ctx.textAlign = layout.align;
+      ctx.textBaseline = "alphabetic";
       ctx.fillStyle = o.color;
-      const width = Math.max(
-        30,
-        b.w * (o.kind === "diamond" || o.kind === "triangle" ? 0.6 : 0.88),
-      );
-      const lines = wrap(ctx, o.text, width),
-        lineHeight = o.fontSize * 1.25;
-      // Bound labels remain centered and fit their shape instead of spilling out.
-      const scale = Math.min(
-        1,
-        Math.max(16, b.h - 12) / (lines.length * lineHeight),
-      );
-      ctx.translate(b.x + b.w / 2, b.y + b.h / 2);
-      ctx.scale(scale, scale);
-      lines.forEach((line, i) =>
-        ctx.fillText(line, 0, (i - (lines.length - 1) / 2) * lineHeight),
+      ctx.translate(layout.x, layout.y);
+      ctx.scale(layout.scale, layout.scale);
+      layout.lines.forEach((line, i) =>
+        ctx.fillText(line, 0, (i - layout.offset) * layout.lineHeight + layout.baselineOffset),
       );
     }
     ctx.restore();
@@ -250,6 +294,8 @@
       !(o.fill === "transparent" || color(o.fill)) ||
       typeof o.text !== "string" ||
       o.text.length > 10000 ||
+      (o.textAlign !== undefined && !["left", "center", "right"].includes(o.textAlign)) ||
+      (o.verticalAlign !== undefined && !["top", "middle", "bottom"].includes(o.verticalAlign)) ||
       !number(o.fontSize, 8, 120)
     )
       throw Error("Malformed diagram style");
@@ -261,6 +307,8 @@
       fill: o.fill,
       text: o.text,
       fontSize: o.fontSize,
+      textAlign: textAlignment(o),
+      verticalAlign: verticalAlignment(o),
     };
     if (isConnector(o)) {
       if (
@@ -292,8 +340,8 @@
   }
   function create(host) {
     let tool = "select",
-      stroke = colors[0],
-      fill = "transparent",
+      stroke = colors[2],
+      fill = colors[4],
       elbow = true,
       selected = new Set(),
       gesture = null,
@@ -301,6 +349,10 @@
       editor = null,
       palette = null,
       lastSurface = null;
+    const alignment = {
+      text: { textAlign: "left", verticalAlign: "top" },
+      shape: { textAlign: "center", verticalAlign: "middle" },
+    };
     const toolbar = document.getElementById("diagramToolbar"),
       indicator = document.getElementById("diagramIndicator");
     const ops = () => host.getOps(),
@@ -335,6 +387,15 @@
       selected = new Set(
         [...selected].filter((id) => items().some((o) => o.id === id)),
       );
+      const targets = items().filter(o => selected.has(o.id)),
+        defaults = alignment[tool === "text" ? "text" : "shape"];
+      for (const [id, property, get] of [
+        ["diagramTextAlign", "textAlign", textAlignment],
+        ["diagramVerticalAlign", "verticalAlign", verticalAlignment],
+      ]) {
+        const values = new Set(targets.map(get));
+        document.getElementById(id).value = targets.length ? (values.size === 1 ? [...values][0] : "") : defaults[property];
+      }
       renderSelection();
     }
     function renderSelection() {
@@ -490,6 +551,7 @@
         fill,
         text: "",
         fontSize: 24,
+        ...alignment[kind === "text" ? "text" : "shape"],
       };
       return isConnector(o)
         ? {
@@ -523,7 +585,7 @@
         selected = new Set([o.id]);
       });
       if (tool === "text") edit(items().find((o) => selected.has(o.id)));
-      else choose("select");
+      else sync();
     }
     function finish() {
       if (!gesture) return;
@@ -543,7 +605,6 @@
             }
           }
         }
-        tool = "select";
       }
       redraw();
       sync();
@@ -654,6 +715,12 @@
         return true;
       }
       const before = copy(ops());
+      if (target && tool !== "select" && !["line", "arrow"].includes(tool)) {
+        selected = new Set([target.id]);
+        gesture = { type: "pending-create", p, before, pointer: event.pointerId };
+        redraw();
+        return true;
+      }
       if (tool === "select") {
         const current =
             selected.size === 1
@@ -716,7 +783,16 @@
     }
     function move(event, canvas) {
       if (!gesture || event.pointerId !== gesture.pointer) return false;
-      const p = host.point(event, canvas),
+      const p = host.point(event, canvas);
+      if (gesture.type === "pending-create") {
+        if (Math.hypot(p.x - gesture.p.x, p.y - gesture.p.y) < 3) return true;
+        host.checkpoint();
+        const o = fresh(tool, gesture.p);
+        ops().push(o);
+        selected = new Set([o.id]);
+        gesture = { ...gesture, type: "create", id: o.id };
+      }
+      const
         dx = p.x - gesture.p.x,
         dy = p.y - gesture.p.y,
         o = items().find((o) => o.id === gesture.id);
@@ -789,7 +865,7 @@
       input.placeholder = "Type text";
       input.setAttribute(
         "aria-label",
-        o.kind === "text" ? "Diagram text" : "Centered shape label",
+        o.kind === "text" ? "Diagram text" : "Shape label",
       );
       const width = Math.min(Math.max(130, b.w), host.size().width - b.x),
         height = Math.min(Math.max(60, b.h), host.size().height - b.y);
@@ -799,11 +875,24 @@
         width: `${width}px`,
         height: `${height}px`,
         fontSize: `${o.fontSize}px`,
+        textAlign: textAlignment(o),
         color: o.color,
       });
       editor = { input, id: o.id };
       frame().append(input);
-      renderSelection();
+      const positionText = () => {
+        const ctx = frame().querySelector("canvas").getContext("2d");
+        ctx.save();
+        const layout = textLayout(ctx, { ...o, text: input.value }, ops());
+        ctx.restore();
+        const contentHeight = Math.min(height - 20, layout.lines.length * layout.lineHeight),
+          vertical = verticalAlignment(o);
+        input.style.paddingTop = `${vertical === "middle" ? Math.max(8, (height - contentHeight) / 2 - 2) : vertical === "bottom" ? Math.max(8, height - contentHeight - 10) : 8}px`;
+      };
+      positionText();
+      input.addEventListener("input", positionText);
+      redraw();
+      sync();
       input.focus();
       input.select();
       input.addEventListener("blur", closeEditor);
@@ -818,10 +907,9 @@
       if (o && o.text !== text) {
         host.checkpoint();
         o.text = text;
-        redraw();
         host.persist();
       }
-      renderSelection();
+      redraw();
     }
     function copySelection() {
       clipboard = copy(items().filter((o) => selected.has(o.id)));
@@ -915,7 +1003,6 @@
         if (k === "Escape" || (mod && k === "Enter")) {
           event.preventDefault();
           closeEditor();
-          tool = "select";
           sync();
           host.focus();
         }
@@ -957,7 +1044,7 @@
         if (gesture) cancelGesture();
         else if (selected.size) {
           selected.clear();
-          redraw();
+          choose("select");
         } else if (tool !== "select") choose("select");
         else host.exit();
         return true;
@@ -1036,9 +1123,9 @@
         return true;
       }
       if (k === "Enter") {
-        if (tool !== "select" && tool !== "hand") insertDefault();
-        else if (selected.size === 1)
+        if (selected.size === 1)
           edit(items().find((o) => selected.has(o.id)));
+        else if (tool !== "select" && tool !== "hand") insertDefault();
         return true;
       }
       if (lower === "s" && !event.shiftKey) {
@@ -1088,6 +1175,20 @@
     document
       .getElementById("diagramFill")
       .addEventListener("click", () => openPalette("fill"));
+    for (const [id, property] of [["diagramTextAlign", "textAlign"], ["diagramVerticalAlign", "verticalAlign"]]) {
+      document.getElementById(id).addEventListener("change", event => {
+        closeEditor();
+        const value = event.target.value,
+          targets = items().filter(o => selected.has(o.id));
+        if (targets.length) {
+          change(() => targets.forEach(o => {
+            o[property] = value;
+            alignment[o.kind === "text" ? "text" : "shape"][property] = value;
+          }));
+        } else alignment[tool === "text" ? "text" : "shape"][property] = value;
+        sync();
+      });
+    }
     document
       .getElementById("diagramDuplicate")
       .addEventListener("click", duplicate);
@@ -1126,6 +1227,7 @@
       },
       isHand: () => active() && tool === "hand",
       isEditing: () => !!editor,
+      get editingId() { return editor?.id; },
       isDragging: () => !!gesture,
       reset() {
         finish();
@@ -1141,5 +1243,5 @@
       },
     };
   }
-  window.PigeonDiagram = { create, draw, validate, endpoints, bounds, kinds };
+  window.PigeonDiagram = { create, draw, renderLabels, validate, endpoints, bounds, kinds };
 })();

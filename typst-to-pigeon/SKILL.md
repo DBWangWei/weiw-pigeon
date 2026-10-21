@@ -24,7 +24,17 @@ The default output is `pigeon-{FILENAME}` beside the input source, where `FILENA
 
 The **Title effect** selector defaults to **Text Type**, with None, Split Text, Blur Text, Shiny Text and Gradient Text also available. `--title-effect none` disables effects. Effects animate original SVG title glyphs, so no browser font substitution is needed; these are independent adaptations of selected React Bits designs. Unmatched or image-only titles remain static and are reported in `build-report.json`.
 
-Pigeon is currently version **1.0.2**. Every generated release includes an **About Pigeon** dialog with the Pigeon icon, author/contact information, and a link to it from the `?` keyboard guide.
+Pigeon is currently version **1.0.3**. Every generated release includes an **About Pigeon** dialog with the Pigeon icon, author/contact information, and a link to it from the `?` keyboard guide.
+
+Voice recognition is enabled by default in generated releases. Mark Typst
+content with `assets/pigeon-sem.typ`, configure phrase-to-target rules and
+`pop`/`focus`/`spotlight` actions in `pigeon.toml`, and start the generated
+folder through `scripts/serve.py` in Chrome. The default backend is local
+Whisper; run `python3 scripts/setup_voice.py` once per presenting machine. Use
+`--no-voice` to disable recognition while retaining manual actions, or select
+the optional Chrome on-device backend with `voice.backend = "browser"`. Read
+[references/voice.md](references/voice.md) for the marker, setup and diagnostic
+contract.
 
 The original **Camera** slide transition remains the default. `--slide-transition NAME` overrides `slide_transition` in `pigeon.toml`; choices are `camera`, `none`, `fade`, `blur`, `slide`, `zoom`, `pixel`, `staggered-wipe`, and `stack`. The runtime Transition selector changes the current viewing session. Read [references/transitions.md](references/transitions.md) for the React Bits review and supported patterns.
 
@@ -42,6 +52,6 @@ Press `D` for Diagram mode. It provides an offline Excalidraw-style editor: `V/1
 
 For page geometry, partial/absent metadata, title matching, custom wand targets and linked resources, read [references/input-contract.md](references/input-contract.md). Each page keeps its native dimensions; portrait and mixed-size decks are supported. Custom or computed Typst macros may require explicit navigation overrides. For release verification, use [references/qa-checklist.md](references/qa-checklist.md). The reusable Pigeon shell and icon live in `assets/pigeon-template/`; do not copy generated deck assets or talk-specific demos from an earlier release.
 
-After generation, inspect `build-report.json`, check that `public/deck/manifest.json` and `public/deck/knowledge-graph.json` have the same revision, confirm `public/deck/embedded-deck.js` exists, and check the output's `index.html` contains no template placeholders. Run `node --check` on the generated JavaScript and serve the folder with `python3 scripts/serve.py` for a Safari/Firefox rehearsal. Report the checks actually performed; DOM tests and compilation do not prove browser rendering.
+After generation, inspect `build-report.json`, check that `public/deck/manifest.json` and `public/deck/knowledge-graph.json` have the same revision, confirm `public/deck/embedded-deck.js` exists, and check the output's `index.html` contains no template placeholders. Run `node --check` on the generated JavaScript and serve the folder with `python3 scripts/serve.py` for a Chrome rehearsal when voice is enabled. Report the checks actually performed; DOM tests and compilation do not prove browser rendering.
 
 Export the whole annotated deck through **Export PDF** beside **Present** in the top bar. Original PDF artwork stays sharp; annotation overlays and inserted white/black boards (including drafts) are included. The bundled PDF library works offline. Transparent PDF wand regions have an opaque backing to prevent doubled text.

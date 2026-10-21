@@ -6,7 +6,7 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-const PIGEON_VERSION = "1.0.2";
+const PIGEON_VERSION = "1.0.3";
 const fileMode = window.location.protocol === "file:";
 const embeddedDeck = fileMode ? (window.PIGEON_DECK_BUNDLE || window.TALK_DECK_BUNDLE) : null;
 const deckAsset = path => path.startsWith("public/") ? path : `public/deck/${path}`;
@@ -44,6 +44,7 @@ let diagram = null;
 let backtickTimer = null;
 // Wand emphasis is transient: it is never included in saved ink or exports.
 let wandTarget = null;
+let voice = null;
 const COLORS = {
   red: "#DC2626",
   blue: "#2563EB",
@@ -164,6 +165,12 @@ function normaliseManifest(raw) {
       [region.x, region.y, region.width, region.height].every(Number.isFinite) &&
       region.x >= 0 && region.y >= 0 && region.width > 0 && region.height > 0 &&
       region.x + region.width <= Number(s.width || deck.dimensions?.width || 960) + .001 && region.y + region.height <= Number(s.height || deck.dimensions?.height || 540) + .001),
+    semanticRegions: (Array.isArray(s.semanticRegions) ? s.semanticRegions : []).filter(region =>
+      typeof region.id === "string" && typeof region.target === "string" && region.visible !== false &&
+      [region.x, region.y, region.width, region.height].every(Number.isFinite) &&
+      region.x >= 0 && region.y >= 0 && region.width > 0 && region.height > 0 &&
+      region.x + region.width <= Number(s.width || deck.dimensions?.width || 960) + .001 &&
+      region.y + region.height <= Number(s.height || deck.dimensions?.height || 540) + .001),
     wandRegions: (Array.isArray(s.wandRegions) ? s.wandRegions :
       (Array.isArray(s.textRegions) ? s.textRegions : [])).filter(region =>
       [region.x, region.y, region.width, region.height].every(Number.isFinite) &&
@@ -208,6 +215,7 @@ function normaliseManifest(raw) {
     resources: deck.resources || [],
     titleEffect: deck.titleEffect || "none",
     slideTransition: PigeonTransitions.names.includes(deck.slideTransition) ? deck.slideTransition : "camera",
+    voice: deck.voice || {enabled: false, rules: []},
     title: deck.title || "Pigeon presentation",
     revision: deck.revision || deck.contentRevision || "generated",
     slides,
@@ -424,6 +432,7 @@ async function loadDeck() {
   els.ready.classList.toggle("warning", !!state.graphError);
   renderFrames();
   renderOverview();
+  voice?.contextChanged();
   updateUI();
   verifyAssets();
   return true;
@@ -640,6 +649,11 @@ function updateCamera() {
   hideWand();
   els.world.style.transform = `translate(${state.camera.x}px,${state.camera.y}px) scale(${state.camera.scale})`;
   els.zoom.textContent = `${Math.round(state.camera.scale * 100)}%`;
+  const resized = new Set();
+  $$(".annotation-canvas").forEach(canvas => {
+    if (resizeAnnotationCanvas(canvas)) resized.add(canvas.dataset.slideId);
+  });
+  resized.forEach(id => drawSurface(id));
   diagram?.renderSelection();
 }
 function fitCurrent(animate = true) {
@@ -758,6 +772,7 @@ function updateUI() {
   els.app.classList.toggle("presentation-mode", state.presentation);
   updateCamera();
   syncTitleEffect();
+  voice?.contextChanged();
 }
 function addHistory(id) {
   const entry = {
@@ -827,6 +842,9 @@ function navigateTo(id, options = {}) {
   state.deck.slides.forEach((s) => drawSurface(s.id));
   fitCurrent(state.slideTransition === "camera");
   addHistory(id);
+  // Update the active slide before voice captures its page identity. This
+  // prevents the new recognizer session from retaining the departing page.
+  voice?.slideChanged();
   updateUI();
   if (snapshot) pageTransitions.play(snapshot, $(".slide-frame.current"), {
     name: state.slideTransition, direction,
@@ -903,19 +921,42 @@ function historyMove(direction) {
   persist();
 }
 
+function resizeAnnotationCanvas(canvas) {
+  const {width, height} = slideSize(canvas.dataset.slideId);
+  const active = canvas.closest(".slide-frame")?.dataset.frameKey === activeFrameKey();
+  // Rasterize at display density instead of enlarging a slide-sized bitmap.
+  // Only the active surface needs extra pixels; bound allocation at deep zoom.
+  const resolution = Math.min(
+    active ? Math.max(1, (window.devicePixelRatio || 1) * state.camera.scale) : 1,
+    4096 / Math.max(width, height),
+  );
+  const pixelWidth = Math.ceil(width * resolution),
+    pixelHeight = Math.ceil(height * resolution);
+  if (canvas.width === pixelWidth && canvas.height === pixelHeight) return false;
+  canvas.width = pixelWidth;
+  canvas.height = pixelHeight;
+  return true;
+}
 function drawSurface(id) {
   for (const canvas of $$(`canvas[data-slide-id="${CSS.escape(id)}"]`)) {
+    resizeAnnotationCanvas(canvas);
     const ctx = canvas.getContext("2d");
+    ctx.setTransform(1, 0, 0, 1, 0, 0);
     ctx.clearRect(0, 0, canvas.width, canvas.height);
+    const {width, height} = slideSize(id);
+    ctx.setTransform(canvas.width / width, 0, 0, canvas.height / height, 0, 0);
     const ops = canvas.dataset.boardName
       ? state.boards[`${id}::${canvas.dataset.boardName}`] || []
       : state.annotations[id] || [];
-    ops.forEach(op => drawOperation(ctx, op, ops));
+    ops.forEach(op => drawOperation(ctx, op, ops, { text: false }));
+    PigeonDiagram.renderLabels(canvas.closest(".slide-frame"), ctx, ops, { width, height }, diagram?.editingId);
+    const surface = canvas.dataset.boardName ? `board:${id}::${canvas.dataset.boardName}` : `slide:${id}`;
+    if (state.currentStroke?.surface === surface) drawOperation(ctx, state.currentStroke, ops);
   }
 }
-function drawOperation(ctx, op, ops = surfaceOps()) {
+function drawOperation(ctx, op, ops = surfaceOps(), options) {
   if (op.type === "diagram") {
-    PigeonDiagram.draw(ctx, op, ops);
+    PigeonDiagram.draw(ctx, op, ops, options);
   } else if (op.type === "stroke") {
     if (!op.points.length) return;
     ctx.save();
@@ -1070,7 +1111,6 @@ function bindCanvas(canvas) {
     event.preventDefault();
     state.currentStroke.points.push(canvasPoint(event, canvas));
     drawSurface(canvas.dataset.slideId);
-    drawOperation(canvas.getContext("2d"), state.currentStroke);
   });
   canvas.addEventListener("pointerup", event => {
     diagram?.finish();
@@ -1519,6 +1559,7 @@ function openOverview() {
   els.overview.setAttribute("aria-hidden", "false");
   document.body.classList.add("overview-mode");
   renderOverview();
+  voice?.contextChanged();
   focusOverviewSurface();
   persist();
 }
@@ -1528,6 +1569,7 @@ function closeOverview() {
   els.overview.classList.remove("open");
   els.overview.setAttribute("aria-hidden", "true");
   document.body.classList.remove("overview-mode");
+  voice?.contextChanged();
   $("#stage").focus();
   persist();
 }
@@ -1758,6 +1800,7 @@ function toggleBlackout(force) {
   state.blackout = force ?? !state.blackout;
   els.blackout.classList.toggle("open", state.blackout);
   els.blackout.setAttribute("aria-hidden", String(!state.blackout));
+  voice?.contextChanged();
 }
 function toast(message) {
   els.toast.textContent = message;
@@ -2466,6 +2509,14 @@ function keyHandler(event) {
     event.stopPropagation();
     return;
   }
+  // Diagram mode owns its Shift shortcuts. Voice controls remain available
+  // through the toolbar while drawing; outside Diagram they use Shift+keys.
+  if (!typing && !mod && !event.altKey && state.tool !== "diagram" &&
+      !document.querySelector("dialog[open]") && key !== "Escape" && voice?.key(event)) {
+    event.preventDefault();
+    event.stopPropagation();
+    return;
+  }
   if (!state.overview && !document.querySelector("dialog[open]") && diagram?.key(event)) return;
   if (key === "Escape") {
     if (dismissTopOverlay()) {
@@ -2672,6 +2723,7 @@ function dismissTopOverlay() {
   const dialogs = [els.about, els.help, els.search, els.concept, $("#sessionDialog"), $("#readingDialog"), els.demo];
   const open = dialogs.find(dialog => dialog.open);
   if (open) { open.close(); return true; }
+  if (voice?.dismiss()) return true;
   if (state.blackout) { toggleBlackout(false); return true; }
   if (state.overview) { closeOverview(); return true; }
   if (wandTarget) { hideWand(); return true; }
@@ -2932,7 +2984,7 @@ document.addEventListener("fullscreenchange", () => {
   // Some browsers exit native fullscreen even after a canceled Escape. Their
   // fullscreenchange can arrive either before or after the dialog's close.
   // Preserve Pigeon's layout in both orders without forcing fullscreen back on.
-  const overlayOpen = !!document.querySelector("dialog[open]") || !!wandTarget;
+  const overlayOpen = !!document.querySelector("dialog[open], .pigeon-voice-overlay") || !!wandTarget;
   const dismissedJustNow = performance.now() - fullscreenOverlayDismissedAt < 1000;
   const keepPresentation = state.presentation && (overlayOpen || dismissedJustNow);
   if (keepPresentation && overlayOpen) dismissTopOverlay();
@@ -2966,6 +3018,30 @@ loadDeck().then(async (loaded) => {
   if (state.overview) openOverview();
   await initStorage();
   booting = false;
+  voice = window.PigeonVoice?.create({
+    config: state.deck.voice,
+    getSlide: () => getSlide(),
+    assetUrl: slide => assetUrl(deckAsset(slide.asset)),
+    getScale: () => state.camera.scale,
+    canDispatch: () => !state.whiteboard && !state.overview && !state.blackout &&
+      !state.currentStroke && !document.querySelector("dialog[open]"),
+    getContextReason: () => state.whiteboard ? "Paused on a whiteboard/blackboard" :
+      state.overview ? "Paused in overview" : state.blackout ? "Paused during blackout" :
+      state.currentStroke ? "Paused while drawing a stroke" : document.querySelector("dialog[open]") ? "Paused while a dialog is open" : "Presentation ready",
+    onEmphasis: () => { finishActiveStroke(); hideWand(); },
+  }) || null;
+  // Dialogs can open without a canvas update. Pause the microphone promptly,
+  // then resume only if the presenter still wants recognition.
+  const voiceDialogs = new MutationObserver(() => voice?.contextChanged());
+  document.querySelectorAll("dialog").forEach(dialog =>
+    voiceDialogs.observe(dialog, {attributes: true, attributeFilter: ["open"]}));
+  window.addEventListener("pagehide", event => {
+    voice?.stop();
+    if (!event.persisted) {
+      voiceDialogs.disconnect();
+      voice?.destroy();
+    }
+  });
   persist();
   window.dispatchEvent(new Event("presentation-started"));
 }).catch(error => {

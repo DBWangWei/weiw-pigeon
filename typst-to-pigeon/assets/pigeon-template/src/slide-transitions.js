@@ -38,6 +38,8 @@ window.PigeonTransitions = (() => {
       ink.getContext("2d")?.drawImage(source, 0, 0);
       page.append(ink);
     }
+    const labels = frame.querySelector(".diagram-label-layer");
+    if (labels) page.append(labels.cloneNode(true));
     overlay.append(page);
     return {stage, overlay, page, width: stageRect.width, height: stageRect.height};
   }
