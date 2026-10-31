@@ -165,7 +165,7 @@
       width = Math.max(1, free ? b.w - 20 : b.w * (["diamond", "triangle"].includes(o.kind) ? 0.6 : 0.88)),
       padding = free ? 10 : 6,
       lineHeight = o.fontSize * 1.25;
-    ctx.font = `${o.fontSize}px system-ui, sans-serif`;
+    ctx.font = `${o.fontStyle || "normal"} ${o.fontSize}px ${o.fontFamily || "system-ui, sans-serif"}`;
     const metrics = ctx.measureText("Mg"),
       ascent = metrics.fontBoundingBoxAscent ?? o.fontSize * 0.8,
       descent = metrics.fontBoundingBoxDescent ?? o.fontSize * 0.2,
@@ -202,7 +202,8 @@
         text.setAttribute("x", "0");
         text.setAttribute("y", String((i - layout.offset) * layout.lineHeight + layout.baselineOffset));
         text.setAttribute("fill", o.color);
-        text.setAttribute("font-family", "system-ui, sans-serif");
+        text.setAttribute("font-family", o.fontFamily || "system-ui, sans-serif");
+        text.setAttribute("font-style", o.fontStyle || "normal");
         text.setAttribute("font-size", String(o.fontSize));
         text.setAttribute("text-anchor", { left: "start", center: "middle", right: "end" }[layout.align]);
         text.setAttribute("dominant-baseline", "alphabetic");
@@ -296,6 +297,8 @@
       o.text.length > 10000 ||
       (o.textAlign !== undefined && !["left", "center", "right"].includes(o.textAlign)) ||
       (o.verticalAlign !== undefined && !["top", "middle", "bottom"].includes(o.verticalAlign)) ||
+      (o.fontFamily !== undefined && !["Arial", "system-ui, sans-serif"].includes(o.fontFamily)) ||
+      (o.fontStyle !== undefined && !["normal", "italic"].includes(o.fontStyle)) ||
       !number(o.fontSize, 8, 120)
     )
       throw Error("Malformed diagram style");
@@ -307,6 +310,8 @@
       fill: o.fill,
       text: o.text,
       fontSize: o.fontSize,
+      ...(o.fontFamily !== undefined ? { fontFamily: o.fontFamily } : {}),
+      ...(o.fontStyle !== undefined ? { fontStyle: o.fontStyle } : {}),
       textAlign: textAlignment(o),
       verticalAlign: verticalAlignment(o),
     };
@@ -358,13 +363,14 @@
     const ops = () => host.getOps(),
       items = () => ops().filter((o) => o.type === "diagram");
     const active = () => host.active();
+    const textTool = () => host.textTool();
     const frame = () => host.frame();
     const redraw = () => {
       host.draw();
       renderSelection();
     };
     function sync() {
-      toolbar.hidden = indicator.hidden = !active();
+      toolbar.hidden = indicator.hidden = !active() || textTool();
       if (lastSurface !== host.surface()) {
         finish();
         closeEditor();
@@ -402,7 +408,7 @@
       document
         .querySelectorAll(".diagram-selection,.diagram-marquee")
         .forEach((n) => n.remove());
-      if (!active() || !frame() || editor) return;
+      if (!active() || textTool() || !frame() || editor) return;
       const canvas = frame().querySelector("canvas"),
         rect = canvas.getBoundingClientRect(),
         size = host.size();
@@ -528,7 +534,7 @@
         .slice()
         .reverse()
         .find((o) =>
-          contains(
+          (!textTool() || o.kind === "text") && contains(
             o,
             p,
             ops(),
@@ -690,7 +696,7 @@
         !active() ||
         !host.canDraw(canvas) ||
         event.button !== 0 ||
-        tool === "hand"
+        (!textTool() && tool === "hand")
       )
         return false;
       closeEditor();
@@ -700,9 +706,23 @@
       let target = hit(p);
       event.preventDefault();
       canvas.setPointerCapture(event.pointerId);
-      if (tool === "text") {
+      if (textTool() || tool === "text") {
         if (target && !isConnector(target)) edit(target);
-        else {
+        else if (textTool()) {
+          target = {
+            ...fresh("text", p),
+            color: host.textColor(),
+            fill: "transparent",
+            fontSize: 20,
+            fontFamily: "Arial",
+            fontStyle: "italic",
+            textAlign: "left",
+            verticalAlign: "top",
+          };
+          target.w = Math.min(220, host.size().width - target.x);
+          target.h = Math.min(70, host.size().height - target.y);
+          edit(target, true);
+        } else {
           change(() => {
             target = fresh("text", p);
             target.w = Math.min(220, host.size().width - target.x);
@@ -853,7 +873,7 @@
       redraw();
       return true;
     }
-    function edit(o) {
+    function edit(o, draft = false) {
       finish();
       closeEditor();
       if (!o) return;
@@ -865,7 +885,7 @@
       input.placeholder = "Type text";
       input.setAttribute(
         "aria-label",
-        o.kind === "text" ? "Diagram text" : "Shape label",
+        textTool() ? "Text label" : o.kind === "text" ? "Diagram text" : "Shape label",
       );
       const width = Math.min(Math.max(130, b.w), host.size().width - b.x),
         height = Math.min(Math.max(60, b.h), host.size().height - b.y);
@@ -875,10 +895,12 @@
         width: `${width}px`,
         height: `${height}px`,
         fontSize: `${o.fontSize}px`,
+        fontFamily: o.fontFamily || "system-ui, sans-serif",
+        fontStyle: o.fontStyle || "normal",
         textAlign: textAlignment(o),
         color: o.color,
       });
-      editor = { input, id: o.id };
+      editor = { input, id: o.id, draft: draft ? o : null };
       frame().append(input);
       const positionText = () => {
         const ctx = frame().querySelector("canvas").getContext("2d");
@@ -899,12 +921,16 @@
     }
     function closeEditor() {
       if (!editor) return;
-      const { input, id } = editor;
+      const { input, id, draft } = editor;
       editor = null;
       const o = items().find((o) => o.id === id),
         text = input.value.slice(0, 10000);
       input.remove();
-      if (o && o.text !== text) {
+      if (draft && text.trim()) {
+        host.checkpoint();
+        ops().push({ ...draft, text });
+        host.persist();
+      } else if (o && o.text !== text) {
         host.checkpoint();
         o.text = text;
         host.persist();
@@ -1008,6 +1034,7 @@
         }
         return true;
       }
+      if (textTool()) return false;
       if (palette) {
         if (k === "Escape") {
           event.preventDefault();
@@ -1217,7 +1244,7 @@
       closeEditor,
       renderSelection,
       doubleClick(event, canvas) {
-        if (active() && host.canDraw(canvas)) {
+        if (active() && !textTool() && host.canDraw(canvas)) {
           const o = hit(host.point(event, canvas));
           if (o) {
             event.preventDefault();
@@ -1225,7 +1252,7 @@
           }
         }
       },
-      isHand: () => active() && tool === "hand",
+      isHand: () => active() && !textTool() && tool === "hand",
       isEditing: () => !!editor,
       get editingId() { return editor?.id; },
       isDragging: () => !!gesture,

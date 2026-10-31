@@ -24,7 +24,7 @@ no_zip = true
 ```
 
 Supported keys are `output`, `deck_id`, `title`, `navigation`, `graph`,
-`graph_provider`, `title_effect`, `slide_transition`, `no_zip`, and the nested `voice` table. Unknown keys are rejected so a
+`graph_provider`, `title_effect`, `slide_transition`, `no_zip`, and the nested `voice` and `tiers` tables. Unknown keys are rejected so a
 misspelling cannot silently change the build.
 Copy [pigeon.example.toml](pigeon.example.toml) for a new deck. The portable
 launcher is included at `scripts/typst-to-pigeon.sh`; copy it into a directory
@@ -112,3 +112,7 @@ are integers from 0 to 3,600,000, except `watchdog_ms`, whose minimum is 1.
 browser phrase hints; Whisper uses unbiased decoding. `pop_pad_pt` is 0–1000; `pop_max_fraction` is 0.01–1;
 `pop_max_scale` is 1–100. `auto_close_ms = 0` leaves emphasis open until dismissed.
 Voice settings are embedded in the manifest, direct-file bundle and ZIP.
+
+## Semantic tiers
+
+`[tiers]` configures `mode = "slide"` (default) or `"step"`, `default_preset`, and named recipe arrays under `tiers.presets`. `[pigeon.tiers]` replaces the whole table; all supplied tables are validated. `--mode step|slide` overrides the initial mode. See [semantic-tiers.md](semantic-tiers.md) for the recipe schema, defaults, pruning and authoring requirements.

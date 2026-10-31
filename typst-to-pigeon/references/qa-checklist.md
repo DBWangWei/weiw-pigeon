@@ -14,11 +14,16 @@ After a build:
 
 Automated regression checks from the skill folder:
 
+Also check the **Text** toolbar button and `T` outside Overview/Diagram: click-to-type
+20 pt Arial Italic, default red/shared `1`–`4` colors, repeat placement, existing-label
+editing, empty drafts, single-step undo, slide/board/session persistence and sharp
+SVG/PNG/PDF text. Escape or Cmd/Ctrl+Enter finishes editing; `T` again exits the tool.
+
 ```sh
 python3 -m pip install -r requirements-pdf.txt
 python3 -m unittest discover -s tests -p 'test_*.py' -v
 python3 scripts/typst_to_pigeon.py tests/fixtures/geometry.typ --output /tmp/pigeon-geometry-check --graph local --no-zip
-PIGEON_FIXTURE_ROOT=/tmp/pigeon-geometry-check PIGEON_TEST_DEPS=/path/to/node_modules node --test tests/runtime.test.mjs tests/runtime-diagram.test.mjs tests/runtime-fullscreen.test.mjs tests/runtime-backtick.test.mjs tests/runtime-wand.test.mjs tests/wand-effects.test.mjs
+PIGEON_FIXTURE_ROOT=/tmp/pigeon-geometry-check PIGEON_TEST_DEPS=/path/to/node_modules node --test tests/runtime.test.mjs tests/runtime-text.test.mjs tests/runtime-diagram.test.mjs tests/runtime-fullscreen.test.mjs tests/runtime-backtick.test.mjs tests/runtime-wand.test.mjs tests/wand-effects.test.mjs
 # PDF runtime smoke, using the nine-page geometry regression fixture:
 python3 scripts/typst_to_pigeon.py tests/fixtures/geometry.pdf --output /tmp/pigeon-pdf-geometry-check --graph local --no-zip --force
 PIGEON_FIXTURE_ROOT=/tmp/pigeon-pdf-geometry-check PIGEON_TEST_DEPS=/path/to/node_modules node --test tests/runtime-pdf.test.mjs
@@ -79,3 +84,10 @@ failure, mute/resume, media pauses, long silence recovery, current-page-only
 resolution, 0/1/many targets, custom actions/phrases, Escape/backdrop dismissal,
 reduced motion, and unchanged ink/session/PDF exports. Actual microphone latency
 and false-trigger rates must be measured separately from mocked tests.
+
+## Semantic tiers
+
+- Build the [self-contained example](../../examples/semantic-tiers/README.md) and follow its [live rehearsal checklist](../../examples/semantic-tiers/TEST-THIS-DECK.md).
+- Check independent/shrinking states, nested hiding, marking-only support regions, opaque paint order, background overrides, multiple takeaway extraction and fixed ink geometry.
+- Verify defaults/pruning/aliases, both modes, URLs, boards, exact deep/back return, current-tier title/voice/Wand safety and rapid navigation.
+- Check direct-file and HTTP assets, complete-source exports, helper-copy equality, and old Typst/PDF single-state behavior. Record compilation/bundle costs; report live browser/microphone checks separately from automated tests.

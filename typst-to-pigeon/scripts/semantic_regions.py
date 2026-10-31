@@ -82,6 +82,11 @@ def normalize_semantic_records(records, pages):
         bottom = min(spec['pointHeight'], rect['y'] + rect['height'])
         by_page[page].append(dict(id=marker_id, target=target, x=x * sx, y=y * sy,
                                   width=(right - x) * sx, height=(bottom - y) * sy))
+        ancestry = value.get('tierAncestry', [])
+        if not isinstance(ancestry, list) or any(not isinstance(uid, str) for uid in ancestry):
+            raise ValueError(f'Page {page}: semantic tier ancestry must contain UID strings')
+        if ancestry:
+            by_page[page][-1]['tierAncestry'] = ancestry
         used_ids[page].add(marker_id)
         targets[target] += 1
     report = dict(total=len(records), visible=sum(map(len, by_page.values())), hidden=hidden,

@@ -67,6 +67,13 @@ keeping Wand selected. These effects do not change saved ink or PDF exports.
 Pen, highlighter, eraser,
 laser, inserted whiteboards/blackboards, zoom and pan are also available.
 
+Select **Text** (`T`), then click a slide or board to add a label without entering
+Diagram mode. New labels use 20 pt Arial Italic and the active annotation color
+(red by default); `1`–`4` choose red, blue, dark green or yellow before typing.
+Finish with `Esc`, `Cmd/Ctrl+Enter`, or a click outside the editor. Text stays
+selected for more labels; click an existing label to edit it, or press `T` again
+to return to navigation. In Overview, `T` still switches the overview layout.
+
 Pages titled **Overview** or **Outline** that contain only flat bullet or numbered
 items become section boundaries. Repeated outline pages advance through those
 sections, and the hierarchy overview groups slides accordingly. Review inferred
@@ -327,3 +334,7 @@ Live voice rehearsal currently targets Google Chrome on macOS. Manual presentati
 Each release keeps its own README under `docs/versions/VERSION/`; update this
 current README and add the next version's README when releasing. Historical
 READMEs describe their version's behavior and validation.
+
+## Authored semantic tiers
+
+Typst decks can define independent question, answer, evidence and takeaway states without changing layout. Slide mode preserves ordinary slide navigation; Step mode traverses tiers first. Press N to toggle, comma/period to change tiers, Enter for a semantic detour and R to return. See the [semantic-tier reference](typst-to-pigeon/references/semantic-tiers.md), the [semantic function HTML reference](docs/semantic-functions.html), and the [six-page example](examples/semantic-tiers/README.md). Complete-source PDF/PNG exports retain all artwork; presentation effects are not baked in.

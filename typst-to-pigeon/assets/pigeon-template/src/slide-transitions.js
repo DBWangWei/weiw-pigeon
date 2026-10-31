@@ -28,8 +28,19 @@ window.PigeonTransitions = (() => {
     });
     if (asset) {
       const image = document.createElement("img");
-      image.src = asset; image.alt = ""; image.draggable = false;
+      const currentImage = frame.querySelector(":scope > img");
+      image.src = frame.dataset.titleActive ? asset : currentImage?.src || asset;
+      if (currentImage) image.style.opacity = currentImage.style.opacity;
+      image.alt = ""; image.draggable = false;
       page.append(image);
+    }
+    const tier = frame.querySelector(".tier-decoration");
+    if (tier) {
+      const nativeWidth=parseFloat(frame.style.width) || rect.width;
+      const nativeHeight=parseFloat(frame.style.height) || rect.height;
+      const composition=document.createElement("div");
+      Object.assign(composition.style,{position:"absolute",left:"0",top:"0",width:nativeWidth+"px",height:nativeHeight+"px",transform:`scale(${rect.width/nativeWidth},${rect.height/nativeHeight})`,transformOrigin:"top left"});
+      composition.append(tier.cloneNode(true));page.append(composition);
     }
     const source = frame.querySelector(".annotation-canvas");
     if (source) {

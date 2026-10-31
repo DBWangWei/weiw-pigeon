@@ -36,9 +36,9 @@ def content_text(value):
     return ''
 
 
-def query(source, selector):
+def query(source, selector, inputs=None):
     expression=f'query(<{selector}>).map(it => (value: it.value, page: it.location().page()))'
-    return json.loads(run(['typst','eval',expression,'--in',str(source),'--format','json'],source.parent))
+    return json.loads(run(['typst','eval',expression,'--in',str(source),'--format','json',*(inputs or [])],source.parent))
 
 
 def text_geometry(pdf):
@@ -89,7 +89,9 @@ def extract_links(svg, source):
     return result
 
 
-def build(source, output, deck_id=None, title=None, navigation=None, skip_compile=False):
+def build(source, output, deck_id=None, title=None, navigation=None, skip_compile=False, tiers_config=None):
+    from tier_config import resolve_tier_config
+    tier_config=resolve_tier_config(json.loads(tiers_config.read_text()) if tiers_config else {})
     source=source.resolve(); output=output.resolve()
     if not source.is_file(): raise ValueError(f'Source does not exist: {source}')
     is_pdf=source.suffix.lower()=='.pdf'
@@ -124,6 +126,7 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
     if not svgs or len(svgs)!=len(geometry) or len(texts)!=len(svgs): raise ValueError('PDF/SVG/text page counts differ')
     records=[] if is_pdf else query(source,'slide-record')
     semantic_records=[] if is_pdf else query(source,'pigeon-sem')
+    tier_records=[] if is_pdf else query(source,'pigeon-tier')
     page_sizes=[]
     for svg,geo in zip(svgs,geometry):
         vbox=[float(v) for v in ET.parse(svg).getroot().get('viewBox').split()]
@@ -201,6 +204,7 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
             source=content_text(record.get('source','')),text=page_text,asset=f'slides/{svg.name}',assetHash=sha256(svg),
             width=width,height=height,links=links,imageDescriptions=[],textRegions=geo['regions'],
             wandRegions=geo['regions']+visual,semanticRegions=semantic_by_page[page],titleLayer=layer))
+        slides[-1]['_titleWords']=title_words
         page_report=dict(page=page,semanticRegions=len(semantic_by_page[page]))
         if is_pdf:
             detection=geo['titleDetection'] if 'title' not in overrides else {'status':'overridden'}
@@ -209,16 +213,21 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
                                      textBlocks=len(geo['regions']),images=sum(r['kind']=='image' for r in visual),
                                      tables=sum(r['kind']=='table' for r in visual)))
         page_reports.append(page_report)
+    from tier_artwork import attach_tier_artwork
+    attach_tier_artwork(source,deck,slides,page_sizes,tier_records,tier_config,run,query,warnings)
+    if not is_pdf:
+        from tier_records import merge_pdfpc_notes
+        merge_pdfpc_notes(slides,query(source,"pdfpc-file"),tier_config,content_text)
     from outline_sections import assign_sections
     outlines = assign_sections(slides, geometry, explicit_sections, warnings)
     # Include metadata and geometry: edits to IDs/titles/regions also invalidate sessions/KG caches.
-    revision=hashlib.sha256(json.dumps(slides,sort_keys=True,ensure_ascii=False).encode()).hexdigest()[:16]
+    revision=hashlib.sha256(json.dumps(dict(slides=slides,tiers=tier_config),sort_keys=True,ensure_ascii=False).encode()).hexdigest()[:16]
     route=nav.get('defaultRoute',[s['id'] for s in slides])
     if len(route)!=len(slides) or set(route)!=used_ids: raise ValueError('defaultRoute must include each slide ID once')
     manifest=dict(schemaVersion='1.0',deckId=deck_id,title=title,revision=revision,pdf=f'{deck_id}.pdf',sourceType='pdf' if is_pdf else 'typst',
                   dimensions=dict(width=max(s['width'] for s in slides),height=max(s['height'] for s in slides)),
                   defaultRoute=route,hierarchy=nav.get('hierarchy') or None,focusRegions=nav.get('focusRegions',[]),
-                  resources=list(resources.values()),slides=slides)
+                  resources=list(resources.values()),slides=slides,tiers=tier_config)
     (deck/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
     if not is_pdf: run(['pdftoppm','-png','-scale-to','320',str(pdf),str(thumbs/'page')],source.parent)
     (output/'build-report.json').write_text(json.dumps(dict(slides=len(slides),revision=revision,warnings=warnings,pages=page_reports,outlines=outlines,semanticRegions=semantic_report),indent=2)+'\n')
@@ -231,6 +240,7 @@ def main():
     p.add_argument('--source',type=Path,required=True);p.add_argument('--output',type=Path,required=True)
     p.add_argument('--deck-id');p.add_argument('--title');p.add_argument('--navigation',type=Path)
     p.add_argument('--skip-compile',action='store_true')
+    p.add_argument('--tiers-config',type=Path)
     args=p.parse_args(); build(**vars(args))
 
 if __name__=='__main__':

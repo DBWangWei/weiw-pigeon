@@ -90,3 +90,7 @@ manual controls but cannot invoke the native Whisper backend.
 
 For hidden reveal content, use `pigeon-hidden(...)` or pass `visible: false` to
 `pigeon-sem(...)` so hidden targets do not become voice targets on that page.
+
+## Voice targets inside semantic tiers
+
+Import `pigeon-tiers.typ` as `sem` to avoid existing style-name collisions. Put existing `pigeon-sem` voice markers inside the role wrapper, for example `#sem.answer[#pigeon-sem("_table", table(...))]`. Roles describe presentation stages; voice names identify objects. Only visible targets may receive voice/Wand emphasis, and emphasis does not advance tiers. Keep Touying handout configuration explicit so two independent reveal systems are not accidentally combined. See [semantic tiers](typst-to-pigeon/references/semantic-tiers.md) and the separate [example](examples/semantic-tiers/README.md).

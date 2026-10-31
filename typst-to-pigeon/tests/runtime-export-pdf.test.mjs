@@ -93,6 +93,29 @@ test("PDF export retains source text and overlays all slides plus inserted draft
   assert.equal(d.querySelector("#exportPdfButton").disabled, false);
 });
 
+test("PDF export commits a standalone Text draft and retains its font and active tool", async t => {
+  const { a, d, w, downloads } = await exporter(t);
+  const source = w.PIGEON_DECK_BUNDLE.assets[a.state.deck.pdf];
+  const originals = await inspect(t, new w.Blob([Buffer.from(source.split(",")[1], "base64")]));
+  press(w, d, "t");
+  const canvas = d.querySelector(".slide-frame.current canvas");
+  pointer(w, canvas, "pointerdown", { buttons: 1 });
+  pointer(w, canvas, "pointerup");
+  d.querySelector(".diagram-text-editor").value = "Exported text label";
+  await a.exportPdf();
+  assert.equal(downloads.length, 1, d.querySelector("#toast").textContent);
+  assert.equal(d.querySelector(".diagram-text-editor"), null);
+  assert.equal(a.state.tool, "text");
+  const label = a.validateSession(a.sessionPayload()).annotations.intro[0];
+  assert.equal(label.text, "Exported text label");
+  assert.equal(label.fontFamily, "Arial");
+  assert.equal(label.fontStyle, "italic");
+  assert.equal(label.fontSize, 20);
+  const pages = await inspect(t, downloads[0]);
+  assert.equal(pages[0].text, originals[0].text);
+  assert.equal(pages[0].images, originals[0].images + 1);
+});
+
 test("PDF overlays align with cropped pages at every quarter-turn rotation", async t => {
   const env = await exporter(t), { a, w, downloads } = env;
   const lib = w.PDFLib, source = await lib.PDFDocument.create();

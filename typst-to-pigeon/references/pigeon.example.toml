@@ -38,3 +38,8 @@ auto_close_ms = 0
 # target = "takeaway"
 # action = "pop"
 # multi = "stack"
+
+# Semantic tiers: see semantic-tiers.md. Omit presets for built-in result/flat.
+[tiers]
+mode = "slide"
+default_preset = "result"

@@ -476,6 +476,20 @@ test("stale interval, voice cooldown and dismissal suppression apply only to voi
   clock.tick(1000); assert.equal(voice.dispatch("table", "voice"), "shown");
 });
 
+test("same-slide tier changes reject callbacks from the previous visible state", async t => {
+  const h = setup(t), {voice, speech, clock} = h;
+  h.slide({presentationContext: 1, semanticTiers: {}}); voice.slideChanged();
+  await voice.start(); clock.tick(60);
+  const delayed = speech.instances.at(-1).onresult;
+  h.slide({presentationContext: 2, semanticRegions: []}); voice.slideChanged();
+  await flush(); clock.tick(100);
+  delayed({resultIndex: 0, results: [{0: {transcript: "this table"}}]});
+  assert.equal(voice.snapshot().open, null);
+  assert.equal(voice.snapshot().diagnostics.lastResult, null);
+  assert.equal(voice.dispatch("table"), "none");
+  assert.equal(voice.snapshot().events[0].outcome, "none visible on slide/tier");
+});
+
 test("0/1/many resolution stays on current slide and choices are sorted by y then x", t => {
   const h = setup(t, {regions: []}), {voice, d} = h;
   assert.equal(voice.dispatch("table"), "none"); assert.equal(voice.snapshot().events[0].outcome, "none on slide");

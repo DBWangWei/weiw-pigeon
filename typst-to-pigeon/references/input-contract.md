@@ -64,3 +64,7 @@ Manifest invariants:
 - Optional `titleLayer` identifies the glyph-only SVG, the slide with those glyphs removed, and the title bounds. The original SVG is retained for None, wand crops and exports.
 
 Do not include source files or credentials in a release. Inspect build warnings before presenting; do not claim an unrecognized title or object was extracted successfully.
+
+## Authored tier metadata
+
+Typst semantic tiers use the namespaced `assets/pigeon-tiers.typ` helper and `<pigeon-tier>` role/settings/note/deep records. Roles reserve fixed layout; wrappers must fit one physical page. Nested ancestry controls visibility, and normalized `region` marks figure subregions without independently hiding their body. Unmarked Typst pages and PDF inputs remain single-state. See [semantic-tiers.md](semantic-tiers.md) for authoring, defaults, backgrounds and the private-note distribution boundary.
