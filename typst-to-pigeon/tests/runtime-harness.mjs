@@ -22,6 +22,8 @@ const voiceLocal=await readFile(resolve(root,'src/voice-local.js'),'utf8').catch
 const transitions=await readFile(resolve(root,'src/slide-transitions.js'),'utf8');
 const diagrams=await readFile(resolve(root,'src/diagram.js'),'utf8');
 const pdfExport=await readFile(resolve(root,'src/pdf-export.js'),'utf8');
+const tierNav=await readFile(resolve(root,'src/semantic-tiers.js'),'utf8').catch(()=>'');
+const tierRenderer=await readFile(resolve(root,'src/tier-renderer.js'),'utf8').catch(()=>'');
 const embedded=await readFile(resolve(root,'public/deck/embedded-deck.js'),'utf8');
 export function press(w,d,key,options={}) {
   d.querySelector('#stage').dispatchEvent(new w.KeyboardEvent('keydown',{key,bubbles:true,...options}));
@@ -34,7 +36,7 @@ export function pointer(w,canvas,type='pointermove',options={}) {
   canvas.dispatchEvent(new w.PointerEvent(type,{pointerId:1,pointerType:'mouse',clientX:120,clientY:240,button:0,buttons:0,bubbles:true,...options}));
 }
 export async function setup(t, options={}) {
-  const w=new Window({url:'file:///pigeon/index.html',settings:{disableCSSFileLoading:true,disableJavaScriptFileLoading:true}});
+  const w=new Window({url:options.url || 'file:///pigeon/index.html',settings:{disableCSSFileLoading:true,disableJavaScriptFileLoading:true}});
   t.after(()=>w.happyDOM.abort());
   const calls=[];
   w.Element.prototype.animate=function(frames,options){const record={element:this,frames,options,cancelled:false};calls.push(record);return {cancel(){record.cancelled=true;}};};
@@ -45,9 +47,13 @@ export async function setup(t, options={}) {
   w.structuredClone=structuredClone;
   w.fetch=()=>{throw new Error('Unexpected fetch in file mode');};
   w.document.write(markup.replace(/<script[\s\S]*?<\/script>/g,''));
-  w.eval(effects);w.eval(wandEffects);w.eval(voiceDiagnostics);w.eval(voiceLocal);w.eval(voiceRuntime);w.eval(transitions);w.eval(diagrams);w.eval(pdfExport);w.eval(embedded);
+  w.eval(effects);w.eval(wandEffects);w.eval(voiceDiagnostics);w.eval(voiceLocal);w.eval(voiceRuntime);w.eval(transitions);w.eval(diagrams);w.eval(pdfExport);w.eval(embedded);w.eval(tierNav);w.eval(tierRenderer);
   if(options.voiceBackend) w.PIGEON_DECK_BUNDLE.json['public/deck/manifest.json'].voice.backend=options.voiceBackend;
-  w.eval(app+'\nwindow.testApp={diagram,state,get voice(){return voice},normaliseManifest,navigateTo,nextSlide,fitCurrent,fitWhole,canvasPoint,sessionPayload,validateSession,toggleWhiteboard,keyHandler,setTool,openOverview,closeOverview,toggleBlackout,replaceSessionSafely,syncTitleEffect,stopTitleEffect,viewSequence,showWand,pageTransitions,cancelPageTransition,zoomAt,historyMove,resumeRoute,reconcilePresentation,undo,redo,applySession,drawSurface,exportPng,exportPdf};');
+  if(options.session) {
+    const manifest=w.PIGEON_DECK_BUNDLE.json['public/deck/manifest.json'];
+    w.localStorage.setItem(`pigeon-session-v1:${manifest.deckId}:${manifest.revision}`,JSON.stringify(options.session));
+  }
+  w.eval(app+'\nwindow.testApp={tierAction,setTier,syncTierView,presentationSlide,applyTierURL,tierManifest,tierCandidate,diagram,state,get voice(){return voice},normaliseManifest,navigateTo,nextSlide,fitCurrent,fitWhole,canvasPoint,sessionPayload,validateSession,toggleWhiteboard,keyHandler,setTool,openOverview,closeOverview,toggleBlackout,replaceSessionSafely,syncTitleEffect,stopTitleEffect,viewSequence,showWand,pageTransitions,cancelPageTransition,zoomAt,historyMove,resumeRoute,reconcilePresentation,undo,redo,applySession,drawSurface,exportPng,exportPdf};');
   await new Promise(r=>setTimeout(r,40));
   return {w,a:w.testApp,d:w.document,calls};
 }

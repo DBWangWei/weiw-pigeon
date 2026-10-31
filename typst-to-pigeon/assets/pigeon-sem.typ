@@ -30,6 +30,7 @@
             x: p.x.pt(), y: p.y.pt(),
             width: size.width.pt(), height: size.height.pt(),
             visible: visible and pigeon-hidden-depth.get() == 0,
+            tierAncestry: state("pigeon-tier-ancestry", ()).get(),
           )) <pigeon-sem>]
         })
         // Keep the original available width when rendering. Rendering in the

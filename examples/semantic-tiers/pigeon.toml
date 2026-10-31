@@ -1,0 +1,68 @@
+graph = "local"
+no_zip = true
+
+[tiers]
+mode = "slide"
+default_preset = "independent"
+
+[[tiers.presets.independent]]
+name = "question"
+show = ["hook", "cue"]
+[[tiers.presets.independent]]
+name = "answer"
+show = ["answer"]
+default = true
+[[tiers.presets.independent]]
+name = "full"
+show = "*"
+
+[[tiers.presets.evidence]]
+name = "question"
+show = ["hook"]
+[[tiers.presets.evidence]]
+name = "table"
+show = ["answer", "caveat"]
+[[tiers.presets.evidence]]
+name = "full"
+show = "*"
+dim = ["detail"]
+
+[[tiers.presets.figure]]
+name = "takeaway"
+show = ["takeaway"]
+[[tiers.presets.figure]]
+name = "evidence"
+show = ["detail", "support", "takeaway"]
+emph = ["support"]
+pin = "takeaway"
+
+[[tiers.presets.summary]]
+name = "messages"
+show = ["takeaway"]
+fx = "extract"
+[[tiers.presets.summary]]
+name = "full"
+show = "*"
+default = true
+
+[[tiers.presets.replacement]]
+name = "initial"
+show = ["answer"]
+[[tiers.presets.replacement]]
+name = "correction"
+show = ["contrast"]
+[[tiers.presets.replacement]]
+name = "warm"
+show = ["contrast", "cue"]
+background = "#FFF8E8"
+[[tiers.presets.replacement]]
+name = "background-only"
+show = []
+background = "#E5F1FA"
+
+[[tiers.presets.flat]]
+name = "full"
+show = "*"
+
+[voice]
+enabled = true

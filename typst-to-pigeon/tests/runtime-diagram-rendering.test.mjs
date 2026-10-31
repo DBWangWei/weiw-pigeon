@@ -80,6 +80,32 @@ test("saved free text stays vector, renders at the top-left and stays in place o
   assert.ok(bounds.y / 3.75 >= 100 && bounds.y / 3.75 < 115);
 });
 
+test("standalone Arial Italic labels render in vector and raster exports at the same size", async t => {
+  const { a, d, w } = await nativeCanvas(t);
+  press(w, d, "t");
+  const canvas = d.querySelector(".slide-frame.current canvas");
+  pointer(w, canvas, "pointerdown", { clientX: 180, clientY: 200, buttons: 1 });
+  pointer(w, canvas, "pointerup", { clientX: 180, clientY: 200 });
+  d.querySelector(".diagram-text-editor").value = "Arial Italic";
+  press(w, d, "Enter", { ctrlKey: true });
+  const op = a.state.annotations.intro[0];
+  const png = createCanvas(800, 600);
+  w.PigeonDiagram.draw(png.getContext("2d"), op, [op]);
+  const svg = await vectorBitmap(d, 800, 600);
+  const rasterBounds = inkBounds(png), vectorBounds = inkBounds(svg);
+  for (const bounds of [rasterBounds, vectorBounds]) {
+    assert.ok(bounds.x >= 109 && bounds.x < 120);
+    assert.ok(bounds.y >= 129 && bounds.y < 145);
+    assert.ok(bounds.bottom - bounds.y > 10 && bounds.bottom - bounds.y <= 25);
+  }
+  const normal = createCanvas(800, 600);
+  w.PigeonDiagram.draw(normal.getContext("2d"), { ...op, fontStyle: "normal" }, [op]);
+  assert.notDeepEqual(normal.toBuffer("image/png"), png.toBuffer("image/png"), "italic styling reaches the export renderer");
+  const pixels = png.getContext("2d").getImageData(0, 0, 800, 600).data;
+  assert.ok(pixels.some((value, index) => index % 4 === 3 && value === 255 &&
+    pixels[index - 3] === 220 && pixels[index - 2] === 38 && pixels[index - 1] === 38), "raster text uses annotation red");
+});
+
 test("shape labels render as vectors while shapes and pen strokes survive canvas redraw", async t => {
   const { a, d, w, surface } = await nativeCanvas(t);
   const canvas = d.querySelector(".slide-frame.current canvas");

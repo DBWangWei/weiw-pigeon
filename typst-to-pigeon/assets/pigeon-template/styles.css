@@ -1716,3 +1716,24 @@ dialog {
 .voice-report[hidden] { display: none; }
 .voice-diagnostic-events summary { cursor: pointer; color: #c5d5eb; }
 .voice-diagnostic-trace { padding-left: 22px; max-height: 180px; overflow: auto; color: #c5d5eb; font-size: 12px; }
+
+/* Semantic tiers retain native page coordinates; tools remain above artwork. */
+.tier-decoration {position:absolute;inset:0;pointer-events:none;z-index:1;overflow:hidden;}
+.slide-frame[data-artwork-error] .tier-decoration,
+.slide-frame[data-artwork-error] .title-artwork {visibility:hidden;}
+.tier-dim-artwork {position:absolute;inset:0;width:100%;height:100%;}
+.tier-ring {position:absolute;border:2px solid #e6a422;border-radius:5px;box-sizing:border-box;box-shadow:0 0 8px #f7c95666;}
+.tier-pin {border-color:#a087e3;}
+.tier-debug {font:10px sans-serif;color:#7b1b16;background:#ffb6ad22;border:1px dashed #bd382b;}
+.tier-extract-crop {position:absolute;background-color:white;background-repeat:no-repeat;border-radius:5px;box-shadow:0 8px 30px #14223955;}
+.tier-controls {display:flex;gap:5px;align-items:center;flex-wrap:wrap;padding:5px 8px;border-radius:10px;background:#fff;color:#182439;max-width:min(85vw,680px);}
+.tier-controls[hidden] {display:none;}
+.tier-controls button {font-size:11px;padding:4px 7px;min-width:25px;}
+.tier-controls .tier-dot[aria-current="true"] {background:#194f76;color:white;}
+.tier-controls .tier-dot[data-default="true"] {outline:2px solid #be9b43;outline-offset:1px;}
+.tier-controls .tier-dots {display:flex;gap:4px;}
+.tier-controls .tier-status {font-size:11px;}
+.tier-controls.boundary {outline:2px solid #c67c27;}
+#tierHud {position:fixed;left:50%;bottom:65px;transform:translateX(-50%);z-index:55;box-shadow:0 2px 14px #15223422;}
+.tier-controls label {font-size:10px;white-space:nowrap;}
+.tier-deep-select {max-width:130px;font-size:11px;}

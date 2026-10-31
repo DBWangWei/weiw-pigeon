@@ -14,12 +14,13 @@ import zipfile
 from pathlib import Path
 
 from voice_config import resolve_voice_config
+from tier_config import resolve_tier_config
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = SKILL_ROOT / "assets" / "pigeon-template"
 CONFIG_KEYS = {
     "output", "deck_id", "title", "navigation", "graph", "graph_provider",
-    "title_effect", "slide_transition", "no_zip", "voice",
+    "title_effect", "slide_transition", "no_zip", "voice", "tiers",
 }
 GRAPH_MODES = {"local", "lexical", "model"}
 GRAPH_PROVIDERS = {"codex-config", "env"}
@@ -80,6 +81,12 @@ Initial title effect: {manifest.get("titleEffect", "text-type")}. Select None,
 Split Text, Blur Text, Shiny Text, Gradient Text or Text Type in the top toolbar.
 Initial slide transition: {manifest.get("slideTransition", "camera")}.
 Use the Transition selector to change it for this viewing session.
+Semantic tier navigation: {manifest.get("tiers", {}).get("mode", "slide")} mode initially.
+On authored tier decks, N toggles Slide / Step mode. Slide mode enters the
+slide's default tier; Step mode walks its tiers before moving to another slide.
+Period/comma change tiers on this slide. Shift+PageDown/PageUp or Shift-click
+Next/Previous swaps navigation granularity. Enter follows a semantic deep link
+in Navigate mode; R restores the exact return tier. Tiers are independent states.
 Voice recognition enabled: {manifest.get("voice", {}).get("enabled", True)}.
 Open Voice, then click Start microphone in a supported browser.
 Default voice backend: local Whisper. First run python3 scripts/setup_voice.py
@@ -92,6 +99,7 @@ The graph was generated in {graph.get("extraction", {}).get("mode", "unknown")} 
 The slide source is {manifest.get("sourceType", "typst")}; the PDF is bundled.
 Export PDF beside Present in the top bar preserves the original pages
 and adds all ink and inserted white/black boards, including drafts. Works offline.
+PDF and PNG exports use complete source artwork, including content hidden in tiers.
 """, encoding="utf-8")
     (output / "release.json").write_text(json.dumps({
         "appName": "Pigeon", "version": PIGEON_VERSION, "icon": "public/icons/pigeon.png", "deckId": manifest["deckId"],
@@ -102,6 +110,7 @@ and adds all ink and inserted white/black boards, including drafts. Works offlin
         "slideTransition": manifest.get("slideTransition", "camera"),
         "sourceType": manifest.get("sourceType", "typst"),
         "voiceEnabled": manifest.get("voice", {}).get("enabled", True),
+        "tierMode": manifest.get("tiers", {}).get("mode", "slide"),
     }, indent=2) + "\n", encoding="utf-8")
 
 
@@ -159,11 +168,14 @@ def load_pigeon_config(source: Path, requested: Path | None) -> tuple[dict, Path
     for container in (raw, table):
         if "voice" in container:
             resolve_voice_config(container["voice"])
+        if "tiers" in container:
+            resolve_tier_config(container["tiers"])
     return values, path
 
 
 def validate_config(config: dict) -> None:
     resolve_voice_config(config.get("voice", {}))
+    resolve_tier_config(config.get("tiers", {}))
     for key in ("output", "deck_id", "title", "navigation", "graph", "graph_provider", "title_effect", "slide_transition"):
         if key in config and (not isinstance(config[key], str) or not config[key].strip()):
             raise ValueError(f"pigeon.toml {key} must be a nonempty string")
@@ -196,6 +208,7 @@ def main() -> int:
     parser.add_argument("--config", type=Path, default=None, help="Pigeon TOML file; default: pigeon.toml beside the source")
     parser.add_argument("--output", type=Path, default=None, help="Output directory; default: config value or pigeon-{source filename without suffix} beside the source")
     parser.add_argument("--deck-id", default=None)
+    parser.add_argument("--mode", choices=["step", "slide"], default=None)
     parser.add_argument("--title", default=None)
     parser.add_argument("--navigation", type=Path, default=None)
     parser.add_argument("--graph", choices=sorted(GRAPH_MODES), default=None, help="Config value or local by default")
@@ -220,6 +233,7 @@ def main() -> int:
     config, config_path = load_pigeon_config(source, args.config)
     validate_config(config)
     voice = resolve_voice_config(config.get("voice", {}), args.voice_enabled)
+    tiers = resolve_tier_config(config.get("tiers", {}), args.mode)
     configured_output = config_file_path(config, "output", config_path)
     requested_output = args.output.expanduser() if args.output is not None else configured_output or source.parent / f"pigeon-{source.stem}"
     output = requested_output.resolve()
@@ -251,7 +265,9 @@ def main() -> int:
             shutil.copytree(output / "cache", staged / "cache")
         exporter = SKILL_ROOT / "scripts" / "export_deck.py"
         graph_builder = SKILL_ROOT / "scripts" / ("model_graph.py" if graph_mode == "model" else "extract_graph.py")
-        run([sys.executable, str(exporter), "--source", str(source), "--output", str(staged),
+        tier_path = Path(temporary) / "tiers-config.json"
+        tier_path.write_text(json.dumps(tiers))
+        run([sys.executable, str(exporter), "--source", str(source), "--output", str(staged), "--tiers-config", str(tier_path),
              *((["--deck-id", deck_id]) if deck_id else []),
              *((["--title", title]) if title else []),
              *((["--navigation", str(navigation.expanduser().resolve())]) if navigation else [])], cwd=source.parent)

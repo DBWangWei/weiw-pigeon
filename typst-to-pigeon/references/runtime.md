@@ -12,6 +12,7 @@ Core controls are:
 | `/` or Cmd/Ctrl+K; `G` | Search; jump by source/physical slide label |
 | `R`; `F`; `B` | Resume a detoured route; presentation mode; blackout |
 | `V`; `L`; `P`; `H`; `E`; `M` | Navigation; laser; pen; highlighter; eraser; magic wand |
+| `T` outside Overview/Diagram | Toggle Text; click a slide or board to place a label |
 | Backtick (in Pen mode) | Single tap toggles Pen down after a 300 ms double-tap window |
 | Double backtick (Pen or Diagram mode) | Undo the last stroke/object/edit without changing tool or Pen down state |
 | Backtick (with a wand object lit) | Cycle Pop-out → Focus → Spotlight → Pop-out; Escape dismisses emphasis |
@@ -21,6 +22,8 @@ Core controls are:
 | `?`; Escape | Open help; dismiss the open dialog before other actions |
 
 Repeating a tool key turns that tool off; another tool key switches tools. The selected tool remains active while slide navigation advances. The laser dot stays visible while laser mode is selected. Magic wand targets include text, rendered images, connected bordered tables and recognized takeaways; takeaway regions receive the strongest spotlight. In presentation mode the wand keeps the pointer visible. Escape dismisses dialogs first. In native fullscreen Pigeon requests an Escape-only Keyboard Lock where supported and permitted, so the first press closes Help and a later press can leave fullscreen. Holding Escape retains the browser's emergency exit. Safari/Firefox and browsers that deny the lock may still exit native fullscreen; Pigeon keeps its presentation layout. Press `?` again or use Close to dismiss Help without invoking the browser's Escape behavior.
+
+**Text** is an annotation tool independent of Diagram mode. New labels use 20 pt Arial Italic, left/top alignment, transparent fill and the active annotation color (initially red). The toolbar swatches and `1`–`4` change the color before typing; numbers entered in the editor remain text. Finish with Escape, Cmd/Ctrl+Enter or blur. Click another position for a new label or an existing text label to edit it. Empty drafts are discarded; creating a label is one undo step. Font and color survive sessions and SVG/PNG/PDF rendering. Text stays selected across slide/board navigation. `T` retains its existing Overview and Diagram meanings.
 
 **Pen down mode** and Diagram mode show compact notices at the top right in normal and presentation layouts. A single backtick (or Escape after closing overlays) lifts the pen and keeps Pen selected. Slide/board navigation retains the setting and finishes the previous stroke. Leaving a canvas, zooming, changing colors, undoing, holding Space to pan, or opening a dialog finishes the stroke; subsequent movement starts a new one. Switching tools, repeating P to turn Pen off, or losing window/tab focus disables the mode. It is never saved in sessions.
 
@@ -91,3 +94,7 @@ artwork loading without changing session/export data. Input tests require their
 own click, run separately from recognition, and close tracks/audio contexts on
 Stop, cancellation, page exit, destruction or the 15-second limit. Typed phrase
 tests call the production matcher and resolver with an explicit test source.
+
+## Semantic-tier navigation
+
+Slide mode enters pages at their default tiers; Step mode traverses tiers before crossing pages. N toggles without moving; comma/period always changes the current tier. Shift+PageDown/PageUp and Shift-click Next/Previous swap granularity. Enter follows a semantic detour and R restores its saved page/tier. URLs use `?mode=step#12.3` (one-based physical page/surviving tier). Boards remain single-state; Home remains Fit whole talk. The HUD exposes tier/default/deep/back controls and a semantic-debug checkbox. Drawing/typing/panning retain their normal behavior. Voice and Wand only target current-tier visible content. Complete-source exports and thumbnails do not bake in tier effects. See [semantic-tiers.md](semantic-tiers.md) for the full transition contract.

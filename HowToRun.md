@@ -124,3 +124,14 @@ the microphone, and click **Start microphone**. The `pigeon.toml` file maps
 phrases such as “this table”, “this figure”, “this example”, and “key message”
 to the marked Typst regions. Use `--no-voice` when building if recognition is
 not needed; manual semantic actions remain available.
+
+## Run the semantic-tier example
+
+Install Typst and Poppler (`brew install typst poppler`) in addition to the prerequisites above. From the repository root, run:
+
+```sh
+./typst-to-pigeon.sh examples/semantic-tiers/semantic-tiers.typ --output ../tmp/_for_weiw-pigeon/work/semantic-tiers/demo --graph local --no-zip --force
+open ../tmp/_for_weiw-pigeon/work/semantic-tiers/demo/index.html
+```
+
+Add `--mode step` to start with tier-by-tier navigation. N toggles Step/Slide, and comma/period changes the current tier. Read the [example guide](examples/semantic-tiers/README.md) and [live checklist](examples/semantic-tiers/TEST-THIS-DECK.md). PDF inputs retain one full state per page.

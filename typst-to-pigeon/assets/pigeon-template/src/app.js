@@ -8,6 +8,7 @@ const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const PIGEON_VERSION = "1.0.3";
 const fileMode = window.location.protocol === "file:";
+const startupTierURL = window.location.href;
 const embeddedDeck = fileMode ? (window.PIGEON_DECK_BUNDLE || window.TALK_DECK_BUNDLE) : null;
 const deckAsset = path => path.startsWith("public/") ? path : `public/deck/${path}`;
 function assetUrl(path) {
@@ -66,6 +67,7 @@ const state = {
   graphError: null,
   currentId: "",
   currentIndex: 0,
+  tierMode: "slide", tier: 0, tierTrail: [], tierDebug: false, tierGeneration: 0,
   camera: { x: 0, y: 0, scale: 1 },
   autoFit: true,
   tool: "navigate",
@@ -136,8 +138,10 @@ function normaliseManifest(raw) {
     width: Number(s.width || deck.dimensions?.width || 960),
     height: Number(s.height || deck.dimensions?.height || 540),
     titleLayer: s.titleLayer || null,
+    semanticTiers: s.semanticTiers || null,
+    assetHash: s.assetHash || null,
     navigationLabel: s.navigationLabel || s.title || `Slide ${i + 1}`,
-    readingText: s.text || "",
+    readingText: [s.text || "", ...(s.semanticTiers?.notes || []).filter(n=>n.public).map(n=>n.text)].join("\n"),
     section: s.section || "Talk",
     summary: s.summary || s.description || "",
     page: Number(s.page ?? s.physicalPage ?? i + 1),
@@ -149,6 +153,7 @@ function normaliseManifest(raw) {
       s.text,
       s.sourceNote,
       s.source,
+      ...(s.semanticTiers?.notes || []).filter(n=>n.public).map(n=>n.text),
       ...(s.imageDescriptions || []),
       s.imageDescription,
     ]
@@ -216,6 +221,7 @@ function normaliseManifest(raw) {
     titleEffect: deck.titleEffect || "none",
     slideTransition: PigeonTransitions.names.includes(deck.slideTransition) ? deck.slideTransition : "camera",
     voice: deck.voice || {enabled: false, rules: []},
+    tiers: deck.tiers || {mode: "slide", presets: {}},
     title: deck.title || "Pigeon presentation",
     revision: deck.revision || deck.contentRevision || "generated",
     slides,
@@ -410,6 +416,8 @@ async function loadDeck() {
   graphTab.disabled = !!state.graphError;
   graphTab.title = state.graphError || "Explore the deck concepts";
   state.currentId = state.deck.route[0];
+  state.tierMode = state.deck.tiers.mode === "step" ? "step" : "slide";
+  state.tier = window.PigeonTiers?.entry(tierManifest(), 0, state.tierMode) || 0;
   state.currentIndex = state.deck.slides.findIndex(
     (slide) => slide.id === state.currentId,
   );
@@ -447,17 +455,18 @@ function stopTitleEffect() {
   $$(".title-artwork").forEach(el => el.remove());
   $$(".slide-frame[data-title-active]").forEach(frame => {
     const slide = getSlide(frame.dataset.slideId);
-    frame.querySelector("img").src = assetUrl(deckAsset(slide.asset));
+    const artwork = presentationSlide(slide);
+    frame.querySelector("img").src = assetUrl(deckAsset(artwork.baseAsset || artwork.asset));
     delete frame.dataset.titleActive;
   });
 }
 async function syncTitleEffect(force = false) {
   if (pageTransitionPending) return;
-  const key = `${activeFrameKey()}:${state.titleEffect}:${state.reducedMotion}`;
+  const key = `${activeFrameKey()}:${state.tier}:${state.titleEffect}:${state.reducedMotion}`;
   if (!force && lastTitleFrame === key) return;
   lastTitleFrame = key;
   stopTitleEffect();
-  const slide = getSlide();
+  const slide = presentationSlide();
   if (state.whiteboard || state.reducedMotion || state.titleEffect === "none" || !slide?.titleLayer) return;
   const request = titleRequest;
   const frame = $(".slide-frame.current");
@@ -496,6 +505,124 @@ function cancelPageTransition() {
   pageTransitionPending = false;
   pageTransitions.cancel();
 }
+function hasTiers() { return state.deck.slides.some(s => s.semanticTiers); }
+function tierManifest() {
+  return {...state.deck, slides: viewSequence().map(view => {
+    const slide = getSlide(view.id);
+    return view.name ? {...slide, id: frameKey(view.id, view.name), semanticTiers: null, boardName: view.name} : slide;
+  })};
+}
+function tierPage() { return Math.max(0, viewSequence().findIndex(v => frameKey(v.id,v.name) === activeFrameKey())); }
+function tierCandidate(slide = getSlide(), index = state.tier) {
+  return window.PigeonTiers?.states(state.deck, state.deck.slides.indexOf(slide))[index] || null;
+}
+function presentationSlide(slide = getSlide()) {
+  if (!slide || !slide.semanticTiers) return slide;
+  const active = slide.id === state.currentId && !state.whiteboard;
+  const index = active ? state.tier : window.PigeonTiers.defaultIndex(state.deck,state.deck.slides.indexOf(slide));
+  const candidate = tierCandidate(slide,index);
+  if (!candidate) return slide;
+  const visible = new Set(candidate.visible || []), roles = slide.semanticTiers.roles || [];
+  const hidden = roles.filter(r => r.hide && !visible.has(r.uid));
+  const intersects = (a,b) => a.x < b.x+b.width-.1 && b.x < a.x+a.width-.1 && a.y < b.y+b.height-.1 && b.y < a.y+a.height-.1;
+  const allowed = region => (region.tierAncestry || []).every(uid=>visible.has(uid)) &&
+    !hidden.some(r => intersects(region,r));
+  return {...slide, asset:candidate.asset || slide.asset,
+    baseAsset: PigeonTierRenderer.baseAsset(slide,candidate),
+    titleLayer: candidate.dim?.length || candidate.fx === 'extract' ? null : candidate.titleLayer || null,
+    semanticRegions:slide.semanticRegions.filter(allowed), wandRegions:slide.wandRegions.filter(allowed),
+    links:slide.links.filter(allowed), presentationContext:active ? state.tierGeneration : 0};
+}
+function applicableDeepLinks() {
+  if (state.whiteboard) return [];
+  const slide = getSlide(), visible = new Set(tierCandidate()?.visible || []);
+  const ids = new Set((slide.semanticTiers?.roles || []).filter(r => visible.has(r.uid) && r.id).map(r => r.id));
+  return (slide.semanticTiers?.deep || []).filter(link => !link.to || ids.has(link.to));
+}
+function syncTierView() {
+  if (!window.PigeonTiers || !state.deck.slides.length) return;
+  state.tier=clamp(state.tier,0,PigeonTiers.states(tierManifest(),tierPage()).length-1);
+  const active=state.tier;
+  $$(".slide-frame:not(.whiteboard-surface)").forEach(frame=>{
+    const slide=getSlide(frame.dataset.slideId);
+    if (!slide?.semanticTiers) return;
+    const selected=slide.id===state.currentId && !state.whiteboard ? active : PigeonTiers.defaultIndex(state.deck,state.deck.slides.indexOf(slide));
+    const candidate=tierCandidate(slide,selected);
+    const key=[selected,state.tierDebug,state.reducedMotion].join(":");
+    if(frame.dataset.tierRenderKey!==key) {
+      frame.dataset.tierRenderKey=key;
+      PigeonTierRenderer.render(frame,slide,candidate,{assetUrl:path=>assetUrl(deckAsset(path)),debug:state.tierDebug,reducedMotion:state.reducedMotion,onError:toast});
+    }
+  });
+  let hud=$("#tierHud");
+  if(!hud) {
+    hud=document.createElement("section");hud.id="tierHud";hud.className="tier-controls";hud.setAttribute("aria-label","Semantic tiers");
+    els.app.append(hud);
+  }
+  hud.hidden=!hasTiers() || state.overview || state.whiteboard || state.blackout;
+  if(hud.hidden) return;
+  const page=state.deck.slides.indexOf(getSlide()), list=PigeonTiers.states(state.deck,page), def=PigeonTiers.defaultIndex(state.deck,page);
+  hud.replaceChildren();
+  const button=(text,action)=>{const b=document.createElement("button");b.type="button";b.textContent=text;b.addEventListener("click",()=>tierAction(action));hud.append(b);return b;};
+  button(state.tierMode.toUpperCase(),"toggleMode").title="Switch Slide / Step navigation (N)";
+  button("|‹","home").title="First slide";button("‹ tier","tierPrev");
+  const dots=document.createElement("span");dots.className="tier-dots";
+  list.forEach((c,i)=>{const b=document.createElement("button");b.type="button";b.className="tier-dot";b.textContent=String(i+1);b.title=(c.name || c.tier?.name || "Tier "+(i+1))+(i===def?" (default)":"");b.dataset.default=String(i===def);b.setAttribute("aria-current",String(i===state.tier));b.addEventListener("click",()=>setTier(i));dots.append(b);});hud.append(dots);
+  button("tier ›","tierNext");button("›|","end").title="Last slide";
+  const deep=applicableDeepLinks();
+  if(deep.length) {
+    const select=document.createElement("select");select.className="tier-deep-select";select.setAttribute("aria-label","Deep destination");
+    deep.forEach((d,i)=>{const opt=document.createElement("option");opt.value=i;opt.textContent=getSlide(d.slideId)?.title || d.target || String(d.targetPage);select.append(opt);});hud.append(select);
+    const b=document.createElement("button");b.type="button";b.textContent="↵ deeper";b.addEventListener("click",()=>tierAction({type:"deeper",index:Number(select.value)}));hud.append(b);
+  }
+  if(state.tierTrail.length) button("R back","back");
+  const label=document.createElement("label"), check=document.createElement("input");check.type="checkbox";check.checked=state.tierDebug;check.addEventListener("change",()=>{state.tierDebug=check.checked;syncTierView();});label.append(check," Bounds");hud.append(label);
+  const status=document.createElement("span");status.className="tier-status";status.setAttribute("role","status");status.setAttribute("aria-live","polite");status.textContent=`Page ${getSlide().page} · ${state.tier+1}/${list.length}`;hud.append(status);
+  if(!booting) syncTierURL();
+}
+function tierPosition() { return {id:state.currentId,boardName:state.whiteboard?boardName:null,tier:state.tier,mode:state.tierMode,camera:{...state.camera}}; }
+function setTier(index, mode=state.tierMode) {
+  finishActiveStroke(); hideWand();cancelPageTransition();stopTitleEffect();
+  recordHistoryView();
+  state.tier=clamp(index,0,PigeonTiers.states(tierManifest(),tierPage()).length-1);state.tierMode=mode;state.tierGeneration++;
+  syncTierView();syncTitleEffect(true);voice?.slideChanged();updateUI();persist();
+}
+function tierAction(action) {
+  if(!window.PigeonTiers || !hasTiers()) return;
+  const kind=typeof action==="string"?action:action.type;
+  if(kind==="deeper") {
+    const link=applicableDeepLinks()[action.index || 0];
+    if(!link) return;
+    state.tierTrail.push(tierPosition());if(state.tierTrail.length>60) state.tierTrail.shift();
+    navigateTo(link.slideId,{force:true});return;
+  }
+  if(kind==="back") {
+    const saved=state.tierTrail.pop();if(!saved) return;
+    navigateTo(saved.id,{force:true,boardName:saved.boardName,tier:saved.tier,tierMode:saved.mode});
+    state.camera={...saved.camera};updateUI();persist();return;
+  }
+  const next=PigeonTiers.step(tierManifest(),{mode:state.tierMode,page:tierPage(),tier:state.tier,trail:[]},action);
+  if(next.boundary) {const hud=$("#tierHud");hud?.classList.add("boundary");const status=hud?.querySelector(".tier-status");if(status)status.textContent="End of available tiers or slides";setTimeout(()=>hud?.classList.remove("boundary"),300);return;}
+  const view=viewSequence()[next.page];
+  if(next.page!==tierPage()) navigateTo(view.id,{force:true,boardName:view.name,tier:next.tier,tierMode:next.mode,direction:next.page>tierPage()?1:-1});
+  else setTier(next.tier,next.mode);
+}
+function syncTierURL() {
+  if(!hasTiers() || state.whiteboard) return;
+  const url=new URL(window.location.href);url.searchParams.set("mode",state.tierMode);url.hash=`${getSlide().page}.${state.tier+1}`;
+  try {history.replaceState(null,"",url.href);} catch (_) {}
+}
+function applyTierURL(value=window.location.href) {
+  if(!window.PigeonTiers || !hasTiers()) return;
+  const parsed=PigeonTiers.parseURL(value,state.deck);
+  if(parsed.page!=null) {
+    const slide=state.deck.slides[parsed.page];
+    const mode=parsed.mode || state.tierMode;
+    navigateTo(slide.id,{force:true,tier:parsed.tier ?? PigeonTiers.entry(state.deck,parsed.page,mode),tierMode:mode});
+  } else if(parsed.mode) setTier(state.tier,parsed.mode);
+}
+window.addEventListener("hashchange",()=>applyTierURL());
+
 function getSlide(id = state.currentId) {
   return state.deck.slides.find((s) => s.id === id);
 }
@@ -507,7 +634,7 @@ function layoutSize() {
   return {width: Math.max(...state.deck.slides.map(s => s.width)), height: Math.max(...state.deck.slides.map(s => s.height))};
 }
 function viewSequence(metadata = state.boardMeta) {
-  return state.deck.slides.flatMap(slide => [
+  return state.deck.route.map(id => getSlide(id)).flatMap(slide => [
     {id: slide.id, name: null},
     ...Object.entries(metadata)
       .filter(([key, meta]) => key.startsWith(`${slide.id}::`) && meta.inserted)
@@ -565,17 +692,30 @@ function renderFrames() {
     frame.style.left = `${p.x}px`;
     frame.style.top = `${p.y}px`;
     const image = document.createElement("img");
-    image.alt = `${slide.id}: ${slide.title}`;
+    image.alt = slide.semanticTiers ? `Page ${slide.page}: tier artwork` : `${slide.id}: ${slide.title}`;
     image.loading = index < 3 ? "eager" : "lazy";
     image.src = assetUrl(slide.asset.startsWith("public/")
       ? slide.asset
       : `public/deck/${slide.asset}`);
     image.addEventListener("error", () => {
-      image.remove();
+      frame.querySelector('.slide-fallback')?.remove();
       const fallback = document.createElement("div");
       fallback.className = "slide-fallback";
-      fallback.innerHTML = `<div><span class="slide-number">${escapeHtml(slide.id)}</span><h2>${escapeHtml(slide.title)}</h2><p>${escapeHtml(slide.summary || "Slide image will appear when the deck export is ready.")}</p></div><div class="fallback-rule"></div>`;
+      if (slide.semanticTiers) {
+        image.style.visibility = "hidden";
+        frame.dataset.artworkError = "true";
+        fallback.textContent = "Tier artwork unavailable. Regenerate this presentation or select another tier.";
+      } else {
+        image.remove();
+        fallback.innerHTML = `<div><span class="slide-number">${escapeHtml(slide.id)}</span><h2>${escapeHtml(slide.title)}</h2><p>${escapeHtml(slide.summary || "Slide image will appear when the deck export is ready.")}</p></div><div class="fallback-rule"></div>`;
+      }
       frame.prepend(fallback);
+    });
+    image.addEventListener("load", () => {
+      if (!slide.semanticTiers) return;
+      image.style.removeProperty("visibility");
+      delete frame.dataset.artworkError;
+      frame.querySelector('.slide-fallback')?.remove();
     });
     if (!view.name) frame.append(image);
     const label = document.createElement("span");
@@ -590,7 +730,7 @@ function renderFrames() {
     if (view.name) canvas.dataset.boardName = view.name;
     frame.append(canvas);
     if (!view.name && slide.links?.length)
-      slide.links.forEach((link) => {
+      slide.links.forEach((link, linkIndex) => {
         const a = document.createElement("button");
         a.type = "button";
         a.className = "slide-link generated-link";
@@ -600,6 +740,7 @@ function renderFrames() {
         );
         a.title = a.getAttribute("aria-label");
         a.dataset.unavailable = String(!!link.local);
+        a.dataset.linkIndex = String(linkIndex);
         a.style.left = `${link.x || 0}px`;
         a.style.top = `${link.y || 0}px`;
         a.style.width = `${link.width || 80}px`;
@@ -619,12 +760,22 @@ function renderFrames() {
         });
         frame.append(a);
       });
-    frame.addEventListener("click", () => {
+    frame.addEventListener("click", (event) => {
+      if (state.presentation && hasTiers() && state.tool === "navigate" && !suppressSpace &&
+          slide.id === state.currentId && !view.name && !event.target.closest("button,a,input,select") && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        tierAction(event.shiftKey ? "shiftNext" : "next"); return;
+      }
       if (state.tool === "navigate" && !suppressSpace)
         navigateTo(slide.id, {
           boardName: view.name,
           detour: slide.id !== state.deck.route[routeCursor],
         });
+    });
+    frame.addEventListener("contextmenu", event => {
+      if (state.presentation && hasTiers() && state.tool === "navigate" && !spaceDown &&
+          slide.id === state.currentId && !view.name && !event.target.closest("button,a,input,select") && !event.ctrlKey && !event.metaKey && !event.altKey) {
+        event.preventDefault(); tierAction(event.shiftKey ? "shiftPrev" : "prev");
+      }
     });
     bindCanvas(canvas);
     els.world.append(frame);
@@ -741,11 +892,11 @@ function updateUI() {
     frame.classList.toggle("current", active);
     frame.classList.toggle("visited", state.visited.has(frame.dataset.slideId));
     frame.querySelectorAll(".generated-link").forEach(link => {
-      link.disabled = state.tool !== "navigate" || !active || !!frame.dataset.boardName || link.dataset.unavailable === "true";
+      link.disabled = state.tool !== "navigate" || !active || !!frame.dataset.boardName || link.dataset.unavailable === "true" || !presentationSlide(getSlide(frame.dataset.slideId)).links.includes(getSlide(frame.dataset.slideId).links[Number(link.dataset.linkIndex)]);
       link.tabIndex = link.disabled ? -1 : 0;
     });
     frame.querySelector(".annotation-canvas").style.pointerEvents =
-      ["pen", "highlighter", "eraser", "diagram"].includes(state.tool) && active ? "auto" : "none";
+      ["pen", "highlighter", "eraser", "text", "diagram"].includes(state.tool) && active ? "auto" : "none";
   });
   state.deck.slides.forEach(slide => drawSurface(slide.id));
   const info = boardInfo();
@@ -763,7 +914,7 @@ function updateUI() {
   $("#keepBoardButton").setAttribute("aria-pressed", String(info.kept));
   els.app.classList.toggle(
     "drawing-mode",
-    ["pen", "highlighter", "eraser"].includes(state.tool),
+    ["pen", "highlighter", "eraser", "text"].includes(state.tool),
   );
   els.stage.classList.toggle("wand-mode", state.tool === "wand");
   els.stage.classList.toggle("laser-mode", state.tool === "laser");
@@ -771,12 +922,14 @@ function updateUI() {
   diagram?.sync();
   els.app.classList.toggle("presentation-mode", state.presentation);
   updateCamera();
+  syncTierView();
   syncTitleEffect();
   voice?.contextChanged();
 }
 function addHistory(id) {
   const entry = {
     id,
+    tier: state.tier, tierMode: state.tierMode, tierTrail: structuredClone(state.tierTrail),
     camera: { ...state.camera },
     board: state.whiteboard,
     boardName,
@@ -817,15 +970,17 @@ function navigateTo(id, options = {}) {
   const changed = old !== id || targetName !== (state.whiteboard ? boardName : null);
   const snapshot = changed && !state.reducedMotion && !["camera", "none"].includes(state.slideTransition)
     ? PigeonTransitions.capture({stage: els.stage, frame: $(".slide-frame.current"),
-        asset: state.whiteboard ? null : assetUrl(deckAsset(getSlide().asset)),
+        asset: state.whiteboard ? null : assetUrl(deckAsset(presentationSlide().asset)),
         color: state.whiteboard && boardInfo().color === "black" ? "#111827" : "white"})
     : null;
+  stopTitleEffect();
   pageTransitionPending = !!snapshot;
   const transitionRequest = pageTransitionRequest;
   finishActiveStroke();
   if (options.detour && !state.detourReturn)
     state.detourReturn = {
       id: old,
+      tier: state.tier, tierMode: state.tierMode,
       camera: { ...state.camera },
       routeIndex: routeCursor,
       boardName: state.whiteboard ? boardName : null,
@@ -834,9 +989,13 @@ function navigateTo(id, options = {}) {
     routeCursor = Math.max(0, state.deck.route.indexOf(id));
   if (targetName) boardReturnCamera = old === id && !state.whiteboard ? {...state.camera} : parentCameraFor(id);
   state.currentId = id;
-  state.visited.add(id);
   state.whiteboard = !!targetName;
   if (targetName) boardName = targetName;
+  if (options.tierMode) state.tierMode = options.tierMode;
+  state.tier = options.tier ?? (targetName ? 0 : window.PigeonTiers?.entry(state.deck,state.deck.slides.indexOf(target),state.tierMode) || 0);
+  state.tierGeneration++;
+  syncTierView();
+  state.visited.add(id);
   hideWand();
   state.currentIndex = state.deck.slides.findIndex((s) => s.id === id);
   state.deck.slides.forEach((s) => drawSurface(s.id));
@@ -858,6 +1017,7 @@ function navigateTo(id, options = {}) {
   persist();
 }
 function nextSlide(direction = 1) {
+  if(hasTiers() && window.PigeonTiers) {tierAction(direction>0?"next":"prev");return;}
   finishActiveStroke();
   const sequence = viewSequence();
   const current = sequence.findIndex(view => frameKey(view.id, view.name) === activeFrameKey());
@@ -865,6 +1025,7 @@ function nextSlide(direction = 1) {
   if (target) navigateTo(target.id, {force: true, boardName: target.name, direction});
 }
 function resumeRoute() {
+  if (state.tierTrail.length) { tierAction("back"); return; }
   if (!state.detourReturn) { toast("Already on the planned talk · no detour to resume"); return; }
   finishActiveStroke();
   recordHistoryView();
@@ -873,6 +1034,7 @@ function resumeRoute() {
   state.detourReturn = null;
   routeCursor = target.routeIndex;
   state.currentId = target.id;
+  state.tier = target.tier ?? 0; state.tierMode = target.tierMode || state.tierMode; state.tierGeneration++;
   state.currentIndex = state.deck.slides.findIndex((s) => s.id === target.id);
   state.whiteboard = !!target.boardName;
   if (target.boardName) { boardName = target.boardName; boardReturnCamera = parentCameraFor(target.id); }
@@ -905,6 +1067,7 @@ function historyMove(direction) {
   state.historyIndex = next;
   const entry = state.history[next];
   state.currentId = entry.id;
+  state.tier = entry.tier ?? 0; state.tierMode = entry.tierMode || state.tierMode; state.tierTrail = structuredClone(entry.tierTrail || []); state.tierGeneration++;
   state.currentIndex = state.deck.slides.findIndex((slide) => slide.id === entry.id);
   state.whiteboard = entry.board && state.boardMeta[`${entry.id}::${entry.boardName}`]?.inserted !== false;
   boardName = entry.boardName || "Main";
@@ -1217,7 +1380,7 @@ function toggleStickyPen() {
 }
 function setTool(tool) {
   clearBacktickTap();
-  if (state.tool === "diagram" && tool !== "diagram") diagram?.reset();
+  if (["diagram", "text"].includes(state.tool) && tool !== state.tool) diagram?.reset();
   finishActiveStroke();
   if (tool !== "pen") setStickyPen(false);
   hideWand();
@@ -1268,7 +1431,7 @@ function showWand(event) {
   const {width, height} = slideSize();
   const x = (event.clientX - bounds.left) * width / bounds.width;
   const y = (event.clientY - bounds.top) * height / bounds.height;
-  const region = (getSlide().wandRegions || getSlide().textRegions || [])
+  const region = (presentationSlide().wandRegions || [])
     .filter(region => x >= region.x && x <= region.x + region.width && y >= region.y && y <= region.y + region.height)
     .sort((a, b) => {
       const priority = {takeaway: 4, table: 3, image: 2, text: 1};
@@ -1302,7 +1465,7 @@ function renderWand() {
   const crop = {x: left, y: top,
     width: Math.min(width, region.x + region.width + pad) - left,
     height: Math.min(height, region.y + region.height + pad) - top};
-  const url = assetUrl(deckAsset(getSlide().asset));
+  const url = assetUrl(deckAsset(presentationSlide().asset));
   const highlight = document.createElement("div");
   highlight.className = "wand-highlight";
   highlight.dataset.region = region.id;
@@ -1816,6 +1979,7 @@ function recordHistoryView() {
   const entry = state.history[state.historyIndex];
   if (!entry) return;
   Object.assign(entry, {
+    tier: state.tier, tierMode: state.tierMode, tierTrail: structuredClone(state.tierTrail),
     camera: { ...state.camera },
     board: state.whiteboard,
     boardName,
@@ -1834,6 +1998,7 @@ function sessionPayload() {
     revision: state.deck.revision,
     savedAt: new Date().toISOString(),
     currentId: state.currentId,
+    tier: state.tier, tierMode: state.tierMode, tierTrail: state.tierTrail,
     routeCursor,
     camera: state.camera,
     whiteboard: state.whiteboard,
@@ -1897,6 +2062,16 @@ function validateSession(input) {
       fail("camera");
     return { x: value.x, y: value.y, scale: value.scale };
   };
+  const tierFields = value => {
+    if (value.tier != null && !integer(value.tier,0,10000)) fail("tier index");
+    if (value.tierMode != null && !["step","slide"].includes(value.tierMode)) fail("tier mode");
+    const trail=value.tierTrail || [];
+    if(!Array.isArray(trail) || trail.length>60) fail("tier trail");
+    return {tier:value.tier ?? 0,tierMode:value.tierMode || state.deck.tiers.mode || "slide",tierTrail:trail.map(v=>{
+      if(!object(v) || !ids.has(v.id) || !integer(v.tier,0,10000) || !["step","slide"].includes(v.mode) || (v.boardName!=null && !board(v.boardName))) fail("tier return point");
+      return {id:v.id,tier:v.tier,mode:v.mode,boardName:v.boardName || null,camera:camera(v.camera)};
+    })};
+  };
   const route = (value) => {
     if (value === null) return null;
     if (
@@ -1909,6 +2084,7 @@ function validateSession(input) {
       fail("return point");
     return {
       id: value.id,
+      ...tierFields(value),
       routeIndex: value.routeIndex,
       camera: camera(value.camera),
       boardName: value.boardName || null,
@@ -2006,6 +2182,7 @@ function validateSession(input) {
       fail("history view");
     return {
       id: value.id,
+      ...tierFields(value),
       camera: camera(value.camera),
       board: value.board,
       boardName: value.boardName,
@@ -2024,7 +2201,7 @@ function validateSession(input) {
     typeof input.whiteboard !== "boolean" ||
     typeof input.overview !== "boolean" ||
     !["hierarchy", "graph"].includes(input.mode) ||
-    !["navigate", "laser", "pen", "highlighter", "eraser", "wand", "diagram"].includes(
+    !["navigate", "laser", "pen", "highlighter", "eraser", "wand", "text", "diagram"].includes(
       input.tool,
     ) ||
     !Object.values(COLORS).includes(input.color)
@@ -2079,6 +2256,7 @@ function validateSession(input) {
         ? input.savedAt
         : new Date().toISOString(),
     currentId: input.currentId,
+    ...tierFields(input),
     routeCursor: input.routeCursor,
     camera: camera(input.camera),
     whiteboard: input.whiteboard,
@@ -2192,6 +2370,7 @@ function applySession(input) {
   Object.assign(redoStacks, payload.redoStacks);
   Object.assign(state, {
     currentId: payload.currentId,
+    tier: payload.tier, tierMode: payload.tierMode, tierTrail: payload.tierTrail,
     camera: payload.camera,
     autoFit: false,
     whiteboard: payload.whiteboard,
@@ -2209,6 +2388,7 @@ function applySession(input) {
     tool: payload.tool,
     color: payload.color,
   });
+  state.tierGeneration++;
   routeCursor = payload.routeCursor;
   boardName = payload.boardName;
   boardReturnCamera = payload.boardReturnCamera;
@@ -2438,17 +2618,27 @@ async function exportPng() {
   }
 }
 async function verifyAssets() {
-  const assets = state.deck.slides.map((s) =>
-    s.asset.startsWith("public/") ? s.asset : `public/deck/${s.asset}`,
-  );
-  assets.push(
-    "public/deck/knowledge-graph.json",
-    state.deck.pdf,
-    ...state.deck.resources.map(deckAsset),
-    ...state.deck.slides.flatMap(s => s.titleLayer ? [deckAsset(s.titleLayer.asset), deckAsset(s.titleLayer.baseAsset)] : []),
-  );
+  const assets = new Map();
+  const add = (path, hash) => { if (path) assets.set(path, hash || assets.get(path)); };
+  const title = layer => {
+    if (!layer) return;
+    add(deckAsset(layer.asset), layer.assetHash);
+    add(deckAsset(layer.baseAsset), layer.baseAssetHash);
+  };
+  for (const slide of state.deck.slides) {
+    add(deckAsset(slide.asset), slide.assetHash);
+    title(slide.titleLayer);
+    for (const candidate of slide.semanticTiers?.candidates || []) {
+      add(deckAsset(candidate.asset), candidate.assetHash);
+      add(candidate.backingAsset && deckAsset(candidate.backingAsset), candidate.backingAssetHash || candidate.backingHash);
+      title(candidate.titleLayer);
+    }
+  }
+  add("public/deck/knowledge-graph.json");
+  add(state.deck.pdf);
+  state.deck.resources.forEach(path => add(deckAsset(path)));
   const results = await Promise.allSettled(
-    assets.map(async (path) => {
+    [...assets].map(async ([path, hash]) => {
       if (fileMode) {
         if (path.endsWith("knowledge-graph.json")) return loadJson(path);
 
@@ -2457,7 +2647,12 @@ async function verifyAssets() {
       }
       const response = await fetch(path);
       if (!response.ok) throw new Error(path);
-      await response.arrayBuffer();
+      const bytes = await response.arrayBuffer();
+      if (hash && window.crypto?.subtle) {
+        const digest = await window.crypto.subtle.digest("SHA-256", bytes);
+        const actual = [...new Uint8Array(digest)].map(n => n.toString(16).padStart(2,"0")).join("");
+        if (actual !== hash) throw new Error(`Stale artwork: ${path}`);
+      }
     }),
   );
   const failed = results.filter((r) => r.status === "rejected");
@@ -2605,6 +2800,13 @@ function keyHandler(event) {
     overviewKey(key);
     return;
   }
+  if(event.altKey) return;
+  if(hasTiers() && !state.overview && !document.querySelector("dialog[open]")) {
+    if([".",","].includes(key) && !event.shiftKey) {event.preventDefault();tierAction(key==="."?"tierNext":"tierPrev");return;}
+    if(key.toLowerCase()==="n" && !event.shiftKey) {event.preventDefault();if(!event.repeat) tierAction("toggleMode");return;}
+    if(key==="Enter" && state.tool==="navigate" && !target.closest?.("button,a,select")) {event.preventDefault();tierAction("deeper");return;}
+    if(event.shiftKey && ["PageDown","PageUp"].includes(key)) {event.preventDefault();tierAction(key==="PageDown"?"shiftNext":"shiftPrev");return;}
+  }
   if (key === "ArrowRight" || key === "PageDown") {
     event.preventDefault();
     nextSlide(1);
@@ -2619,6 +2821,7 @@ function keyHandler(event) {
     o: () => (state.overview ? closeOverview() : openOverview()),
     t: () => {
       if (state.overview) toggleOverviewMode();
+      else if (!event.repeat) toggleTool("text");
     },
     "/": () => openSearch(),
     g: () => openSearch("#"),
@@ -2873,8 +3076,8 @@ $("#aboutFromHelp").addEventListener("click", () => {
   els.about.showModal();
 });
 $("#presentationButton").addEventListener("click", openPresentation);
-$("#previousButton").addEventListener("click", () => nextSlide(-1));
-$("#nextButton").addEventListener("click", () => nextSlide(1));
+$("#previousButton").addEventListener("click", e => e.shiftKey && hasTiers() ? tierAction("shiftPrev") : nextSlide(-1));
+$("#nextButton").addEventListener("click", e => e.shiftKey && hasTiers() ? tierAction("shiftNext") : nextSlide(1));
 $("#resumeHud").addEventListener("click", resumeRoute);
 $("#fitButton").addEventListener("click", fitWhole);
 $("#zoomIn").addEventListener("click", () => zoomAt(1.3));
@@ -3017,10 +3220,12 @@ loadDeck().then(async (loaded) => {
   }
   if (state.overview) openOverview();
   await initStorage();
+  applyTierURL(startupTierURL);
   booting = false;
+  syncTierView();
   voice = window.PigeonVoice?.create({
     config: state.deck.voice,
-    getSlide: () => getSlide(),
+    getSlide: () => presentationSlide(),
     assetUrl: slide => assetUrl(deckAsset(slide.asset)),
     getScale: () => state.camera.scale,
     canDispatch: () => !state.whiteboard && !state.overview && !state.blackout &&
@@ -3204,7 +3409,9 @@ $("#readingSlideSelect").addEventListener("change", (event) =>
 
 // Canvas operations share the ink history and session/export paths.
 diagram = PigeonDiagram.create({
-  active: () => state.tool === "diagram" && !state.overview && !state.blackout,
+  active: () => ["diagram", "text"].includes(state.tool) && !state.overview && !state.blackout,
+  textTool: () => state.tool === "text",
+  textColor: () => state.color,
   frame: () => $(".slide-frame.current"),
   surface: surfaceKey,
   getOps: surfaceOps,

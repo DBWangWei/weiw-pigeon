@@ -24,6 +24,21 @@ export async function buildFileBundle(root) {
       titleSvgs[pathFor(slide.titleLayer.asset)] = (await add(slide.titleLayer.asset)).toString('utf8');
     }
   }
+  for (const slide of manifest.slides) for (const candidate of slide.semanticTiers?.candidates || []) {
+    for (const [asset, hash] of [[candidate.asset,candidate.assetHash],[candidate.backingAsset,candidate.backingAssetHash || candidate.backingHash]]) {
+      if (!asset) continue;
+      const bytes = await add(asset);
+      if (!hash || createHash('sha256').update(bytes).digest('hex') !== hash) throw new Error(`Stale tier SVG: ${asset}`);
+    }
+    if (candidate.titleLayer) {
+      const layer = candidate.titleLayer;
+      for (const [asset, hash] of [[layer.asset,layer.assetHash],[layer.baseAsset,layer.baseAssetHash]]) {
+        const bytes = await add(asset);
+        if (hash && createHash('sha256').update(bytes).digest('hex') !== hash) throw new Error(`Stale tier title: ${asset}`);
+        if (asset === layer.asset) titleSvgs[pathFor(asset)] = bytes.toString('utf8');
+      }
+    }
+  }
   await add(manifest.pdf);
   for (const path of manifest.resources || []) {
     const bytes = await add(path);
