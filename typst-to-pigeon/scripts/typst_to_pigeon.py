@@ -26,7 +26,7 @@ GRAPH_MODES = {"local", "lexical", "model"}
 GRAPH_PROVIDERS = {"codex-config", "env"}
 TITLE_EFFECTS = {"none", "split-text", "blur-text", "shiny-text", "gradient-text", "text-type"}
 SLIDE_TRANSITIONS = {"camera", "none", "fade", "blur", "slide", "zoom", "pixel", "staggered-wipe", "stack"}
-PIGEON_VERSION = "1.0.3"
+PIGEON_VERSION = "1.0.4"
 
 
 def run(command: list[str], *, cwd: Path) -> None:

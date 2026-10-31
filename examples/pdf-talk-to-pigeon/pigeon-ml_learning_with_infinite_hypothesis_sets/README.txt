@@ -1,6 +1,6 @@
 Pigeon
 Interactive canvas presentation · Learning with Infinite Hypothesis Sets
-Version 1.0.3
+Version 1.0.4
 
 Double-click index.html to open the presentation directly. Keep the extracted folder together.
 For predictable browser storage, run: python3 scripts/serve.py
@@ -27,6 +27,12 @@ Initial title effect: text-type. Select None,
 Split Text, Blur Text, Shiny Text, Gradient Text or Text Type in the top toolbar.
 Initial slide transition: camera.
 Use the Transition selector to change it for this viewing session.
+Semantic tier navigation: slide mode initially.
+On authored tier decks, N toggles Slide / Step mode. Slide mode enters the
+slide's default tier; Step mode walks its tiers before moving to another slide.
+Period/comma change tiers on this slide. Shift+PageDown/PageUp or Shift-click
+Next/Previous swaps navigation granularity. Enter follows a semantic deep link
+in Navigate mode; R restores the exact return tier. Tiers are independent states.
 Voice recognition enabled: True.
 Open Voice, then click Start microphone in a supported browser.
 Default voice backend: local Whisper. First run python3 scripts/setup_voice.py
@@ -39,3 +45,4 @@ The graph was generated in lexical mode (72 concepts,
 The slide source is pdf; the PDF is bundled.
 Export PDF beside Present in the top bar preserves the original pages
 and adds all ink and inserted white/black boards, including drafts. Works offline.
+PDF and PNG exports use complete source artwork, including content hidden in tiers.

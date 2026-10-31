@@ -12,10 +12,11 @@
 
 ## Status and scope
 
+- Released in Pigeon 1.0.4 after merging `codex/semantic-tiers` into `main` via PR #1.
 - Planning branch: `codex/semantic-tiers`, created from `main` at `3d6bfa6` (Pigeon 1.0.3).
 - Draft specification: `/Users/weiwang/Code/tmp/_for_weiw-pigeon/semantic_feature-spec.md`.
 - Temporary builds, renders, timing reports, and test outputs: `/Users/weiwang/Code/tmp/_for_weiw-pigeon/work/semantic-tiers/`.
-- Approved for implementation. The implementation and runnable example are on `codex/semantic-tiers`; release/version changes, merging, and publishing remain separate work.
+- Approved implementation and runnable example are included in the Pigeon 1.0.4 release.
 
 Deliver the semantic roles, named presets, slide defaults, both navigation modes, emphasis/dimming/extraction, semantic notes and deep links, HUD, URL state, validation, tests, documentation, and a runnable example. Existing Typst and PDF decks remain usable without semantic-tier annotations.
 
@@ -353,4 +354,4 @@ Automated DOM tests and raster checks establish their respective boundaries; rep
 
 ## 8. Deferred work
 
-Keep manual Touying-subslide playback, phone control, minimap, support-to-takeaway connectors, semantic LLM linting, automatically rewriting existing teaching sources, and automatic semantic extraction from PDFs out of this feature. Version bump, release snapshots, merging, and pushing require the user's subsequent release instruction.
+Keep manual Touying-subslide playback, phone control, minimap, support-to-takeaway connectors, semantic LLM linting, automatically rewriting existing teaching sources, and automatic semantic extraction from PDFs out of this feature.

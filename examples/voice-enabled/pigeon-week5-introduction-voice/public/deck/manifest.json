@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "deckId": "week5-introduction-voice",
   "title": "Introduction to Week 5 · DSAA3073 · 26Fall",
-  "revision": "2c3072692aade811",
+  "revision": "5bd16800cdb3dba9",
   "pdf": "week5-introduction-voice.pdf",
   "sourceType": "typst",
   "dimensions": {
@@ -6988,9 +6988,72 @@
       }
     }
   ],
+  "tiers": {
+    "mode": "slide",
+    "defaultPreset": "result",
+    "presets": {
+      "result": [
+        {
+          "name": "question",
+          "show": [
+            "hook",
+            "cue"
+          ],
+          "pin": [],
+          "emph": [],
+          "dim": []
+        },
+        {
+          "name": "answer",
+          "show": [
+            "hook",
+            "cue",
+            "answer"
+          ],
+          "pin": [],
+          "emph": [],
+          "dim": []
+        },
+        {
+          "name": "takeaway",
+          "show": [
+            "takeaway"
+          ],
+          "fx": "extract",
+          "pin": [],
+          "emph": [],
+          "dim": []
+        },
+        {
+          "name": "full",
+          "default": true,
+          "show": "*",
+          "pin": [
+            "takeaway"
+          ],
+          "emph": [
+            "support",
+            "contrast"
+          ],
+          "dim": [
+            "detail"
+          ]
+        }
+      ],
+      "flat": [
+        {
+          "name": "full",
+          "show": "*",
+          "pin": [],
+          "emph": [],
+          "dim": []
+        }
+      ]
+    }
+  },
   "titleEffect": "text-type",
   "slideTransition": "camera",
-  "pigeonVersion": "1.0.3",
+  "pigeonVersion": "1.0.4",
   "voice": {
     "enabled": true,
     "backend": "whisper",

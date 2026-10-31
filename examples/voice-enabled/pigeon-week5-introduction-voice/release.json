@@ -1,10 +1,10 @@
 {
   "appName": "Pigeon",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "icon": "public/icons/pigeon.png",
   "deckId": "week5-introduction-voice",
   "title": "Introduction to Week 5 \u00b7 DSAA3073 \u00b7 26Fall",
-  "revision": "2c3072692aade811",
+  "revision": "5bd16800cdb3dba9",
   "slides": 20,
   "concepts": 49,
   "relationships": 92,
@@ -12,5 +12,6 @@
   "titleEffect": "text-type",
   "slideTransition": "camera",
   "sourceType": "typst",
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "tierMode": "slide"
 }

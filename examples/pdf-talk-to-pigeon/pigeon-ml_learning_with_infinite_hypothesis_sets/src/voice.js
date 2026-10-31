@@ -86,7 +86,7 @@
     let restartTimer = null, watchdogTimer = null, autoCloseTimer = null, lastEvent = 0;
     let lastSlideChange = Date.now(), overlay = null, open = null, choices = null, debug = false, debugLayer = null;
     let lastWords = "", events = [], biasDisabled = false;
-    const slideKey = slide => `${slide?.id ?? ""}:${slide?.page ?? ""}`;
+    const slideKey = slide => `${slide?.id ?? ""}:${slide?.page ?? ""}:${slide?.presentationContext ?? ""}`;
     let currentSlide = slideKey(getSlide());
     const active = () => !destroyed && Boolean(canDispatch()) && playing.size === 0;
     const listenWanted = () => want && !muted && active();
@@ -411,7 +411,10 @@
         if (suppression) { log(rule, source, `suppressed: ${suppression}`); return "suppressed"; }
       }
       const regions = regionsFor(rule);
-      if (!regions.length) { log(rule, source, "none on slide"); return "none"; }
+      if (!regions.length) {
+        log(rule, source, getSlide()?.semanticTiers ? "none visible on slide/tier" : "none on slide");
+        return "none";
+      }
       if (!voice && open?.rule.id === rule.id) {
         closeOverlay(); clearChoices(); log(rule, source, "dismissed"); return "dismissed";
       }

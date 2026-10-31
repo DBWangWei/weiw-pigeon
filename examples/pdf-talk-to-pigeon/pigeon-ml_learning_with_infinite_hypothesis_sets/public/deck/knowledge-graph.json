@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0",
   "deckId": "ml-learning-with-infinite-hypothesis-sets",
-  "revision": "a25a0e9dfeec6bf5",
+  "revision": "678bf11a908be24a",
   "extraction": {
     "mode": "lexical",
     "provider": "local",
     "reviewRequired": true,
-    "inputRevision": "a25a0e9dfeec6bf5",
+    "inputRevision": "678bf11a908be24a",
     "method": "titles-sections-recurring-terms"
   },
   "concepts": [
@@ -176,7 +176,7 @@
         {
           "slideId": "09",
           "kind": "text",
-          "evidence": "Now, changing one point of S makes vary by • 1 at most",
+          "evidence": "Now, changing one point of S makes �RS(G) vary by • 1 at most",
           "page": 9
         }
       ]
@@ -556,7 +556,7 @@
         {
           "slideId": "29",
           "kind": "text",
-          "evidence": "Since , by the induction hypothesis, • VCdim(G1)≤d",
+          "evidence": "Since , by the induction hypothesis, • VCdim(G1)≤d � �d �m −1",
           "page": 29
         }
       ]
@@ -1747,7 +1747,7 @@
         {
           "slideId": "09",
           "kind": "text",
-          "evidence": "Now, changing one point of S makes vary by • 1 at most",
+          "evidence": "Now, changing one point of S makes �RS(G) vary by • 1 at most",
           "page": 9
         }
       ]
@@ -2067,7 +2067,7 @@
         {
           "slideId": "29",
           "kind": "text",
-          "evidence": "Since , by the induction hypothesis, • VCdim(G1)≤d",
+          "evidence": "Since , by the induction hypothesis, • VCdim(G1)≤d � �d �m −1",
           "page": 29
         }
       ]

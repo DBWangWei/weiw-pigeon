@@ -6,7 +6,7 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-const PIGEON_VERSION = "1.0.3";
+const PIGEON_VERSION = "1.0.4";
 const fileMode = window.location.protocol === "file:";
 const startupTierURL = window.location.href;
 const embeddedDeck = fileMode ? (window.PIGEON_DECK_BUNDLE || window.TALK_DECK_BUNDLE) : null;

@@ -24,7 +24,7 @@ The default output is `pigeon-{FILENAME}` beside the input source, where `FILENA
 
 The **Title effect** selector defaults to **Text Type**, with None, Split Text, Blur Text, Shiny Text and Gradient Text also available. `--title-effect none` disables effects. Effects animate original SVG title glyphs, so no browser font substitution is needed; these are independent adaptations of selected React Bits designs. Unmatched or image-only titles remain static and are reported in `build-report.json`.
 
-Pigeon is currently version **1.0.3**. Every generated release includes an **About Pigeon** dialog with the Pigeon icon, author/contact information, and a link to it from the `?` keyboard guide.
+Pigeon is currently version **1.0.4**. Every generated release includes an **About Pigeon** dialog with the Pigeon icon, author/contact information, and a link to it from the `?` keyboard guide.
 
 Voice recognition is enabled by default in generated releases. Mark Typst
 content with `assets/pigeon-sem.typ`, configure phrase-to-target rules and

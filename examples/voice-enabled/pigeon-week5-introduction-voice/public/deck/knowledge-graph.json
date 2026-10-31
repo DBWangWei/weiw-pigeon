@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0",
   "deckId": "week5-introduction-voice",
-  "revision": "2c3072692aade811",
+  "revision": "5bd16800cdb3dba9",
   "extraction": {
     "mode": "lexical",
     "provider": "local",
     "reviewRequired": true,
-    "inputRevision": "2c3072692aade811",
+    "inputRevision": "5bd16800cdb3dba9",
     "method": "titles-sections-recurring-terms"
   },
   "concepts": [

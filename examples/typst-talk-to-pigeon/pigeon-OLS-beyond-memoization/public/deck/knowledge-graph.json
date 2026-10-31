@@ -1,12 +1,12 @@
 {
   "schemaVersion": "1.0",
   "deckId": "ols-beyond-memoization",
-  "revision": "5b0fc76565c8c077",
+  "revision": "8234db23ac78406b",
   "extraction": {
     "mode": "lexical",
     "provider": "local",
     "reviewRequired": true,
-    "inputRevision": "5b0fc76565c8c077",
+    "inputRevision": "8234db23ac78406b",
     "method": "titles-sections-recurring-terms"
   },
   "concepts": [

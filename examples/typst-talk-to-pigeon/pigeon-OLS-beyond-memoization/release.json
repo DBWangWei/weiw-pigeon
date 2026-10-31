@@ -1,10 +1,10 @@
 {
   "appName": "Pigeon",
-  "version": "1.0.3",
+  "version": "1.0.4",
   "icon": "public/icons/pigeon.png",
   "deckId": "ols-beyond-memoization",
   "title": "OLS Beyond Memorization: Understanding the Normal Equations",
-  "revision": "5b0fc76565c8c077",
+  "revision": "8234db23ac78406b",
   "slides": 24,
   "concepts": 53,
   "relationships": 96,
@@ -12,5 +12,6 @@
   "titleEffect": "text-type",
   "slideTransition": "camera",
   "sourceType": "typst",
-  "voiceEnabled": true
+  "voiceEnabled": true,
+  "tierMode": "slide"
 }

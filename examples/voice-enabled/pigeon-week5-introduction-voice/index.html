@@ -228,6 +228,7 @@
             <span>⌫</span>
           </button>
           <button class="tool-button" data-tool="wand" type="button" title="Magic wand: text, tables, images, takeaways (M)" aria-label="Magic wand"><span>✧</span></button>
+          <button class="tool-button" data-tool="text" type="button" title="Text label (T)" aria-label="Text label"><span>T</span></button>
           <button class="tool-button" data-tool="diagram" type="button" title="Diagram mode (D)" aria-label="Diagram mode"><span>◇</span></button>
           <span class="tray-divider" aria-hidden="true"></span>
           <div class="swatches" role="group" aria-label="Annotation colour">
@@ -452,7 +453,7 @@
         <div class="shortcut-grid">
           <div>
             <h3>Move and explore</h3>
-            <p><kbd>→</kbd> <kbd>Space</kbd> next slide</p>
+            <p><kbd>→</kbd> <kbd>Space</kbd> next slide or tier</p>
             <p><kbd>←</kbd> <kbd>Shift Space</kbd> previous</p>
             <p><kbd>O</kbd> overview · <kbd>T</kbd> hierarchy / graph</p>
             <p><kbd>↑ ↓ ← →</kbd> select · <kbd>Enter</kbd> open</p>
@@ -464,6 +465,8 @@
             <h3>Draw and point</h3>
             <p><kbd>V</kbd> navigation / stop drawing</p>
             <p><kbd>P</kbd> pen · <kbd>H</kbd> highlighter</p>
+            <p><kbd>T</kbd> text label: click to type in 20 pt Arial Italic</p>
+            <p><kbd>Esc</kbd> or <kbd>Cmd/Ctrl</kbd> + <kbd>Enter</kbd> finishes a label.</p>
             <p><kbd>`</kbd> in pen mode: draw without holding a button</p>
             <p>Press <kbd>`</kbd> again to lift the pen and keep Pen selected.</p>
             <p>Double-tap <kbd>`</kbd> to undo; works with Pen down too.</p>
@@ -498,6 +501,15 @@
           </div>
         </div>
         <section class="shortcut-grid" aria-label="Voice and semantic actions">
+          <div>
+            <h3>Semantic tiers</h3>
+            <p><kbd>N</kbd> switches Slide / Step mode on authored tier decks.</p>
+            <p>Slide mode enters each slide at its default tier. Step mode walks tiers before changing slides.</p>
+            <p><kbd>.</kbd> next tier · <kbd>,</kbd> previous tier</p>
+            <p><kbd>Shift PageDown</kbd> / <kbd>Shift PageUp</kbd>, or Shift-click Next / Previous, swaps navigation granularity.</p>
+            <p>In Navigate mode, <kbd>Enter</kbd> opens a semantic deep link; <kbd>R</kbd> returns to the saved tier.</p>
+            <p>Tiers can replace earlier content. PDF and PNG exports include the complete source slide and annotations.</p>
+          </div>
           <div>
             <h3>Voice and marked content</h3>
             <p>Open Voice in the toolbar, choose a microphone, then Start microphone. Chrome uses local Whisper by default.</p>
@@ -556,7 +568,7 @@
             <p><kbd>Esc</kbd> clears an edit or selection, then exits Diagram mode.</p>
           </div>
         </section>
-        <p class="help-about-link"><button class="text-link" id="aboutFromHelp" type="button">About Pigeon · version 1.0.3</button></p>
+        <p class="help-about-link"><button class="text-link" id="aboutFromHelp" type="button">About Pigeon · version 1.0.4</button></p>
       </dialog>
 
       <dialog class="modal about-modal" id="aboutDialog" aria-labelledby="aboutHeading">
@@ -569,7 +581,7 @@
         </div>
         <div class="about-content">
           <img class="about-icon" src="public/icons/pigeon.png" width="160" height="160" alt="Pigeon icon">
-          <p class="about-version">Version 1.0.3</p>
+          <p class="about-version">Version 1.0.4</p>
           <p>Give Pigeon a Typst source file or PDF slide deck and it builds an offline, interactive presentation. You only need a browser to present.</p>
           <p>Pigeon combines and extends tools familiar from PowerPoint, tablet drawing apps, and Excalidraw, adding a zoomable canvas, concept graph, magic wand, and local voice triggers for marked Typst content. Most operations are available through keyboard shortcuts.</p>
           <p>Collaboration, bug reports, and comments are welcome.</p>

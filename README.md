@@ -2,7 +2,7 @@
 
 # weiw-pigeon
 
-Pigeon **1.0.3** converts a Typst slide source or PDF deck into an offline HTML presentation
+Pigeon **1.0.4** converts a Typst slide source or PDF deck into an offline HTML presentation
 with an infinite canvas, non-linear navigation, a concept graph, search and
 annotation tools. The original page appearance is preserved as SVG artwork.
 
@@ -297,6 +297,13 @@ tests and Safari/Firefox rehearsal. These checks do not establish browser
 rendering or OCR recognition quality. Animation design references are documented in
 `typst-to-pigeon/assets/pigeon-template/THIRD_PARTY_NOTICES.txt`.
 
+Version 1.0.4 adds authored semantic tiers for explicitly marked Typst
+content. Slide mode preserves ordinary navigation, while Step mode traverses
+authored question, answer, evidence and takeaway states before moving to another
+slide. Semantic deep links, exact return tiers, tier-aware voice and Wand targets,
+and complete-source PDF/PNG exports are included. The six-page semantic-tier
+example demonstrates the supported authoring contract.
+
 Version 1.0.3 adds local Whisper voice triggers for explicitly marked Typst
 content. Voice is enabled by default, while `--no-voice` disables recognition
 without removing manual actions. Phrases, marked target names, `pop`, `focus`,
@@ -326,6 +333,7 @@ Live voice rehearsal currently targets Google Chrome on macOS. Manual presentati
 
 ## Version documentation
 
+- [1.0.4](docs/versions/1.0.4/README.md): authored semantic tiers, tier-aware navigation, and the six-page semantic-tier example.
 - [1.0.3](docs/versions/1.0.3/README.md): local Whisper voice triggers, semantic Typst markers, configurable actions, and the voice-enabled Week 5 example.
 - [1.0.2](docs/versions/1.0.2/README.md): outline sections and diagram mode.
 - [1.0.1](docs/versions/1.0.1/README.md): PDF input, conservative extraction and Pen down mode.
