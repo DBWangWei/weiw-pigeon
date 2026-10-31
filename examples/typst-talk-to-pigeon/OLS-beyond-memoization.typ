@@ -41,6 +41,7 @@
 
 #slide[
   #metadata((id: "01", title: "OLS Beyond Memorization", section: "Introduction", source: [DSAA3073 · Theories of Data Science · 26Summer · Week 4 FAQ])) <slide-record>
+  #place(top + right)[#text(size: 11pt, fill: teal, weight: "bold", tracking: 0.6pt)[#page-progress]]
   #block(width: 100%, height: 100%, fill: navy-pale, radius: 12pt, inset: 28pt)[
     #align(center + horizon)[
       #text(size: 13pt, weight: "bold", tracking: 1.2pt, fill: teal)[DSAA3073 · THEORIES OF DATA SCIENCE]

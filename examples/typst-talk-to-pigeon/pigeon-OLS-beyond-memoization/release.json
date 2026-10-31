@@ -4,7 +4,7 @@
   "icon": "public/icons/pigeon.png",
   "deckId": "ols-beyond-memoization",
   "title": "OLS Beyond Memorization: Understanding the Normal Equations",
-  "revision": "8234db23ac78406b",
+  "revision": "784b476c468abca2",
   "slides": 24,
   "concepts": 53,
   "relationships": 96,
@@ -13,5 +13,6 @@
   "slideTransition": "camera",
   "sourceType": "typst",
   "voiceEnabled": true,
+  "qaEnabled": true,
   "tierMode": "slide"
 }

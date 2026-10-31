@@ -13,5 +13,6 @@
   "slideTransition": "camera",
   "sourceType": "pdf",
   "voiceEnabled": true,
-  "tierMode": "slide"
+  "tierMode": "slide",
+  "qaEnabled": true
 }

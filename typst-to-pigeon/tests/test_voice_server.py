@@ -88,6 +88,21 @@ class ServerTests(unittest.TestCase):
         headers['Content-Type'] = 'text/plain'
         self.assertEqual(self.request('POST', '/api/voice/transcribe', b'\0' * 16000, headers)[0], 415)
 
+    def test_same_origin_qa_organizer_uses_bounded_json_and_session_token(self):
+        self.server.qa_config = {'enabled': True, 'model': 'test-fast'}
+        original = self.module.organize_qa
+        self.addCleanup(setattr, self.module, 'organize_qa', original)
+        self.module.organize_qa = lambda text, model=None: f'organized: {text}'
+        status, data = self.request('GET', '/api/voice/status')
+        token = json.loads(data)['token']
+        headers = {'Origin': self.origin, 'Content-Type': 'application/json', 'X-Pigeon-Voice-Token': token}
+        status, data = self.request('POST', '/api/qa/organize', json.dumps({'text': 'Why?', 'model': 'test-fast'}).encode(), headers)
+        self.assertEqual(status, 200)
+        self.assertEqual(json.loads(data)['paragraph'], 'organized: Why?')
+        self.assertEqual(self.request('POST', '/api/qa/organize', b'{}', {**headers, 'X-Pigeon-Voice-Token': 'wrong'})[0], 403)
+        self.assertEqual(self.request('POST', '/api/qa/organize', b'{"text":"x"}', {**headers, 'Content-Type': 'text/plain'})[0], 415)
+        self.assertEqual(self.request('POST', '/api/qa/organize', b'{"text":""}', headers)[0], 400)
+
 
 class WorkerTests(unittest.TestCase):
     def test_missing_installation_is_reported_without_launching_or_creating_files(self):

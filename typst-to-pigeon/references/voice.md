@@ -218,6 +218,18 @@ remain available. Typing in a field does not fire voice shortcuts. Recognition
 pauses dispatch during media playback and while viewing overview, boards,
 blackout or dialogs.
 
+The built-in command phrases also control presentation state: “next page” and
+“previous page” use normal deck navigation; “go to page N” selects a physical
+page and clamps out-of-range numbers to the nearest page; “full screen” enters
+presentation mode; “go to overview” opens the hierarchy; “go to graph view”
+opens the graph overview; and “pen mode”, “highlight mode”, “wand mode”,
+“diagram mode”, and “default mode” select the corresponding tool. `default mode`
+returns to navigation and clears any active drawing tool. Custom commands use
+`[[voice.commands]]` with `id`, `phrases`, and one of the supported `command`
+values documented in [config.md](config.md#local-voice-triggers). The Q&A
+command “take questions now” (also “take any questions now”) starts a bounded
+in-memory transcript item when `[qa] enabled = true`.
+
 ## Rehearsal
 
 The automated suite checks matcher revisions, lifecycle failure paths, local-only

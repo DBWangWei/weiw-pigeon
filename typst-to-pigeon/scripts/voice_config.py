@@ -17,6 +17,20 @@ DEFAULTS = {
         {"id": "figure", "phrases": ["this figure", "this plot"], "target": "_fig", "action": "pop", "multi": "ask"},
         {"id": "example", "phrases": ["this example"], "target": "_example", "action": "pop", "multi": "ask"},
     ],
+    "commands": [
+        {"id": "next-page", "phrases": ["next page"], "command": "next_page"},
+        {"id": "previous-page", "phrases": ["previous page"], "command": "previous_page"},
+        {"id": "go-to-page", "phrases": ["go to page"], "command": "go_to_page"},
+        {"id": "full-screen", "phrases": ["full screen", "fullscreen"], "command": "fullscreen"},
+        {"id": "overview", "phrases": ["go to overview"], "command": "overview"},
+        {"id": "graph-view", "phrases": ["go to graph view"], "command": "graph"},
+        {"id": "pen-mode", "phrases": ["pen mode"], "command": "pen"},
+        {"id": "highlight-mode", "phrases": ["highlight mode"], "command": "highlighter"},
+        {"id": "wand-mode", "phrases": ["wand mode"], "command": "wand"},
+        {"id": "diagram-mode", "phrases": ["diagram mode"], "command": "diagram"},
+        {"id": "default-mode", "phrases": ["default mode"], "command": "navigate"},
+        {"id": "qa-start", "phrases": ["take questions now", "take any questions now"], "command": "qa_start"},
+    ],
 }
 RANGES = {"boost": (0, 10), "cooldown_ms": (0, 3600000), "stale_ms": (0, 3600000),
           "resuppress_after_dismiss_ms": (0, 3600000), "restart_delay_ms": (0, 3600000),
@@ -70,6 +84,23 @@ def resolve_voice_config(config_table, enabled_override=None) -> dict:
             raise ValueError("voice rule action must be pop, focus, or spotlight")
         if not isinstance(rule["multi"], str) or rule["multi"] not in {"ask", "stack"}:
             raise ValueError("voice rule multi must be ask or stack")
+    if not isinstance(values["commands"], list):
+        raise ValueError("voice.commands must be an array of tables")
+    commands = set()
+    valid_commands = {"next_page", "previous_page", "go_to_page", "fullscreen", "overview", "graph",
+                      "pen", "highlighter", "wand", "diagram", "navigate", "qa_start"}
+    for command in values["commands"]:
+        if not isinstance(command, dict) or set(command) != {"id", "phrases", "command"}:
+            raise ValueError("Each voice command must contain only id, phrases, command")
+        if not isinstance(command["id"], str) or not re.fullmatch(r"[A-Za-z_][A-Za-z0-9_-]*", command["id"]):
+            raise ValueError("voice command id must be a nonempty identifier")
+        if command["id"] in commands or command["id"] in ids:
+            raise ValueError(f"Duplicate voice command id: {command['id']}")
+        commands.add(command["id"])
+        if not isinstance(command["phrases"], list) or not command["phrases"] or any(not isinstance(p, str) or not normalized_phrase(p) for p in command["phrases"]):
+            raise ValueError("voice command phrases must contain nonempty normalized phrases")
+        if not isinstance(command["command"], str) or command["command"] not in valid_commands:
+            raise ValueError(f"voice command must be one of: {', '.join(sorted(valid_commands))}")
     if enabled_override is not None:
         values["enabled"] = enabled_override
     return {re.sub(r"_([a-z])", lambda m: m[1].upper(), key): value for key, value in values.items()}

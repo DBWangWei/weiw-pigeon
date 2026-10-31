@@ -153,7 +153,7 @@
     function outcome(rule, source, detail, regions = []) {
       const from = source === "voice" ? "Voice" : source === "typed" ? "Typed test" : "Manual button/key";
       lastResolution = {target: rule.target, ids: regions.map(r => r.id)};
-      stage("action", `${from} · ${rule.id} → ${rule.action}: ${detail}`, /failed|blocked|suppressed/i.test(detail) ? "warn" : "ok");
+      stage("action", `${from} · ${rule.id} → ${rule.command || rule.action}: ${detail}`, /failed|blocked|suppressed/i.test(detail) ? "warn" : "ok");
       trace("action", `${from} · ${rule.id}: ${detail}`);
       refresh();
     }
@@ -260,6 +260,7 @@
         slide: {id: getSlide()?.id, page: getSlide()?.page, width: getSlide()?.width, height: getSlide()?.height,
           targets: (getSlide()?.semanticRegions || []).map(r => ({...r}))},
         rules: config.rules.map(rule => ({id: rule.id, phrases: rule.phrases, target: rule.target, action: rule.action, multi: rule.multi})),
+        commands: (config.commands || []).map(command => ({id: command.id, phrases: command.phrases, command: command.command})),
         context: describeContext(), stages: JSON.parse(JSON.stringify(stages)), events: history.map(item => ({...item}))};
     }
     stage("match", "Waiting for recognized words or a typed test."); stage("action", "No action requested.");

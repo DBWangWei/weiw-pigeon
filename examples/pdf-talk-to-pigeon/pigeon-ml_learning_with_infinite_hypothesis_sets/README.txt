@@ -22,6 +22,11 @@ Cmd/Ctrl+C/V/X copies/pastes/cuts. Arrows move; Cmd/Ctrl+Alt+arrows resize.
 PageUp/PageDown navigate. Escape clears editing/selection, then exits.
 Repeated list-only Overview/Outline pages group slides into numbered sections.
 W inserts a whiteboard, Shift+W a blackboard, K keeps a board.
+Voice Q&A: say “take questions now” (or “take any questions now”) after
+repeating a question, then answer it. Press Q to finish the current item and
+create a white Q&A page. Add a pigeon-sem target such as “_qa” to the slide
+where live answers should appear; the optional [qa] config controls the target
+and fast organizer model.
 +/- zoom from 3% to 3200%; 0 fits the slide; Home fits the whole talk.
 Initial title effect: text-type. Select None,
 Split Text, Blur Text, Shiny Text, Gradient Text or Text Type in the top toolbar.

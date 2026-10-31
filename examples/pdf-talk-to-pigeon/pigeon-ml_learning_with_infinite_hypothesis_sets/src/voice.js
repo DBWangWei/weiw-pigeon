@@ -13,9 +13,24 @@
       {id: "figure", target: "_fig", phrases: ["this figure", "this plot"], action: "pop", multi: "ask"},
       {id: "example", target: "_example", phrases: ["this example"], action: "pop", multi: "ask"},
     ],
+    commands: [
+      {id: "next-page", phrases: ["next page"], command: "next_page"},
+      {id: "previous-page", phrases: ["previous page"], command: "previous_page"},
+      {id: "go-to-page", phrases: ["go to page"], command: "go_to_page"},
+      {id: "full-screen", phrases: ["full screen", "fullscreen"], command: "fullscreen"},
+      {id: "overview", phrases: ["go to overview"], command: "overview"},
+      {id: "graph-view", phrases: ["go to graph view"], command: "graph"},
+      {id: "pen-mode", phrases: ["pen mode"], command: "pen"},
+      {id: "highlight-mode", phrases: ["highlight mode"], command: "highlighter"},
+      {id: "wand-mode", phrases: ["wand mode"], command: "wand"},
+      {id: "diagram-mode", phrases: ["diagram mode"], command: "diagram"},
+      {id: "default-mode", phrases: ["default mode"], command: "navigate"},
+      {id: "qa-start", phrases: ["take questions now", "take any questions now"], command: "qa_start"},
+    ],
   };
   const word = /[\p{L}\p{N}\p{M}]/u;
   const unspaced = /[\p{Script=Han}\p{Script=Hiragana}\p{Script=Katakana}\p{Script=Hangul}]/u;
+  const pageNumberWord = /^(?:zero|one|two|three|four|five|six|seven|eight|nine|ten|eleven|twelve|thirteen|fourteen|fifteen|sixteen|seventeen|eighteen|nineteen|twenty|thirty|forty|fifty|sixty|seventy|eighty|ninety|hundred)\b/;
   function normalize(value) {
     return String(value || "").normalize("NFKC").toLowerCase()
       .replace(/[\-\u2010\u2011]/gu, "")
@@ -24,6 +39,11 @@
   function compileRules(rules) {
     return rules.map(rule => ({...rule, phrases: [...new Set(rule.phrases.map(normalize).filter(Boolean))]
       .sort((a, b) => b.length - a.length || a.localeCompare(b))}));
+  }
+  function commandReady(rule, transcript, match) {
+    if (rule.command !== "go_to_page") return true;
+    const suffix = normalize(transcript).slice(match?.end || 0).trim();
+    return /^\d+\b/.test(suffix) || pageNumberWord.test(suffix);
   }
   function boundary(text, start, end, phrase) {
     const before = [...text.slice(0, start)].pop() || "", after = [...text.slice(end)][0] || "";
@@ -76,10 +96,12 @@
       Math.max(1, config.popMaxFraction * height - gap * (crops.length - 1)) / crops.reduce((sum, c) => sum + c.height, 0),
       config.popMaxScale * Math.max(.001, slideScale || 1)));
   }
-  function create({config = {}, getSlide, assetUrl, canDispatch = () => true, getContextReason = () => "Paused in this view", getScale = () => 1, onEmphasis = () => {}}) {
+  function create({config = {}, getSlide, assetUrl, canDispatch = () => true, getContextReason = () => "Paused in this view", getScale = () => 1, onEmphasis = () => {}, onCommand = () => "unsupported command", onTranscript = () => {}}) {
     const cfg = {...DEFAULTS, ...config};
     cfg.rules = compileRules(Array.isArray(config.rules) ? config.rules : DEFAULTS.rules);
-    const rules = new Map(cfg.rules.map(rule => [rule.id, rule]));
+    cfg.commands = compileRules(Array.isArray(config.commands) ? config.commands : DEFAULTS.commands);
+    const allRules = [...cfg.rules, ...cfg.commands];
+    const rules = new Map(allRules.map(rule => [rule.id, rule]));
     const d = window.document, listeners = [], lastFire = new Map(), dismissed = new Map(), playing = new Set();
     let destroyed = false, want = false, muted = false, prepared = false, recognition = null, SR = null;
     let epoch = 0, failures = 0, emptyAborts = 0, state = cfg.enabled ? "off" : "disabled", reason = cfg.enabled ? "Start when ready" : "Microphone disabled; manual controls available";
@@ -153,7 +175,7 @@
         const words = [...new window.Intl.Segmenter(cfg.lang, {granularity: "word"}).segment(text)].filter(part => part.isWordLike);
         lastWords = text.slice(words.at(-10)?.index ?? 0).slice(-240);
       } else lastWords = text.split(" ").slice(-10).join(" ").slice(-240);
-      const ranges = matchRules(lastWords, cfg.rules).sort((a, b) => a.start - b.start);
+      const ranges = matchRules(lastWords, allRules).sort((a, b) => a.start - b.start);
       wordsNode.replaceChildren(); let cursor = 0;
       for (const range of ranges) {
         if (range.start < cursor) continue;
@@ -208,7 +230,7 @@
         if (rec.processLocally !== true) return terminal("On-device recognition could not be enabled");
         Object.assign(rec, {lang: cfg.lang, continuous: true, interimResults: true, maxAlternatives: 1});
         if (cfg.backend === "browser" && !biasDisabled && typeof window.SpeechRecognitionPhrase === "function") {
-          try { rec.phrases = [...new Set(cfg.rules.flatMap(rule => rule.phrases))].map(phrase => new window.SpeechRecognitionPhrase(phrase, cfg.boost)); }
+          try { rec.phrases = [...new Set(allRules.flatMap(rule => rule.phrases))].map(phrase => new window.SpeechRecognitionPhrase(phrase, cfg.boost)); }
           catch (_) { biasDisabled = true; }
         }
         const valid = () => !destroyed && recognition === rec && token === epoch && page === slideKey(getSlide()) && listenWanted();
@@ -224,11 +246,21 @@
           alive(); failures = 0; emptyAborts = 0;
           for (let i = event.resultIndex || 0; i < event.results.length; i++) {
             const transcript = event.results[i]?.[0]?.transcript || "";
+            const isFinal = Boolean(event.results[i]?.isFinal);
             showWords(transcript);
-            const matches = matchRules(transcript, cfg.rules), fresh = tracker.consume(i, matches);
-            diagnostics?.heard({text: transcript, isFinal: Boolean(event.results[i]?.isFinal),
+            const matches = matchRules(transcript, allRules).filter(match => commandReady(rules.get(match.ruleId), transcript, match)), fresh = tracker.consume(i, matches);
+            diagnostics?.heard({text: transcript, isFinal,
               confidence: event.results[i]?.[0]?.confidence, matches, fresh});
-            for (const id of fresh) dispatch(id, "voice");
+            const available = new Map();
+            matches.forEach(match => {
+              if (!available.has(match.ruleId)) available.set(match.ruleId, []);
+              available.get(match.ruleId).push(match);
+            });
+            for (const id of fresh) dispatch(id, "voice", {transcript, match: available.get(id)?.shift()});
+            if (isFinal) {
+              try { onTranscript({text: transcript, matches, fresh, slide: getSlide()}); }
+              catch (error) { diagnostics?.event("transcript callback error", error?.message || String(error)); }
+            }
           }
         };
         rec.onend = () => { if (valid()) { diagnostics?.event("end"); emptyAborts = 0; failures++; scheduleRestart(); } };
@@ -400,7 +432,7 @@
       const choice = choices, region = choice.regions[index]; if (!region) return false;
       clearChoices(); showOverlay(choice.rule, [region], "manual"); return true;
     }
-    function dispatch(ruleId, source = "manual") {
+    function dispatch(ruleId, source = "manual", detail = {}) {
       const rule = rules.get(ruleId); if (!rule || destroyed) return "inactive";
       if (!active()) { log(rule, source, `blocked: ${pauseReason()}`); return "inactive"; }
       const now = Date.now(), voice = source === "voice";
@@ -409,6 +441,14 @@
           now - lastSlideChange < cfg.staleMs ? `slide change safety delay (${cfg.staleMs - (now - lastSlideChange)} ms remaining)` :
           now - (lastFire.get(rule.id) ?? -Infinity) < cfg.cooldownMs ? `cooldown (${cfg.cooldownMs - (now - lastFire.get(rule.id))} ms remaining)` : "";
         if (suppression) { log(rule, source, `suppressed: ${suppression}`); return "suppressed"; }
+      }
+      if (rule.command) {
+        if (voice) lastFire.set(rule.id, now);
+        let outcome;
+        try { outcome = onCommand(rule.command, {...detail, rule, source, slide: getSlide()}); }
+        catch (error) { outcome = `failed: ${error?.message || "command error"}`; }
+        log(rule, source, outcome || rule.command);
+        return outcome || "command";
       }
       const regions = regionsFor(rule);
       if (!regions.length) {
@@ -433,9 +473,9 @@
       return showOverlay(rule, regions, source);
     }
     function testPhrase(text) {
-      const matches = matchRules(text, cfg.rules), fresh = [...new Set(matches.map(match => match.ruleId))];
+      const matches = matchRules(text, allRules).filter(match => commandReady(rules.get(match.ruleId), text, match)), fresh = [...new Set(matches.map(match => match.ruleId))];
       diagnostics?.heard({text, matches, fresh, source: "typed"});
-      for (const id of fresh) dispatch(id, "typed");
+      for (const id of fresh) dispatch(id, "typed", {transcript: text, match: matches.find(match => match.ruleId === id)});
     }
     function renderDebug() {
       debugLayer?.remove(); debugLayer = null;

@@ -42,9 +42,15 @@
   body
 }
 
+#let page-progress = context {
+  let cur_page = counter(page).display()
+  let total_pages = counter(page).final().first()
+  [#cur_page #h(3pt) / #h(3pt) #total_pages]
+}
+
 #let s(id, title, section: "", source: "", logo: none, body) = slide[
   #metadata((id: id, title: title, section: section, source: source)) <slide-record>
-  #text(size: 11pt, fill: teal, weight: "bold", tracking: 0.6pt)[#upper(section) #h(1fr) #id]
+  #text(size: 11pt, fill: teal, weight: "bold", tracking: 0.6pt)[#upper(section) #h(1fr) #page-progress]
   #v(8pt)
   #text(size: 30pt, weight: "bold", title)
   #v(8pt)

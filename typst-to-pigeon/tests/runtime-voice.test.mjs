@@ -13,6 +13,20 @@ function mark(a) {
   return slide;
 }
 
+const commandConfig = [
+  {id:'next-page', phrases:['next page'], command:'next_page'},
+  {id:'previous-page', phrases:['previous page'], command:'previous_page'},
+  {id:'go-to-page', phrases:['go to page'], command:'go_to_page'},
+  {id:'full-screen', phrases:['full screen'], command:'fullscreen'},
+  {id:'overview', phrases:['go to overview'], command:'overview'},
+  {id:'graph-view', phrases:['go to graph view'], command:'graph'},
+  {id:'pen-mode', phrases:['pen mode'], command:'pen'},
+  {id:'highlight-mode', phrases:['highlight mode'], command:'highlighter'},
+  {id:'wand-mode', phrases:['wand mode'], command:'wand'},
+  {id:'diagram-mode', phrases:['diagram mode'], command:'diagram'},
+  {id:'default-mode', phrases:['default mode'], command:'navigate'},
+];
+
 test('manifest normalization keeps only visible, valid semantic boxes', async t => {
   const {a,w} = await setup(t);
   const raw = structuredClone(w.PIGEON_DECK_BUNDLE.json['public/deck/manifest.json']);
@@ -76,6 +90,29 @@ test('voice shortcuts preserve Wand, Diagram, drawing and text-entry shortcuts',
   const input = d.querySelector('#boardNameInput');
   input.dispatchEvent(new w.KeyboardEvent('keydown',{key:'T',shiftKey:true,bubbles:true}));
   assert.equal(d.querySelector('.pigeon-voice-overlay'),null,'typing is not a voice shortcut');
+});
+
+test('voice commands navigate, open views, enter tools, and clamp page numbers', async t => {
+  const {a} = await setup(t, {voiceCommands: commandConfig});
+  const page = (id, transcript, end) => a.voice.dispatch(id, 'typed', {transcript, match: {end}});
+  assert.match(page('go-to-page', 'go to page 999', 10), /Page/);
+  assert.equal(a.state.currentId, a.state.deck.slides.at(-1).id);
+  page('previous-page', 'previous page', 14);
+  assert.equal(a.state.currentId, a.state.deck.slides.at(-2).id);
+  page('go-to-page', 'go to page one', 10);
+  assert.equal(a.state.currentId, a.state.deck.slides[0].id);
+  page('next-page', 'next page', 10);
+  assert.equal(a.state.currentId, a.state.deck.slides[1].id);
+  page('pen-mode', 'pen mode', 8); assert.equal(a.state.tool, 'pen');
+  page('highlight-mode', 'highlight mode', 14); assert.equal(a.state.tool, 'highlighter');
+  page('wand-mode', 'wand mode', 9); assert.equal(a.state.tool, 'wand');
+  page('diagram-mode', 'diagram mode', 12); assert.equal(a.state.tool, 'diagram');
+  page('default-mode', 'default mode', 12); assert.equal(a.state.tool, 'navigate');
+  page('full-screen', 'full screen', 10); assert.equal(a.state.presentation, true);
+  page('overview', 'go to overview', 14); assert.equal(a.state.overview, true);
+  a.closeOverview();
+  page('graph-view', 'go to graph view', 17);
+  assert.equal(a.state.overview, true); assert.equal(a.state.mode, 'graph');
 });
 
 test('boards and overview reject semantic actions and dismiss the active crop', async t => {

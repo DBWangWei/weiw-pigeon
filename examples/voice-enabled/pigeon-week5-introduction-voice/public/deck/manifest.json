@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "deckId": "week5-introduction-voice",
   "title": "Introduction to Week 5 · DSAA3073 · 26Fall",
-  "revision": "5bd16800cdb3dba9",
+  "revision": "a0a6a139f98479b9",
   "pdf": "week5-introduction-voice.pdf",
   "sourceType": "typst",
   "dimensions": {
@@ -42,9 +42,9 @@
       "navigationLabel": "Introduction to Week 5",
       "section": "DSAA3073 · 26Fall",
       "source": "DSAA3073 · Theories in Data Science · HKUST(GZ)",
-      "text": "DSAA3073 · 26FALL 01\nIntroduction to Week 5\nFrom Unstable Inversion to Ridge Regression\nBias–variance · inverse problems · Tikhonov regularization\nDSAA3073 · Theories in Data Science\n26Fall · Wei Wang · HKUST(GZ)\nDSAA3073 · Theories in Data Science · HKUST(GZ)",
+      "text": "DSAA3073 · 26FALL 1 / 20\nIntroduction to Week 5\nFrom Unstable Inversion to Ridge Regression\nBias–variance · inverse problems · Tikhonov regularization\nDSAA3073 · Theories in Data Science\n26Fall · Wei Wang · HKUST(GZ)\nDSAA3073 · Theories in Data Science · HKUST(GZ)",
       "asset": "slides/page-01.svg",
-      "assetHash": "b40190e917ba47e18045d30d3706f6eaa8e4396c27a817cb644100a1efe36ad3",
+      "assetHash": "e6f7140dde8770b3515639861ace69fc2c81bc2a20fe9c12f5495db3ee2f6db8",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -116,10 +116,10 @@
         {
           "id": "text-8",
           "kind": "text",
-          "text": "01",
-          "x": 900.092,
+          "text": "1 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         }
       ],
@@ -190,10 +190,10 @@
         {
           "id": "text-8",
           "kind": "text",
-          "text": "01",
-          "x": 900.092,
+          "text": "1 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         }
       ],
@@ -217,9 +217,9 @@
       "navigationLabel": "Two voices, two microphones",
       "section": "1 · A new hook",
       "source": "Original toy example · dashed waves indicate reception of each voice at each microphone",
-      "text": "1 · A NEW HOOK 02\nTwo voices, two microphones\nBoth microphones hear both voices. Can we recover the two voices from the recordings?\nSources Receivers\nVoice 1 · amplitude a\nVoice 2 · amplitude b\nMicrophone 1\nMicrophone 2\nUnknown source amplitudes: 𝐟 = (𝑎,𝑏)T\nMeasured recordings: 𝐲 = (𝑦1,𝑦2)T\nOriginal toy example · dashed waves indicate reception of each voice at each microphone",
+      "text": "1 · A NEW HOOK 2 / 20\nTwo voices, two microphones\nBoth microphones hear both voices. Can we recover the two voices from the recordings?\nSources Receivers\nVoice 1 · amplitude a\nVoice 2 · amplitude b\nMicrophone 1\nMicrophone 2\nUnknown source amplitudes: 𝐟 = (𝑎,𝑏)T\nMeasured recordings: 𝐲 = (𝑦1,𝑦2)T\nOriginal toy example · dashed waves indicate reception of each voice at each microphone",
       "asset": "slides/page-02.svg",
-      "assetHash": "a8ab285fbaf3c4d4fb1d6402bd61f7e1f33623bb793759f05244b38176cb1ab3",
+      "assetHash": "daca0ca727c551aa2a431ce484209f4e1840be8fc582433c12a62f44952c9a40",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -237,10 +237,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "02",
-          "x": 900.092,
+          "text": "2 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -356,10 +356,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "02",
-          "x": 900.092,
+          "text": "2 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -499,9 +499,9 @@
       "navigationLabel": "From recordings to a linear inverse problem",
       "section": "1 · A new hook",
       "source": "Original calibrated mixing model · mechanism: learning sheet PDF pp. 6–8",
-      "text": "1 · A NEW HOOK 03\nFrom recordings to a linear inverse problem\nAt one instant, 𝑎 and 𝑏 are the signed source amplitudes. The mixing weights are known, but the\nrecordings contain noise.\n𝐲 = 𝐀𝐟 + 𝛆.\nTwo scalar measurement equations\n𝑦1 = 0.51𝑎 + 0.49𝑏 + 𝜀1,\n𝑦2 = 0.49𝑎 + 0.51𝑏 + 𝜀2.\nEach microphone hears almost the same\nmixture.\nOne matrix equation\n𝐀 = (\n0.51\n0.49\n0.49\n0.51\n), 𝛆 = (\n𝜀1\n𝜀2\n).\nGiven 𝐀 and 𝐲, recover 𝐟.\nThe actual measurement error 𝛆 is unknown.\nPredict: would a 0.01 change in each recording produce only a small change in the separated\nvoices?\nOriginal calibrated mixing model · mechanism: learning sheet PDF pp. 6–8",
+      "text": "1 · A NEW HOOK 3 / 20\nFrom recordings to a linear inverse problem\nAt one instant, 𝑎 and 𝑏 are the signed source amplitudes. The mixing weights are known, but the\nrecordings contain noise.\n𝐲 = 𝐀𝐟 + 𝛆.\nTwo scalar measurement equations\n𝑦1 = 0.51𝑎 + 0.49𝑏 + 𝜀1,\n𝑦2 = 0.49𝑎 + 0.51𝑏 + 𝜀2.\nEach microphone hears almost the same\nmixture.\nOne matrix equation\n𝐀 = (\n0.51\n0.49\n0.49\n0.51\n), 𝛆 = (\n𝜀1\n𝜀2\n).\nGiven 𝐀 and 𝐲, recover 𝐟.\nThe actual measurement error 𝛆 is unknown.\nPredict: would a 0.01 change in each recording produce only a small change in the separated\nvoices?\nOriginal calibrated mixing model · mechanism: learning sheet PDF pp. 6–8",
       "asset": "slides/page-03.svg",
-      "assetHash": "9f5e6fbb3cdb6c173e05ee6ac35458b77c163de7be1c1637727c166b8db0565e",
+      "assetHash": "4607c1552382acf0668453218393a1371b3e919b7e037558020454b3c72a1585",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -519,10 +519,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "03",
-          "x": 900.092,
+          "text": "3 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -656,10 +656,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "03",
-          "x": 900.092,
+          "text": "3 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -800,9 +800,9 @@
       "navigationLabel": "A tiny recording error becomes a large source error",
       "section": "1 · A new hook",
       "source": "Original calculation · mechanism: learning sheet PDF pp. 6–8",
-      "text": "1 · A NEW HOOK 04\nA tiny recording error becomes a large source error\nSuppose the true amplitudes are 𝐟⋆\n= (1,0)T\n.\nRecording Observed 𝐲 Exact solution 𝐀−1\n𝐲\nNo measurement error (0.51,0.49)T\n(1,0)T\nAdd (0.01,−0.01)T\n(0.52,0.48)T\n(1.5,−0.5)T\nThe sum is easy to observe\nNoiseless: 𝑦1 + 𝑦2 = 𝑎 + 𝑏.\nThe added noise cancels in this sum.\nThe difference is weakly observed\nNoiseless: 𝑦1 − 𝑦2 = 0.02(𝑎 − 𝑏).\nInversion multiplies difference noise by 50.\n💡 Agreement with noisy measurements does not guarantee agreement with the true sources.\nOriginal calculation · mechanism: learning sheet PDF pp. 6–8",
+      "text": "1 · A NEW HOOK 4 / 20\nA tiny recording error becomes a large source error\nSuppose the true amplitudes are 𝐟⋆\n= (1,0)T\n.\nRecording Observed 𝐲 Exact solution 𝐀−1\n𝐲\nNo measurement error (0.51,0.49)T\n(1,0)T\nAdd (0.01,−0.01)T\n(0.52,0.48)T\n(1.5,−0.5)T\nThe sum is easy to observe\nNoiseless: 𝑦1 + 𝑦2 = 𝑎 + 𝑏.\nThe added noise cancels in this sum.\nThe difference is weakly observed\nNoiseless: 𝑦1 − 𝑦2 = 0.02(𝑎 − 𝑏).\nInversion multiplies difference noise by 50.\n💡 Agreement with noisy measurements does not guarantee agreement with the true sources.\nOriginal calculation · mechanism: learning sheet PDF pp. 6–8",
       "asset": "slides/page-04.svg",
-      "assetHash": "de373777176f50b26ccc39892be9a366726d399570655c92bdf37ce03a626f3a",
+      "assetHash": "dd47e52b0020a8ebb9d30d5a25d1b419de3dc8d56f362eda0fb0fc143e2eca81",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -820,10 +820,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "04",
-          "x": 900.092,
+          "text": "4 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -948,10 +948,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "04",
-          "x": 900.092,
+          "text": "4 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -1132,9 +1132,9 @@
       "navigationLabel": "Why the obvious fixes do not settle the problem",
       "section": "1 · A new hook",
       "source": "Original hook analysis · learning sheet PDF pp. 7–12, 28–30",
-      "text": "1 · A NEW HOOK 05\nWhy the obvious fixes do not settle the problem\nFirst idea What remains unresolved\nSolve with more precision\nThis error came from measurement noise. Exact arithmetic still amplifies\nit.\nUse the pseudoinverse\nFor this invertible matrix it equals the inverse. Small positive singular\nvalues still give large gains.\nDrop the difference entirely\nBoth voices share the sum. Discarding their difference also discards real\nseparation information.\nAlways use stronger shrinkage\nShrinkage reduces coefficients toward zero. A larger penalty reduces\nnoise amplification but can also suppress true signal, so expected error\ncan rise.\n💡 Identify which errors come from the measurements and which directions amplify them. Then\ncalculate how reducing amplification changes bias and variance.\nOriginal hook analysis · learning sheet PDF pp. 7–12, 28–30",
+      "text": "1 · A NEW HOOK 5 / 20\nWhy the obvious fixes do not settle the problem\nFirst idea What remains unresolved\nSolve with more precision\nThis error came from measurement noise. Exact arithmetic still amplifies\nit.\nUse the pseudoinverse\nFor this invertible matrix it equals the inverse. Small positive singular\nvalues still give large gains.\nDrop the difference entirely\nBoth voices share the sum. Discarding their difference also discards real\nseparation information.\nAlways use stronger shrinkage\nShrinkage reduces coefficients toward zero. A larger penalty reduces\nnoise amplification but can also suppress true signal, so expected error\ncan rise.\n💡 Identify which errors come from the measurements and which directions amplify them. Then\ncalculate how reducing amplification changes bias and variance.\nOriginal hook analysis · learning sheet PDF pp. 7–12, 28–30",
       "asset": "slides/page-05.svg",
-      "assetHash": "cf78ff7446aa7844bd110a9f17b6bb71ec71544a7317d131ddfd00a1e990ea59",
+      "assetHash": "783f90ddf0b0dc5929810991aae494dcad1c1238cfb57c0722841c27829afd37",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -1152,10 +1152,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "05",
-          "x": 900.092,
+          "text": "5 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -1298,10 +1298,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "05",
-          "x": 900.092,
+          "text": "5 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -1484,9 +1484,9 @@
       "navigationLabel": "Four ideas that apply beyond this example",
       "section": "2 · The plan",
       "source": "DSAA3073 · Week 5 learning sheet · PDF pp. 3–14, 24–30",
-      "text": "2 · THE PLAN 06\nFour ideas that apply beyond this example\n1 · Separate error sources\nBias, variation across training samples, and\nnoise in a new response need different\nexplanations.\n2 · Change coordinates\nThe SVD exposes directions that the\nobservations determine strongly, weakly, or not\nat all.\n3 · Change the objective\nPenalize large coefficients to control\namplification. Calculate the signal lost in return.\n4 · Check what each result proves\nExistence, uniqueness, stability, and prediction\naccuracy require different arguments.\nRoute: error decomposition → sensitive directions → Tikhonov and ridge → bias–variance\ntradeoff and limits.\nDSAA3073 · Week 5 learning sheet · PDF pp. 3–14, 24–30",
+      "text": "2 · THE PLAN 6 / 20\nFour ideas that apply beyond this example\n1 · Separate error sources\nBias, variation across training samples, and\nnoise in a new response need different\nexplanations.\n2 · Change coordinates\nThe SVD exposes directions that the\nobservations determine strongly, weakly, or not\nat all.\n3 · Change the objective\nPenalize large coefficients to control\namplification. Calculate the signal lost in return.\n4 · Check what each result proves\nExistence, uniqueness, stability, and prediction\naccuracy require different arguments.\nRoute: error decomposition → sensitive directions → Tikhonov and ridge → bias–variance\ntradeoff and limits.\nDSAA3073 · Week 5 learning sheet · PDF pp. 3–14, 24–30",
       "asset": "slides/page-06.svg",
-      "assetHash": "aaa0425531eb455ae032dd56a5bbd0339c02df542534749a0679de874fdba9ba",
+      "assetHash": "d9dd6dc0bfc75932e05cb3bd7acf9d21973f72f814b921fe267718db95e38dd5",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -1504,10 +1504,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "06",
-          "x": 900.092,
+          "text": "6 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -1587,10 +1587,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "06",
-          "x": 900.092,
+          "text": "6 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -1677,9 +1677,9 @@
       "navigationLabel": "The problem: recover a signal from noisy observations",
       "section": "2 · The plan",
       "source": "DSAA3073 · Week 5 learning sheet · PDF pp. 6–11, 20–21",
-      "text": "2 · THE PLAN 07\nThe problem: recover a signal from noisy observations\n𝐲 = 𝐀𝐟⋆\n+ 𝛆, 𝐀 ∈ ℝ𝑛×𝑑\n, 𝐟⋆\n∈ ℝ𝑑\n.\nWhat is given?\nThe known matrix 𝐀 maps hidden source\namplitudes to noiseless measurements; 𝐲 is the\nobserved data.\nThe hidden target 𝐟⋆\nand the measurement\nerror are unknown.\nWhat do we want?\nA recovered signal or predictor that remains\nuseful when observations change slightly.\nAre we trying to recover the hidden parameters,\nor predict outputs accurately?\nRegression is the same optimization pattern:\n𝐀 = 𝐗, 𝐟 = 𝛃, 𝐲 ≈ 𝐗𝛃.\nCentering means subtracting each sample mean from the predictors and response. In the later moment calculation, the\npredictor matrix is fixed while response noise varies across repetitions; the intercept is unpenalized.\nDSAA3073 · Week 5 learning sheet · PDF pp. 6–11, 20–21",
+      "text": "2 · THE PLAN 7 / 20\nThe problem: recover a signal from noisy observations\n𝐲 = 𝐀𝐟⋆\n+ 𝛆, 𝐀 ∈ ℝ𝑛×𝑑\n, 𝐟⋆\n∈ ℝ𝑑\n.\nWhat is given?\nThe known matrix 𝐀 maps hidden source\namplitudes to noiseless measurements; 𝐲 is the\nobserved data.\nThe hidden target 𝐟⋆\nand the measurement\nerror are unknown.\nWhat do we want?\nA recovered signal or predictor that remains\nuseful when observations change slightly.\nAre we trying to recover the hidden parameters,\nor predict outputs accurately?\nRegression is the same optimization pattern:\n𝐀 = 𝐗, 𝐟 = 𝛃, 𝐲 ≈ 𝐗𝛃.\nCentering means subtracting each sample mean from the predictors and response. In the later moment calculation, the\npredictor matrix is fixed while response noise varies across repetitions; the intercept is unpenalized.\nDSAA3073 · Week 5 learning sheet · PDF pp. 6–11, 20–21",
       "asset": "slides/page-07.svg",
-      "assetHash": "c3a09b3d27b254cd0399bc989da64877bdf72170ebf1955c65ec912cabc506e9",
+      "assetHash": "147e943a0c97783ece71ca8c6d89406627cff5d3b9202872c0fa477bb8eba232",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -1697,10 +1697,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "07",
-          "x": 900.092,
+          "text": "7 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -1888,10 +1888,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "07",
-          "x": 900.092,
+          "text": "7 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -2086,9 +2086,9 @@
       "navigationLabel": "First separate two sources of randomness",
       "section": "2 · The plan",
       "source": "DSAA3073 · Week 5 learning sheet · PDF pp. 3–5",
-      "text": "2 · THE PLAN 08\nFirst separate two sources of randomness\nAt a fixed input 𝑥0, let 𝑆 be the random training sample; 𝑓 ̂\n𝑆(𝑥0) is the prediction fitted from 𝑆; 𝑓⋆\n(𝑥0) is the true mean response; and\n𝑚(𝑥0) is the average fitted prediction over possible 𝑆. A new response is 𝑌 = 𝑓⋆\n(𝑥0) + 𝜀, where 𝜀 is independent of 𝑆, has mean zero,\nand represents noise in that new response.\n𝔼𝑆,𝜀[(𝑌 − 𝑓 ̂\n𝑆(𝑥0))\n2\n] = (𝑚(𝑥0) − 𝑓⋆\n(𝑥0))2\n⏟\nsquared bias\n+ Var𝑆(𝑓 ̂\n𝑆(𝑥0)) ⏟\nvariance across training samples\n+ 𝜎2\n(𝑥0) ⏟\nnoise in a new response\n,\n𝑚(𝑥0) = 𝔼𝑆[𝑓 ̂\n𝑆(𝑥0)]. The identity assumes squared loss and finite second moments.\nBias\nThe average fitted prediction\ndiffers from the true mean\nresponse.\nVariance across training\nsamples\nThe fitted prediction changes\nwhen the training sample\nchanges.\nNoise in a new response\nA new response varies even\nwhen its mean is known.\nThe identity names the error components. Geometry will explain one mechanism of instability.\nDSAA3073 · Week 5 learning sheet · PDF pp. 3–5",
+      "text": "2 · THE PLAN 8 / 20\nFirst separate two sources of randomness\nAt a fixed input 𝑥0, let 𝑆 be the random training sample; 𝑓 ̂\n𝑆(𝑥0) is the prediction fitted from 𝑆; 𝑓⋆\n(𝑥0) is the true mean response; and\n𝑚(𝑥0) is the average fitted prediction over possible 𝑆. A new response is 𝑌 = 𝑓⋆\n(𝑥0) + 𝜀, where 𝜀 is independent of 𝑆, has mean zero,\nand represents noise in that new response.\n𝔼𝑆,𝜀[(𝑌 − 𝑓 ̂\n𝑆(𝑥0))\n2\n] = (𝑚(𝑥0) − 𝑓⋆\n(𝑥0))2\n⏟\nsquared bias\n+ Var𝑆(𝑓 ̂\n𝑆(𝑥0)) ⏟\nvariance across training samples\n+ 𝜎2\n(𝑥0) ⏟\nnoise in a new response\n,\n𝑚(𝑥0) = 𝔼𝑆[𝑓 ̂\n𝑆(𝑥0)]. The identity assumes squared loss and finite second moments.\nBias\nThe average fitted prediction\ndiffers from the true mean\nresponse.\nVariance across training\nsamples\nThe fitted prediction changes\nwhen the training sample\nchanges.\nNoise in a new response\nA new response varies even\nwhen its mean is known.\nThe identity names the error components. Geometry will explain one mechanism of instability.\nDSAA3073 · Week 5 learning sheet · PDF pp. 3–5",
       "asset": "slides/page-08.svg",
-      "assetHash": "cab1838774109ac4e80407887fdf394323fdb6010de6958edf8aba7974eddd4e",
+      "assetHash": "e7a87eb1b0c46fc4de89c881f2987f4a5c6605b240c4559a47f520dfd4f22ab9",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -2106,10 +2106,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "08",
-          "x": 900.092,
+          "text": "8 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -2306,10 +2306,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "08",
-          "x": 900.092,
+          "text": "8 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -2513,9 +2513,9 @@
       "navigationLabel": "An inverse can exist and still be unreliable",
       "section": "2 · The plan",
       "source": "DSAA3073 · Week 5 learning sheet · PDF pp. 6–8",
-      "text": "2 · THE PLAN 09\nAn inverse can exist and still be unreliable\nHadamard: three separate questions\n1. Does a solution exist for every admissible\nobservation?\n2. Is that solution unique?\n3. Does it depend continuously on the\nobservation?\nSVD: how much does each direction\nchange?\n𝐀𝐯𝑗 = 𝜎𝑗𝐮𝑗.\nA change along source direction 𝐯𝑗 produces an\nobservation change scaled by 𝜎𝑗.\nIf 𝜎𝑗 is small, that source change is hard to\ndistinguish from measurement noise. Inversion\ndivides by 𝜎𝑗 and amplifies the noise.\nZero: measurements do not detect that\ndirection.\n💡 Our inverse exists and varies continuously, but its smallest singular value is 0.02. The difference-\ndirection noise is multiplied by 50.\nDSAA3073 · Week 5 learning sheet · PDF pp. 6–8",
+      "text": "2 · THE PLAN 9 / 20\nAn inverse can exist and still be unreliable\nHadamard: three separate questions\n1. Does a solution exist for every admissible\nobservation?\n2. Is that solution unique?\n3. Does it depend continuously on the\nobservation?\nSVD: how much does each direction\nchange?\n𝐀𝐯𝑗 = 𝜎𝑗𝐮𝑗.\nA change along source direction 𝐯𝑗 produces an\nobservation change scaled by 𝜎𝑗.\nIf 𝜎𝑗 is small, that source change is hard to\ndistinguish from measurement noise. Inversion\ndivides by 𝜎𝑗 and amplifies the noise.\nZero: measurements do not detect that\ndirection.\n💡 Our inverse exists and varies continuously, but its smallest singular value is 0.02. The difference-\ndirection noise is multiplied by 50.\nDSAA3073 · Week 5 learning sheet · PDF pp. 6–8",
       "asset": "slides/page-09.svg",
-      "assetHash": "24ef461838f76f747b1e3d05ef0467104c0ee111656a9bb10ab200b7f82fe864",
+      "assetHash": "3d258d278dab1bb351798051de51e75862bf512cf97341ccf3cf231473c19d46",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -2533,10 +2533,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "09",
-          "x": 900.092,
+          "text": "9 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -2724,10 +2724,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "09",
-          "x": 900.092,
+          "text": "9 / 20",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -2939,9 +2939,9 @@
       "navigationLabel": "Tikhonov changes the objective; ridge specializes it",
       "section": "2 · The plan",
       "source": "DSAA3073 · Week 5 learning sheet · PDF pp. 9–11, 20–22",
-      "text": "2 · THE PLAN 10\nTikhonov changes the objective; ridge specializes it\nGeneral finite-dimensional inverse\n𝐟𝜆 = argmin\n𝐟\n(‖𝐀𝐟 − 𝐲‖2\n+ 𝜆‖𝐟‖2\n).\nSquared measurement error + penalty on coefficient size. A\nsquared norm sums the squared components; 𝜆 > 0 controls\npenalty strength.\n(𝐀T\n𝐀 + 𝜆𝐈)𝐟𝜆 = 𝐀T\n𝐲.\nCentered linear regression: ridge\n𝛃 ̂\n𝜆 = argmin\n𝛃\n(‖𝐲 − 𝐗𝛃‖2\n+ 𝜆‖𝛃‖2\n).\n𝛃 ̂\n𝜆 = (𝐗T\n𝐗 + 𝜆𝐈)\n−1\n𝐗T\n𝐲.\nThe same derivation with 𝐀 = 𝐗.\nThe displayed residual term is a sum, with no 1\n𝑛, and all displayed coefficients are penalized. With an averaged residual\nconvention, 𝜆 = 𝑛𝜆′\ngives the same estimator.\n💡 The penalty changes which solution we prefer. It does not remove the measurement noise.\nDSAA3073 · Week 5 learning sheet · PDF pp. 9–11, 20–22",
+      "text": "2 · THE PLAN 10 / 20\nTikhonov changes the objective; ridge specializes it\nGeneral finite-dimensional inverse\n𝐟𝜆 = argmin\n𝐟\n(‖𝐀𝐟 − 𝐲‖2\n+ 𝜆‖𝐟‖2\n).\nSquared measurement error + penalty on coefficient size. A\nsquared norm sums the squared components; 𝜆 > 0 controls\npenalty strength.\n(𝐀T\n𝐀 + 𝜆𝐈)𝐟𝜆 = 𝐀T\n𝐲.\nCentered linear regression: ridge\n𝛃 ̂\n𝜆 = argmin\n𝛃\n(‖𝐲 − 𝐗𝛃‖2\n+ 𝜆‖𝛃‖2\n).\n𝛃 ̂\n𝜆 = (𝐗T\n𝐗 + 𝜆𝐈)\n−1\n𝐗T\n𝐲.\nThe same derivation with 𝐀 = 𝐗.\nThe displayed residual term is a sum, with no 1\n𝑛, and all displayed coefficients are penalized. With an averaged residual\nconvention, 𝜆 = 𝑛𝜆′\ngives the same estimator.\n💡 The penalty changes which solution we prefer. It does not remove the measurement noise.\nDSAA3073 · Week 5 learning sheet · PDF pp. 9–11, 20–22",
       "asset": "slides/page-10.svg",
-      "assetHash": "09de7da2e251b3736b050fcfc3f52e17038638dc425b94f6108720d26fb6e8f9",
+      "assetHash": "d26a27febb1043ee65c1c3c06d3408793b644231bf6d99d117a0965d680899e6",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -2959,10 +2959,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "10",
-          "x": 900.092,
+          "text": "10 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -3114,10 +3114,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "10",
-          "x": 900.092,
+          "text": "10 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -3309,9 +3309,9 @@
       "navigationLabel": "The mechanism: damp weak directions more strongly",
       "section": "2 · The plan",
       "source": "DSAA3073 · Week 5 learning sheet · PDF pp. 10–11, 23–24",
-      "text": "2 · THE PLAN 11\nThe mechanism: damp weak directions more strongly\nData-to-solution gain\n1\n𝜎𝑗\n→\n𝜎𝑗\n𝜎2\n𝑗 + 𝜆\n.\nActs on the measured coordinate 𝐮T\n𝑗 𝐲 to produce\nan estimated source coordinate.\nFraction of the ordinary least-squares (OLS)\ncoefficient retained\n𝑠𝑗(𝜆) =\n𝜇𝑗\n𝜇𝑗 + 𝜆\n, 𝜇𝑗 = 𝜎2\n𝑗 > 0.\nThis compares the ridge coefficient with the OLS\ncoefficient in the same direction. In regression, 𝜇𝑗\nis the corresponding eigenvalue of 𝐗T\n𝐗: a\nsquared singular value.\nFor the microphones, set 𝜆 = 0.0004:\nDirection Exact gain Ridge gain Fraction kept\nSum: 𝜎 = 1 1 0.9996 99.96%\nDifference: 𝜎 = 0.02 50 25 50%\nRidge reduces both noise amplification and true signal in the weak direction.\nDSAA3073 · Week 5 learning sheet · PDF pp. 10–11, 23–24",
+      "text": "2 · THE PLAN 11 / 20\nThe mechanism: damp weak directions more strongly\nData-to-solution gain\n1\n𝜎𝑗\n→\n𝜎𝑗\n𝜎2\n𝑗 + 𝜆\n.\nActs on the measured coordinate 𝐮T\n𝑗 𝐲 to produce\nan estimated source coordinate.\nFraction of the ordinary least-squares (OLS)\ncoefficient retained\n𝑠𝑗(𝜆) =\n𝜇𝑗\n𝜇𝑗 + 𝜆\n, 𝜇𝑗 = 𝜎2\n𝑗 > 0.\nThis compares the ridge coefficient with the OLS\ncoefficient in the same direction. In regression, 𝜇𝑗\nis the corresponding eigenvalue of 𝐗T\n𝐗: a\nsquared singular value.\nFor the microphones, set 𝜆 = 0.0004:\nDirection Exact gain Ridge gain Fraction kept\nSum: 𝜎 = 1 1 0.9996 99.96%\nDifference: 𝜎 = 0.02 50 25 50%\nRidge reduces both noise amplification and true signal in the weak direction.\nDSAA3073 · Week 5 learning sheet · PDF pp. 10–11, 23–24",
       "asset": "slides/page-11.svg",
-      "assetHash": "e8b82830969dccbb007c1166638f52d8969a51c8b196c1ed9f74f3fd1d3c86b4",
+      "assetHash": "a1e1b509649917709f9b428782e01a238dd01f4b683af8285c2121c370143907",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -3329,10 +3329,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "11",
-          "x": 900.092,
+          "text": "11 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -3484,10 +3484,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "11",
-          "x": 900.092,
+          "text": "11 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -3663,9 +3663,9 @@
       "navigationLabel": "What we can prove before testing prediction quality",
       "section": "2 · The plan",
       "source": "DSAA3073 · Week 5 learning sheet · PDF pp. 10–12, 21–22",
-      "text": "2 · THE PLAN 12\nWhat we can prove before testing prediction quality\nA unique finite-dimensional solution\nFor every nonzero 𝐳,\n𝐳T\n(𝐀T\n𝐀 + 𝜆𝐈)𝐳 = ‖𝐀𝐳‖2\n+ 𝜆‖𝐳‖2\n> 0.\nThe Hessian is positive definite. Normal\nequations give a solution; strict convexity shows\nno other minimizer exists.\nAn explicit stability bound\nFor fixed 𝜆 > 0, let Δ𝐲 be a change in the\nobserved measurements:\n‖𝐟𝜆(𝐲 + Δ𝐲) − 𝐟𝜆(𝐲)‖ ≤\n‖Δ𝐲‖\n2\n√\n𝜆\n.\nAt 𝜆 = 0.0004, amplification is at most 25, even\nwith zero singular values.\n💡 A unique, stable estimate can still have large prediction error.\nDSAA3073 · Week 5 learning sheet · PDF pp. 10–12, 21–22",
+      "text": "2 · THE PLAN 12 / 20\nWhat we can prove before testing prediction quality\nA unique finite-dimensional solution\nFor every nonzero 𝐳,\n𝐳T\n(𝐀T\n𝐀 + 𝜆𝐈)𝐳 = ‖𝐀𝐳‖2\n+ 𝜆‖𝐳‖2\n> 0.\nThe Hessian is positive definite. Normal\nequations give a solution; strict convexity shows\nno other minimizer exists.\nAn explicit stability bound\nFor fixed 𝜆 > 0, let Δ𝐲 be a change in the\nobserved measurements:\n‖𝐟𝜆(𝐲 + Δ𝐲) − 𝐟𝜆(𝐲)‖ ≤\n‖Δ𝐲‖\n2\n√\n𝜆\n.\nAt 𝜆 = 0.0004, amplification is at most 25, even\nwith zero singular values.\n💡 A unique, stable estimate can still have large prediction error.\nDSAA3073 · Week 5 learning sheet · PDF pp. 10–12, 21–22",
       "asset": "slides/page-12.svg",
-      "assetHash": "ef404e20994911939a63f793fc6fc83e6543a2ad8a5e4d715974700a5020e3b3",
+      "assetHash": "cb90f062299cf61af995d4d59437bde09bfdd1d463e4f76fc9149ce47c0847c4",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -3683,10 +3683,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "12",
-          "x": 900.092,
+          "text": "12 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -3838,10 +3838,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "12",
-          "x": 900.092,
+          "text": "12 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -4017,9 +4017,9 @@
       "navigationLabel": "A little bias can buy a useful variance reduction",
       "section": "2 · The plan",
       "source": "Constructed weak-direction calculation · moment formulas: learning sheet PDF pp. 24–27",
-      "text": "2 · THE PLAN 13\nA little bias can buy a useful variance reduction\nIn one weak direction, 𝑡 = 0.02𝜃 + 𝜂: 𝑡 measures source coefficient 𝜃 with measurement noise 𝜂. For this\ncalculation, 𝜃 = 1 and 𝜂 has mean 0 and variance 0.0004.\n𝜃 ̂\n𝜆 =\n0.02\n0.0004 + 𝜆\n𝑡, 𝑠 =\n0.0004\n0.0004 + 𝜆\n.\nCoefficient MSE = squared bias (1 − 𝑠)2\n+ variance 𝑠2\n.\nPenalty 𝜆 Fraction 𝑠 Squared bias Variance MSE\n0 1 0 1 1\n0.0004 0.5 0.25 0.25 0.50\n0.0036 0.1 0.81 0.01 0.82\nThe table measures coefficient error. Prediction error measures errors in predicted outputs; predicting a new response also includes\nits noise variance.\n💡 A moderate penalty improves this example. Stronger shrinkage reduces variance further but can\nmake total error worse.\nConstructed weak-direction calculation · moment formulas: learning sheet PDF pp. 24–27",
+      "text": "2 · THE PLAN 13 / 20\nA little bias can buy a useful variance reduction\nIn one weak direction, 𝑡 = 0.02𝜃 + 𝜂: 𝑡 measures source coefficient 𝜃 with measurement noise 𝜂. For this\ncalculation, 𝜃 = 1 and 𝜂 has mean 0 and variance 0.0004.\n𝜃 ̂\n𝜆 =\n0.02\n0.0004 + 𝜆\n𝑡, 𝑠 =\n0.0004\n0.0004 + 𝜆\n.\nCoefficient MSE = squared bias (1 − 𝑠)2\n+ variance 𝑠2\n.\nPenalty 𝜆 Fraction 𝑠 Squared bias Variance MSE\n0 1 0 1 1\n0.0004 0.5 0.25 0.25 0.50\n0.0036 0.1 0.81 0.01 0.82\nThe table measures coefficient error. Prediction error measures errors in predicted outputs; predicting a new response also includes\nits noise variance.\n💡 A moderate penalty improves this example. Stronger shrinkage reduces variance further but can\nmake total error worse.\nConstructed weak-direction calculation · moment formulas: learning sheet PDF pp. 24–27",
       "asset": "slides/page-13.svg",
-      "assetHash": "33e09723954f8c4834122eac07ae7d94473e7d7ed8221e161a7e9db205ff24f8",
+      "assetHash": "e8df384b610204f461f7a3aa77db3cd8c8e47d670ae8bbaf3af4533047ba52dd",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -4037,10 +4037,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "13",
-          "x": 900.092,
+          "text": "13 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -4327,10 +4327,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "13",
-          "x": 900.092,
+          "text": "13 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -4657,9 +4657,9 @@
       "navigationLabel": "Three limits to keep in view",
       "section": "2 · The plan",
       "source": "DSAA3073 · Week 5 learning sheet · PDF pp. 11–12, 22, 28–31",
-      "text": "2 · THE PLAN 14\nThree limits to keep in view\n1. Missing information stays missing. A null direction is a coefficient change that produces no\nchange in the measurements. The squared-norm penalty chooses zero for a coefficient the data do\nnot determine; it does not recover that coefficient.\n2. Noise in a new response remains. A penalty cannot remove response variance left even when the\nconditional mean is known.\n3. The best penalty is still unknown. Training residuals do not select the best predictive tradeoff.\nLater selection needs independent evidence or another justified criterion.\nAs 𝜆 → 0+\n, finite-dimensional ridge approaches the least-squares solution with the smallest Euclidean\nnorm. It equals the usual OLS inverse formula only under full column rank.\nDSAA3073 · Week 5 learning sheet · PDF pp. 11–12, 22, 28–31",
+      "text": "2 · THE PLAN 14 / 20\nThree limits to keep in view\n1. Missing information stays missing. A null direction is a coefficient change that produces no\nchange in the measurements. The squared-norm penalty chooses zero for a coefficient the data do\nnot determine; it does not recover that coefficient.\n2. Noise in a new response remains. A penalty cannot remove response variance left even when the\nconditional mean is known.\n3. The best penalty is still unknown. Training residuals do not select the best predictive tradeoff.\nLater selection needs independent evidence or another justified criterion.\nAs 𝜆 → 0+\n, finite-dimensional ridge approaches the least-squares solution with the smallest Euclidean\nnorm. It equals the usual OLS inverse formula only under full column rank.\nDSAA3073 · Week 5 learning sheet · PDF pp. 11–12, 22, 28–31",
       "asset": "slides/page-14.svg",
-      "assetHash": "4d5319c09adf680b5b6f7539648c13c7a959fd3767e69d92ee55dcca93b20d31",
+      "assetHash": "13cf36f7d05159434d0c28512dffaa4906a0afb7f25769e4001ff122698a4c86",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -4677,10 +4677,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "14",
-          "x": 900.092,
+          "text": "14 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -4787,10 +4787,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "14",
-          "x": 900.092,
+          "text": "14 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -4904,9 +4904,9 @@
       "navigationLabel": "Six distinctions that beginners often find hard",
       "section": "3 · How to study it",
       "source": "DSAA3073 · Week 5 learning sheet · PDF pp. 3–5, 7, 11–12, 24–31",
-      "text": "3 · HOW TO STUDY IT 15\nSix distinctions that beginners often find hard\nHard distinction Question to ask yourself\nTraining randomness / noise in a new\nresponse\nWhat is being redrawn, and what stays fixed inside this\nexpectation?\nZero / small singular value Is information absent, or present but easily overwhelmed?\nGain / shrinkage fraction\nDoes this factor multiply a measured coordinate, a fitted\ncoordinate, or an OLS coefficient?\nCoefficient / prediction error\nWhich directions does the test input emphasize? Where does\nnoise in a new response enter?\nUnique / accurate solution\nDid the proof establish uniqueness, sensitivity to measurement\nchanges, or expected prediction accuracy?\nFixed penalty / selected penalty Is 𝜆 fixed in the theorem, or chosen after looking at data?\nFor each formula, identify what is fixed, what is random, and which error is being measured.\nDSAA3073 · Week 5 learning sheet · PDF pp. 3–5, 7, 11–12, 24–31",
+      "text": "3 · HOW TO STUDY IT 15 / 20\nSix distinctions that beginners often find hard\nHard distinction Question to ask yourself\nTraining randomness / noise in a new\nresponse\nWhat is being redrawn, and what stays fixed inside this\nexpectation?\nZero / small singular value Is information absent, or present but easily overwhelmed?\nGain / shrinkage fraction\nDoes this factor multiply a measured coordinate, a fitted\ncoordinate, or an OLS coefficient?\nCoefficient / prediction error\nWhich directions does the test input emphasize? Where does\nnoise in a new response enter?\nUnique / accurate solution\nDid the proof establish uniqueness, sensitivity to measurement\nchanges, or expected prediction accuracy?\nFixed penalty / selected penalty Is 𝜆 fixed in the theorem, or chosen after looking at data?\nFor each formula, identify what is fixed, what is random, and which error is being measured.\nDSAA3073 · Week 5 learning sheet · PDF pp. 3–5, 7, 11–12, 24–31",
       "asset": "slides/page-15.svg",
-      "assetHash": "8badae3faa22cba3df2858da9a4c9a621a68096a152c3c45c21a6595dc51e219",
+      "assetHash": "b5a3525515572f8bb14965fa9524ea0b44a5289e544d17b993a6e93d9537fbba",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -4924,10 +4924,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "15",
-          "x": 900.092,
+          "text": "15 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -5097,10 +5097,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "15",
-          "x": 900.092,
+          "text": "15 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -5294,9 +5294,9 @@
       "navigationLabel": "Connections to the undergraduate mathematical core",
       "section": "3 · How to study it",
       "source": "Connections developed from learning sheet PDF pp. 3–12, 20–26",
-      "text": "3 · HOW TO STUDY IT 16\nConnections to the undergraduate mathematical core\nCourse / topic Exact bridge Why it helps here\nLinear algebra 𝐀𝐯𝑗 = 𝜎𝑗𝐮𝑗; 𝜇𝑗 = 𝜎2\n𝑗 for 𝐗T\n𝐗\nTurn a coupled matrix problem\ninto scalar directions.\nNumerical analysis\nInverse norm, condition number,\nmeasurement error versus rounding error\nMeasure how much input error\ncan change the answer.\nProbability and statistics\nConditional expectation; centered cross\nterms; covariance transforms\nDerive bias and variance without\nmixing random sources.\nMultivariable calculus\nand convex optimization\nGradient, Hessian, positive definiteness;\nnorm budgets and penalties\nDerive the estimator and prove\nthat it is the unique minimum.\nThe constrained-optimization/KKT correspondence is an optional extension; see the sheet’s PDF p. 15.\nConnections developed from learning sheet PDF pp. 3–12, 20–26",
+      "text": "3 · HOW TO STUDY IT 16 / 20\nConnections to the undergraduate mathematical core\nCourse / topic Exact bridge Why it helps here\nLinear algebra 𝐀𝐯𝑗 = 𝜎𝑗𝐮𝑗; 𝜇𝑗 = 𝜎2\n𝑗 for 𝐗T\n𝐗\nTurn a coupled matrix problem\ninto scalar directions.\nNumerical analysis\nInverse norm, condition number,\nmeasurement error versus rounding error\nMeasure how much input error\ncan change the answer.\nProbability and statistics\nConditional expectation; centered cross\nterms; covariance transforms\nDerive bias and variance without\nmixing random sources.\nMultivariable calculus\nand convex optimization\nGradient, Hessian, positive definiteness;\nnorm budgets and penalties\nDerive the estimator and prove\nthat it is the unique minimum.\nThe constrained-optimization/KKT correspondence is an optional extension; see the sheet’s PDF p. 15.\nConnections developed from learning sheet PDF pp. 3–12, 20–26",
       "asset": "slides/page-16.svg",
-      "assetHash": "13e38f0182c36fb0a5e214f56a50e33178279dd3dd54dd7a1f87b42272dbddab",
+      "assetHash": "69d3c31ab2b104cdbab481014c552e140c378fafe411f0881f40635301ac799c",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -5314,10 +5314,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "16",
-          "x": 900.092,
+          "text": "16 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -5496,10 +5496,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "16",
-          "x": 900.092,
+          "text": "16 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -5702,9 +5702,9 @@
       "navigationLabel": "Connections to other CS, AI, and DS courses",
       "section": "3 · How to study it",
       "source": "Conceptual bridges · Bayesian and signal-processing interpretations are extensions",
-      "text": "3 · HOW TO STUDY IT 17\nConnections to other CS, AI, and DS courses\nNeighboring topic Connection worth carrying forward\nSignal processing /\ncomputational imaging\nDeblurring and source separation recover changes weakened by the\nmeasurement process. Ridge reduces amplification in each direction.\nMachine learning theory\nNorm-bounded linear classes illustrate fitting data while controlling\ncoefficient size. A penalty alone does not change the VC dimension of an\nunchanged class.\nExperimental design /\nsensing\nChange the measurements to make weak directions more informative. This\ncomplements changing the estimator.\nModel evaluation\nPrediction risk means expected prediction error on new data. Selecting a\npenalty and evaluating the selected procedure need distinct evidence; keep\nthe final test set untouched.\nOptional Bayesian connection: with Gaussian observation noise and an isotropic, zero-mean Gaussian prior, ridge gives the\nmaximum a posteriori (MAP) estimate—the parameter value with highest posterior density.\nThese are conceptual links, not extra assessed prerequisites. Parameter-selection algorithms belong to the following\nchapter.\nConceptual bridges · Bayesian and signal-processing interpretations are extensions",
+      "text": "3 · HOW TO STUDY IT 17 / 20\nConnections to other CS, AI, and DS courses\nNeighboring topic Connection worth carrying forward\nSignal processing /\ncomputational imaging\nDeblurring and source separation recover changes weakened by the\nmeasurement process. Ridge reduces amplification in each direction.\nMachine learning theory\nNorm-bounded linear classes illustrate fitting data while controlling\ncoefficient size. A penalty alone does not change the VC dimension of an\nunchanged class.\nExperimental design /\nsensing\nChange the measurements to make weak directions more informative. This\ncomplements changing the estimator.\nModel evaluation\nPrediction risk means expected prediction error on new data. Selecting a\npenalty and evaluating the selected procedure need distinct evidence; keep\nthe final test set untouched.\nOptional Bayesian connection: with Gaussian observation noise and an isotropic, zero-mean Gaussian prior, ridge gives the\nmaximum a posteriori (MAP) estimate—the parameter value with highest posterior density.\nThese are conceptual links, not extra assessed prerequisites. Parameter-selection algorithms belong to the following\nchapter.\nConceptual bridges · Bayesian and signal-processing interpretations are extensions",
       "asset": "slides/page-17.svg",
-      "assetHash": "b6c8a4aec1f7f00ddc28f7cd904c0a0cc921ceec9a9929b93e28b8ae9abaa7b3",
+      "assetHash": "38b4ca68aa7ae25c04c4c5d49c8de425d0505c15c2cb6dd36f36c61a91d59629",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -5722,10 +5722,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "17",
-          "x": 900.092,
+          "text": "17 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -5868,10 +5868,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "17",
-          "x": 900.092,
+          "text": "17 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -6038,9 +6038,9 @@
       "navigationLabel": "Mindmap 1 · The academic progression",
       "section": "4 · Two views of the whole",
       "source": "DSAA3073 · Week 5 learning sheet · PDF pp. 3–14, 20–32",
-      "text": "4 · TWO VIEWS OF THE WHOLE 18\nMindmap 1 · The academic progression\nPrediction\naccuracy\nTraining fit alone\ndoes not ensure\naccurate\npredictions on new\ndata.\n1 · Statistical diagnosis\nRandom samples → bias–\nvariance\nWhat is the error?\nSquared bias + variance\nacross training samples +\nnoise in a new response\n2 · Inverse geometry\nHadamard criteria → SVD\nWhere is sensitivity?\nZero ≠ small; inverse gain 1\n𝜎𝑗\n3 · Modified objective\nTikhonov → ridge\nHow does it act?\nGain\n𝜎𝑗\n𝜎2\n𝑗+𝜆\n; fraction\n𝜇𝑗\n𝜇𝑗+𝜆\nWhich conclusion?\nUnique + stable for fixed\n𝜆 > 0.\nThese guarantees alone do\nnot establish prediction\naccuracy.\nDSAA3073 · Week 5 learning sheet · PDF pp. 3–14, 20–32",
+      "text": "4 · TWO VIEWS OF THE WHOLE 18 / 20\nMindmap 1 · The academic progression\nPrediction\naccuracy\nTraining fit alone\ndoes not ensure\naccurate\npredictions on new\ndata.\n1 · Statistical diagnosis\nRandom samples → bias–\nvariance\nWhat is the error?\nSquared bias + variance\nacross training samples +\nnoise in a new response\n2 · Inverse geometry\nHadamard criteria → SVD\nWhere is sensitivity?\nZero ≠ small; inverse gain 1\n𝜎𝑗\n3 · Modified objective\nTikhonov → ridge\nHow does it act?\nGain\n𝜎𝑗\n𝜎2\n𝑗+𝜆\n; fraction\n𝜇𝑗\n𝜇𝑗+𝜆\nWhich conclusion?\nUnique + stable for fixed\n𝜆 > 0.\nThese guarantees alone do\nnot establish prediction\naccuracy.\nDSAA3073 · Week 5 learning sheet · PDF pp. 3–14, 20–32",
       "asset": "slides/page-18.svg",
-      "assetHash": "f838510d46ea6d0354f5741644314a1c1d7d81c1d55d1cb7a7fca71128ab85ac",
+      "assetHash": "76fe7949f029d5655cc2426412e6cb495adbe641bbb46ad2d60c783f40906e85",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -6058,10 +6058,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "18",
-          "x": 900.092,
+          "text": "18 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -6195,10 +6195,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "18",
-          "x": 900.092,
+          "text": "18 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -6348,9 +6348,9 @@
       "navigationLabel": "Mindmap 2 · What can the data actually reveal?",
       "section": "4 · Two views of the whole",
       "source": "Selected alternative: information audit · learning sheet PDF pp. 7–12, 28–31",
-      "text": "4 · TWO VIEWS OF THE WHOLE 19\nMindmap 2 · What can the data actually reveal?\nMissing information\n𝜎𝑗 = 0: coefficient undetermined\nby measurements. The squared-\nnorm penalty chooses zero.\nWeak information\nSmall 𝜎𝑗 > 0: inversion amplifies\nnoise. Ridge reduces this\namplification.\nVariation across training\nsamples\nDo fitted coefficients vary strongly\nin directions with small 𝜎𝑗?\nWhat can the data reveal?\nIdentify what the\nmeasurements determine\nbefore changing the\nestimator.\nSystematic model error\nCan the model represent the\nrelationship being predicted?\nStability alone does not ensure\naccuracy.\nNoise in a new response\nA new response varies even when its\nmean is known. Shrinkage cannot\nremove this noise.\nUnknown best penalty\nTraining fit alone cannot choose the\nbest penalty for new data. Later:\ncompare choices on validation data.\nSelected alternative: information audit · learning sheet PDF pp. 7–12, 28–31",
+      "text": "4 · TWO VIEWS OF THE WHOLE 19 / 20\nMindmap 2 · What can the data actually reveal?\nMissing information\n𝜎𝑗 = 0: coefficient undetermined\nby measurements. The squared-\nnorm penalty chooses zero.\nWeak information\nSmall 𝜎𝑗 > 0: inversion amplifies\nnoise. Ridge reduces this\namplification.\nVariation across training\nsamples\nDo fitted coefficients vary strongly\nin directions with small 𝜎𝑗?\nWhat can the data reveal?\nIdentify what the\nmeasurements determine\nbefore changing the\nestimator.\nSystematic model error\nCan the model represent the\nrelationship being predicted?\nStability alone does not ensure\naccuracy.\nNoise in a new response\nA new response varies even when its\nmean is known. Shrinkage cannot\nremove this noise.\nUnknown best penalty\nTraining fit alone cannot choose the\nbest penalty for new data. Later:\ncompare choices on validation data.\nSelected alternative: information audit · learning sheet PDF pp. 7–12, 28–31",
       "asset": "slides/page-19.svg",
-      "assetHash": "fe87a6c6c005a80fd5a2103231032e331f9aeaa92f450145cb0b12f5a1e44d05",
+      "assetHash": "cd67c96211b5c9523c2c9b17e12623b0ecad3dfdb917b334624aaf9c7c8c568c",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -6368,10 +6368,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "19",
-          "x": 900.092,
+          "text": "19 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -6469,10 +6469,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "19",
-          "x": 900.092,
+          "text": "19 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -6586,9 +6586,9 @@
       "navigationLabel": "Return to the microphones: what should we do?",
       "section": "4 · Two views of the whole",
       "source": "Original hook synthesis · learning sheet PDF pp. 28–32",
-      "text": "4 · TWO VIEWS OF THE WHOLE 20\nReturn to the microphones: what should we do?\nWhat we know\n• The difference direction is weakly observed.\n• Exact inversion amplifies its measurement\nnoise by 50.\n• Ridge reduces noise amplification but also\nshrinks the true source coefficients,\nintroducing bias.\nWhat we must still establish\n• How large is the noise relative to the weak\nsignal?\n• Do we care about individual sources or only\ntheir sum?\n• What independent evidence supports the\npenalty choice?\n💡 The week’s calculations show how a penalty changes bias, variance, and total expected error.\nOriginal hook synthesis · learning sheet PDF pp. 28–32",
+      "text": "4 · TWO VIEWS OF THE WHOLE 20 / 20\nReturn to the microphones: what should we do?\nWhat we know\n• The difference direction is weakly observed.\n• Exact inversion amplifies its measurement\nnoise by 50.\n• Ridge reduces noise amplification but also\nshrinks the true source coefficients,\nintroducing bias.\nWhat we must still establish\n• How large is the noise relative to the weak\nsignal?\n• Do we care about individual sources or only\ntheir sum?\n• What independent evidence supports the\npenalty choice?\n💡 The week’s calculations show how a penalty changes bias, variance, and total expected error.\nOriginal hook synthesis · learning sheet PDF pp. 28–32",
       "asset": "slides/page-20.svg",
-      "assetHash": "ec820bbdbee7a5bd3e36153ad4dbe4d5eee85d3faefdfa28ba496a5305d44b98",
+      "assetHash": "c49bf0d421b5eb8122cb92dc396c3b94c6d6fe3f402e0e324eabc7282e3e8dca",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -6606,10 +6606,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "20",
-          "x": 900.092,
+          "text": "20 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -6788,10 +6788,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "20",
-          "x": 900.092,
+          "text": "20 / 20",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -7116,6 +7116,101 @@
         "action": "pop",
         "multi": "ask"
       }
+    ],
+    "commands": [
+      {
+        "id": "next-page",
+        "phrases": [
+          "next page"
+        ],
+        "command": "next_page"
+      },
+      {
+        "id": "previous-page",
+        "phrases": [
+          "previous page"
+        ],
+        "command": "previous_page"
+      },
+      {
+        "id": "go-to-page",
+        "phrases": [
+          "go to page"
+        ],
+        "command": "go_to_page"
+      },
+      {
+        "id": "full-screen",
+        "phrases": [
+          "full screen",
+          "fullscreen"
+        ],
+        "command": "fullscreen"
+      },
+      {
+        "id": "overview",
+        "phrases": [
+          "go to overview"
+        ],
+        "command": "overview"
+      },
+      {
+        "id": "graph-view",
+        "phrases": [
+          "go to graph view"
+        ],
+        "command": "graph"
+      },
+      {
+        "id": "pen-mode",
+        "phrases": [
+          "pen mode"
+        ],
+        "command": "pen"
+      },
+      {
+        "id": "highlight-mode",
+        "phrases": [
+          "highlight mode"
+        ],
+        "command": "highlighter"
+      },
+      {
+        "id": "wand-mode",
+        "phrases": [
+          "wand mode"
+        ],
+        "command": "wand"
+      },
+      {
+        "id": "diagram-mode",
+        "phrases": [
+          "diagram mode"
+        ],
+        "command": "diagram"
+      },
+      {
+        "id": "default-mode",
+        "phrases": [
+          "default mode"
+        ],
+        "command": "navigate"
+      },
+      {
+        "id": "qa-start",
+        "phrases": [
+          "take questions now",
+          "take any questions now"
+        ],
+        "command": "qa_start"
+      }
     ]
+  },
+  "qa": {
+    "enabled": true,
+    "target": "_qa",
+    "model": "gpt-4.1-mini",
+    "maxLength": 4000,
+    "maxItems": 50
   }
 }

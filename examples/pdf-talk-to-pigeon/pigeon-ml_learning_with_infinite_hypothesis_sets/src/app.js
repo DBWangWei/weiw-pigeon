@@ -95,6 +95,13 @@ const state = {
   reducedMotion: window.matchMedia?.("(prefers-reduced-motion: reduce)")
     .matches,
 };
+const qaState = {
+  current: null,
+  items: [],
+  nextId: 1,
+  token: null,
+  boardKey: null,
+};
 
 const els = {
   app: $("#app"),
@@ -221,6 +228,7 @@ function normaliseManifest(raw) {
     titleEffect: deck.titleEffect || "none",
     slideTransition: PigeonTransitions.names.includes(deck.slideTransition) ? deck.slideTransition : "camera",
     voice: deck.voice || {enabled: false, rules: []},
+    qa: deck.qa || {enabled: false, target: "_qa", model: "gpt-4.1-mini", maxLength: 4000, maxItems: 50},
     tiers: deck.tiers || {mode: "slide", presets: {}},
     title: deck.title || "Pigeon presentation",
     revision: deck.revision || deck.contentRevision || "generated",
@@ -630,6 +638,149 @@ function slideSize(id = state.currentId) {
   const slide = getSlide(id);
   return {width: slide?.width || 960, height: slide?.height || 540};
 }
+function qaTarget() { return state.deck.qa?.target || "_qa"; }
+function qaEnabled() { return state.deck.qa?.enabled !== false; }
+function qaRegion(slide) {
+  return presentationSlide(slide)?.semanticRegions?.find(region => region.target === qaTarget()) || null;
+}
+function qaSlide() {
+  return getSlide()?.semanticRegions?.some(region => region.target === qaTarget())
+    ? getSlide()
+    : state.deck.slides.find(slide => slide.semanticRegions?.some(region => region.target === qaTarget())) || null;
+}
+function qaItemText(item) {
+  if (item.status === "pending") return item.raw ? `${item.raw} · organizing…` : "Listening…";
+  if (item.status === "error") return `${item.raw} · organizer unavailable`;
+  return item.text || item.raw;
+}
+function updateQaDisplay() {
+  const entries = qaState.items.map(item => ({...item, display: qaItemText(item)}));
+  if (qaState.current) entries.push({id: "current", display: qaItemText({status: "pending", raw: qaState.current.raw})});
+  $$(".pigeon-qa-panel").forEach(panel => {
+    const slide = getSlide(panel.closest(".slide-frame")?.dataset.slideId);
+    const region = qaRegion(slide);
+    const active = Boolean(region && qaEnabled() && entries.length);
+    panel.hidden = !active;
+    if (!active) return;
+    Object.assign(panel.style, {
+      left: `${region.x}px`, top: `${region.y}px`, width: `${region.width}px`, height: `${region.height}px`,
+    });
+    panel.replaceChildren();
+    const title = document.createElement("strong");
+    title.className = "pigeon-qa-title";
+    title.textContent = "Questions & answers";
+    panel.append(title);
+    const list = document.createElement("ol");
+    list.className = "pigeon-qa-list";
+    entries.forEach((item, index) => {
+      const li = document.createElement("li");
+      li.dataset.qaItem = item.id;
+      li.textContent = item.display;
+      list.append(li);
+    });
+    panel.append(list);
+  });
+}
+function qaBoardOps(id = state.currentId) {
+  const {width, height} = slideSize(id);
+  const lines = qaState.items.map((item, index) => `${index + 1}. ${qaItemText(item)}`);
+  if (qaState.current) lines.push(`${lines.length + 1}. ${qaItemText({status: "pending", raw: qaState.current.raw})}`);
+  const body = lines.join("\n\n").slice(0, 9900) || "No questions captured.";
+  const common = {type: "diagram", color: "#111827", fill: "transparent", fontFamily: "Arial", fontStyle: "normal", textAlign: "left", verticalAlign: "top"};
+  return [
+    {...common, id: "qa-title", kind: "text", x: 40, y: 28, w: Math.max(1, width - 80), h: 42, text: "Questions & answers", fontSize: 28},
+    {...common, id: "qa-list", kind: "text", x: 48, y: 88, w: Math.max(1, width - 96), h: Math.max(1, height - 120), text: body, fontSize: 18},
+  ].map(operation => PigeonDiagram.validate(operation, {width, height}));
+}
+function refreshQaBoard() {
+  if (!qaState.boardKey || !state.boardMeta[qaState.boardKey]?.inserted) return;
+  const id = qaState.boardKey.split("::")[0];
+  state.boards[qaState.boardKey] = qaBoardOps(id);
+  if (state.currentId === id) drawSurface(id);
+  persist();
+}
+function finishQaItem() {
+  const current = qaState.current;
+  qaState.current = null;
+  if (!current?.raw.trim()) { updateQaDisplay(); return null; }
+  const item = {id: `qa-${qaState.nextId++}`, raw: current.raw.trim(), text: "", status: "pending"};
+  qaState.items.push(item);
+  const maxItems = Number(state.deck.qa?.maxItems) || 50;
+  if (qaState.items.length > maxItems) qaState.items.splice(0, qaState.items.length - maxItems);
+  updateQaDisplay();
+  organizeQaItem(item);
+  return item;
+}
+async function qaSessionToken() {
+  if (qaState.token) return qaState.token;
+  const response = await fetch("/api/voice/status", {cache: "no-store"});
+  if (!response.ok) throw Error("Q&A server unavailable");
+  const payload = await response.json();
+  if (typeof payload.token !== "string" || !payload.token) throw Error("Q&A session token unavailable");
+  qaState.token = payload.token;
+  return qaState.token;
+}
+async function organizeQaItem(item) {
+  try {
+    const token = await qaSessionToken();
+    const response = await fetch("/api/qa/organize", {
+      method: "POST", headers: {"Content-Type": "application/json", "X-Pigeon-Voice-Token": token},
+      body: JSON.stringify({text: item.raw.slice(0, Number(state.deck.qa?.maxLength) || 4000), model: state.deck.qa?.model}),
+    });
+    const payload = await response.json();
+    if (!response.ok) throw Error(payload.error || "Q&A organizer failed");
+    if (typeof payload.paragraph !== "string" || !payload.paragraph.trim()) throw Error("Q&A organizer returned no paragraph");
+    item.text = payload.paragraph.trim().slice(0, Number(state.deck.qa?.maxLength) || 4000);
+    item.status = "ready";
+  } catch (error) {
+    item.status = "error";
+    item.text = item.raw;
+    toast(`Q&A organizer: ${error?.message || "unavailable"}`);
+  }
+  updateQaDisplay();
+  refreshQaBoard();
+}
+function startQaCapture() {
+  if (!qaEnabled()) return "Q&A capture disabled";
+  finishQaItem();
+  const destination = qaSlide();
+  if (destination && destination.id !== state.currentId) {
+    navigateTo(destination.id, {force: true, direction: 1});
+  }
+  qaState.current = {raw: "", startedAt: Date.now(), slideId: state.currentId};
+  updateQaDisplay();
+  return destination ? "Q&A capture started" : "Q&A capture started · add an _qa semantic region to display it";
+}
+function appendQaText(text) {
+  if (!qaState.current || !text) return;
+  const maxLength = Number(state.deck.qa?.maxLength) || 4000;
+  const value = String(text).trim();
+  if (!value) return;
+  qaState.current.raw = `${qaState.current.raw}${qaState.current.raw ? " " : ""}${value}`.slice(0, maxLength);
+  updateQaDisplay();
+}
+function captureQaTranscript({text, fresh = [], matches = []} = {}) {
+  if (!qaState.current || !text) return;
+  if (fresh.includes("qa-start") || matches.some(match => match.ruleId === "qa-start")) {
+    const trigger = matches.find(match => match.ruleId === "qa-start");
+    const normalized = window.PigeonVoice?.normalize(text) || String(text).trim();
+    appendQaText(trigger ? normalized.slice(trigger.end).trim() : "");
+    return;
+  }
+  appendQaText(text);
+}
+function openQaBoard() {
+  if (!qaEnabled()) { toast("Q&A capture is disabled"); return; }
+  finishQaItem();
+  if (!qaState.items.length) { toast("No Q&A item has been captured yet"); return; }
+  insertBoard("white", "Q&A");
+  qaState.boardKey = `${state.currentId}::${boardName}`;
+  state.boards[qaState.boardKey] = qaBoardOps(state.currentId);
+  setTool("navigate");
+  drawSurface(state.currentId);
+  updateUI();
+  toast("Q&A white page created · use ←/→ to navigate");
+}
 function layoutSize() {
   return {width: Math.max(...state.deck.slides.map(s => s.width)), height: Math.max(...state.deck.slides.map(s => s.height))};
 }
@@ -718,6 +869,15 @@ function renderFrames() {
       frame.querySelector('.slide-fallback')?.remove();
     });
     if (!view.name) frame.append(image);
+    if (!view.name && slide.semanticRegions?.some(region => region.target === (state.deck.qa?.target || "_qa"))) {
+      const panel = document.createElement("section");
+      panel.className = "pigeon-qa-panel";
+      panel.dataset.qaTarget = state.deck.qa?.target || "_qa";
+      panel.setAttribute("aria-label", "Live questions and answers");
+      panel.setAttribute("aria-live", "polite");
+      panel.hidden = true;
+      frame.append(panel);
+    }
     const label = document.createElement("span");
     label.className = "frame-label";
     label.textContent = view.name ? `${slide.id} + ${view.name}` : `${slide.id} · ${slide.title}`;
@@ -899,6 +1059,7 @@ function updateUI() {
       ["pen", "highlighter", "eraser", "text", "diagram"].includes(state.tool) && active ? "auto" : "none";
   });
   state.deck.slides.forEach(slide => drawSurface(slide.id));
+  updateQaDisplay();
   const info = boardInfo();
   els.position.textContent = state.whiteboard
     ? `${state.currentId} + ${boardName} · ${info.kept ? "Kept" : "Draft"}`
@@ -1957,6 +2118,65 @@ function openPresentation() {
   }
 }
 
+const voicePageUnits = {
+  zero: 0, one: 1, two: 2, three: 3, four: 4, five: 5, six: 6, seven: 7, eight: 8, nine: 9,
+  ten: 10, eleven: 11, twelve: 12, thirteen: 13, fourteen: 14, fifteen: 15, sixteen: 16,
+  seventeen: 17, eighteen: 18, nineteen: 19,
+};
+const voicePageTens = {twenty: 20, thirty: 30, forty: 40, fifty: 50, sixty: 60, seventy: 70, eighty: 80, ninety: 90};
+function voicePageNumber(transcript, match) {
+  const text = String(transcript || "").normalize("NFKC").toLowerCase()
+    .replace(/[^\p{L}\p{N}\s]/gu, " ").replace(/\s+/gu, " ").trim();
+  const suffix = text.slice(match?.end || 0).trim();
+  const digits = suffix.match(/^\d+/);
+  if (digits) return Number(digits[0]);
+  let total = 0, current = 0, seen = false;
+  for (const token of suffix.split(" ").slice(0, 5)) {
+    if (Object.hasOwn(voicePageUnits, token)) { current += voicePageUnits[token]; seen = true; }
+    else if (Object.hasOwn(voicePageTens, token)) { current += voicePageTens[token]; seen = true; }
+    else if (token === "hundred" && seen) { current = Math.max(1, current) * 100; }
+    else break;
+  }
+  return seen ? total + current : null;
+}
+function handleVoiceCommand(command, detail = {}) {
+  if (command === "next_page" || command === "previous_page") {
+    nextSlide(command === "next_page" ? 1 : -1);
+    return `${command === "next_page" ? "Next" : "Previous"} page · ${state.currentIndex + 1} / ${state.deck.slides.length}`;
+  }
+  if (command === "go_to_page") {
+    const requested = voicePageNumber(detail.transcript, detail.match);
+    if (!Number.isFinite(requested)) return "Page number required";
+    const last = state.deck.slides.length - 1;
+    if (last < 0) return "Failed: deck has no pages";
+    const index = clamp(Math.round(requested) - 1, 0, last);
+    const target = state.deck.slides[index];
+    navigateTo(target.id, {force: true, direction: Math.sign(index - state.currentIndex) || 1});
+    const clamped = index + 1 === requested ? "" : ` · clamped to ${index + 1}`;
+    return `Page ${index + 1} / ${state.deck.slides.length}${clamped}`;
+  }
+  if (command === "fullscreen") {
+    if (!state.presentation) openPresentation();
+    return "Full screen";
+  }
+  if (command === "overview") {
+    if (!state.overview) openOverview();
+    return "Overview";
+  }
+  if (command === "graph") {
+    if (state.graphError) return `Failed: ${state.graphError}`;
+    if (!state.overview) openOverview();
+    if (state.mode !== "graph") toggleOverviewMode();
+    return "Graph view";
+  }
+  if (["pen", "highlighter", "wand", "diagram", "navigate"].includes(command)) {
+    setTool(command);
+    return `${command === "navigate" ? "Default" : command[0].toUpperCase() + command.slice(1)} mode`;
+  }
+  if (command === "qa_start") return startQaCapture();
+  return `Unsupported command: ${command}`;
+}
+
 function toggleBlackout(force) {
   finishActiveStroke();
   hideWand();
@@ -2839,6 +3059,7 @@ function keyHandler(event) {
     w: () => event.shiftKey ? insertBoard("black") : toggleWhiteboard(),
     m: () => toggleTool("wand"),
     d: () => setTool("diagram"),
+    q: openQaBoard,
     k: keepBoard,
     "+": () => zoomAt(1.3),
     "=": () => zoomAt(1.3),
@@ -3234,6 +3455,8 @@ loadDeck().then(async (loaded) => {
       state.overview ? "Paused in overview" : state.blackout ? "Paused during blackout" :
       state.currentStroke ? "Paused while drawing a stroke" : document.querySelector("dialog[open]") ? "Paused while a dialog is open" : "Presentation ready",
     onEmphasis: () => { finishActiveStroke(); hideWand(); },
+    onCommand: handleVoiceCommand,
+    onTranscript: captureQaTranscript,
   }) || null;
   // Dialogs can open without a canvas update. Pause the microphone promptly,
   // then resume only if the presenter still wants recognition.

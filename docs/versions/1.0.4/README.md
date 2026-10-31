@@ -34,6 +34,17 @@ for live browser checks. The example includes independent question/answer
 states, a decorated table, nested figure support, deep navigation, opaque
 replacement cards, page-fill changes and public/private notes.
 
+## Voice navigation and live Q&A
+
+The release also includes built-in voice commands for page navigation,
+fullscreen, hierarchy/graph overview, and switching among Pen, Highlighter,
+Wand, Diagram and Navigate modes. Say `take questions now` or `take any
+questions now` after repeating an audience question, then answer it. Final
+transcript segments are displayed in an authored `_qa` semantic region and
+organized through the local `/api/qa/organize` endpoint. Press `Q` to insert a
+white Q&A page containing the numbered list. Configure the model, target and
+bounds with `[qa]`; see the [Q&A configuration reference](../../../typst-to-pigeon/references/config.md#live-qa-capture).
+
 ## Validation
 
 The 1.0.4 release was checked with the Python regression suite, JavaScript and

@@ -15,12 +15,13 @@ from pathlib import Path
 
 from voice_config import resolve_voice_config
 from tier_config import resolve_tier_config
+from qa_config import resolve_qa_config
 
 SKILL_ROOT = Path(__file__).resolve().parents[1]
 TEMPLATE = SKILL_ROOT / "assets" / "pigeon-template"
 CONFIG_KEYS = {
     "output", "deck_id", "title", "navigation", "graph", "graph_provider",
-    "title_effect", "slide_transition", "no_zip", "voice", "tiers",
+    "title_effect", "slide_transition", "no_zip", "voice", "tiers", "qa",
 }
 GRAPH_MODES = {"local", "lexical", "model"}
 GRAPH_PROVIDERS = {"codex-config", "env"}
@@ -76,6 +77,11 @@ Cmd/Ctrl+C/V/X copies/pastes/cuts. Arrows move; Cmd/Ctrl+Alt+arrows resize.
 PageUp/PageDown navigate. Escape clears editing/selection, then exits.
 Repeated list-only Overview/Outline pages group slides into numbered sections.
 W inserts a whiteboard, Shift+W a blackboard, K keeps a board.
+Voice Q&A: say “take questions now” (or “take any questions now”) after
+repeating a question, then answer it. Press Q to finish the current item and
+create a white Q&A page. Add a pigeon-sem target such as “_qa” to the slide
+where live answers should appear; the optional [qa] config controls the target
+and fast organizer model.
 +/- zoom from 3% to 3200%; 0 fits the slide; Home fits the whole talk.
 Initial title effect: {manifest.get("titleEffect", "text-type")}. Select None,
 Split Text, Blur Text, Shiny Text, Gradient Text or Text Type in the top toolbar.
@@ -110,6 +116,7 @@ PDF and PNG exports use complete source artwork, including content hidden in tie
         "slideTransition": manifest.get("slideTransition", "camera"),
         "sourceType": manifest.get("sourceType", "typst"),
         "voiceEnabled": manifest.get("voice", {}).get("enabled", True),
+        "qaEnabled": manifest.get("qa", {}).get("enabled", False),
         "tierMode": manifest.get("tiers", {}).get("mode", "slide"),
     }, indent=2) + "\n", encoding="utf-8")
 
@@ -170,12 +177,15 @@ def load_pigeon_config(source: Path, requested: Path | None) -> tuple[dict, Path
             resolve_voice_config(container["voice"])
         if "tiers" in container:
             resolve_tier_config(container["tiers"])
+        if "qa" in container:
+            resolve_qa_config(container["qa"])
     return values, path
 
 
 def validate_config(config: dict) -> None:
     resolve_voice_config(config.get("voice", {}))
     resolve_tier_config(config.get("tiers", {}))
+    resolve_qa_config(config.get("qa", {}))
     for key in ("output", "deck_id", "title", "navigation", "graph", "graph_provider", "title_effect", "slide_transition"):
         if key in config and (not isinstance(config[key], str) or not config[key].strip()):
             raise ValueError(f"pigeon.toml {key} must be a nonempty string")
@@ -234,6 +244,7 @@ def main() -> int:
     validate_config(config)
     voice = resolve_voice_config(config.get("voice", {}), args.voice_enabled)
     tiers = resolve_tier_config(config.get("tiers", {}), args.mode)
+    qa = resolve_qa_config(config.get("qa", {}))
     configured_output = config_file_path(config, "output", config_path)
     requested_output = args.output.expanduser() if args.output is not None else configured_output or source.parent / f"pigeon-{source.stem}"
     output = requested_output.resolve()
@@ -277,6 +288,7 @@ def main() -> int:
         manifest["slideTransition"] = slide_transition
         manifest["pigeonVersion"] = PIGEON_VERSION
         manifest["voice"] = voice
+        manifest["qa"] = qa
         manifest_path.write_text(json.dumps(manifest, ensure_ascii=False, indent=2) + "\n")
         graph_args = [sys.executable, str(graph_builder), "--root", str(staged)]
         if graph_mode == "model":

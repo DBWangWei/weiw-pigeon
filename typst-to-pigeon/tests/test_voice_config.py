@@ -30,11 +30,27 @@ class VoiceConfigTests(unittest.TestCase):
         self.assertEqual(voice['staleMs'], 600)
         self.assertEqual([r['target'] for r in voice['rules']], ['takeaway', '_table', '_fig', '_example'])
         self.assertEqual([r['multi'] for r in voice['rules']], ['stack', 'ask', 'ask', 'ask'])
+        self.assertEqual([c['command'] for c in voice['commands']], [
+            'next_page', 'previous_page', 'go_to_page', 'fullscreen', 'overview', 'graph',
+            'pen', 'highlighter', 'wand', 'diagram', 'navigate', 'qa_start',
+        ])
         self.assertEqual(resolve_voice_config({}, False)['rules'], voice['rules'])
+        self.assertEqual(resolve_voice_config({}, False)['commands'], voice['commands'])
         self.assertTrue(resolve_voice_config({'enabled': False}, True)['enabled'])
         self.assertEqual(resolve_voice_config({'rules': []})['rules'], [])
+        self.assertEqual(resolve_voice_config({'commands': []})['commands'], [])
         voice['rules'].clear()
         self.assertEqual(len(resolve_voice_config({})['rules']), 4)
+
+    def test_strict_commands(self):
+        command = resolve_voice_config({})['commands'][0]
+        for patch in ({'id': ''}, {'id': 'bad id'}, {'phrases': ['---']}, {'phrases': []},
+                      {'phrases': [False]}, {'command': 'eval'}, {'command': []}, {'extra': True}):
+            invalid = dict(command, **patch)
+            with self.subTest(patch=patch), self.assertRaises(ValueError):
+                resolve_voice_config({'commands': [invalid]})
+        with self.assertRaises(ValueError):
+            resolve_voice_config({'rules': [resolve_voice_config({})['rules'][0]], 'commands': [dict(command, id='takeaway')]})
 
     def test_strict_values_and_rules(self):
         for settings in (None, [], {'enabled': 1}, {'lang': ''}, {'boost': float('nan')},

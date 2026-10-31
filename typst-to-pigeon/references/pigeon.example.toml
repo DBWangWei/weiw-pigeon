@@ -29,6 +29,14 @@ pop_max_fraction = 0.85
 pop_max_scale = 4
 auto_close_ms = 0
 
+# Live presenter Q&A. Mark the authored Q&A area with pigeon-sem("_qa", ...).
+[qa]
+enabled = true
+target = "_qa"
+model = "gpt-4.1-mini"
+max_length = 4000
+max_items = 50
+
 # Omit rules for the default takeaway/table/figure/example rules.
 # rules = [] # Explicitly remove all rules.
 # Supplying one or more [[voice.rules]] replaces the defaults:

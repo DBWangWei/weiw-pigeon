@@ -24,7 +24,7 @@ no_zip = true
 ```
 
 Supported keys are `output`, `deck_id`, `title`, `navigation`, `graph`,
-`graph_provider`, `title_effect`, `slide_transition`, `no_zip`, and the nested `voice` and `tiers` tables. Unknown keys are rejected so a
+`graph_provider`, `title_effect`, `slide_transition`, `no_zip`, and the nested `voice`, `qa`, and `tiers` tables. Unknown keys are rejected so a
 misspelling cannot silently change the build.
 Copy [pigeon.example.toml](pigeon.example.toml) for a new deck. The portable
 launcher is included at `scripts/typst-to-pigeon.sh`; copy it into a directory
@@ -89,6 +89,12 @@ phrases = ["main result", "the conclusion"]
 target = "takeaway"
 action = "pop"
 multi = "stack"
+
+# Optional: commands add navigation and presentation controls.
+[[voice.commands]]
+id = "next-page"
+phrases = ["next page"]
+command = "next_page"
 ```
 
 Omit `rules` to keep defaults: `takeaway` targets `takeaway` with `stack`;
@@ -98,12 +104,48 @@ Omit `rules` to keep defaults: `takeaway` targets `takeaway` with `stack`;
 message”, “conclusion”, and “conclusions”. Others use “this table”, “this
 figure” / “this plot”, and “this example”. `rules = []` creates no trigger rules.
 
+Omit `commands` to keep the built-in presentation commands. They recognize
+“next page”, “previous page”, “go to page” followed by a digit or English number,
+“full screen”, “go to overview”, “go to graph view”, “pen mode”, “highlight
+mode”, “wand mode”, “diagram mode”, and “default mode”. Page requests are rounded
+to the nearest physical page and clamped to the first or last page when the
+requested number is outside the deck. `commands = []` disables these commands.
+
+## Live Q&A capture
+
+Use `[qa]` or `[pigeon.qa]` to enable the presenter Q&A workflow. It is enabled
+by default in generated manifests, but it remains inert until the presenter
+says “take questions now” or “take any questions now”. Final transcript segments
+after the trigger are kept in memory; the next trigger or `Q` finishes one item.
+The presenter can press `Q` at any time to finish the current item and create a
+white `Q&A` page containing the organized list.
+
+```toml
+[qa]
+enabled = true
+target = "_qa"             # pigeon-sem target on the authored Q&A slide
+model = "gpt-4.1-mini"      # fast model used by the loopback organizer
+max_length = 4000           # bounded transcript/paragraph characters
+max_items = 50
+```
+
+The local presentation server proxies `/api/qa/organize` to an OpenAI-compatible
+Responses API using `PIGEON_QA_API_KEY` (or `OPENAI_API_KEY`) and the optional
+`PIGEON_QA_BASE_URL`/`OPENAI_BASE_URL`. Credentials never enter the manifest or
+browser code. If the organizer is unavailable, the raw transcript remains
+visible and is retained on the generated page.
+
 Every custom rule requires exactly `id`, `phrases`, `target`, `action`, and
 `multi`. IDs must be unique; IDs and targets start with an ASCII letter or
 underscore, followed by letters, digits, underscores or hyphens. Phrase arrays
 must contain at least one string, each retaining letters or digits after Unicode
 normalization and punctuation removal. Actions are `pop`, `focus`, or
 `spotlight`; multi-match behavior is `ask` or `stack`.
+
+Every custom command requires exactly `id`, `phrases`, and `command`. Command
+IDs must be unique across rules and commands. Supported command values are
+`next_page`, `previous_page`, `go_to_page`, `fullscreen`, `overview`, `graph`,
+`pen`, `highlighter`, `wand`, `diagram`, and `navigate`.
 
 Unknown settings and invalid types are errors. `enabled` is Boolean; `lang` is a
 language tag such as `en-US`. All numbers must be finite. Millisecond settings

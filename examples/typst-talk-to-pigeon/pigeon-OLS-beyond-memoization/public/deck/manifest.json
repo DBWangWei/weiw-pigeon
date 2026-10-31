@@ -2,7 +2,7 @@
   "schemaVersion": "1.0",
   "deckId": "ols-beyond-memoization",
   "title": "OLS Beyond Memorization: Understanding the Normal Equations",
-  "revision": "8234db23ac78406b",
+  "revision": "784b476c468abca2",
   "pdf": "ols-beyond-memoization.pdf",
   "sourceType": "typst",
   "dimensions": {
@@ -46,9 +46,9 @@
       "navigationLabel": "OLS Beyond Memorization",
       "section": "Introduction",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4 FAQ",
-      "text": "DSAA3073 · THEORIES OF DATA SCIENCE\nOLS Beyond Memorization\nUnderstanding the Normal Equations\nWhy does 𝑋⊤\nappear in least squares?\n𝑋⊤\n(𝑦 − 𝑋𝛽 ̂) = 0\nWei Wang\nThe Hong Kong University of Science and Technology (Guangzhou)\n26Summer",
+      "text": "1 / 24\nDSAA3073 · THEORIES OF DATA SCIENCE\nOLS Beyond Memorization\nUnderstanding the Normal Equations\nWhy does 𝑋⊤\nappear in least squares?\n𝑋⊤\n(𝑦 − 𝑋𝛽 ̂) = 0\nWei Wang\nThe Hong Kong University of Science and Technology (Guangzhou)\n26Summer",
       "asset": "slides/page-01.svg",
-      "assetHash": "f805794a9bc67c56ea732d0135bf6e34f4d43cc2a3d6e2cd926a33155e85fe36",
+      "assetHash": "ccf205804033c26090d26be570bf92b8ee5b6e64a0bcb71a5143341ff419b59a",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -57,6 +57,15 @@
         {
           "id": "text-1",
           "kind": "text",
+          "text": "1 / 24",
+          "x": 877.976,
+          "y": 27.261,
+          "width": 34.024,
+          "height": 12.540000000000003
+        },
+        {
+          "id": "text-2",
+          "kind": "text",
           "text": "DSAA3073 · THEORIES OF DATA SCIENCE",
           "x": 333.695,
           "y": 104.2215,
@@ -64,7 +73,7 @@
           "height": 14.819999999999993
         },
         {
-          "id": "text-2",
+          "id": "text-3",
           "kind": "text",
           "text": "OLS Beyond Memorization",
           "x": 263.9625,
@@ -73,7 +82,7 @@
           "height": 39.89999999999998
         },
         {
-          "id": "text-3",
+          "id": "text-4",
           "kind": "text",
           "text": "Understanding the Normal Equations",
           "x": 286.6125,
@@ -82,7 +91,7 @@
           "height": 28.5
         },
         {
-          "id": "text-4",
+          "id": "text-5",
           "kind": "text",
           "text": "Why does 𝑋 ⊤ appear in least squares?",
           "x": 289.3194,
@@ -91,7 +100,7 @@
           "height": 25.810400000000016
         },
         {
-          "id": "text-5",
+          "id": "text-6",
           "kind": "text",
           "text": "𝑋 ⊤ (𝑦 − 𝑋𝛽̂) = 0",
           "x": 392.8231,
@@ -100,7 +109,7 @@
           "height": 28.887999999999977
         },
         {
-          "id": "text-6",
+          "id": "text-7",
           "kind": "text",
           "text": "Wei Wang The Hong Kong University of Science and Technology (Guangzhou)",
           "x": 203.69595,
@@ -109,7 +118,7 @@
           "height": 35.96799400000003
         },
         {
-          "id": "text-7",
+          "id": "text-8",
           "kind": "text",
           "text": "26Summer",
           "x": 801.142,
@@ -122,6 +131,15 @@
         {
           "id": "text-1",
           "kind": "text",
+          "text": "1 / 24",
+          "x": 877.976,
+          "y": 27.261,
+          "width": 34.024,
+          "height": 12.540000000000003
+        },
+        {
+          "id": "text-2",
+          "kind": "text",
           "text": "DSAA3073 · THEORIES OF DATA SCIENCE",
           "x": 333.695,
           "y": 104.2215,
@@ -129,7 +147,7 @@
           "height": 14.819999999999993
         },
         {
-          "id": "text-2",
+          "id": "text-3",
           "kind": "text",
           "text": "OLS Beyond Memorization",
           "x": 263.9625,
@@ -138,7 +156,7 @@
           "height": 39.89999999999998
         },
         {
-          "id": "text-3",
+          "id": "text-4",
           "kind": "text",
           "text": "Understanding the Normal Equations",
           "x": 286.6125,
@@ -147,7 +165,7 @@
           "height": 28.5
         },
         {
-          "id": "text-4",
+          "id": "text-5",
           "kind": "text",
           "text": "Why does 𝑋 ⊤ appear in least squares?",
           "x": 289.3194,
@@ -156,7 +174,7 @@
           "height": 25.810400000000016
         },
         {
-          "id": "text-5",
+          "id": "text-6",
           "kind": "text",
           "text": "𝑋 ⊤ (𝑦 − 𝑋𝛽̂) = 0",
           "x": 392.8231,
@@ -165,7 +183,7 @@
           "height": 28.887999999999977
         },
         {
-          "id": "text-6",
+          "id": "text-7",
           "kind": "text",
           "text": "Wei Wang The Hong Kong University of Science and Technology (Guangzhou)",
           "x": 203.69595,
@@ -174,7 +192,7 @@
           "height": 35.96799400000003
         },
         {
-          "id": "text-7",
+          "id": "text-8",
           "kind": "text",
           "text": "26Summer",
           "x": 801.142,
@@ -203,9 +221,9 @@
       "navigationLabel": "Outline",
       "section": "1 · The problem and its spaces",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "1 · THE PROBLEM AND ITS SPACES 02\nOutline\n1. The problem and its spaces\n2. Projection and optimization\n3. Gram matrices and the adjoint\n4. Rank, stability and ridge\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "1 · THE PROBLEM AND ITS SPACES 2 / 24\nOutline\n1. The problem and its spaces\n2. Projection and optimization\n3. Gram matrices and the adjoint\n4. Rank, stability and ridge\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-02.svg",
-      "assetHash": "32a01f1bf18be6760d7dfeea34fe333ee3d35972c8a1c210bd93daea67e815d2",
+      "assetHash": "c18d11c445f54bb39db6896f0f60f64d7c0214193b07c704ad2c26507a6f230c",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -277,10 +295,10 @@
         {
           "id": "text-8",
           "kind": "text",
-          "text": "02",
-          "x": 900.092,
+          "text": "2 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         }
       ],
@@ -351,10 +369,10 @@
         {
           "id": "text-8",
           "kind": "text",
-          "text": "02",
-          "x": 900.092,
+          "text": "2 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         }
       ],
@@ -386,9 +404,9 @@
       "navigationLabel": "Start from the least-squares problem",
       "section": "1 · The problem and its spaces",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "1 · THE PROBLEM AND ITS SPACES 03\nStart from the least-squares problem\nWhy do we left-multiply by 𝑋⊤\n? What makes this choice meaningful?\nObserved data and a linear model\n𝑋 ∈ ℝ𝑛×𝑑\n, 𝑦 ∈ ℝ𝑛\nA model may write 𝑦 = 𝑋𝛽∗ + 𝜀.\nThe noise 𝜀 need not be orthogonal to the\nfeature columns.\nThe fitting problem\n𝛽 ̂∈ argmin\n𝛽\n‖𝑦 − 𝑋𝛽‖2\nChoose coefficients to minimize squared\nresiduals.\nThe fitted residual is 𝑟 = 𝑦 − 𝑋𝛽 ̂.\n💡 The normal equations characterize a least-squares fit. They do not follow by simply dropping\nthe noise term.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "1 · THE PROBLEM AND ITS SPACES 3 / 24\nStart from the least-squares problem\nWhy do we left-multiply by 𝑋⊤\n? What makes this choice meaningful?\nObserved data and a linear model\n𝑋 ∈ ℝ𝑛×𝑑\n, 𝑦 ∈ ℝ𝑛\nA model may write 𝑦 = 𝑋𝛽∗ + 𝜀.\nThe noise 𝜀 need not be orthogonal to the\nfeature columns.\nThe fitting problem\n𝛽 ̂∈ argmin\n𝛽\n‖𝑦 − 𝑋𝛽‖2\nChoose coefficients to minimize squared\nresiduals.\nThe fitted residual is 𝑟 = 𝑦 − 𝑋𝛽 ̂.\n💡 The normal equations characterize a least-squares fit. They do not follow by simply dropping\nthe noise term.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-03.svg",
-      "assetHash": "cee7d764d1abf77a0128e98099a064f2248e8d1cce15303964f3ed486708ad9d",
+      "assetHash": "ee1bab40553d1015e037730ee40137f4b91f1a19b12930d2cffebd7e8c20d70d",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -406,10 +424,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "03",
-          "x": 900.092,
+          "text": "3 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -543,10 +561,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "03",
-          "x": 900.092,
+          "text": "3 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -695,9 +713,9 @@
       "navigationLabel": "1 · Dimensions locate the transpose",
       "section": "1 · The problem and its spaces",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "1 · THE PROBLEM AND ITS SPACES 04\n1 · Dimensions locate the transpose\nObject Space / size Meaning\n𝛽 ℝ𝑑\nOne coefficient per feature\n𝑋𝛽 and 𝑦 ℝ𝑛\nOne prediction or response per sample\n𝑋 𝑛 × 𝑑 Maps coefficients to predictions\n𝑋⊤\n𝑑 × 𝑛 Maps a data vector to feature inner products\n𝛽 →\n𝑋\n𝑋𝛽 𝑟 →\n𝑋⊤\n𝑋⊤\n𝑟\n💡 Dimensions explain where 𝑋⊤\n𝑟 lives. They do not yet explain why its value must be zero at the\nfit.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "1 · THE PROBLEM AND ITS SPACES 4 / 24\n1 · Dimensions locate the transpose\nObject Space / size Meaning\n𝛽 ℝ𝑑\nOne coefficient per feature\n𝑋𝛽 and 𝑦 ℝ𝑛\nOne prediction or response per sample\n𝑋 𝑛 × 𝑑 Maps coefficients to predictions\n𝑋⊤\n𝑑 × 𝑛 Maps a data vector to feature inner products\n𝛽 →\n𝑋\n𝑋𝛽 𝑟 →\n𝑋⊤\n𝑋⊤\n𝑟\n💡 Dimensions explain where 𝑋⊤\n𝑟 lives. They do not yet explain why its value must be zero at the\nfit.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-04.svg",
-      "assetHash": "0e5851b1c82dacf42e3e5931b72be171ce885f00abc570f40033cbada1ce8b33",
+      "assetHash": "8c00f096bbe6694c74d0a95bd0fd635c9cbf06af01fda48c10bdcfae4ed80ba8",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -715,10 +733,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "04",
-          "x": 900.092,
+          "text": "4 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -942,10 +960,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "04",
-          "x": 900.092,
+          "text": "4 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -1192,9 +1210,9 @@
       "navigationLabel": "A running example: fit one constant",
       "section": "1 · The problem and its spaces",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "1 · THE PROBLEM AND ITS SPACES 05\nA running example: fit one constant\nWe observe three responses and predict the same\nvalue for each:\n𝑋 =\n(\n1\n1\n1)\n, 𝑦 =\n(\n1\n2\n4)\n, 𝛽 ∈ ℝ.\n𝐿(𝛽) = (1 − 𝛽)2\n+ (2 − 𝛽)2\n+ (4 − 𝛽)2\n.\nWhich constant gives the smallest squared\nerror?\n💡 The feasible predictions form a line in ℝ3\n: every vector of the form (𝛽,𝛽,𝛽)⊤\n.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "1 · THE PROBLEM AND ITS SPACES 5 / 24\nA running example: fit one constant\nWe observe three responses and predict the same\nvalue for each:\n𝑋 =\n(\n1\n1\n1)\n, 𝑦 =\n(\n1\n2\n4)\n, 𝛽 ∈ ℝ.\n𝐿(𝛽) = (1 − 𝛽)2\n+ (2 − 𝛽)2\n+ (4 − 𝛽)2\n.\nWhich constant gives the smallest squared\nerror?\n💡 The feasible predictions form a line in ℝ3\n: every vector of the form (𝛽,𝛽,𝛽)⊤\n.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-05.svg",
-      "assetHash": "e3bbaaf124f994fe3ddb3096545a63f380e94c68688891c7c1a92869d343eae5",
+      "assetHash": "50e73d5929c241ad6703394cd35ebb2465a85ff42c233ba510f37be28e76fb00",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -1329,10 +1347,10 @@
         {
           "id": "text-15",
           "kind": "text",
-          "text": "05",
-          "x": 900.092,
+          "text": "5 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         }
       ],
@@ -1466,10 +1484,10 @@
         {
           "id": "text-15",
           "kind": "text",
-          "text": "05",
-          "x": 900.092,
+          "text": "5 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -1509,9 +1527,9 @@
       "navigationLabel": "Outline",
       "section": "2 · Projection and optimization",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "2 · PROJECTION AND OPTIMIZATION 06\nOutline\n1. The problem and its spaces\n2. Projection and optimization\n3. Gram matrices and the adjoint\n4. Rank, stability and ridge\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "2 · PROJECTION AND OPTIMIZATION 6 / 24\nOutline\n1. The problem and its spaces\n2. Projection and optimization\n3. Gram matrices and the adjoint\n4. Rank, stability and ridge\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-06.svg",
-      "assetHash": "424dbcd1fcc0530a5439ac5e2e22c22fe99a71ac8a6171fb3e89bc90abc601db",
+      "assetHash": "74099dc6f4c084501bc2e4ab854e75b8fb6e7cf507e276d84adca47505657d8d",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -1583,10 +1601,10 @@
         {
           "id": "text-8",
           "kind": "text",
-          "text": "06",
-          "x": 900.092,
+          "text": "6 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         }
       ],
@@ -1657,10 +1675,10 @@
         {
           "id": "text-8",
           "kind": "text",
-          "text": "06",
-          "x": 900.092,
+          "text": "6 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         }
       ],
@@ -1692,9 +1710,9 @@
       "navigationLabel": "2 · Least squares is orthogonal projection",
       "section": "2 · Projection and optimization",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "2 · PROJECTION AND OPTIMIZATION 07\n2 · Least squares is orthogonal projection\nAll predictions lie in col(𝑋).\nAt the closest prediction 𝑦 ̂ = 𝑋𝛽 ̂, 𝑟 = 𝑦 − 𝑦 ̂ is\nperpendicular to this entire subspace.\n𝑋⊤\n𝑟 = 0\n𝑋⊤\n𝑋𝛽 ̂= 𝑋⊤\n𝑦\n“Normal” here means perpendicular.\n💡 𝑦 = 𝑦 ̂+ 𝑟: the fitted part lies in col(𝑋); the unexplained part is orthogonal to it.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "2 · PROJECTION AND OPTIMIZATION 7 / 24\n2 · Least squares is orthogonal projection\nAll predictions lie in col(𝑋).\nAt the closest prediction 𝑦 ̂ = 𝑋𝛽 ̂, 𝑟 = 𝑦 − 𝑦 ̂ is\nperpendicular to this entire subspace.\n𝑋⊤\n𝑟 = 0\n𝑋⊤\n𝑋𝛽 ̂= 𝑋⊤\n𝑦\n“Normal” here means perpendicular.\n💡 𝑦 = 𝑦 ̂+ 𝑟: the fitted part lies in col(𝑋); the unexplained part is orthogonal to it.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-07.svg",
-      "assetHash": "82a6882c1a543834176160e5319bba51862915f05bc480b68f77e57162715ddb",
+      "assetHash": "e5ba92d92f4d252a93073dcfb05bad88543256499f1feada42e058fe3582df37",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -1802,10 +1820,10 @@
         {
           "id": "text-12",
           "kind": "text",
-          "text": "07",
-          "x": 900.092,
+          "text": "7 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         }
       ],
@@ -1912,10 +1930,10 @@
         {
           "id": "text-12",
           "kind": "text",
-          "text": "07",
-          "x": 900.092,
+          "text": "7 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -1955,9 +1973,9 @@
       "navigationLabel": "Why orthogonality guarantees the minimum",
       "section": "2 · Projection and optimization",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "2 · PROJECTION AND OPTIMIZATION 08\nWhy orthogonality guarantees the minimum\nSuppose 𝑋⊤\n𝑟 = 0, with 𝑟 = 𝑦 − 𝑋𝛽 ̂. Move to any coefficients 𝛽 ̂+ ℎ.\nCompare the losses\n𝐿(𝛽 ̂+ ℎ) = ‖𝑟 − 𝑋ℎ‖2\n= ‖𝑟‖2\n− 2𝑟⊤\n𝑋ℎ + ‖𝑋ℎ‖2\n= 𝐿(𝛽 ̂) + ‖𝑋ℎ‖2\n≥ 𝐿(𝛽 ̂).\nThe cross term vanishes because 𝑟⊤\n𝑋ℎ = (𝑋⊤\n𝑟)\n⊤\nℎ = 0.\n💡 Every feasible change can only increase the loss or leave it unchanged. Full column rank makes\nevery nonzero coefficient change increase it.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "2 · PROJECTION AND OPTIMIZATION 8 / 24\nWhy orthogonality guarantees the minimum\nSuppose 𝑋⊤\n𝑟 = 0, with 𝑟 = 𝑦 − 𝑋𝛽 ̂. Move to any coefficients 𝛽 ̂+ ℎ.\nCompare the losses\n𝐿(𝛽 ̂+ ℎ) = ‖𝑟 − 𝑋ℎ‖2\n= ‖𝑟‖2\n− 2𝑟⊤\n𝑋ℎ + ‖𝑋ℎ‖2\n= 𝐿(𝛽 ̂) + ‖𝑋ℎ‖2\n≥ 𝐿(𝛽 ̂).\nThe cross term vanishes because 𝑟⊤\n𝑋ℎ = (𝑋⊤\n𝑟)\n⊤\nℎ = 0.\n💡 Every feasible change can only increase the loss or leave it unchanged. Full column rank makes\nevery nonzero coefficient change increase it.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-08.svg",
-      "assetHash": "3c253c8a19c3f3151eabce617f3d94ef8aa7be0f353fc533847f35333413073d",
+      "assetHash": "f4bc55250d1aaba0b8f944968a2e3da0fac25514fdd9e36fd59f83df66caded3",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -1975,10 +1993,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "08",
-          "x": 900.092,
+          "text": "8 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -2085,10 +2103,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "08",
-          "x": 900.092,
+          "text": "8 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -2210,9 +2228,9 @@
       "navigationLabel": "3 · The gradient yields the same condition",
       "section": "2 · Projection and optimization",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "2 · PROJECTION AND OPTIMIZATION 09\n3 · The gradient yields the same condition\nDifferentiate the squared loss\n𝐿(𝛽) = (𝑦 − 𝑋𝛽)⊤\n(𝑦 − 𝑋𝛽)\n∇𝐿(𝛽) = −2𝑋⊤\n(𝑦 − 𝑋𝛽)\nAt a stationary point:\n∇𝐿(𝛽 ̂) = 0\n𝑋⊤\n𝑋𝛽 ̂= 𝑋⊤\n𝑦.\nWhy this is a global minimum\nThe Hessian is positive semidefinite:\n∇2\n𝐿 = 2𝑋⊤\n𝑋,\nℎ⊤\n∇2\n𝐿ℎ = 2‖𝑋ℎ‖2\n≥ 0.\nThe loss is convex. With full column rank, it is\nstrictly convex.\n💡 Setting the gradient to zero solves the optimality condition. It is not generally one gradient-\ndescent step.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "2 · PROJECTION AND OPTIMIZATION 9 / 24\n3 · The gradient yields the same condition\nDifferentiate the squared loss\n𝐿(𝛽) = (𝑦 − 𝑋𝛽)⊤\n(𝑦 − 𝑋𝛽)\n∇𝐿(𝛽) = −2𝑋⊤\n(𝑦 − 𝑋𝛽)\nAt a stationary point:\n∇𝐿(𝛽 ̂) = 0\n𝑋⊤\n𝑋𝛽 ̂= 𝑋⊤\n𝑦.\nWhy this is a global minimum\nThe Hessian is positive semidefinite:\n∇2\n𝐿 = 2𝑋⊤\n𝑋,\nℎ⊤\n∇2\n𝐿ℎ = 2‖𝑋ℎ‖2\n≥ 0.\nThe loss is convex. With full column rank, it is\nstrictly convex.\n💡 Setting the gradient to zero solves the optimality condition. It is not generally one gradient-\ndescent step.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-09.svg",
-      "assetHash": "95882d3074670109e4f12d4e5fbfd0b7feb9fa079f2baae9a4f256f9989f9e08",
+      "assetHash": "d9a6e011efa2437bd7dd2d46ba5521d389700a4c3c418799a991806e48601335",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -2230,10 +2248,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "09",
-          "x": 900.092,
+          "text": "9 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -2394,10 +2412,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "09",
-          "x": 900.092,
+          "text": "9 / 24",
+          "x": 877.976,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 34.024,
           "height": 12.540000000000003
         },
         {
@@ -2573,9 +2591,9 @@
       "navigationLabel": "Check the fit in the same example",
       "section": "2 · Projection and optimization",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "2 · PROJECTION AND OPTIMIZATION 10\nCheck the fit in the same example\nNormal equation and residual\n𝑋⊤\n𝑋 = 3, 𝑋⊤\n𝑦 = 7\n𝛽 ̂=\n7\n3\n𝑟 =\n(\n−4\n3\n−1\n3\n5\n3 )\n𝑋⊤\n𝑟 = −\n4\n3\n−\n1\n3\n+\n5\n3\n= 0\nGradient and loss\n𝐿′\n(𝛽) = 6𝛽 − 14\n𝐿′\n(\n7\n3\n) = 0\n𝐿(\n7\n3\n) =\n14\n3\n𝐿(\n7\n3\n+ 𝛿) =\n14\n3\n+ 3𝛿2\n💡 The mean, the projection, and the zero-gradient solution agree. Here the residuals sum to zero\nbecause 𝑋 contains the constant feature.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "2 · PROJECTION AND OPTIMIZATION 10 / 24\nCheck the fit in the same example\nNormal equation and residual\n𝑋⊤\n𝑋 = 3, 𝑋⊤\n𝑦 = 7\n𝛽 ̂=\n7\n3\n𝑟 =\n(\n−4\n3\n−1\n3\n5\n3 )\n𝑋⊤\n𝑟 = −\n4\n3\n−\n1\n3\n+\n5\n3\n= 0\nGradient and loss\n𝐿′\n(𝛽) = 6𝛽 − 14\n𝐿′\n(\n7\n3\n) = 0\n𝐿(\n7\n3\n) =\n14\n3\n𝐿(\n7\n3\n+ 𝛿) =\n14\n3\n+ 3𝛿2\n💡 The mean, the projection, and the zero-gradient solution agree. Here the residuals sum to zero\nbecause 𝑋 contains the constant feature.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-10.svg",
-      "assetHash": "a5af65e211561d215ddb958dd54452ff67f5eaf341b7ff560d6c5573a75df784",
+      "assetHash": "9379a3cbe5a8130f3c22732f1b2f823f2283d7cbecfbb47f10d5e3b9585efcea",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -2593,10 +2611,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "10",
-          "x": 900.092,
+          "text": "10 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -2883,10 +2901,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "10",
-          "x": 900.092,
+          "text": "10 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -3188,9 +3206,9 @@
       "navigationLabel": "Outline",
       "section": "3 · Gram matrices and the adjoint",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "3 · GRAM MATRICES AND THE ADJOINT 11\nOutline\n1. The problem and its spaces\n2. Projection and optimization\n3. Gram matrices and the adjoint\n4. Rank, stability and ridge\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "3 · GRAM MATRICES AND THE ADJOINT 11 / 24\nOutline\n1. The problem and its spaces\n2. Projection and optimization\n3. Gram matrices and the adjoint\n4. Rank, stability and ridge\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-11.svg",
-      "assetHash": "821aadc9986093398b43464a75c886ddd87d7740a81fd143d8300c32822383b0",
+      "assetHash": "a99a6c86d9191b0f21f7c8eef2d66b17bde6dd1c0e5ed86efd647285ddbff00b",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -3262,10 +3280,10 @@
         {
           "id": "text-8",
           "kind": "text",
-          "text": "11",
-          "x": 900.092,
+          "text": "11 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         }
       ],
@@ -3336,10 +3354,10 @@
         {
           "id": "text-8",
           "kind": "text",
-          "text": "11",
-          "x": 900.092,
+          "text": "11 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         }
       ],
@@ -3371,9 +3389,9 @@
       "navigationLabel": "4 · The Gram matrix records feature geometry",
       "section": "3 · Gram matrices and the adjoint",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "3 · GRAM MATRICES AND THE ADJOINT 12\n4 · The Gram matrix records feature geometry\nLet 𝑋𝑗 be column 𝑗 of 𝑋. The Gram matrix 𝐺 = 𝑋⊤\n𝑋 satisfies\n𝐺𝑗𝑘 = 𝑋⊤\n𝑗 𝑋𝑘 = ∑\n𝑛\n𝑖=1\n𝑋𝑖𝑗𝑋𝑖𝑘.\nIts entries\n• 𝐺𝑗𝑗 = ‖𝑋𝑗‖\n2\n: feature magnitude.\n• 𝐺𝑗𝑘: alignment between two feature\ncolumns.\n• 𝐺 is symmetric and positive semidefinite.\nIts action\nℎ⊤\n𝐺ℎ = ‖𝑋ℎ‖2\nThis measures how much a coefficient change\nalters the predictions.\n𝐺 is invertible exactly when rank(𝑋) = 𝑑.\n💡 The normal equations are square, but their significance comes from feature geometry. Square\ndoes not imply invertible.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "3 · GRAM MATRICES AND THE ADJOINT 12 / 24\n4 · The Gram matrix records feature geometry\nLet 𝑋𝑗 be column 𝑗 of 𝑋. The Gram matrix 𝐺 = 𝑋⊤\n𝑋 satisfies\n𝐺𝑗𝑘 = 𝑋⊤\n𝑗 𝑋𝑘 = ∑\n𝑛\n𝑖=1\n𝑋𝑖𝑗𝑋𝑖𝑘.\nIts entries\n• 𝐺𝑗𝑗 = ‖𝑋𝑗‖\n2\n: feature magnitude.\n• 𝐺𝑗𝑘: alignment between two feature\ncolumns.\n• 𝐺 is symmetric and positive semidefinite.\nIts action\nℎ⊤\n𝐺ℎ = ‖𝑋ℎ‖2\nThis measures how much a coefficient change\nalters the predictions.\n𝐺 is invertible exactly when rank(𝑋) = 𝑑.\n💡 The normal equations are square, but their significance comes from feature geometry. Square\ndoes not imply invertible.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-12.svg",
-      "assetHash": "6d0d5a67425cf99c7c3cf30cf01ee99c48067dede4b804936a899ae26744a01b",
+      "assetHash": "297a2573ebdcf63a46a1b3bd15a0d374ac96b59ba4c3eeeefcdeb9af092d5cca",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -3391,10 +3409,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "12",
-          "x": 900.092,
+          "text": "12 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -3555,10 +3573,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "12",
-          "x": 900.092,
+          "text": "12 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -3734,9 +3752,9 @@
       "navigationLabel": "5 · Match the feature inner products",
       "section": "3 · Gram matrices and the adjoint",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "3 · GRAM MATRICES AND THE ADJOINT 13\n5 · Match the feature inner products\nEach normal equation matches one observed inner product with its fitted counterpart.\n𝑋⊤\n𝑗 𝑦 = 𝑋⊤\n𝑗 𝑋𝛽 ̂= ∑\n𝑑\n𝑘=1\n(𝑋⊤\n𝑗 𝑋𝑘)𝛽 ̂\n𝑘\nQuantity Interpretation\n𝑋⊤\n𝑗 𝑦 Alignment of feature 𝑗 with the observed response\n𝑋⊤\n𝑗 𝑋𝑘 Alignment between features 𝑗 and 𝑘\n𝑋⊤\n𝑗 𝑟 = 0 No residual component along feature 𝑗\n💡 Inner products depend on scale and centering. They are not automatically Pearson correlations\nor individual causal contributions.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "3 · GRAM MATRICES AND THE ADJOINT 13 / 24\n5 · Match the feature inner products\nEach normal equation matches one observed inner product with its fitted counterpart.\n𝑋⊤\n𝑗 𝑦 = 𝑋⊤\n𝑗 𝑋𝛽 ̂= ∑\n𝑑\n𝑘=1\n(𝑋⊤\n𝑗 𝑋𝑘)𝛽 ̂\n𝑘\nQuantity Interpretation\n𝑋⊤\n𝑗 𝑦 Alignment of feature 𝑗 with the observed response\n𝑋⊤\n𝑗 𝑋𝑘 Alignment between features 𝑗 and 𝑘\n𝑋⊤\n𝑗 𝑟 = 0 No residual component along feature 𝑗\n💡 Inner products depend on scale and centering. They are not automatically Pearson correlations\nor individual causal contributions.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-13.svg",
-      "assetHash": "481c0c0c6af89c2e896516b16b9a2d7fd518dc360ea7cd8cbcceb500546b2f5e",
+      "assetHash": "2223f157edfda83c598b4e92e4f7cd5bfa9a8246bea8dab2ce70a05ca77571d1",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -3754,10 +3772,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "13",
-          "x": 900.092,
+          "text": "13 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -3909,10 +3927,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "13",
-          "x": 900.092,
+          "text": "13 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -4087,9 +4105,9 @@
       "navigationLabel": "Making a square system is not enough",
       "section": "3 · Gram matrices and the adjoint",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "3 · GRAM MATRICES AND THE ADJOINT 14\nMaking a square system is not enough\nFor the constant-fit example, choose a different 1 × 3 map 𝐴 = (1 0 0).\nArbitrary compression\n𝐴𝑋𝛽 = 𝐴𝑦\n𝛽 = 1\nThis square system has a unique solution, but\n𝐿(1) = 02\n+ 12\n+ 32\n= 10.\nLeast-squares compression\n𝑋⊤\n𝑋𝛽 = 𝑋⊤\n𝑦\n𝛽 =\n7\n3\nThe residual is orthogonal to the model space,\nand\n𝐿(\n7\n3\n) =\n14\n3\n< 10.\n💡 Many maps have the right dimensions. 𝑋⊤\nis special because it tests the residual against every\nfeasible prediction direction.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "3 · GRAM MATRICES AND THE ADJOINT 14 / 24\nMaking a square system is not enough\nFor the constant-fit example, choose a different 1 × 3 map 𝐴 = (1 0 0).\nArbitrary compression\n𝐴𝑋𝛽 = 𝐴𝑦\n𝛽 = 1\nThis square system has a unique solution, but\n𝐿(1) = 02\n+ 12\n+ 32\n= 10.\nLeast-squares compression\n𝑋⊤\n𝑋𝛽 = 𝑋⊤\n𝑦\n𝛽 =\n7\n3\nThe residual is orthogonal to the model space,\nand\n𝐿(\n7\n3\n) =\n14\n3\n< 10.\n💡 Many maps have the right dimensions. 𝑋⊤\nis special because it tests the residual against every\nfeasible prediction direction.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-14.svg",
-      "assetHash": "29120c19f922febb5c8af945bd21aad19ad2d0276dea23d43f116b808336c342",
+      "assetHash": "a96fcf22236f05b1ba5b92d39e2c4ea931d6b9a214e1dd92ffba0d9ded725ce7",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -4107,10 +4125,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "14",
-          "x": 900.092,
+          "text": "14 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -4334,10 +4352,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "14",
-          "x": 900.092,
+          "text": "14 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -4576,9 +4594,9 @@
       "navigationLabel": "6 · The adjoint explains why the transpose",
       "section": "3 · Gram matrices and the adjoint",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "3 · GRAM MATRICES AND THE ADJOINT 15\n6 · The adjoint explains why the transpose\nUnder the standard Euclidean inner products, the adjoint of 𝑋 is 𝑋⊤\n:\n⟨𝑋ℎ,𝑟⟩ℝ𝑛 = ⟨ℎ,𝑋⊤\n𝑟⟩\nℝ𝑑\n.\nA direction in each space\nA parameter direction ℎ produces a prediction\ndirection 𝑋ℎ.\nPairing the residual with 𝑋ℎ gives exactly the\nsame scalar as pairing 𝑋⊤\n𝑟 with ℎ.\nThe optimality condition\n𝑋⊤\n𝑟 = 0\n↔︎\n⟨𝑋ℎ,𝑟⟩ = 0 ∀ℎ\nThus the residual is orthogonal to col(𝑋).\n💡 The transpose preserves the pairing between parameter and data directions. The choice of inner\nproducts matters.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "3 · GRAM MATRICES AND THE ADJOINT 15 / 24\n6 · The adjoint explains why the transpose\nUnder the standard Euclidean inner products, the adjoint of 𝑋 is 𝑋⊤\n:\n⟨𝑋ℎ,𝑟⟩ℝ𝑛 = ⟨ℎ,𝑋⊤\n𝑟⟩\nℝ𝑑\n.\nA direction in each space\nA parameter direction ℎ produces a prediction\ndirection 𝑋ℎ.\nPairing the residual with 𝑋ℎ gives exactly the\nsame scalar as pairing 𝑋⊤\n𝑟 with ℎ.\nThe optimality condition\n𝑋⊤\n𝑟 = 0\n↔︎\n⟨𝑋ℎ,𝑟⟩ = 0 ∀ℎ\nThus the residual is orthogonal to col(𝑋).\n💡 The transpose preserves the pairing between parameter and data directions. The choice of inner\nproducts matters.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-15.svg",
-      "assetHash": "38ba6ffe60a937c6300814efffd91be487abd52dd3857c5c3f213b4e1659850c",
+      "assetHash": "c4841237f32668fae4fda7ba3c019653550c8d1eb398d3ffe458b086d354e88c",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -4596,10 +4614,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "15",
-          "x": 900.092,
+          "text": "15 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -4751,10 +4769,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "15",
-          "x": 900.092,
+          "text": "15 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -4921,9 +4939,9 @@
       "navigationLabel": "Six views, one optimality condition",
       "section": "3 · Gram matrices and the adjoint",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "3 · GRAM MATRICES AND THE ADJOINT 16\nSix views, one optimality condition\nView What it explains\nDimensions 𝑋⊤\n𝑟 lives in parameter space ℝ𝑑\n.\nGeometry 𝑟 is perpendicular to all of col(𝑋).\nOptimization ∇𝐿(𝛽 ̂) = −2𝑋⊤\n𝑟 = 0.\nGram matrix 𝑋⊤\n𝑋 encodes how coefficient changes affect predictions.\nInner products 𝑋⊤\n𝑗 𝑦 = 𝑋⊤\n𝑗 𝑦 ̂ for every feature 𝑗.\nAdjoint ⟨𝑋ℎ,𝑟⟩ = ⟨ℎ,𝑋⊤\n𝑟⟩.\n💡 To explain the normal equations, connect the spaces, the loss, and the residual. Each view answers a\ndifferent part of the same question.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "3 · GRAM MATRICES AND THE ADJOINT 16 / 24\nSix views, one optimality condition\nView What it explains\nDimensions 𝑋⊤\n𝑟 lives in parameter space ℝ𝑑\n.\nGeometry 𝑟 is perpendicular to all of col(𝑋).\nOptimization ∇𝐿(𝛽 ̂) = −2𝑋⊤\n𝑟 = 0.\nGram matrix 𝑋⊤\n𝑋 encodes how coefficient changes affect predictions.\nInner products 𝑋⊤\n𝑗 𝑦 = 𝑋⊤\n𝑗 𝑦 ̂ for every feature 𝑗.\nAdjoint ⟨𝑋ℎ,𝑟⟩ = ⟨ℎ,𝑋⊤\n𝑟⟩.\n💡 To explain the normal equations, connect the spaces, the loss, and the residual. Each view answers a\ndifferent part of the same question.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-16.svg",
-      "assetHash": "4823599ec33066759e73f18786d735555fe189060f8ce83efe943451b902ad30",
+      "assetHash": "00044c813b04ba41109b91a1b61efe72e5de72a999d84bfbb4c9a8e27d2f63b2",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -4941,10 +4959,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "16",
-          "x": 900.092,
+          "text": "16 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -5051,10 +5069,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "16",
-          "x": 900.092,
+          "text": "16 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -5184,9 +5202,9 @@
       "navigationLabel": "Outline",
       "section": "4 · Rank, stability and ridge",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "4 · RANK, STABILITY AND RIDGE 17\nOutline\n1. The problem and its spaces\n2. Projection and optimization\n3. Gram matrices and the adjoint\n4. Rank, stability and ridge\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "4 · RANK, STABILITY AND RIDGE 17 / 24\nOutline\n1. The problem and its spaces\n2. Projection and optimization\n3. Gram matrices and the adjoint\n4. Rank, stability and ridge\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-17.svg",
-      "assetHash": "00b323086a501c59ad1b0eba90808e6b7d7e444bcab9e0c3d8161c2a70cd0d74",
+      "assetHash": "845871a8156aca102f572d60eb7c77bd38c97db1e6f9c91148089e5603f585ac",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -5258,10 +5276,10 @@
         {
           "id": "text-8",
           "kind": "text",
-          "text": "17",
-          "x": 900.092,
+          "text": "17 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         }
       ],
@@ -5332,10 +5350,10 @@
         {
           "id": "text-8",
           "kind": "text",
-          "text": "17",
-          "x": 900.092,
+          "text": "17 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         }
       ],
@@ -5367,9 +5385,9 @@
       "navigationLabel": "Rank controls coefficient uniqueness",
       "section": "4 · Rank, stability and ridge",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "4 · RANK, STABILITY AND RIDGE 18\nRank controls coefficient uniqueness\nFull column rank: rank(𝑋) = 𝑑\n𝑋⊤\n𝑋 is positive definite.\nThere is one coefficient vector:\n𝛽 ̂= (𝑋⊤\n𝑋)\n−1\n𝑋⊤\n𝑦.\nThis formula requires full column rank.\nRank deficient: rank(𝑋) < 𝑑\n𝑋⊤\n𝑋 is singular, but least squares still has\nminimizers.\nIf 𝑋ℎ = 0, then 𝛽 ̂+ ℎ produces the same fitted\nvalues as 𝛽 ̂.\nThe fitted vector 𝑦 ̂ remains unique.\nExample: duplicate the constant feature, 𝑋 = (\n1\n1\n1\n1\n1\n1\n). Every pair with 𝛽1 + 𝛽2 = 7\n3 gives the same fit\nto (1,2,4)⊤\n.\n💡 Different coefficient vectors can represent the same unique projection. Identifiability of\nparameters is a separate question.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "4 · RANK, STABILITY AND RIDGE 18 / 24\nRank controls coefficient uniqueness\nFull column rank: rank(𝑋) = 𝑑\n𝑋⊤\n𝑋 is positive definite.\nThere is one coefficient vector:\n𝛽 ̂= (𝑋⊤\n𝑋)\n−1\n𝑋⊤\n𝑦.\nThis formula requires full column rank.\nRank deficient: rank(𝑋) < 𝑑\n𝑋⊤\n𝑋 is singular, but least squares still has\nminimizers.\nIf 𝑋ℎ = 0, then 𝛽 ̂+ ℎ produces the same fitted\nvalues as 𝛽 ̂.\nThe fitted vector 𝑦 ̂ remains unique.\nExample: duplicate the constant feature, 𝑋 = (\n1\n1\n1\n1\n1\n1\n). Every pair with 𝛽1 + 𝛽2 = 7\n3 gives the same fit\nto (1,2,4)⊤\n.\n💡 Different coefficient vectors can represent the same unique projection. Identifiability of\nparameters is a separate question.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-18.svg",
-      "assetHash": "149cf8b7495c3c1efd6e9dc60e4d44bc3cca6d6fc279f657585adc1fe8faa766",
+      "assetHash": "90c424b02ade087620dc8f66b719c7460c6186b1dea0fb589c4e363a2c67b689",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -5387,10 +5405,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "18",
-          "x": 900.092,
+          "text": "18 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -5569,10 +5587,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "18",
-          "x": 900.092,
+          "text": "18 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -5766,9 +5784,9 @@
       "navigationLabel": "Separate coefficients from fitted values",
       "section": "4 · Rank, stability and ridge",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "4 · RANK, STABILITY AND RIDGE 19\nSeparate coefficients from fitted values\nOperator Map What it returns\n𝑋+\nℝ𝑛\n→ ℝ𝑑\nMinimum-norm least-squares coefficients\n𝑃𝑋 = 𝑋𝑋+\nℝ𝑛\n→ ℝ𝑛\nOrthogonal projection onto col(𝑋)\n𝛽 ̂\nmin = 𝑋+\n𝑦\nWith full column rank only:\n𝑋+\n= (𝑋⊤\n𝑋)\n−1\n𝑋⊤\n.\n𝑦 ̂ = 𝑃𝑋𝑦\nThe projector is symmetric and idempotent:\n𝑃⊤\n𝑋 = 𝑃𝑋, 𝑃2\n𝑋 = 𝑃𝑋.\n💡 𝑋+\nreturns coefficients; 𝑋𝑋+\nreturns predictions. These operators have different domains and\nmeanings.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "4 · RANK, STABILITY AND RIDGE 19 / 24\nSeparate coefficients from fitted values\nOperator Map What it returns\n𝑋+\nℝ𝑛\n→ ℝ𝑑\nMinimum-norm least-squares coefficients\n𝑃𝑋 = 𝑋𝑋+\nℝ𝑛\n→ ℝ𝑛\nOrthogonal projection onto col(𝑋)\n𝛽 ̂\nmin = 𝑋+\n𝑦\nWith full column rank only:\n𝑋+\n= (𝑋⊤\n𝑋)\n−1\n𝑋⊤\n.\n𝑦 ̂ = 𝑃𝑋𝑦\nThe projector is symmetric and idempotent:\n𝑃⊤\n𝑋 = 𝑃𝑋, 𝑃2\n𝑋 = 𝑃𝑋.\n💡 𝑋+\nreturns coefficients; 𝑋𝑋+\nreturns predictions. These operators have different domains and\nmeanings.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-19.svg",
-      "assetHash": "1328efd21a5564cca19580b85d841c2a7acf9dbdf922baaed60d6fbd5fb3f560",
+      "assetHash": "5485509f5dc39988b05d50a1f9c09117f389a6d1229a3c90d5b64e1a32ca0eca",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -5786,10 +5804,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "19",
-          "x": 900.092,
+          "text": "19 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -5887,10 +5905,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "19",
-          "x": 900.092,
+          "text": "19 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -6011,9 +6029,9 @@
       "navigationLabel": "Small singular values amplify response noise",
       "section": "4 · Rank, stability and ridge",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "4 · RANK, STABILITY AND RIDGE 20\nSmall singular values amplify response noise\nUse the compact SVD 𝑋 = 𝑈𝑞Σ𝑞𝑉 ⊤\n𝑞 , with 𝑞 = rank(𝑋) and 𝜎𝑖 > 0.\n𝑋+\n𝑦 = ∑\n𝑞\n𝑖=1\n⟨𝑢𝑖,𝑦⟩\n𝜎𝑖\n𝑣𝑖.\nPerturb one data direction\nIf Δ𝑦 = 𝛿𝑢𝑖, then\nΔ𝛽 ̂\nmin =\n𝛿\n𝜎𝑖\n𝑣𝑖.\nSmall 𝜎𝑖 means large coefficient sensitivity.\nA numerical scale\nLet 𝜎𝑖 = 0.01 and 𝛿 = 0.02.\n‖Δ𝛽 ̂\nmin‖ = 2.\nYet Δ𝑦 ̂ = 𝛿𝑢𝑖: fitted training values need not\nchange greatly.\n💡 Coefficient instability is not the same as instability of fitted training values. Small singular\ndirections reveal the distinction.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "4 · RANK, STABILITY AND RIDGE 20 / 24\nSmall singular values amplify response noise\nUse the compact SVD 𝑋 = 𝑈𝑞Σ𝑞𝑉 ⊤\n𝑞 , with 𝑞 = rank(𝑋) and 𝜎𝑖 > 0.\n𝑋+\n𝑦 = ∑\n𝑞\n𝑖=1\n⟨𝑢𝑖,𝑦⟩\n𝜎𝑖\n𝑣𝑖.\nPerturb one data direction\nIf Δ𝑦 = 𝛿𝑢𝑖, then\nΔ𝛽 ̂\nmin =\n𝛿\n𝜎𝑖\n𝑣𝑖.\nSmall 𝜎𝑖 means large coefficient sensitivity.\nA numerical scale\nLet 𝜎𝑖 = 0.01 and 𝛿 = 0.02.\n‖Δ𝛽 ̂\nmin‖ = 2.\nYet Δ𝑦 ̂ = 𝛿𝑢𝑖: fitted training values need not\nchange greatly.\n💡 Coefficient instability is not the same as instability of fitted training values. Small singular\ndirections reveal the distinction.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-20.svg",
-      "assetHash": "851f244a460e7636b05b3e8e74ecd5f4bee797e3bee8bb1a8f9cdd565790272a",
+      "assetHash": "81dc442b1031b6d1db11d1ec131a9b7b40985f199ea719879eb092cf2040dffd",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -6031,10 +6049,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "20",
-          "x": 900.092,
+          "text": "20 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -6195,10 +6213,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "20",
-          "x": 900.092,
+          "text": "20 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -6374,9 +6392,9 @@
       "navigationLabel": "Ridge limits amplification in weak directions",
       "section": "4 · Rank, stability and ridge",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "4 · RANK, STABILITY AND RIDGE 21\nRidge limits amplification in weak directions\nPenalize all coefficients, with 𝜆 > 0:\n𝛽 ̂\n𝜆 = argmin\n𝛽\n(‖𝑦 − 𝑋𝛽‖2\n+ 𝜆‖𝛽‖2\n).\nThe modified normal equations\n(𝑋⊤\n𝑋 + 𝜆𝐼)𝛽 ̂\n𝜆 = 𝑋⊤\n𝑦\nThe compact SVD form\n𝛽 ̂\n𝜆 = ∑\n𝑞\n𝑖=1\n𝜎𝑖\n𝜎2\n𝑖 + 𝜆\n⟨𝑢𝑖,𝑦⟩𝑣𝑖\nThe same perturbation\nFor 𝜎𝑖 = 0.01, 𝛿 = 0.02, and 𝜆 = 0.01:\nOLS coefficient change: 2.\nRidge coefficient change:\n0.01\n0.012 + 0.01\n⋅ 0.02 ≈ 0.0198.\n💡 Ridge trades shrinkage bias for reduced sensitivity. The penalty makes the coefficient solution\nunique even when 𝑋 is rank deficient.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "4 · RANK, STABILITY AND RIDGE 21 / 24\nRidge limits amplification in weak directions\nPenalize all coefficients, with 𝜆 > 0:\n𝛽 ̂\n𝜆 = argmin\n𝛽\n(‖𝑦 − 𝑋𝛽‖2\n+ 𝜆‖𝛽‖2\n).\nThe modified normal equations\n(𝑋⊤\n𝑋 + 𝜆𝐼)𝛽 ̂\n𝜆 = 𝑋⊤\n𝑦\nThe compact SVD form\n𝛽 ̂\n𝜆 = ∑\n𝑞\n𝑖=1\n𝜎𝑖\n𝜎2\n𝑖 + 𝜆\n⟨𝑢𝑖,𝑦⟩𝑣𝑖\nThe same perturbation\nFor 𝜎𝑖 = 0.01, 𝛿 = 0.02, and 𝜆 = 0.01:\nOLS coefficient change: 2.\nRidge coefficient change:\n0.01\n0.012 + 0.01\n⋅ 0.02 ≈ 0.0198.\n💡 Ridge trades shrinkage bias for reduced sensitivity. The penalty makes the coefficient solution\nunique even when 𝑋 is rank deficient.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-21.svg",
-      "assetHash": "a47eb9d042650a6a28776de769e0a5283b2e6865814f888ae217fee31c88be79",
+      "assetHash": "395c6e2dc18447c25ce359599e59942fd66be718389047d41d0d873e5a2b53d0",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -6394,10 +6412,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "21",
-          "x": 900.092,
+          "text": "21 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -6612,10 +6630,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "21",
-          "x": 900.092,
+          "text": "21 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -6845,9 +6863,9 @@
       "navigationLabel": "Ridge fits are shrunk, not orthogonally projected",
       "section": "4 · Rank, stability and ridge",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "4 · RANK, STABILITY AND RIDGE 22\nRidge fits are shrunk, not orthogonally projected\nThe fitted-value operator is\n𝑆𝜆 = 𝑋(𝑋⊤\n𝑋 + 𝜆𝐼)\n−1\n𝑋⊤\n= 𝑈𝑞 diag(\n𝜎2\n𝑖\n𝜎2\n𝑖 + 𝜆\n)𝑈⊤\n𝑞 .\nOrthogonal projection\n𝑃𝑋 keeps each direction in col(𝑋) with weight\n1.\n𝑃2\n𝑋 = 𝑃𝑋\nApplying it again changes nothing.\nRidge smoothing\n𝑆𝜆 uses weights strictly between 0 and 1 on\nnonzero singular directions.\nFor nonzero 𝑋, 𝑆2\n𝜆 ≠ 𝑆𝜆.\nApplying it again shrinks further.\n💡 The ridge residual satisfies 𝑋⊤\n(𝑦 − 𝑋𝛽 ̂\n𝜆) = 𝜆𝛽 ̂\n𝜆. It is generally not orthogonal to col(𝑋).\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "4 · RANK, STABILITY AND RIDGE 22 / 24\nRidge fits are shrunk, not orthogonally projected\nThe fitted-value operator is\n𝑆𝜆 = 𝑋(𝑋⊤\n𝑋 + 𝜆𝐼)\n−1\n𝑋⊤\n= 𝑈𝑞 diag(\n𝜎2\n𝑖\n𝜎2\n𝑖 + 𝜆\n)𝑈⊤\n𝑞 .\nOrthogonal projection\n𝑃𝑋 keeps each direction in col(𝑋) with weight\n1.\n𝑃2\n𝑋 = 𝑃𝑋\nApplying it again changes nothing.\nRidge smoothing\n𝑆𝜆 uses weights strictly between 0 and 1 on\nnonzero singular directions.\nFor nonzero 𝑋, 𝑆2\n𝜆 ≠ 𝑆𝜆.\nApplying it again shrinks further.\n💡 The ridge residual satisfies 𝑋⊤\n(𝑦 − 𝑋𝛽 ̂\n𝜆) = 𝜆𝛽 ̂\n𝜆. It is generally not orthogonal to col(𝑋).\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-22.svg",
-      "assetHash": "d318af44235ea6986235b5469f15aa0756373b6159c58fed78445544ef996c0e",
+      "assetHash": "97d1aaaee5d305a461fffe1a940587c2d14292cc01cbf0b11f4ee7cc0883c880",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -6865,10 +6883,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "22",
-          "x": 900.092,
+          "text": "22 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -7038,10 +7056,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "22",
-          "x": 900.092,
+          "text": "22 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -7226,9 +7244,9 @@
       "navigationLabel": "Read the two kinds of spectral weights",
       "section": "4 · Rank, stability and ridge",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "4 · RANK, STABILITY AND RIDGE 23\nRead the two kinds of spectral weights\nIllustration: 𝜆 = 0.01. Left: how data components affect coefficients. Right: how much each fitted component is\nretained.\n💡 For numerical computation, use QR or SVD-based solvers. Forming 𝑋⊤\n𝑋 squares the 2-norm\ncondition number when 𝑋 has full column rank.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "4 · RANK, STABILITY AND RIDGE 23 / 24\nRead the two kinds of spectral weights\nIllustration: 𝜆 = 0.01. Left: how data components affect coefficients. Right: how much each fitted component is\nretained.\n💡 For numerical computation, use QR or SVD-based solvers. Forming 𝑋⊤\n𝑋 squares the 2-norm\ncondition number when 𝑋 has full column rank.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-23.svg",
-      "assetHash": "a9476950ef354f18d0b217ed5f3e3512f714354913219b0241f534089184f9c1",
+      "assetHash": "797e257836c0a825a9b8510338a8b92ff3c743f00ecda12770ef47acfdfaeb59",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -7246,6 +7264,15 @@
         {
           "id": "text-2",
           "kind": "text",
+          "text": "23 / 24",
+          "x": 871.722,
+          "y": 27.261,
+          "width": 40.27800000000002,
+          "height": 12.540000000000003
+        },
+        {
+          "id": "text-3",
+          "kind": "text",
           "text": "Read the two kinds of spectral weights",
           "x": 48.0,
           "y": 51.125,
@@ -7253,7 +7280,7 @@
           "height": 34.2
         },
         {
-          "id": "text-3",
+          "id": "text-4",
           "kind": "text",
           "text": "Illustration: 𝜆 = 0.01. Left: how data components affect coefficients. Right: how much each fitted component is retained.",
           "x": 48.0,
@@ -7262,7 +7289,7 @@
           "height": 39.56397999999996
         },
         {
-          "id": "text-4",
+          "id": "text-5",
           "kind": "text",
           "text": "💡",
           "x": 64.0,
@@ -7271,7 +7298,7 @@
           "height": 44.80000100000001
         },
         {
-          "id": "text-5",
+          "id": "text-6",
           "kind": "text",
           "text": "For numerical computation, use QR or SVD-based solvers. Forming 𝑋 ⊤ 𝑋 squares the 2-norm condition number when 𝑋 has full column rank.",
           "x": 104.0,
@@ -7280,22 +7307,13 @@
           "height": 45.123986
         },
         {
-          "id": "text-6",
+          "id": "text-7",
           "kind": "text",
           "text": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
           "x": 48.0,
           "y": 516.613,
           "width": 253.459499,
           "height": 11.969999999999914
-        },
-        {
-          "id": "text-7",
-          "kind": "text",
-          "text": "23",
-          "x": 900.092,
-          "y": 27.261,
-          "width": 11.908000000000015,
-          "height": 12.540000000000003
         }
       ],
       "wandRegions": [
@@ -7311,6 +7329,15 @@
         {
           "id": "text-2",
           "kind": "text",
+          "text": "23 / 24",
+          "x": 871.722,
+          "y": 27.261,
+          "width": 40.27800000000002,
+          "height": 12.540000000000003
+        },
+        {
+          "id": "text-3",
+          "kind": "text",
           "text": "Read the two kinds of spectral weights",
           "x": 48.0,
           "y": 51.125,
@@ -7318,7 +7345,7 @@
           "height": 34.2
         },
         {
-          "id": "text-3",
+          "id": "text-4",
           "kind": "text",
           "text": "Illustration: 𝜆 = 0.01. Left: how data components affect coefficients. Right: how much each fitted component is retained.",
           "x": 48.0,
@@ -7327,7 +7354,7 @@
           "height": 39.56397999999996
         },
         {
-          "id": "text-4",
+          "id": "text-5",
           "kind": "text",
           "text": "💡",
           "x": 64.0,
@@ -7336,7 +7363,7 @@
           "height": 44.80000100000001
         },
         {
-          "id": "text-5",
+          "id": "text-6",
           "kind": "text",
           "text": "For numerical computation, use QR or SVD-based solvers. Forming 𝑋 ⊤ 𝑋 squares the 2-norm condition number when 𝑋 has full column rank.",
           "x": 104.0,
@@ -7345,22 +7372,13 @@
           "height": 45.123986
         },
         {
-          "id": "text-6",
+          "id": "text-7",
           "kind": "text",
           "text": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
           "x": 48.0,
           "y": 516.613,
           "width": 253.459499,
           "height": 11.969999999999914
-        },
-        {
-          "id": "text-7",
-          "kind": "text",
-          "text": "23",
-          "x": 900.092,
-          "y": 27.261,
-          "width": 11.908000000000015,
-          "height": 12.540000000000003
         },
         {
           "id": "image-1",
@@ -7399,9 +7417,9 @@
       "navigationLabel": "Explain the equations without memorizing them",
       "section": "4 · Rank, stability and ridge",
       "source": "DSAA3073 · Theories of Data Science · 26Summer · Week 4",
-      "text": "4 · RANK, STABILITY AND RIDGE 24\nExplain the equations without memorizing them\nWhy 𝑋⊤\n?\nIt tests residuals against all feasible prediction\ndirections, via the adjoint identity.\nWhen is the inverse valid?\nExactly when 𝑋 has full column rank. Otherwise\nuse the pseudoinverse or describe all minimizers.\nWhat is being projected?\n𝑦 is projected to 𝑦 ̂ = 𝑋𝑋+\n𝑦 in data space;\ncoefficients live in parameter space.\nWhat changes under ridge?\nWeak directions receive smaller weights. The fit is a\nlinear smoother, with a different residual condition.\n💡 Reconstruct 𝑋⊤\n(𝑦 − 𝑋𝛽 ̂) = 0 from the loss or from geometry. Then state the rank and\nregularization assumptions before using a formula.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
+      "text": "4 · RANK, STABILITY AND RIDGE 24 / 24\nExplain the equations without memorizing them\nWhy 𝑋⊤\n?\nIt tests residuals against all feasible prediction\ndirections, via the adjoint identity.\nWhen is the inverse valid?\nExactly when 𝑋 has full column rank. Otherwise\nuse the pseudoinverse or describe all minimizers.\nWhat is being projected?\n𝑦 is projected to 𝑦 ̂ = 𝑋𝑋+\n𝑦 in data space;\ncoefficients live in parameter space.\nWhat changes under ridge?\nWeak directions receive smaller weights. The fit is a\nlinear smoother, with a different residual condition.\n💡 Reconstruct 𝑋⊤\n(𝑦 − 𝑋𝛽 ̂) = 0 from the loss or from geometry. Then state the rank and\nregularization assumptions before using a formula.\nDSAA3073 · Theories of Data Science · 26Summer · Week 4",
       "asset": "slides/page-24.svg",
-      "assetHash": "ce3773cb7992b0dc2745d3c8697e0796cd73b3d2e0709a3b8a86e7abe8547125",
+      "assetHash": "5a6bdb4a3c2f092fb433a2127e7451b27ee9b5367ed5f0e7b75b7ded9a6aea7c",
       "width": 960.0,
       "height": 540.0,
       "links": [],
@@ -7419,10 +7437,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "24",
-          "x": 900.092,
+          "text": "24 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -7511,10 +7529,10 @@
         {
           "id": "text-2",
           "kind": "text",
-          "text": "24",
-          "x": 900.092,
+          "text": "24 / 24",
+          "x": 871.722,
           "y": 27.261,
-          "width": 11.908000000000015,
+          "width": 40.27800000000002,
           "height": 12.540000000000003
         },
         {
@@ -7738,6 +7756,101 @@
         "action": "pop",
         "multi": "ask"
       }
+    ],
+    "commands": [
+      {
+        "id": "next-page",
+        "phrases": [
+          "next page"
+        ],
+        "command": "next_page"
+      },
+      {
+        "id": "previous-page",
+        "phrases": [
+          "previous page"
+        ],
+        "command": "previous_page"
+      },
+      {
+        "id": "go-to-page",
+        "phrases": [
+          "go to page"
+        ],
+        "command": "go_to_page"
+      },
+      {
+        "id": "full-screen",
+        "phrases": [
+          "full screen",
+          "fullscreen"
+        ],
+        "command": "fullscreen"
+      },
+      {
+        "id": "overview",
+        "phrases": [
+          "go to overview"
+        ],
+        "command": "overview"
+      },
+      {
+        "id": "graph-view",
+        "phrases": [
+          "go to graph view"
+        ],
+        "command": "graph"
+      },
+      {
+        "id": "pen-mode",
+        "phrases": [
+          "pen mode"
+        ],
+        "command": "pen"
+      },
+      {
+        "id": "highlight-mode",
+        "phrases": [
+          "highlight mode"
+        ],
+        "command": "highlighter"
+      },
+      {
+        "id": "wand-mode",
+        "phrases": [
+          "wand mode"
+        ],
+        "command": "wand"
+      },
+      {
+        "id": "diagram-mode",
+        "phrases": [
+          "diagram mode"
+        ],
+        "command": "diagram"
+      },
+      {
+        "id": "default-mode",
+        "phrases": [
+          "default mode"
+        ],
+        "command": "navigate"
+      },
+      {
+        "id": "qa-start",
+        "phrases": [
+          "take questions now",
+          "take any questions now"
+        ],
+        "command": "qa_start"
+      }
     ]
+  },
+  "qa": {
+    "enabled": true,
+    "target": "_qa",
+    "model": "gpt-4.1-mini",
+    "maxLength": 4000,
+    "maxItems": 50
   }
 }

@@ -117,6 +117,36 @@ Voice feedback stays in memory and is excluded from sessions and exports.
 `M` remains Wand and `D` remains Diagram; voice uses `Shift+M` and `Shift+D`.
 The default manual actions are `Shift+K/T/F/E` outside Diagram mode.
 
+The built-in voice commands also support `next page`, `previous page`, `go to
+page N` (out-of-range pages clamp to the nearest valid page), `full screen`,
+`go to overview`, `go to graph view`, `pen mode`, `highlight mode`, `wand mode`,
+`diagram mode`, and `default mode`.
+
+### Live Q&A capture
+
+After an audience member asks a question, repeat or paraphrase it and say
+`take questions now` or `take any questions now`, then give the answer. Final
+transcript segments are grouped in memory and displayed in the authored Q&A
+region on the slide. Add a semantic region with target `_qa` (or configure a
+different `[qa] target`) where the live list should appear:
+
+```toml
+[qa]
+enabled = true
+target = "_qa"
+model = "gpt-4.1-mini"
+max_length = 4000
+max_items = 50
+```
+
+The local presentation server sends each completed item to its bounded
+`/api/qa/organize` endpoint using `PIGEON_QA_API_KEY` or `OPENAI_API_KEY` and
+falls back to the raw transcript when the organizer is unavailable. Press
+`Q` to finish the current item and insert a white Q&A page containing the
+numbered question-and-answer list. See the [configuration reference](typst-to-pigeon/references/config.md#live-qa-capture)
+and [runtime reference](typst-to-pigeon/references/runtime.md#live-qa) for the
+full contract.
+
 ## Export an annotated PDF
 
 Click **Export PDF** beside **Present** in the top bar. The downloaded

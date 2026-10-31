@@ -95,6 +95,17 @@ own click, run separately from recognition, and close tracks/audio contexts on
 Stop, cancellation, page exit, destruction or the 15-second limit. Typed phrase
 tests call the production matcher and resolver with an explicit test source.
 
+### Live Q&A
+
+With `[qa] enabled = true`, say “take questions now” or “take any questions now”
+after repeating an audience question. Final recognition segments are accumulated
+in memory until the next trigger or `Q`; the configured `_qa` semantic region
+shows the live list. Finishing an item sends its bounded transcript to the
+same-origin `/api/qa/organize` endpoint, which uses the configured fast
+OpenAI-compatible Responses model and falls back to the raw transcript when the
+organizer is unavailable. `Q` inserts or refreshes a white `Q&A` board whose
+diagram text is included in session and PDF export paths.
+
 ## Semantic-tier navigation
 
 Slide mode enters pages at their default tiers; Step mode traverses tiers before crossing pages. N toggles without moving; comma/period always changes the current tier. Shift+PageDown/PageUp and Shift-click Next/Previous swap granularity. Enter follows a semantic detour and R restores its saved page/tier. URLs use `?mode=step#12.3` (one-based physical page/surviving tier). Boards remain single-state; Home remains Fit whole talk. The HUD exposes tier/default/deep/back controls and a semantic-debug checkbox. Drawing/typing/panning retain their normal behavior. Voice and Wand only target current-tier visible content. Complete-source exports and thumbnails do not bake in tier effects. See [semantic-tiers.md](semantic-tiers.md) for the full transition contract.

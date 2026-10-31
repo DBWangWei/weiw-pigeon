@@ -40,9 +40,9 @@ function speechAPI(w, options = {}) {
     start(track) { this.starts++; this.inputTrack = track; if (options.start) options.start(this); else this.onstart?.(); }
     abort() { this.aborts++; if (options.abortThrows) throw Error("abort failed"); this.onend?.(); }
     stop() { this.stops++; this.onend?.(); }
-    result(text, index = 0) {
+    result(text, index = 0, isFinal = false) {
       const results = [];
-      results[index] = {0: {transcript: text}, isFinal: false};
+      results[index] = {0: {transcript: text}, isFinal};
       this.onresult?.({resultIndex: index, results});
     }
     error(error) { this.onerror?.({error}); }
@@ -66,12 +66,16 @@ function setup(t, options = {}) {
   w.eval(diagnosticsSource); w.eval(source);
   let slide = {id: "s1", page: 1, width: 960, height: 540, asset: "slide-1.svg", semanticRegions: options.regions ?? [region("table-1")]};
   let active = true, emphasis = 0;
+  const commands = [];
+  const transcripts = [];
   const voice = w.PigeonVoice.create({config: {backend: 'browser', cooldownMs: 300, staleMs: 60, restartDelayMs: 25, watchdogMs: 1000, resuppressAfterDismissMs: 1000, ...options.config},
-    getSlide: () => slide, assetUrl: s => `/deck/${s.asset}`, getScale: () => 1, canDispatch: () => active, onEmphasis: () => emphasis++});
+    getSlide: () => slide, assetUrl: s => `/deck/${s.asset}`, getScale: () => 1, canDispatch: () => active, onEmphasis: () => emphasis++,
+    onCommand: (command, detail) => { commands.push({command, detail}); return `handled ${command}`; },
+    onTranscript: transcript => transcripts.push(transcript)});
   t.after(() => { voice.destroy(); w.happyDOM.abort(); });
   return {w, d: w.document, voice, clock, speech, animations,
     slide(value) { slide = {...slide, ...value}; }, active(value) { active = value; voice.contextChanged(); },
-    get emphasis() { return emphasis; }};
+    commands, transcripts, get emphasis() { return emphasis; }};
 }
 
 test("Unicode phrase matching uses boundaries, longest synonyms and no bare take-away", t => {
@@ -97,6 +101,37 @@ test("interim occurrence counts retain high-water marks through corrections", t 
   assert.deepEqual(consume("this table and this table"), ["table"]);
   assert.deepEqual(consume("this table", 1), ["table"]);
   tracker.clear(); assert.deepEqual(consume("table"), ["table"]);
+});
+
+test("command rules match and dispatch without semantic artwork targets", t => {
+  const h = setup(t, {config: {enabled: false}});
+  assert.equal(h.voice.dispatch("next-page", "typed", {transcript: "next page", match: {end: 10}}), "handled next_page");
+  assert.equal(h.commands[0].command, "next_page");
+  assert.equal(h.voice.dispatch("go-to-page", "typed", {transcript: "go to page 12", match: {end: 11}}), "handled go_to_page");
+  assert.equal(h.commands[1].detail.transcript, "go to page 12");
+  assert.equal(h.voice.snapshot().open, null);
+});
+
+test("page commands wait for a number before consuming an interim phrase", async t => {
+  const h = setup(t);
+  await h.voice.start();
+  const rec = h.speech.instances[0];
+  rec.result("go to page");
+  assert.equal(h.commands.length, 0);
+  h.clock.tick(60);
+  rec.result("go to page 12", 1);
+  assert.equal(h.commands[0].command, "go_to_page");
+});
+
+test("transcript callback receives final recognition results only", async t => {
+  const h = setup(t);
+  await h.voice.start();
+  const rec = h.speech.instances[0];
+  rec.result("the question is still being recognized");
+  assert.equal(h.transcripts.length, 0);
+  rec.result("the question and answer are complete", 1, true);
+  assert.equal(h.transcripts.length, 1);
+  assert.equal(h.transcripts[0].text, "the question and answer are complete");
 });
 
 test("disabled voice never reads, constructs or prepares a speech API; manual actions remain", async t => {
@@ -408,6 +443,8 @@ test("terminal microphone errors stop retries and leave manual controls working"
 test("phrase-bias failure restarts a new local session without phrases", async t => {
   const {voice, speech, clock} = setup(t); await voice.start();
   assert.ok(speech.instances[0].phrases.length);
+  assert.ok(speech.instances[0].phrases.some(phrase => phrase.phrase === "diagram mode"));
+  assert.ok(speech.instances[0].phrases.some(phrase => phrase.phrase === "default mode"));
   speech.instances[0].error("phrases-not-supported"); clock.tick(25);
   assert.equal(speech.instances.length, 2); assert.equal(speech.instances[1].phrases, undefined);
   assert.equal(speech.instances[1].processLocally, true); assert.equal(voice.snapshot().state, "listening");

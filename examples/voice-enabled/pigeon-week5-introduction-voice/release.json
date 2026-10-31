@@ -4,7 +4,7 @@
   "icon": "public/icons/pigeon.png",
   "deckId": "week5-introduction-voice",
   "title": "Introduction to Week 5 \u00b7 DSAA3073 \u00b7 26Fall",
-  "revision": "5bd16800cdb3dba9",
+  "revision": "a0a6a139f98479b9",
   "slides": 20,
   "concepts": 49,
   "relationships": 92,
@@ -13,5 +13,6 @@
   "slideTransition": "camera",
   "sourceType": "typst",
   "voiceEnabled": true,
+  "qaEnabled": true,
   "tierMode": "slide"
 }
