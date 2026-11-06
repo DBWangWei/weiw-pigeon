@@ -36,6 +36,7 @@ TITLE_EFFECTS = {"none", "split-text", "blur-text", "shiny-text", "gradient-text
 SLIDE_TRANSITIONS = {"camera", "none", "fade", "blur", "slide", "zoom", "pixel", "staggered-wipe", "stack"}
 PIGEON_VERSION = "1.0.4"
 SINGLE_RUNTIME_SCRIPTS = (
+    "src/ticker.js",
     "src/title-effects.js",
     "src/wand-effects.js",
     "src/particle-effects.js",

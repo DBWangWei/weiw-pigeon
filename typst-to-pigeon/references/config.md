@@ -94,10 +94,27 @@ CLI equivalents: `--title-effect`, `--embed-pdf` / `--no-embed-pdf`, `--png-size
 default; `--png` or `png_to_jpg = false` keeps PNG payloads.
 PNG bounds are 1366×768 or 1920×1080; aspect ratio is preserved, images are never
 upscaled, and SVG geometry/vector text is unchanged. Optimization covers PNG data
-URIs in canonical and semantic-tier SVGs before title splitting/hashing. JPEG is
-opt-in and flattens alpha on white. Source images/PDFs and shell icons are untouched.
+URIs in canonical and semantic-tier SVGs before title splitting/hashing. Opaque
+images use JPEG by default; transparent source images remain PNG so alpha is
+preserved. Source images/PDFs and shell icons are untouched.
 Pillow is required for the default JPEG conversion and for resizing. It is not
 needed when `png_size="original"` and `png_to_jpg=false`.
+
+## Authored ticker and mind map
+
+Import `assets/pigeon-tick.typ` in a Typst template and expose `tick` and
+`tick-band`. A `#tick(kind: "now", id: "...")[...]` opens a lower-third thread;
+`kind: "next"` places a preview on the right; and
+`kind: "done", resolves: "id"` closes a previous thread. `#tick-band()` emits
+the reserved footer only when the source contains at least one tick. This keeps
+the body area larger for ticker-free sources and aligns the compiled PDF band
+with the live runtime ticker. The exporter records the result under
+`manifest.ticker` and excludes its baked words from graph/search evidence.
+
+Generated manifests set `mindMap.enabled = true` and
+`mindMap.source = "knowledge-graph"`. The graph view is selected by default
+after a successful graph load; the hierarchy view remains available and is the
+fallback when graph data is unavailable.
 
 With `embed_pdf=false`, single mode writes `SOURCE-STEM.pdf` beside the HTML;
 folder/ZIP modes put `SOURCE-STEM.pdf` beside `index.html`. The PDF bytes are

@@ -73,11 +73,13 @@ still selects `multiple/zip` when `out_mode` is absent. Explicit CLI options
 override TOML settings. In single mode, `--output` names the HTML file (`.html`
 is appended unless it ends in `.html` or `.htm`); in other modes it names a directory.
 
-The local knowledge graph prioritizes authored takeaways and semantic roles,
+The local knowledge graph powers the **Mind map** overview. It prioritizes authored takeaways and semantic roles,
 then selects informative slide statements and recurring topics. It preserves
 explicit support and detour links and labels inferred topic similarities as
-heuristic. Repeated headers and footers are suppressed. Open **Overview →
-Knowledge graph** to explore; scroll or use **− / +**, **Fit** and **100%**.
+heuristic. Repeated headers and footers are suppressed. Open **Overview → Mind
+map** to explore; the mind map is selected by default when the graph loads.
+Use **− / +**, **Fit** and **100%** to inspect it. If the graph cannot load,
+Overview falls back to the slide hierarchy.
 The canvas grows with the graph so concept cards have separate space. Rebuild
 older presentations to apply these changes. See the [graph guide](typst-to-pigeon/references/graph.md)
 for selection rules, evidence and limitations.
@@ -94,10 +96,12 @@ Vector text stays vector. Pass `--png` to keep embedded images as PNG instead.
 ./typst-to-pigeon.sh talk.typ --no-embed-pdf --png-size 768p --quality 85
 ```
 
-JPEG conversion is the default; `--quality N` selects quality from 1–100, and
-`--png` keeps PNG payloads. JPEG conversion affects embedded raster payloads in
-canonical and semantic-tier SVGs. Transparent pixels are composited on white.
-It does not rewrite the source PNGs, source/companion PDF, or shell icons.
+JPEG conversion is the default for opaque embedded raster payloads;
+`--quality N` selects quality from 1–100, and `--png` keeps PNG payloads.
+Transparent source images remain PNG automatically so logos and icons keep
+their alpha channel. Conversion affects embedded raster payloads in canonical
+and semantic-tier SVGs; it does not rewrite source PNGs, the source/companion
+PDF, or shell icons.
 The TOML setting `png_to_jpg = false` is equivalent to `--png`.
 
 `--no-embed-pdf` writes the source-stem PDF, such as `talk.pdf`, beside
@@ -203,6 +207,37 @@ runs by default when moving between sections; use `particle_morph_slides` for
 specific destination IDs. Rack focus starts off and can be enabled in
 **Overview → Motion effects** for a session. See the [motion-effects configuration
 reference](typst-to-pigeon/references/config.md#motion-effects).
+
+## Ticker and mind-map authoring
+
+Typst sources can add a live lower-third ticker with the bundled
+`pigeon-tick.typ` helper. The repository templates import and re-export
+`tick`, so a source that imports `shared/style.typ` can write:
+
+```typst
+#s("02", [Why does this work?], section: "Mechanism")[
+  #tick(id: "question-1")[What changes when the rank is deficient?]
+  // ...main slide content...
+]
+
+#s("03", [Resolve the question], section: "Mechanism")[
+  #tick(kind: "done", resolves: "question-1")[The fitted values remain unique.]
+]
+```
+
+Use `#tick(kind: "now", ...)` (the default) for the current thread, `kind: "next"` for a
+right-hand preview, and `kind: "done"` with `resolves: "id"` to close a thread.
+The template's `tick-band()` reserves the lower band only when the source has
+at least one tick, so ticker-free slides retain the larger main-text area.
+When a ticker is present, the compiled Typst band and the live Pigeon ticker
+share the same geometry; the baked copy remains in the PDF while the player
+updates the lower third as the talk progresses. For a custom template, copy
+[`typst-to-pigeon/assets/pigeon-tick.typ`](typst-to-pigeon/assets/pigeon-tick.typ),
+import `tick` and `tick-band`, and call `#tick-band()` in the footer.
+
+The **Mind map** is enabled by default in every generated manifest and uses the
+knowledge graph as its source. It opens when the graph loads; the hierarchy
+view remains available as a tab and as a fallback when graph data is missing.
 
 ## Voice triggers for marked Typst content
 
@@ -355,6 +390,7 @@ behaviors:
 | Magic-wand takeaways | Use the source-level form `#takeaway[Important conclusion]`; the macro may live in a local imported `.typ` file. | The callout becomes a recognized `takeaway` wand region and starts in Spotlight mode. |
 | Other wand targets | Use native text, rendered `image(...)`, and ordinary connected bordered tables. | Text, images and tables can be selected and enlarged without hand-authored regions. Complex computed macros, borderless tables and unusual graphics may need `*.navigation.json` `wandRegions`. |
 | Graph and search evidence | Mark main conclusions with `#takeaway[...]` or semantic roles such as `sem.takeaway`, `sem.answer` and `sem.contrast`; use `sem.support(to: ...)` and `sem.deep(...)` for authored associations. | Local graphs prioritize these messages and preserve authored links with compiled slide evidence. Unmarked slides use conservative text salience and topic similarity; model extraction also receives each rendered page. |
+| Ticker | Import `tick` and call `tick(...)` for `now`, `next`, or `done` items; call `tick-band()` once in the slide footer. | The ticker band is conditional: sources without ticks keep the full body area, while ticker sources reserve the band in both the compiled PDF and live player. |
 
 Metadata is queried from the compiled source, so the label must be exactly
 `<slide-record>`. A custom wrapper can emit the record, but computed or hidden

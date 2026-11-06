@@ -24,7 +24,7 @@ The default output is `pigeon-{FILENAME}.html` beside the input source, where `F
 
 Title animation defaults to **None**. This omits title-body and title-glyph SVGs entirely. Use `--title-effect text-type` (or split-text, blur-text, shiny-text, gradient-text) to include animation assets. The selector is gray when no title layers are available, and saved browser preferences cannot re-enable omitted assets. Effects animate original SVG title glyphs, so no browser font substitution is needed; these are independent adaptations of selected React Bits designs. Unmatched or image-only titles remain static and are reported in `build-report.json`.
 
-Embedded raster payloads use JPEG quality 90 by default and fit within 1366×768 (`--png-size 768p`). `1080p` uses 1920×1080; `original` skips resizing. Pass `--png` to keep PNG payloads, or `--quality N` to change JPEG quality from 1–100; alpha is flattened on white for JPEG. Canonical and semantic-tier images share the same processing before hashes/title separation; source PNGs and PDF bytes remain unchanged. Install Pillow via `requirements.txt`.
+Embedded raster payloads use JPEG quality 90 by default for opaque images and fit within 1366×768 (`--png-size 768p`). `1080p` uses 1920×1080; `original` skips resizing. Pass `--png` to keep PNG payloads, or `--quality N` to change JPEG quality from 1–100. Transparent source images remain PNG automatically so logos and icons retain alpha. Canonical and semantic-tier images share the same processing before hashes/title separation; source PNGs and PDF bytes remain unchanged. Install Pillow via `requirements.txt`.
 
 Pigeon is currently version **1.0.4**. Every generated release includes an **About Pigeon** dialog with the Pigeon icon, author/contact information, and a link to it from the `?` keyboard guide.
 
@@ -50,6 +50,20 @@ to destination slides in a different section and can be set to `all`, `none`, or
 an explicit `particle_morph_slides` list. Rack focus is off by default and can be
 enabled from Overview → Motion effects; it steps through the current slide's
 semantic or Wand regions while retaining Pigeon's existing overview design.
+
+Typst sources may add a conditional lower-third ticker with
+`assets/pigeon-tick.typ`. Import `tick` and `tick-band`; `#tick(kind: "now", ...)`
+opens a thread, `tick(kind: "next", ...)` previews the next thread, and
+`tick(kind: "done", resolves: "id", ...)` closes one. The supplied example
+templates re-export these helpers and call `#tick-band()` from `s`. The band is
+emitted only when at least one tick exists, so ticker-free sources keep the
+larger body area. A ticker source reserves the same band in Typst/PDF and in
+the live player. Ticker text is removed from graph/search evidence while the
+PDF keeps the authored static copy.
+
+The generated manifest enables the **Mind map** by default. It is the graph
+overview selected after the knowledge graph loads; the hierarchy overview is
+still available as a tab and is used when graph loading fails.
 
 The generated Pigeon runtime already includes the supported presentation behavior: infinite-canvas and hierarchical/graph overviews, non-linear route detours, keyword and slide-number search, presentation/fullscreen layout, persistent laser, pen, highlighter, eraser, magic-wand emphasis for text/images/tables/takeaways, whiteboards/blackboards, zoom and pan, session import/export, and keyboard navigation. Read [references/runtime.md](references/runtime.md) when changing the runtime or explaining those controls. Read [references/talk-v5-template-map.md](references/talk-v5-template-map.md) to see which hard-won talk-v5 files became reusable template assets and how to shape optional navigation JSON.
 

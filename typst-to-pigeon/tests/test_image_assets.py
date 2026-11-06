@@ -39,8 +39,8 @@ class ImageAssetTests(unittest.TestCase):
 
     def test_jpeg_is_the_default_and_png_is_opt_in(self):
         uri, image = self.transform((160, 160), {})
-        self.assertTrue(uri.startswith('data:image/jpeg;'))
-        self.assertEqual(image.mode, 'RGB')
+        self.assertTrue(uri.startswith('data:image/png;'))
+        self.assertEqual(image.mode, 'RGBA')
         uri, image = self.transform((160, 160), dict(png_to_jpg=False))
         self.assertTrue(uri.startswith('data:image/png;'))
         self.assertEqual(image.mode, 'RGBA')
@@ -49,11 +49,19 @@ class ImageAssetTests(unittest.TestCase):
         sizes=[]
         for quality in [25,90]:
             uri,image=self.transform((1536,1024),dict(png_to_jpg=True,jpg_quality=quality))
-            self.assertTrue(uri.startswith('data:image/jpeg;'))
-            self.assertEqual(image.size,(1152,768)); self.assertEqual(image.mode,'RGB')
-            self.assertLess(max(abs(a-b) for a,b in zip(image.getpixel((0,0)),(217,137,142))),8)
+            self.assertTrue(uri.startswith('data:image/png;'))
+            self.assertEqual(image.size,(1152,768)); self.assertEqual(image.mode,'RGBA')
+            pixel=image.getpixel((0,0)); self.assertEqual(pixel[3],128)
+            self.assertLess(max(abs(a-b) for a,b in zip(pixel[:3],(180,20,30))),3)
             sizes.append(len(uri))
         self.assertGreaterEqual(sizes[1],sizes[0])
+        opaque=Image.new('RGBA',(160,160),(180,20,30,255))
+        stream=BytesIO(); opaque.save(stream,'PNG')
+        uri='data:image/png;base64,'+base64.b64encode(stream.getvalue()).decode()
+        svg=f'<svg xmlns="http://www.w3.org/2000/svg"><image href="{uri}"/></svg>'
+        with tempfile.TemporaryDirectory() as tmp:
+            path=Path(tmp)/'opaque.svg'; path.write_text(svg); ImageAssets().svg(path)
+            self.assertIn('data:image/jpeg;', path.read_text())
 
     def test_invalid_options(self):
         for options in [dict(png_size='bogus'),dict(png_size=[]),dict(jpg_quality=True),dict(jpg_quality=0),dict(png_to_jpg=1)]:

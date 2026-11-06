@@ -64,6 +64,8 @@ const state = {
     slides: [],
     sections: [],
     route: [],
+    ticker: null,
+    mindMap: {enabled: true},
   },
   graph: { concepts: [], relationships: [] },
   manifestError: null,
@@ -245,6 +247,8 @@ function normaliseManifest(raw) {
       rackFocus: deck.effects?.rackFocus === true,
     },
     tiers: deck.tiers || {mode: "slide", presets: {}},
+    ticker: window.Ticker?.normalize(deck.ticker, slides) || null,
+    mindMap: {enabled: deck.mindMap?.enabled !== false, source: deck.mindMap?.source || "knowledge-graph"},
     title: deck.title || "Pigeon presentation",
     revision: deck.revision || deck.contentRevision || "generated",
     slides,
@@ -380,6 +384,8 @@ async function loadDeck() {
   graphTab.title = state.graphError || "Explore the deck concepts";
   state.currentId = state.deck.route[0];
   state.tierMode = state.deck.tiers.mode === "step" ? "step" : "slide";
+  // The graph-backed mind map is the default overview when it is available.
+  state.mode = state.deck.mindMap?.enabled !== false && !state.graphError ? "graph" : "hierarchy";
   state.tier = window.PigeonTiers?.entry(tierManifest(), 0, state.tierMode) || 0;
   state.currentIndex = state.deck.slides.findIndex(
     (slide) => slide.id === state.currentId,
@@ -853,6 +859,54 @@ function framePosition(index, name = null, sequence = viewSequence(), columns = 
       size.height / 2,
   };
 }
+function tickerFor(key) {
+  return state.deck.ticker?.ticks?.find(tick => tick.key === key) || null;
+}
+function tickerLabel(part, fallback = "") {
+  const tick = part?.tick ? tickerFor(part.tick) : null;
+  if (!tick) return fallback;
+  const prefix = tick.kind === "done" ? "✓ " : tick.kind === "next" ? "Next: " : "";
+  return prefix + (tick.plain || "");
+}
+function renderTickerFrame(frame, slide, active = false) {
+  const layer = frame.querySelector(".ticker-layer");
+  if (!layer) return;
+  const data = state.deck.ticker;
+  const page = data && Ticker.pageFor(data, slide.page);
+  const band = page?.band;
+  const hidden = !data || data.enabled === false || slide.ticker === false ||
+    data.hideOn?.includes?.(slide.id) || !band || band.enabled === false;
+  layer.hidden = hidden || !active;
+  layer.style.pointerEvents = hidden || !active ? "none" : "auto";
+  if (hidden) return;
+  const running = Ticker.stateForPage(data, slide.page);
+  const left = page.left || (running.left ? {tick: running.left.key} : null);
+  const right = page.right || (running.right ? {tick: running.right.key} : null);
+  const section = running.section || page.section || "";
+  const leftText = tickerLabel(left, section);
+  const rightText = tickerLabel(right);
+  layer.style.left = `${band.x || 0}px`;
+  layer.style.top = `${band.y || Math.max(0, slide.height - (band.h || 28))}px`;
+  layer.style.width = `${band.w || slide.width}px`;
+  layer.style.height = `${band.h || 28}px`;
+  layer.style.backgroundColor = band.fill || "#fff";
+  const current = layer.querySelector(".ticker-current");
+  const next = layer.querySelector(".ticker-next");
+  current.textContent = leftText;
+  next.textContent = rightText;
+  current.hidden = !leftText;
+  next.hidden = !rightText;
+  layer.setAttribute("aria-label", [leftText, rightText].filter(Boolean).join(". "));
+  const targetFor = part => tickerFor(part?.tick)?.slide;
+  for (const [node, part] of [[current, left], [next, right]]) {
+    node.onclick = () => {
+      const target = targetFor(part);
+      if (target && target !== state.currentId) navigateTo(target, {detour: true});
+    };
+    node.disabled = !targetFor(part);
+  }
+}
+
 function renderFrames() {
   diagram?.reset();
   cancelPageTransition();
@@ -901,6 +955,20 @@ function renderFrames() {
       frame.querySelector('.slide-fallback')?.remove();
     });
     if (!view.name) frame.append(image);
+    if (!view.name && state.deck.ticker) {
+      const ticker = document.createElement("section");
+      ticker.className = "ticker-layer";
+      ticker.hidden = true;
+      ticker.setAttribute("aria-label", "Ticker");
+      const current = document.createElement("button");
+      current.className = "ticker-current";
+      current.type = "button";
+      const next = document.createElement("button");
+      next.className = "ticker-next";
+      next.type = "button";
+      ticker.append(current, next);
+      frame.append(ticker);
+    }
     if (!view.name && slide.semanticRegions?.some(region => region.target === (state.deck.qa?.target || "_qa"))) {
       const panel = document.createElement("section");
       panel.className = "pigeon-qa-panel";
@@ -1123,6 +1191,7 @@ function updateUI() {
   $$(".slide-frame").forEach(frame => {
     const active = frame.dataset.frameKey === activeFrameKey();
     frame.classList.toggle("current", active);
+    renderTickerFrame(frame, getSlide(frame.dataset.slideId), active);
     frame.classList.toggle("visited", state.visited.has(frame.dataset.slideId));
     frame.querySelectorAll(".generated-link").forEach(link => {
       link.disabled = state.tool !== "navigate" || !active || !!frame.dataset.boardName || link.dataset.unavailable === "true" || !presentationSlide(getSlide(frame.dataset.slideId)).links.includes(getSlide(frame.dataset.slideId).links[Number(link.dataset.linkIndex)]);
@@ -1773,6 +1842,14 @@ function renderWand() {
 }
 
 function renderOverview() {
+  // Keep the tab state in sync with the manifest-selected default.  The
+  // markup starts with a safe hierarchy tab for no-script loading, while a
+  // graph-backed deck opens on its mind-map view after the graph is loaded.
+  $$(".overview-tab").forEach((button) => {
+    const active = button.dataset.view === state.mode;
+    button.classList.toggle("active", active);
+    button.setAttribute("aria-selected", String(active));
+  });
   renderOverviewEffects();
   if (state.mode === "graph" && !state.graphError) renderGraph();
   else renderHierarchy();

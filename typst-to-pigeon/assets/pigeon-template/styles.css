@@ -1820,3 +1820,42 @@ body.overview-mode .rack-focus-overlay { display: none; }
 .icon-button:disabled, .title-effect-control select:disabled, .session-action[aria-disabled="true"] { opacity: .45; cursor: not-allowed; }
 .session-action[aria-disabled="true"] { pointer-events: none; }
 .session-action[hidden] { display: none; }
+
+/* Authored Typst ticker lower-third. It lives inside each slide so it follows
+   the infinite canvas and only paints the active slide's reserved band. */
+.ticker-layer {
+  position: absolute;
+  z-index: 7;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  gap: 1px;
+  overflow: hidden;
+  padding: 3px 12px;
+  border-top: 1px solid rgba(23, 32, 51, .12);
+  border-bottom: 1px solid rgba(23, 32, 51, .12);
+  color: #172033;
+  font-family: Georgia, "Times New Roman", serif;
+  line-height: 1.08;
+  box-shadow: 0 -2px 9px rgba(23, 32, 51, .06);
+}
+.ticker-layer[hidden] { display: none; }
+.ticker-layer button {
+  display: block;
+  width: 100%;
+  min-height: 0;
+  padding: 0;
+  overflow: hidden;
+  color: inherit;
+  background: transparent;
+  text-align: left;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  cursor: pointer;
+}
+.ticker-layer button:disabled { cursor: default; }
+.ticker-current { font-size: 12px; font-weight: 600; }
+.ticker-next { font-family: ui-sans-serif, system-ui, sans-serif; font-size: 9px; color: #536278; }
+.ticker-layer button:not(:disabled):hover { text-decoration: underline; text-underline-offset: 2px; }
+.overview-mode .ticker-layer { display: none; }
+.presentation-mode .ticker-layer { font-size: 1.05em; }

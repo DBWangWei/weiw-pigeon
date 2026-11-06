@@ -35,18 +35,23 @@ class ImageAssets:
         try:
             image = Image.open(BytesIO(base64.b64decode(match.group(1))))
             image.load()
+            # JPEG has no alpha channel. Preserve transparency automatically so
+            # logos, icons, and other transparent source artwork do not acquire
+            # a white rectangle merely because JPEG is the default for opaque
+            # slide photography.
+            rgba = image.convert("RGBA")
+            transparent = rgba.getchannel("A").getextrema()[0] < 255
             resized = bool(self.size and (image.width > self.size[0] or image.height > self.size[1]))
             if not resized and not self.jpeg:
                 result = original
             else:
                 if resized:
-                    if image.mode == "P": image = image.convert("RGBA")
+                    image = rgba if (transparent or image.mode == "P") else image
                     image.thumbnail(self.size, Image.Resampling.LANCZOS)
                 stream = BytesIO()
-                if self.jpeg:
-                    rgba = image.convert("RGBA")
-                    flat = Image.new("RGB", rgba.size, "white")
-                    flat.paste(rgba, mask=rgba.getchannel("A"))
+                if self.jpeg and not transparent:
+                    flat = Image.new("RGB", image.size, "white")
+                    flat.paste(image.convert("RGBA"), mask=image.convert("RGBA").getchannel("A"))
                     flat.save(stream, "JPEG", quality=self.quality, optimize=True)
                     mime = "image/jpeg"
                 else:

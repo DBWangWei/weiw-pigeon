@@ -7,7 +7,7 @@ Core controls are:
 | Keys | Behavior |
 | --- | --- |
 | Right / PageDown / Space; Left / PageUp / Shift+Space | Follow the route while retaining the selected tool |
-| O; T in overview | Open overview; switch hierarchy/knowledge graph |
+| O; T in overview | Open overview; switch hierarchy/mind map |
 | Arrow keys / Tab / Enter | Select and open overview items |
 | `/` or Cmd/Ctrl+K; `G` | Search; jump by source/physical slide label |
 | `R`; `F`; `B` | Resume a detoured route; presentation mode; blackout |

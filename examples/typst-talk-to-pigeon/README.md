@@ -56,7 +56,13 @@ uniqueness from fitted-value uniqueness, the pseudoinverse from the projector,
 and ridge smoothing from orthogonal projection. A constant-fit example and
 spectral-weight plots make these distinctions concrete.
 
-The local knowledge graph prioritizes authored takeaways and semantic messages,
-then uses conservative text salience and topic similarity. Open **Overview →
-Knowledge graph** to inspect it. Review the graph guide for selection details
-and limitations.
+The local knowledge graph powers the default **Overview → Mind map** view. It
+prioritizes authored takeaways and semantic messages, then uses conservative
+text salience and topic similarity. The hierarchy tab remains available if a
+slide list is more useful. Review the graph guide for selection details and
+limitations.
+
+The shared template also re-exports `tick` from `shared/pigeon-tick.typ` and
+calls `#tick-band()` for every `s` slide. Add `#tick(id: "question-1")[...]` or
+`#tick(kind: "done", resolves: "question-1")[...]` to a source to reserve and
+populate the ticker band. Sources without any ticks do not reserve that space.

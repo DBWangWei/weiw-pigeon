@@ -1,5 +1,6 @@
 #import "@preview/touying:0.6.1": *
 #import themes.simple: simple-theme, slide
+#import "pigeon-tick.typ": tick, tick-band
 
 #let ink = rgb("172C43")
 #let teal = rgb("007E87")
@@ -58,6 +59,7 @@
   #v(13pt)
   #body
   #v(1fr)
+  #tick-band()
   #line(length: 100%, stroke: 0.4pt + rgb("D5DDE2"))
   #v(5pt)
   #if logo == none {
@@ -95,7 +97,7 @@
     columns: (auto, 1fr),
     gutter: 12pt,
     align: horizon,
-    text(size: 28pt, fill: teal)[💡],
+    image("../assets/takeaway-icon.svg", height: 28pt),
     body,
   )
 ]

@@ -39,6 +39,7 @@
   }
   (async () => {
     if (location.protocol === "file:" && !window.PIGEON_DECK_BUNDLE) await load("public/deck/embedded-deck.js");
+    await load("src/ticker.js");
     await load("src/title-effects.js");
     await load("src/wand-effects.js");
     if (!window.PIGEON_SINGLE_FILE) {

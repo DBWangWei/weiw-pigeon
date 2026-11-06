@@ -13,6 +13,7 @@ from urllib.parse import urlsplit, unquote
 from wand_regions import extract_visual_regions, walk, bounds
 from slide_artwork import match_words, union, title_layers, takeaway_texts, enclosing_background
 from semantic_regions import normalize_semantic_records
+from ticker import build_ticker
 
 
 def run(command, cwd):
@@ -40,6 +41,51 @@ def content_text(value):
 def query(source, selector, inputs=None):
     expression=f'query(<{selector}>).map(it => (value: it.value, page: it.location().page()))'
     return json.loads(run(['typst','eval',expression,'--in',str(source),'--format','json',*(inputs or [])],source.parent))
+
+
+def query_ticker(source):
+    """Read authored ticker metadata and absolute band geometry in one eval."""
+    expression = '''(
+      ticks: query(<pigeon-tick>).enumerate().map(((i, it)) => (..it.value,
+        key: "t" + str(i + 1), page: it.location().page(),
+        x: it.location().position().x / 1pt,
+        y: it.location().position().y / 1pt)),
+      bands: query(<pigeon-band>).map(it => (..it.value,
+        page: it.location().page(), x: it.location().position().x / 1pt,
+        y: it.location().position().y / 1pt)),
+    )'''
+    return json.loads(run(['typst', 'eval', expression, '--in', str(source), '--format', 'json'], source.parent))
+
+
+def _inside_band(item, bands):
+    cx = float(item.get('x', 0)) + float(item.get('width', 0)) / 2
+    cy = float(item.get('y', 0)) + float(item.get('height', 0)) / 2
+    return any(b['x'] <= cx <= b['x'] + b['w'] and b['y'] <= cy <= b['y'] + b['h'] for b in bands)
+
+
+def mask_ticker_page(geo, page_text, page_data):
+    """Remove the baked ticker copy from search/graph/wand evidence.
+
+    The SVG retains the authored band for PDF output; Pigeon paints an opaque
+    live lower-third over it. Keeping the lower-third out of semantic evidence
+    prevents a carried tick from becoming a repeated slide message.
+    """
+    bands = []
+    if page_data:
+        raw = page_data.get('band') or {}
+        if raw.get('enabled', True) is not False and raw.get('w', 0) > 0 and raw.get('h', 0) > 0:
+            bands = [raw]
+    if not bands:
+        return page_text, geo
+    for item in geo.get('words', []):
+        item['_ticker'] = _inside_band(item, bands)
+    geo['words'] = [item for item in geo.get('words', []) if not item.get('_ticker')]
+    for line in geo.get('lines', []):
+        line['words'] = [word for word in line.get('words', []) if not word.get('_ticker')]
+        line['text'] = ' '.join(word['text'] for word in line['words']).strip()
+    geo['regions'] = [region for region in geo.get('regions', []) if not _inside_band(region, bands)]
+    lines = [line['text'] for line in geo.get('lines', []) if line.get('text')]
+    return '\n'.join(lines) + ('\n' if lines else ''), geo
 
 
 def text_geometry(pdf):
@@ -129,6 +175,9 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
     (deck/f'{deck_id}.txt').write_text(text)
     if not svgs or len(svgs)!=len(geometry) or len(texts)!=len(svgs): raise ValueError('PDF/SVG/text page counts differ')
     records=[] if is_pdf else query(source,'slide-record')
+    ticker_raw={} if is_pdf else query_ticker(source)
+    ticker_records=[] if is_pdf else [dict(row.get('value') or {}, page=row.get('page')) for row in records]
+    ticker=build_ticker(ticker_raw, ticker_records, slide_count=len(svgs)) if not is_pdf else None
     semantic_records=[] if is_pdf else query(source,'pigeon-sem')
     tier_records=[] if is_pdf else query(source,'pigeon-tier')
     page_sizes=[]
@@ -153,6 +202,8 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
         target=deck/'resources'/name; target.parent.mkdir(exist_ok=True)
         target.write_bytes(local.read_bytes()); resources[href]=f'resources/{name}'
     for page,(svg,geo,page_text) in enumerate(zip(svgs,geometry,texts),1):
+        ticker_page = next((item for item in (ticker or {}).get('pages', []) if item.get('page') == page), None)
+        page_text, geo = mask_ticker_page(geo, page_text, ticker_page)
         images.svg(svg)
         vbox=[float(v) for v in ET.parse(svg).getroot().get('viewBox').split()]
         width,height=vbox[2:]
@@ -210,7 +261,8 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
             section=overrides.get('section') or content_text(record.get('section','')) or 'Talk',
             source=content_text(record.get('source','')),text=page_text,asset=f'slides/{svg.name}',assetHash=sha256(svg),
             width=width,height=height,links=links,imageDescriptions=[],textRegions=geo['regions'],
-            wandRegions=geo['regions']+visual,semanticRegions=semantic_by_page[page],titleLayer=layer))
+            wandRegions=geo['regions']+visual,semanticRegions=semantic_by_page[page],titleLayer=layer,
+            **({'ticker': overrides['ticker']} if 'ticker' in overrides else {})))
         slides[-1]['_titleWords']=title_words
         if key_messages: slides[-1]['keyMessages']=key_messages
         page_report=dict(page=page,semanticRegions=len(semantic_by_page[page]))
@@ -229,16 +281,20 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
     from outline_sections import assign_sections
     outlines = assign_sections(slides, geometry, explicit_sections, warnings)
     # Include metadata and geometry: edits to IDs/titles/regions also invalidate sessions/KG caches.
-    revision=hashlib.sha256(json.dumps(dict(slides=slides,tiers=tier_config),sort_keys=True,ensure_ascii=False).encode()).hexdigest()[:16]
+    revision=hashlib.sha256(json.dumps(dict(slides=slides,tiers=tier_config,ticker=ticker),sort_keys=True,ensure_ascii=False).encode()).hexdigest()[:16]
     route=nav.get('defaultRoute',[s['id'] for s in slides])
     if len(route)!=len(slides) or set(route)!=used_ids: raise ValueError('defaultRoute must include each slide ID once')
     manifest=dict(titleEffect=title_effect,imageOptions=dict(pngSize=png_size,pngToJpg=png_to_jpg,jpgQuality=jpg_quality),schemaVersion='1.0',deckId=deck_id,title=title,revision=revision,pdf=f'{deck_id}.pdf',sourceType='pdf' if is_pdf else 'typst',
                   dimensions=dict(width=max(s['width'] for s in slides),height=max(s['height'] for s in slides)),
                   defaultRoute=route,hierarchy=nav.get('hierarchy') or None,focusRegions=nav.get('focusRegions',[]),
-                  resources=list(resources.values()),slides=slides,tiers=tier_config)
+                  resources=list(resources.values()),slides=slides,tiers=tier_config,
+                  ticker=ticker,mindMap={'enabled': True, 'source': 'knowledge-graph'})
     (deck/'manifest.json').write_text(json.dumps(manifest,ensure_ascii=False,indent=2)+'\n')
     if not is_pdf: run(['pdftoppm','-png','-scale-to','320',str(pdf),str(thumbs/'page')],source.parent)
-    (output/'build-report.json').write_text(json.dumps(dict(slides=len(slides),revision=revision,warnings=warnings,pages=page_reports,outlines=outlines,semanticRegions=semantic_report),indent=2)+'\n')
+    report=dict(slides=len(slides),revision=revision,warnings=warnings,pages=page_reports,outlines=outlines,semanticRegions=semantic_report)
+    if ticker:
+        report['ticker']={'ticks':len(ticker['ticks']), 'pagesWithBand':sum(1 for page in ticker['pages'] if page.get('band')), 'warnings':ticker['warnings']}
+    (output/'build-report.json').write_text(json.dumps(report,indent=2)+'\n')
     print(json.dumps(dict(slides=len(slides),revision=revision,warnings=len(warnings),output=str(output))))
     return manifest
 

@@ -5,6 +5,7 @@ const {Window} = await import(process.env.PIGEON_TEST_DEPS ? pathToFileURL(resol
 const root=resolve(process.env.PIGEON_FIXTURE_ROOT);
 const runtimeRoot=resolve(process.env.PIGEON_RUNTIME_ROOT || root);
 const markup=await readFile(resolve(root,'index.html'),'utf8');
+const ticker=await readFile(resolve(runtimeRoot,'src/ticker.js'),'utf8');
 const app=await readFile(resolve(runtimeRoot,'src/app.js'),'utf8');
 const effects=await readFile(resolve(runtimeRoot,'src/title-effects.js'),'utf8');
 const wandEffects=await readFile(resolve(runtimeRoot,'src/wand-effects.js'),'utf8');
@@ -73,6 +74,7 @@ export async function setup(t, options={}) {
   }
   if(options.mutateBundle) options.mutateBundle(w.PIGEON_DECK_BUNDLE, w);
   if(options.fetch) w.fetch=options.fetch;
+  w.eval(ticker);
   w.eval(graphLayout);
   if(options.session) {
     const manifest=w.PIGEON_DECK_BUNDLE.json['public/deck/manifest.json'];

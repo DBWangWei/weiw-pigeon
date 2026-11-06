@@ -4,6 +4,8 @@ import {setup} from './runtime-harness.mjs';
 test('graph renders scalable cards, zoom controls and source evidence',async t=>{
   const {w,d,a}=await setup(t);
   assert.equal(a.state.graphError,null);
+  assert.equal(a.state.mode,'graph');
+  assert.equal(d.querySelector('.overview-tab[data-view="graph"]').getAttribute('aria-selected'),'true');
   a.state.mode='graph';a.openOverview();
   const svg=d.querySelector('.graph-canvas'),scroll=d.querySelector('.graph-scroll');
   assert(svg && scroll);

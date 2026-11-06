@@ -75,3 +75,11 @@ new Typst source workflow.
 The compiled PDF is included as
 [`week5-introduction-voice.pdf`](week5-introduction-voice.pdf) so the source and
 its visual baseline can be compared directly.
+
+The shared Typst template also supports the optional lower-third ticker through
+`shared/pigeon-tick.typ`. Add `#tick(id: "question-1")[...]` for a current
+thread, `tick(kind: "next")[...]` for a preview, or
+`#tick(kind: "done", resolves: "question-1")[...]` to close one. The template
+reserves the ticker band only when the source contains ticks, so ticker-free
+slides keep the larger body area. The generated manifest opens on the graph
+backed **Mind map** overview by default.
