@@ -1,6 +1,6 @@
 {
   "slides": 42,
-  "revision": "678bf11a908be24a",
+  "revision": "4950203cb8feae66",
   "warnings": [],
   "pages": [
     {
@@ -238,7 +238,7 @@
         "confidence": 0.93
       },
       "textMode": "native",
-      "textBlocks": 94,
+      "textBlocks": 93,
       "images": 0,
       "tables": 0
     },
@@ -252,7 +252,7 @@
         "bodyFontSize": 28.02
       },
       "textMode": "native",
-      "textBlocks": 36,
+      "textBlocks": 35,
       "images": 0,
       "tables": 0
     },
@@ -269,7 +269,7 @@
         "confidence": 0.93
       },
       "textMode": "native",
-      "textBlocks": 40,
+      "textBlocks": 36,
       "images": 0,
       "tables": 0
     },
@@ -286,7 +286,7 @@
         "confidence": 0.82
       },
       "textMode": "native",
-      "textBlocks": 19,
+      "textBlocks": 18,
       "images": 0,
       "tables": 0
     },
@@ -484,7 +484,7 @@
         "confidence": 0.93
       },
       "textMode": "native",
-      "textBlocks": 58,
+      "textBlocks": 57,
       "images": 0,
       "tables": 0
     },
@@ -595,7 +595,7 @@
         "status": "overridden"
       },
       "textMode": "native",
-      "textBlocks": 27,
+      "textBlocks": 26,
       "images": 0,
       "tables": 0
     },

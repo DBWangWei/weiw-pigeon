@@ -13,13 +13,13 @@ from GitHub, and converting your first PDF.
 
 Both formats require Python 3.11+ and Node.js 20.11+. Typst input also needs
 Typst with `eval` support and Poppler (`pdftotext` and `pdftoppm`). For PDF input,
-install PyMuPDF in the Python environment used by the launcher:
+install PyMuPDF and Pillow in the Python environment used by the launcher:
 
 ```bash
 python3 -m pip install -r typst-to-pigeon/requirements-pdf.txt
 ```
 
-PDF conversion does not need Typst or Poppler.
+For Typst input, install `typst-to-pigeon/requirements.txt` for Pillow raster optimization. PDF conversion does not need Typst or Poppler.
 
 From this repository:
 
@@ -29,12 +29,113 @@ From this repository:
 ./typst-to-pigeon.sh /path/to/talk.pdf
 ```
 
-Open `pigeon-FILENAME/index.html` beside the input source, where `FILENAME` is
-the basename without its last suffix
-(for example, `talk.v2.pdf` produces `pigeon-talk.v2/`). Defaults are local graph
-extraction, the Text Type title effect and the original Camera transition.
-Optional `pigeon.toml` settings beside the source are overridden by explicit CLI
-options. Add `--force` when replacing an existing output.
+By default, this creates one self-contained `pigeon-FILENAME.html` beside the source, where
+`FILENAME` is the basename without its last suffix. For example,
+`/talks/week5.typ` produces `/talks/pigeon-week5.html`. Send that HTML file to a
+recipient, who can double-click it in a current browser. No server, installation,
+or additional files are needed; navigation, overview, graphs, annotations,
+motion effects, semantic tiers, and PDF export work offline.
+
+```bash
+open /path/to/pigeon-talk.html       # macOS; or open in Safari or Firefox
+```
+
+Choose the output format with `--out-mode`:
+
+| Mode | Output | Voice and live Q&A |
+| --- | --- | --- |
+| `single` (default) | One standalone `pigeon-FILENAME.html` | Excluded |
+| `multiple` | Portable `pigeon-FILENAME/` folder | Available through the local server |
+| `zip` | The folder plus `DECK-ID-pigeon.zip` beside it | Available after extraction and server setup |
+
+`--single-file` is an alias for `--out-mode single`. Existing `--no-zip` and
+`--zip` flags map to `multiple` and `zip`. ZIP archives are created only when
+requested. For voice/Q&A, use `--out-mode multiple` or `zip`; single-file builds
+disable recognition and live Q&A, and omit the voice panel and its scripts.
+External website links still need an Internet connection.
+
+Rebuild an existing presentation with `--force`, choose another output path
+with `--output`, and use an adjacent `pigeon.toml` (or `--config`) for
+persistent settings:
+
+```bash
+./typst-to-pigeon.sh /path/to/talk.typ --force
+./typst-to-pigeon.sh /path/to/talk.typ --output /tmp/pigeon-talk.html --force
+./typst-to-pigeon.sh /path/to/talk.typ --out-mode multiple --voice --force
+./typst-to-pigeon.sh /path/to/talk.typ --out-mode=zip --force
+./typst-to-pigeon.sh /path/to/talk.typ --config /path/to/pigeon.toml --force
+```
+
+Defaults are local graph extraction, no title animation, the original
+Camera transition, and `out_mode = "single"`. Use `out_mode = "multiple"` or
+`"zip"` in `pigeon.toml` for persistent settings. Legacy `no_zip = true/false`
+still selects `multiple/zip` when `out_mode` is absent. Explicit CLI options
+override TOML settings. In single mode, `--output` names the HTML file (`.html`
+is appended unless it ends in `.html` or `.htm`); in other modes it names a directory.
+
+The local knowledge graph prioritizes authored takeaways and semantic roles,
+then selects informative slide statements and recurring topics. It preserves
+explicit support and detour links and labels inferred topic similarities as
+heuristic. Repeated headers and footers are suppressed. Open **Overview →
+Knowledge graph** to explore; scroll or use **− / +**, **Fit** and **100%**.
+The canvas grows with the graph so concept cards have separate space. Rebuild
+older presentations to apply these changes. See the [graph guide](typst-to-pigeon/references/graph.md)
+for selection rules, evidence and limitations.
+
+## Smaller presentations
+
+Title animation is off by default, so title-body and title-glyph SVG copies are omitted.
+Embedded slide images default to JPEG at quality 90, with `--png-size 768p`
+(fit within 1366×768). Use `1080p` (1920×1080) or `original` to retain more
+pixels. Aspect ratio and SVG placement are preserved; images are never enlarged.
+Vector text stays vector. Pass `--png` to keep embedded images as PNG instead.
+
+```bash
+./typst-to-pigeon.sh talk.typ --no-embed-pdf --png-size 768p --quality 85
+```
+
+JPEG conversion is the default; `--quality N` selects quality from 1–100, and
+`--png` keeps PNG payloads. JPEG conversion affects embedded raster payloads in
+canonical and semantic-tier SVGs. Transparent pixels are composited on white.
+It does not rewrite the source PNGs, source/companion PDF, or shell icons.
+The TOML setting `png_to_jpg = false` is equivalent to `--png`.
+
+`--no-embed-pdf` writes the source-stem PDF, such as `talk.pdf`, beside
+`pigeon-talk.html` (or the source
+PDF filename beside folder-mode `index.html`) and omits the PDF from the bundle.
+Single-file mode also omits the PDF export library. Keep the two files together.
+The runtime checks the companion PDF; unavailable PDF actions are gray.
+Annotated **Export PDF** requires embedding and stays gray in companion mode.
+If local `file://` security blocks discovery, **Session → Choose PDF fallback…**
+lets you select the companion for opening. HTTP hosting discovers it automatically.
+PNG and session exports remain available. `--embed-pdf` restores the default.
+See [configuration](typst-to-pigeon/references/config.md#asset-size-and-pdf-options)
+for TOML equivalents.
+
+## Files to keep
+
+For the default single-file output, keep and send **only `pigeon-FILENAME.html`**.
+It embeds the runtime, styles, icons, deck data, slides, linked deck resources,
+source PDF, PDF export library, and third-party notices. With `--no-embed-pdf`, keep the companion PDF too.
+
+For `--out-mode multiple`, keep the `pigeon-FILENAME/` directory together.
+The smallest set for direct offline opening of the presentation is:
+
+```text
+index.html
+styles.css
+src/                         # all runtime files, including src/vendor/
+public/icons/                # Pigeon icon used by the shell
+public/deck/embedded-deck.js # manifest, graph, SVGs, PDF and resources bundled here
+```
+
+The other files are optional for direct file opening. Keep `public/deck/` in
+full if the presentation will also be served over HTTP, because HTTP mode reads
+the manifest, graph, slide assets and source PDF from that directory. Keep
+`scripts/` when using local Whisper voice or Q&A; keep `Start Presentation.command`
+if you want the macOS launcher. `README.txt`, `release.json`, `build-report.json`,
+`config/`, `prompts/`, and `schemas/` are documentation or build metadata and are
+not required at presentation runtime.
 
 To run `typst-to-pigeon` from any folder, save an executable wrapper named
 `typst-to-pigeon` in a directory on PATH, such as `~/bin/`:
@@ -71,8 +172,15 @@ Select **Text** (`T`), then click a slide or board to add a label without enteri
 Diagram mode. New labels use 20 pt Arial Italic and the active annotation color
 (red by default); `1`–`4` choose red, blue, dark green or yellow before typing.
 Finish with `Esc`, `Cmd/Ctrl+Enter`, or a click outside the editor. Text stays
-selected for more labels; click an existing label to edit it, or press `T` again
-to return to navigation. In Overview, `T` still switches the overview layout.
+selected with resize handles: drag the label to move it or drag a handle to
+change its width and height. Double-click a label or select it and press `Enter`
+to edit it. Click empty space for another label, or press `T` again to return
+to navigation. In Overview, `T` still switches the overview layout.
+
+The canvas fits the current slide to the available screen, including ultrawide
+and portrait windows. Press `Home` to fit the whole talk or `0` to fit the
+current slide; either fit follows window resizing. Overview and Graph use about
+90% of the window width, with compact margins on small screens.
 
 Pages titled **Overview** or **Outline** that contain only flat bullet or numbered
 items become section boundaries. Repeated outline pages advance through those
@@ -90,9 +198,15 @@ leaving the window lifts the pen automatically.
 Choose a slide transition with `--slide-transition NAME` or the in-app selector:
 `camera`, `none`, `fade`, `blur`, `slide`, `zoom`, `pixel`, `staggered-wipe`, `stack`.
 
+Motion effects can be configured in `[effects]` in `pigeon.toml`. Particle morph
+runs by default when moving between sections; use `particle_morph_slides` for
+specific destination IDs. Rack focus starts off and can be enabled in
+**Overview → Motion effects** for a session. See the [motion-effects configuration
+reference](typst-to-pigeon/references/config.md#motion-effects).
+
 ## Voice triggers for marked Typst content
 
-Voice controls are enabled by default in newly generated presentations. Open
+Voice controls are enabled by default in `multiple` and `zip` output. Open
 **Voice** in the toolbar, choose a microphone, and click **Start microphone** in Chrome. Voice uses a
 local Whisper helper managed by Pigeon's server. In a generated presentation,
 run `python3 scripts/setup_voice.py` once per machine, then
@@ -109,8 +223,8 @@ See the [voice guide](typst-to-pigeon/references/voice.md) for the complete setu
 visibility rules for reveals, config examples, and keyboard controls.
 
 ```bash
-./typst-to-pigeon.sh talk.typ --no-voice  # disable recognition; retain manual actions
-./typst-to-pigeon.sh talk.typ --voice     # override voice.enabled = false
+./typst-to-pigeon.sh talk.typ --out-mode multiple --no-voice  # retain manual actions
+./typst-to-pigeon.sh talk.typ --out-mode multiple --voice     # override voice.enabled = false
 ```
 
 Voice feedback stays in memory and is excluded from sessions and exports.
@@ -134,18 +248,26 @@ different `[qa] target`) where the live list should appear:
 [qa]
 enabled = true
 target = "_qa"
-model = "gpt-4.1-mini"
+model = "qwen3.7-flash"
 max_length = 4000
 max_items = 50
 ```
 
-The local presentation server sends each completed item to its bounded
-`/api/qa/organize` endpoint using `PIGEON_QA_API_KEY` or `OPENAI_API_KEY` and
-falls back to the raw transcript when the organizer is unavailable. Press
-`Q` to finish the current item and insert a white Q&A page containing the
+The default organizer is DashScope's OpenAI-compatible Chat Completions API
+with `qwen3.7-flash`. Set `DASHSCOPE_API_KEY` before starting the local server,
+or enter a key in the masked **DashScope API key** field in the Voice window.
+The field is kept in page memory only and is sent as a same-origin request
+header; it is never included in a session or manifest. `DASHSCOPE_BASE_URL`
+can select a regional or workspace endpoint, while `PIGEON_QA_BASE_URL` remains
+available for compatibility. Each completed item is saved as raw UTF-8 text in
+the deck's hidden `.qa-transcripts/` directory before organization. The
+organizer identifies the question and answer and returns a direct response in
+fewer than 100 words, usually as Markdown bullets. If the provider is
+unavailable, the raw transcript remains visible and the file is still saved.
+Press `Q` to finish the current item and insert a white Q&A page containing the
 numbered question-and-answer list. See the [configuration reference](typst-to-pigeon/references/config.md#live-qa-capture)
 and [runtime reference](typst-to-pigeon/references/runtime.md#live-qa) for the
-full contract.
+full contract. For a new Typst source, see [Voice_enabled_guide.md](Voice_enabled_guide.md).
 
 ## Export an annotated PDF
 
@@ -200,10 +322,11 @@ Rebuild either example from this repository:
 ./typst-to-pigeon.sh examples/voice-enabled/week5-introduction-voice.typ --config examples/voice-enabled/pigeon.toml --output examples/voice-enabled/pigeon-week5-introduction-voice --graph lexical --voice --force
 ```
 
-Open `pigeon-OLS-beyond-memoization/index.html` inside the Typst example, or
+Open `pigeon-OLS-beyond-memoization.html` inside the Typst example, or
 `pigeon-ml_learning_with_infinite_hypothesis_sets/index.html` inside the PDF
-example. Keep each generated folder together for offline use. Rebuilds also
-produce ZIP archives beside the inputs; those archives are ignored by Git.
+example. The Typst example is checked in as a standalone one-file release; the
+PDF and voice examples retain folder outputs for their server-backed features.
+Use `--out-mode multiple` for a folder or `--out-mode zip` for an archive.
 
 ## Write a Typst source that exposes Pigeon's features
 
@@ -231,7 +354,7 @@ behaviors:
 | Animated titles | Render the title as ordinary Typst text and make it match the metadata `title`. | Pigeon can isolate the original title glyphs for Text Type, Split Text, Blur Text, Shiny Text and Gradient Text effects. Image-only or unmatched titles stay static. |
 | Magic-wand takeaways | Use the source-level form `#takeaway[Important conclusion]`; the macro may live in a local imported `.typ` file. | The callout becomes a recognized `takeaway` wand region and starts in Spotlight mode. |
 | Other wand targets | Use native text, rendered `image(...)`, and ordinary connected bordered tables. | Text, images and tables can be selected and enlarged without hand-authored regions. Complex computed macros, borderless tables and unusual graphics may need `*.navigation.json` `wandRegions`. |
-| Graph and search evidence | Keep meaningful concepts in visible slide text and use `section`/`source` metadata. | Local graph extraction and search receive the compiled text and its slide/page evidence. Model graph extraction also receives each rendered page. |
+| Graph and search evidence | Mark main conclusions with `#takeaway[...]` or semantic roles such as `sem.takeaway`, `sem.answer` and `sem.contrast`; use `sem.support(to: ...)` and `sem.deep(...)` for authored associations. | Local graphs prioritize these messages and preserve authored links with compiled slide evidence. Unmarked slides use conservative text salience and topic similarity; model extraction also receives each rendered page. |
 
 Metadata is queried from the compiled source, so the label must be exactly
 `<slide-record>`. A custom wrapper can emit the record, but computed or hidden
@@ -350,7 +473,9 @@ triangles, parallelograms, arrows, lines, centered labels, color/fill palettes,
 copy/paste/duplicate, connected endpoints, move and resize handles. Diagram ink
 is included in undo, sessions, PNG and PDF exports. Validation covers outline
 inference, diagram editing, connector bindings, keyboard controls, sessions,
-double-backtick undo, and PDF overlays on cropped/rotated pages. Both example releases and ZIP archives were refreshed and verified.
+double-backtick undo, and PDF overlays on cropped/rotated pages. Both example
+releases were refreshed and verified; ZIP archives remain available through
+the explicit `--zip` option.
 Firefox aborted during browser launch in the test environment; rendered visuals
 and real fullscreen interaction still need a Safari/Firefox rehearsal.
 

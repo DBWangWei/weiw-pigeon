@@ -35,11 +35,13 @@ From the repository root, rebuild the source example with:
   examples/voice-enabled/week5-introduction-voice.typ \
   --config examples/voice-enabled/pigeon.toml \
   --output examples/voice-enabled/pigeon-week5-introduction-voice \
-  --graph lexical --voice --force
+  --out-mode multiple --graph lexical --voice --force
 ```
 
-The generated folder includes a portable presentation and a ZIP beside it. For
-local Whisper recognition, install the helper once on the presenting Mac, then
+This example selects `out_mode = "multiple"` for its portable folder and local
+voice server. Use `--out-mode zip` if an archive is needed. The default single
+HTML mode excludes voice and live Q&A. For local Whisper recognition,
+install the helper once on the presenting Mac, then
 serve the generated folder:
 
 ```sh
@@ -54,6 +56,21 @@ and click **Start microphone**. Audio remains on the local machine. Use
 `--no-voice` when building if recognition should be disabled while retaining
 manual semantic actions. The browser-only backend is available by setting
 `backend = "browser"` in `pigeon.toml`.
+
+The generated deck also uses particle morph when navigation crosses sections.
+Rack focus is off initially and can be enabled from **Overview → Motion
+effects**. The `[effects]` table in `pigeon.toml` can select exact destination
+slides or change the particle duration and cell size.
+
+## Live Q&A
+
+Repeat an audience question, say `take questions now` (or `take any questions
+now`), answer it, and press `Q` or `q` to finish. The generated deck displays
+the organized response in its `_qa` region and can add a white Q&A page. Raw
+transcripts are saved under `.qa-transcripts/`; the default DashScope model is
+`qwen3.7-flash`. Set `DASHSCOPE_API_KEY`, or enter a masked key in the Voice
+window. See the repository [voice guide](../../Voice_enabled_guide.md) for a
+new Typst source workflow.
 
 The compiled PDF is included as
 [`week5-introduction-voice.pdf`](week5-introduction-voice.pdf) so the source and

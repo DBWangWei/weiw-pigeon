@@ -60,7 +60,7 @@ class PipelineTests(unittest.TestCase):
             env = dict(os.environ, OPENAI_API_KEY='local-test-only', OPENAI_MODEL='pigeon-test',
                        OPENAI_BASE_URL=f'http://127.0.0.1:{server.server_port}/v1')
             (root / 'pigeon.toml').write_text('graph = "model"\ngraph_provider = "env"\nno_zip = true\n')
-            command = [sys.executable, str(BUILDER), str(source)]
+            command = [sys.executable, str(BUILDER), str(source), '--title-effect', 'text-type', '--no-embed-pdf']
             execute(command, env=env, cwd=SKILL)
             output = root / 'pigeon-slides'
             deck = output / 'public/deck'
@@ -113,7 +113,7 @@ Some body content stays visible.
             (root / 'example.html').write_text('<!doctype html><p>Local example</p>')
             (root / 'slides.navigation.json').write_text(json.dumps({'resources': {'./example.html': 'example.html'}}))
             output = root / 'output'
-            execute([sys.executable, str(BUILDER), str(source), '--output', str(output), '--graph', 'local'])
+            execute([sys.executable, str(BUILDER), str(source), '--output', str(output), '--graph', 'local', '--zip', '--title-effect', 'split-text'])
             deck = output / 'public/deck'
             manifest = json.loads((deck / 'manifest.json').read_text())
             self.assertEqual([s['id'] for s in manifest['slides']], ['one', 'one-p3', 'one-p3-2', '04'])

@@ -4,6 +4,16 @@ Pigeon 1.0.4 adds authored semantic tiers to the offline presentation runtime.
 Typst authors can define question, answer, evidence, detail, takeaway and
 background states while retaining the complete source-rendered page for export.
 
+## Output formats
+
+New builds default to `--out-mode single`, producing one standalone
+`pigeon-FILENAME.html` file that recipients can open locally. It embeds the
+runtime, deck assets, icons, styles, PDF export library and license notices.
+Voice and live Q&A use `--out-mode multiple` (a folder) or `--out-mode zip`
+(the folder plus an archive). `out_mode` in `pigeon.toml` sets the persistent
+choice; legacy `--no-zip`, `--zip`, and `no_zip` remain compatible.
+See the [output-mode reference](../../../typst-to-pigeon/references/config.md#output-modes).
+
 ## Semantic-tier authoring
 
 Copy [`pigeon-tiers.typ`](../../../typst-to-pigeon/assets/pigeon-tiers.typ) and
@@ -41,9 +51,22 @@ fullscreen, hierarchy/graph overview, and switching among Pen, Highlighter,
 Wand, Diagram and Navigate modes. Say `take questions now` or `take any
 questions now` after repeating an audience question, then answer it. Final
 transcript segments are displayed in an authored `_qa` semantic region and
-organized through the local `/api/qa/organize` endpoint. Press `Q` to insert a
-white Q&A page containing the numbered list. Configure the model, target and
-bounds with `[qa]`; see the [Q&A configuration reference](../../../typst-to-pigeon/references/config.md#live-qa-capture).
+organized through the local `/api/qa/organize` endpoint. The default organizer
+uses DashScope Chat Completions with `qwen3.7-flash`, saves each raw transcript
+under `.qa-transcripts/`, and returns a direct response in fewer than 100 words.
+Set `DASHSCOPE_API_KEY` or use the masked key field in the Voice window. Press
+`Q` to insert a white Q&A page containing the numbered list. Configure the
+model, target and bounds with `[qa]`; see the [Q&A configuration reference](../../../typst-to-pigeon/references/config.md#live-qa-capture).
+
+## Motion effects
+
+Pigeon 1.0.4 also includes a dependency-free particle morph transition. It is
+used by default when navigation crosses between sections; `[effects]` can set
+`particle_morph = "all"` or `"none"`, or provide `particle_morph_slides` for
+exact destination slide IDs. Rack focus starts disabled and can be enabled in
+the existing Overview panel under **Motion effects**. It focuses the slide's
+semantic or Wand regions one at a time before advancing. See the [motion-effects
+configuration reference](../../../typst-to-pigeon/references/config.md#motion-effects).
 
 ## Validation
 

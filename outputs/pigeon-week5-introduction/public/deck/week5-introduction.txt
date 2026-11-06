@@ -1,0 +1,451 @@
+DSAA3073 · 26FALL 01
+Introduction to Week 5
+From Unstable Inversion to Ridge Regression
+Bias–variance · inverse problems · Tikhonov regularization
+DSAA3073 · Theories in Data Science
+26Fall · Wei Wang · HKUST(GZ)
+DSAA3073 · Theories in Data Science · HKUST(GZ)1 · A NEW HOOK 02
+Two voices, two microphones
+Both microphones hear both voices. Can we recover the two voices from the recordings?
+Sources Receivers
+Voice 1 · amplitude a
+Voice 2 · amplitude b
+Microphone 1
+Microphone 2
+Unknown source amplitudes: 𝐟 = (𝑎,𝑏)T
+Measured recordings: 𝐲 = (𝑦1,𝑦2)T
+Original toy example · dashed waves indicate reception of each voice at each microphone1 · A NEW HOOK 03
+From recordings to a linear inverse problem
+At one instant, 𝑎 and 𝑏 are the signed source amplitudes. The mixing weights are known, but the
+recordings contain noise.
+𝐲 = 𝐀𝐟 + 𝛆.
+Two scalar measurement equations
+𝑦1 = 0.51𝑎 + 0.49𝑏 + 𝜀1,
+𝑦2 = 0.49𝑎 + 0.51𝑏 + 𝜀2.
+Each microphone hears almost the same
+mixture.
+One matrix equation
+𝐀 = (
+0.51
+0.49
+0.49
+0.51
+), 𝛆 = (
+𝜀1
+𝜀2
+).
+Given 𝐀 and 𝐲, recover 𝐟.
+The actual measurement error 𝛆 is unknown.
+Predict: would a 0.01 change in each recording produce only a small change in the separated
+voices?
+Original calibrated mixing model · mechanism: learning sheet PDF pp. 6–81 · A NEW HOOK 04
+A tiny recording error becomes a large source error
+Suppose the true amplitudes are 𝐟⋆
+= (1,0)T
+.
+Recording Observed 𝐲 Exact solution 𝐀−1
+𝐲
+No measurement error (0.51,0.49)T
+(1,0)T
+Add (0.01,−0.01)T
+(0.52,0.48)T
+(1.5,−0.5)T
+The sum is easy to observe
+Noiseless: 𝑦1 + 𝑦2 = 𝑎 + 𝑏.
+The added noise cancels in this sum.
+The difference is weakly observed
+Noiseless: 𝑦1 − 𝑦2 = 0.02(𝑎 − 𝑏).
+Inversion multiplies difference noise by 50.
+💡 Agreement with noisy measurements does not guarantee agreement with the true sources.
+Original calculation · mechanism: learning sheet PDF pp. 6–81 · A NEW HOOK 05
+Why the obvious fixes do not settle the problem
+First idea What remains unresolved
+Solve with more precision
+This error came from measurement noise. Exact arithmetic still amplifies
+it.
+Use the pseudoinverse
+For this invertible matrix it equals the inverse. Small positive singular
+values still give large gains.
+Drop the difference entirely
+Both voices share the sum. Discarding their difference also discards real
+separation information.
+Always use stronger shrinkage
+Shrinkage reduces coefficients toward zero. A larger penalty reduces
+noise amplification but can also suppress true signal, so expected error
+can rise.
+💡 Identify which errors come from the measurements and which directions amplify them. Then
+calculate how reducing amplification changes bias and variance.
+Original hook analysis · learning sheet PDF pp. 7–12, 28–302 · THE PLAN 06
+Four ideas that apply beyond this example
+1 · Separate error sources
+Bias, variation across training samples, and
+noise in a new response need different
+explanations.
+2 · Change coordinates
+The SVD exposes directions that the
+observations determine strongly, weakly, or not
+at all.
+3 · Change the objective
+Penalize large coefficients to control
+amplification. Calculate the signal lost in return.
+4 · Check what each result proves
+Existence, uniqueness, stability, and prediction
+accuracy require different arguments.
+Route: error decomposition → sensitive directions → Tikhonov and ridge → bias–variance
+tradeoff and limits.
+DSAA3073 · Week 5 learning sheet · PDF pp. 3–14, 24–302 · THE PLAN 07
+The problem: recover a signal from noisy observations
+𝐲 = 𝐀𝐟⋆
++ 𝛆, 𝐀 ∈ ℝ𝑛×𝑑
+, 𝐟⋆
+∈ ℝ𝑑
+.
+What is given?
+The known matrix 𝐀 maps hidden source
+amplitudes to noiseless measurements; 𝐲 is the
+observed data.
+The hidden target 𝐟⋆
+and the measurement
+error are unknown.
+What do we want?
+A recovered signal or predictor that remains
+useful when observations change slightly.
+Are we trying to recover the hidden parameters,
+or predict outputs accurately?
+Regression is the same optimization pattern:
+𝐀 = 𝐗, 𝐟 = 𝛃, 𝐲 ≈ 𝐗𝛃.
+Centering means subtracting each sample mean from the predictors and response. In the later moment calculation, the
+predictor matrix is fixed while response noise varies across repetitions; the intercept is unpenalized.
+DSAA3073 · Week 5 learning sheet · PDF pp. 6–11, 20–212 · THE PLAN 08
+First separate two sources of randomness
+At a fixed input 𝑥0, let 𝑆 be the random training sample; 𝑓 ̂
+𝑆(𝑥0) is the prediction fitted from 𝑆; 𝑓⋆
+(𝑥0) is the true mean response; and
+𝑚(𝑥0) is the average fitted prediction over possible 𝑆. A new response is 𝑌 = 𝑓⋆
+(𝑥0) + 𝜀, where 𝜀 is independent of 𝑆, has mean zero,
+and represents noise in that new response.
+𝔼𝑆,𝜀[(𝑌 − 𝑓 ̂
+𝑆(𝑥0))
+2
+] = (𝑚(𝑥0) − 𝑓⋆
+(𝑥0))2
+⏟
+squared bias
++ Var𝑆(𝑓 ̂
+𝑆(𝑥0)) ⏟
+variance across training samples
++ 𝜎2
+(𝑥0) ⏟
+noise in a new response
+,
+𝑚(𝑥0) = 𝔼𝑆[𝑓 ̂
+𝑆(𝑥0)]. The identity assumes squared loss and finite second moments.
+Bias
+The average fitted prediction
+differs from the true mean
+response.
+Variance across training
+samples
+The fitted prediction changes
+when the training sample
+changes.
+Noise in a new response
+A new response varies even
+when its mean is known.
+The identity names the error components. Geometry will explain one mechanism of instability.
+DSAA3073 · Week 5 learning sheet · PDF pp. 3–52 · THE PLAN 09
+An inverse can exist and still be unreliable
+Hadamard: three separate questions
+1. Does a solution exist for every admissible
+observation?
+2. Is that solution unique?
+3. Does it depend continuously on the
+observation?
+SVD: how much does each direction
+change?
+𝐀𝐯𝑗 = 𝜎𝑗𝐮𝑗.
+A change along source direction 𝐯𝑗 produces an
+observation change scaled by 𝜎𝑗.
+If 𝜎𝑗 is small, that source change is hard to
+distinguish from measurement noise. Inversion
+divides by 𝜎𝑗 and amplifies the noise.
+Zero: measurements do not detect that
+direction.
+💡 Our inverse exists and varies continuously, but its smallest singular value is 0.02. The difference-
+direction noise is multiplied by 50.
+DSAA3073 · Week 5 learning sheet · PDF pp. 6–82 · THE PLAN 10
+Tikhonov changes the objective; ridge specializes it
+General finite-dimensional inverse
+𝐟𝜆 = argmin
+𝐟
+(‖𝐀𝐟 − 𝐲‖2
++ 𝜆‖𝐟‖2
+).
+Squared measurement error + penalty on coefficient size. A
+squared norm sums the squared components; 𝜆 > 0 controls
+penalty strength.
+(𝐀T
+𝐀 + 𝜆𝐈)𝐟𝜆 = 𝐀T
+𝐲.
+Centered linear regression: ridge
+𝛃 ̂
+𝜆 = argmin
+𝛃
+(‖𝐲 − 𝐗𝛃‖2
++ 𝜆‖𝛃‖2
+).
+𝛃 ̂
+𝜆 = (𝐗T
+𝐗 + 𝜆𝐈)
+−1
+𝐗T
+𝐲.
+The same derivation with 𝐀 = 𝐗.
+The displayed residual term is a sum, with no 1
+𝑛, and all displayed coefficients are penalized. With an averaged residual
+convention, 𝜆 = 𝑛𝜆′
+gives the same estimator.
+💡 The penalty changes which solution we prefer. It does not remove the measurement noise.
+DSAA3073 · Week 5 learning sheet · PDF pp. 9–11, 20–222 · THE PLAN 11
+The mechanism: damp weak directions more strongly
+Data-to-solution gain
+1
+𝜎𝑗
+→
+𝜎𝑗
+𝜎2
+𝑗 + 𝜆
+.
+Acts on the measured coordinate 𝐮T
+𝑗 𝐲 to produce
+an estimated source coordinate.
+Fraction of the ordinary least-squares (OLS)
+coefficient retained
+𝑠𝑗(𝜆) =
+𝜇𝑗
+𝜇𝑗 + 𝜆
+, 𝜇𝑗 = 𝜎2
+𝑗 > 0.
+This compares the ridge coefficient with the OLS
+coefficient in the same direction. In regression, 𝜇𝑗
+is the corresponding eigenvalue of 𝐗T
+𝐗: a
+squared singular value.
+For the microphones, set 𝜆 = 0.0004:
+Direction Exact gain Ridge gain Fraction kept
+Sum: 𝜎 = 1 1 0.9996 99.96%
+Difference: 𝜎 = 0.02 50 25 50%
+Ridge reduces both noise amplification and true signal in the weak direction.
+DSAA3073 · Week 5 learning sheet · PDF pp. 10–11, 23–242 · THE PLAN 12
+What we can prove before testing prediction quality
+A unique finite-dimensional solution
+For every nonzero 𝐳,
+𝐳T
+(𝐀T
+𝐀 + 𝜆𝐈)𝐳 = ‖𝐀𝐳‖2
++ 𝜆‖𝐳‖2
+> 0.
+The Hessian is positive definite. Normal
+equations give a solution; strict convexity shows
+no other minimizer exists.
+An explicit stability bound
+For fixed 𝜆 > 0, let Δ𝐲 be a change in the
+observed measurements:
+‖𝐟𝜆(𝐲 + Δ𝐲) − 𝐟𝜆(𝐲)‖ ≤
+‖Δ𝐲‖
+2
+√
+𝜆
+.
+At 𝜆 = 0.0004, amplification is at most 25, even
+with zero singular values.
+💡 A unique, stable estimate can still have large prediction error.
+DSAA3073 · Week 5 learning sheet · PDF pp. 10–12, 21–222 · THE PLAN 13
+A little bias can buy a useful variance reduction
+In one weak direction, 𝑡 = 0.02𝜃 + 𝜂: 𝑡 measures source coefficient 𝜃 with measurement noise 𝜂. For this
+calculation, 𝜃 = 1 and 𝜂 has mean 0 and variance 0.0004.
+𝜃 ̂
+𝜆 =
+0.02
+0.0004 + 𝜆
+𝑡, 𝑠 =
+0.0004
+0.0004 + 𝜆
+.
+Coefficient MSE = squared bias (1 − 𝑠)2
++ variance 𝑠2
+.
+Penalty 𝜆 Fraction 𝑠 Squared bias Variance MSE
+0 1 0 1 1
+0.0004 0.5 0.25 0.25 0.50
+0.0036 0.1 0.81 0.01 0.82
+The table measures coefficient error. Prediction error measures errors in predicted outputs; predicting a new response also includes
+its noise variance.
+💡 A moderate penalty improves this example. Stronger shrinkage reduces variance further but can
+make total error worse.
+Constructed weak-direction calculation · moment formulas: learning sheet PDF pp. 24–272 · THE PLAN 14
+Three limits to keep in view
+1. Missing information stays missing. A null direction is a coefficient change that produces no
+change in the measurements. The squared-norm penalty chooses zero for a coefficient the data do
+not determine; it does not recover that coefficient.
+2. Noise in a new response remains. A penalty cannot remove response variance left even when the
+conditional mean is known.
+3. The best penalty is still unknown. Training residuals do not select the best predictive tradeoff.
+Later selection needs independent evidence or another justified criterion.
+As 𝜆 → 0+
+, finite-dimensional ridge approaches the least-squares solution with the smallest Euclidean
+norm. It equals the usual OLS inverse formula only under full column rank.
+DSAA3073 · Week 5 learning sheet · PDF pp. 11–12, 22, 28–313 · HOW TO STUDY IT 15
+Six distinctions that beginners often find hard
+Hard distinction Question to ask yourself
+Training randomness / noise in a new
+response
+What is being redrawn, and what stays fixed inside this
+expectation?
+Zero / small singular value Is information absent, or present but easily overwhelmed?
+Gain / shrinkage fraction
+Does this factor multiply a measured coordinate, a fitted
+coordinate, or an OLS coefficient?
+Coefficient / prediction error
+Which directions does the test input emphasize? Where does
+noise in a new response enter?
+Unique / accurate solution
+Did the proof establish uniqueness, sensitivity to measurement
+changes, or expected prediction accuracy?
+Fixed penalty / selected penalty Is 𝜆 fixed in the theorem, or chosen after looking at data?
+For each formula, identify what is fixed, what is random, and which error is being measured.
+DSAA3073 · Week 5 learning sheet · PDF pp. 3–5, 7, 11–12, 24–313 · HOW TO STUDY IT 16
+Connections to the undergraduate mathematical core
+Course / topic Exact bridge Why it helps here
+Linear algebra 𝐀𝐯𝑗 = 𝜎𝑗𝐮𝑗; 𝜇𝑗 = 𝜎2
+𝑗 for 𝐗T
+𝐗
+Turn a coupled matrix problem
+into scalar directions.
+Numerical analysis
+Inverse norm, condition number,
+measurement error versus rounding error
+Measure how much input error
+can change the answer.
+Probability and statistics
+Conditional expectation; centered cross
+terms; covariance transforms
+Derive bias and variance without
+mixing random sources.
+Multivariable calculus
+and convex optimization
+Gradient, Hessian, positive definiteness;
+norm budgets and penalties
+Derive the estimator and prove
+that it is the unique minimum.
+The constrained-optimization/KKT correspondence is an optional extension; see the sheet’s PDF p. 15.
+Connections developed from learning sheet PDF pp. 3–12, 20–263 · HOW TO STUDY IT 17
+Connections to other CS, AI, and DS courses
+Neighboring topic Connection worth carrying forward
+Signal processing /
+computational imaging
+Deblurring and source separation recover changes weakened by the
+measurement process. Ridge reduces amplification in each direction.
+Machine learning theory
+Norm-bounded linear classes illustrate fitting data while controlling
+coefficient size. A penalty alone does not change the VC dimension of an
+unchanged class.
+Experimental design /
+sensing
+Change the measurements to make weak directions more informative. This
+complements changing the estimator.
+Model evaluation
+Prediction risk means expected prediction error on new data. Selecting a
+penalty and evaluating the selected procedure need distinct evidence; keep
+the final test set untouched.
+Optional Bayesian connection: with Gaussian observation noise and an isotropic, zero-mean Gaussian prior, ridge gives the
+maximum a posteriori (MAP) estimate—the parameter value with highest posterior density.
+These are conceptual links, not extra assessed prerequisites. Parameter-selection algorithms belong to the following
+chapter.
+Conceptual bridges · Bayesian and signal-processing interpretations are extensions4 · TWO VIEWS OF THE WHOLE 18
+Mindmap 1 · The academic progression
+Prediction
+accuracy
+Training fit alone
+does not ensure
+accurate
+predictions on new
+data.
+1 · Statistical diagnosis
+Random samples → bias–
+variance
+What is the error?
+Squared bias + variance
+across training samples +
+noise in a new response
+2 · Inverse geometry
+Hadamard criteria → SVD
+Where is sensitivity?
+Zero ≠ small; inverse gain 1
+𝜎𝑗
+3 · Modified objective
+Tikhonov → ridge
+How does it act?
+Gain
+𝜎𝑗
+𝜎2
+𝑗+𝜆
+; fraction
+𝜇𝑗
+𝜇𝑗+𝜆
+Which conclusion?
+Unique + stable for fixed
+𝜆 > 0.
+These guarantees alone do
+not establish prediction
+accuracy.
+DSAA3073 · Week 5 learning sheet · PDF pp. 3–14, 20–324 · TWO VIEWS OF THE WHOLE 19
+Mindmap 2 · What can the data actually reveal?
+Missing information
+𝜎𝑗 = 0: coefficient undetermined
+by measurements. The squared-
+norm penalty chooses zero.
+Weak information
+Small 𝜎𝑗 > 0: inversion amplifies
+noise. Ridge reduces this
+amplification.
+Variation across training
+samples
+Do fitted coefficients vary strongly
+in directions with small 𝜎𝑗?
+What can the data reveal?
+Identify what the
+measurements determine
+before changing the
+estimator.
+Systematic model error
+Can the model represent the
+relationship being predicted?
+Stability alone does not ensure
+accuracy.
+Noise in a new response
+A new response varies even when its
+mean is known. Shrinkage cannot
+remove this noise.
+Unknown best penalty
+Training fit alone cannot choose the
+best penalty for new data. Later:
+compare choices on validation data.
+Selected alternative: information audit · learning sheet PDF pp. 7–12, 28–314 · TWO VIEWS OF THE WHOLE 20
+Return to the microphones: what should we do?
+What we know
+• The difference direction is weakly observed.
+• Exact inversion amplifies its measurement
+noise by 50.
+• Ridge reduces noise amplification but also
+shrinks the true source coefficients,
+introducing bias.
+What we must still establish
+• How large is the noise relative to the weak
+signal?
+• Do we care about individual sources or only
+their sum?
+• What independent evidence supports the
+penalty choice?
+💡 The week’s calculations show how a penalty changes bias, variance, and total expected error.
+Original hook synthesis · learning sheet PDF pp. 28–32

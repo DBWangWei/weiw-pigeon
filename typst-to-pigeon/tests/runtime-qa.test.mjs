@@ -15,10 +15,13 @@ test("Q&A trigger captures final transcript text and renders the semantic panel"
     qa: qaConfig, qaRegion,
     fetch: async (url, options) => {
       calls.push([url, options]);
-      return url === "/api/voice/status" ? response({token: "qa-token"}) : response({paragraph: "The presenter explains the answer to the audience question."});
+      return url === "/api/voice/status" ? response({token: "qa-token"}) : response({paragraph: "The presenter explains the answer to the audience question.", rawFile: ".qa-transcripts/qa-1.txt"});
     },
   });
   const {a, d} = env;
+  const key = d.querySelector(".voice-qa-api-key");
+  assert.equal(key?.type, "password");
+  key.value = "manual-key";
   assert.match(a.voice.dispatch("qa-start", "manual"), /^Q&A capture started/);
   assert.equal(a.qaState.current.raw, "");
   assert.equal(d.querySelector(".pigeon-qa-panel").hidden, false);
@@ -32,6 +35,9 @@ test("Q&A trigger captures final transcript text and renders the semantic panel"
   assert.match(d.querySelector(".pigeon-qa-list").textContent, /explains the answer/);
   assert.equal(calls.length, 2);
   assert.equal(calls[1][1].headers["X-Pigeon-Voice-Token"], "qa-token");
+  assert.equal(calls[1][1].headers["X-Pigeon-QA-Key"], "manual-key");
+  assert.equal(a.qaState.items[0].rawFile, ".qa-transcripts/qa-1.txt");
+  assert.doesNotMatch(JSON.stringify(a.sessionPayload()), /manual-key/);
 });
 
 test("q finalizes the current item and creates a validated white Q&A page", async t => {

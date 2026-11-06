@@ -72,7 +72,7 @@ def _effective_default(semantic, recipes):
     original=selected if type(selected) is int else next((i for i,r in enumerate(recipes) if r['name']==selected),-1)
     return next((c for c in reversed(survivors) if c['k']<=original),survivors[0])
 
-def attach_tier_artwork(source, deck, slides, pages, records, config, run, query, warnings):
+def attach_tier_artwork(source, deck, slides, pages, records, config, run, query, warnings, title_effect="none", images=None):
     by_page=normalize_tier_records(records,pages,config)
     passes={}; jobs=[]
     for slide in slides:
@@ -122,6 +122,7 @@ def attach_tier_artwork(source, deck, slides, pages, records, config, run, query
             for index,(svg,size) in enumerate(zip(files,pages),1):
                 vbox=[float(v) for v in ET.parse(svg).getroot().get('viewBox').split()]
                 if abs(vbox[2]-size['width'])>.001 or abs(vbox[3]-size['height'])>.001: raise ValueError('Tier variant changed physical page geometry')
+                if images: images.svg(svg)
                 name=f'{key}-p{index}.svg'; (target/name).write_bytes(svg.read_bytes()); passes[(combo,index)]=target/name
     for slide,candidate,combo,backing in jobs:
         asset=deck/slide['asset'] if combo is None else passes[(combo,slide['page'])]
@@ -133,7 +134,7 @@ def attach_tier_artwork(source, deck, slides, pages, records, config, run, query
         else:
             candidate['asset']=asset.relative_to(deck).as_posix(); candidate['assetHash']=_hash(asset)
             # Use only selected artwork for title separation; no full-source backing leaks.
-            candidate['titleLayer']=slide.get('titleLayer') if combo is None else title_layers(asset,slide.get('_titleWords',[]),deck/'titles',asset.stem)
+            candidate['titleLayer']=slide.get('titleLayer') if combo is None else (title_layers(asset,slide.get('_titleWords',[]),deck/'titles',asset.stem) if title_effect!='none' else None)
             if candidate['titleLayer']:
                 layer=candidate['titleLayer']
                 layer['assetHash']=_hash(deck/layer['asset'])

@@ -5,10 +5,16 @@
     if (window.PDFLib) return Promise.resolve(window.PDFLib);
     if (!loading) loading = new Promise((resolve, reject) => {
       const script = document.createElement("script");
-      script.src = "src/vendor/pdf-lib.min.js";
+      const inline = window.PIGEON_SINGLE_FILE_SCRIPTS?.["src/vendor/pdf-lib.min.js"];
+      if (inline != null) script.textContent = inline;
+      else script.src = "src/vendor/pdf-lib.min.js";
       script.onload = () => window.PDFLib ? resolve(window.PDFLib) : reject(new Error("PDF export library did not start"));
       script.onerror = () => { script.remove(); reject(new Error("PDF export library is missing. Re-extract the complete presentation folder.")); };
       document.body.append(script);
+      if (inline != null) {
+        if (window.PDFLib) resolve(window.PDFLib);
+        else reject(new Error("PDF export library did not start"));
+      }
     }).catch(error => { loading = null; throw error; });
     return loading;
   }

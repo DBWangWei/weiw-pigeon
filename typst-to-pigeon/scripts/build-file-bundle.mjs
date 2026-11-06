@@ -39,7 +39,7 @@ export async function buildFileBundle(root) {
       }
     }
   }
-  await add(manifest.pdf);
+  if (manifest.pdfEmbedded !== false) await add(manifest.pdf);
   for (const path of manifest.resources || []) {
     const bytes = await add(path);
     if (/\.html?$/i.test(path)) resources[pathFor(path)] = bytes.toString('utf8');
@@ -47,6 +47,6 @@ export async function buildFileBundle(root) {
   const bundle = {revision:manifest.revision,json:{'public/deck/manifest.json':manifest,'public/deck/knowledge-graph.json':graph},assets,titleSvgs,resources};
   const payload = JSON.stringify(bundle).replace(/</g,'\\u003c').replace(/\u2028/g,'\\u2028').replace(/\u2029/g,'\\u2029');
   await writeFile(resolve(root,'public/deck/embedded-deck.js'),`window.PIGEON_DECK_BUNDLE=${payload};\n`);
-  console.log(`Bundled ${manifest.slides.length} slides, titles, graph, PDF and linked resources`);
+  console.log(`Bundled ${manifest.slides.length} slides, optional titles/PDF, graph and linked resources`);
 }
 if (process.argv[1] && resolve(process.argv[1]) === resolve(import.meta.filename)) await buildFileBundle(resolve(process.argv[2] || '.'));

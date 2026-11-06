@@ -85,7 +85,7 @@ class PDFTests(unittest.TestCase):
         cls.source = cls.root / 'slides.PDF'
         fixture(cls.source)
         cls.output = cls.root / 'output'
-        cls.manifest = build(cls.source, cls.output)
+        cls.manifest = build(cls.source, cls.output, title_effect="text-type")
         cls.deck = cls.output / 'public/deck'
 
     @classmethod
@@ -211,7 +211,7 @@ class PDFTests(unittest.TestCase):
     def test_navigation_can_disable_or_supply_a_title(self):
         nav = self.root / 'override.json'
         nav.write_text(json.dumps({'slides': {'1': {'title': ''}, '2': {'title': 'Ordinary text at the top.'}}}))
-        manifest = build(self.source, self.root/'override', navigation=nav)
+        manifest = build(self.source, self.root/'override', navigation=nav, title_effect='text-type')
         self.assertEqual(manifest['slides'][0]['title'], '')
         self.assertIsNone(manifest['slides'][0]['titleLayer'])
         self.assertEqual(manifest['slides'][1]['title'], 'Ordinary text at the top.')

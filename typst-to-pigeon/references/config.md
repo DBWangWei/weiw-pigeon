@@ -9,14 +9,14 @@ top-level values.
 
 ```toml
 # pigeon.toml
-# Optional fixed output; omit to use pigeon-FILENAME beside each input.
-# output = "my-presentation"
+# Optional fixed output; omit to use pigeon-FILENAME.html beside each input.
+# output = "my-presentation.html"
+out_mode = "single" # single (default), multiple, or zip
 navigation = "talk-v5.navigation.json"
 graph = "local"
 graph_provider = "codex-config"
-title_effect = "text-type"
+title_effect = "none"
 slide_transition = "camera"
-no_zip = true
 
 # Optional metadata defaults
 # deck_id = "my-talk"
@@ -24,7 +24,8 @@ no_zip = true
 ```
 
 Supported keys are `output`, `deck_id`, `title`, `navigation`, `graph`,
-`graph_provider`, `title_effect`, `slide_transition`, `no_zip`, and the nested `voice`, `qa`, and `tiers` tables. Unknown keys are rejected so a
+`graph_provider`, `embed_pdf`, `png_size`, `png_to_jpg`, `jpg_quality`, `title_effect`, `slide_transition`, `out_mode`, legacy `no_zip`, and the nested
+`voice`, `qa`, `effects`, and `tiers` tables. Unknown keys are rejected so a
 misspelling cannot silently change the build.
 Copy [pigeon.example.toml](pigeon.example.toml) for a new deck. The portable
 launcher is included at `scripts/typst-to-pigeon.sh`; copy it into a directory
@@ -39,11 +40,10 @@ The precedence is:
 2. the matching value in `pigeon.toml`; and
 3. the built-in default.
 
-The built-in defaults are `pigeon-{FILENAME}` beside the source (its basename
-without the last suffix; `my.talk.pdf` becomes `pigeon-my.talk`), `graph = "local"`,
-`graph_provider = "codex-config"`, `title_effect = "text-type"`,
-`slide_transition = "camera"`, and ZIP creation enabled. `--no-zip` and
-`--zip` explicitly override `no_zip`.
+The built-in defaults are `out_mode = "single"`, `pigeon-{FILENAME}.html` beside the source (its basename
+without the last suffix; `my.talk.pdf` becomes `pigeon-my.talk.html`), `graph = "local"`,
+`graph_provider = "codex-config"`, `title_effect = "none"`,
+`slide_transition = "camera"`, and ZIP creation disabled.
 `--force` is intentionally command-line-only because it replaces an existing
 presentation.
 
@@ -51,9 +51,92 @@ The config file is read during generation and is not copied into the release.
 Credentials remain controlled by the graph-provider configuration and are never
 stored in `pigeon.toml` or the generated presentation.
 
+## Output modes
+
+`--out-mode single|multiple|zip` overrides `out_mode` in TOML:
+
+- `single` (default): one standalone HTML file with CSS, icons, runtime, deck
+  data, linked deck resources, PDF, PDF-export library, and license notices embedded.
+  Double-click the file locally; it can also be hosted as one file. Voice and
+  live Q&A are disabled and their UI/scripts are omitted. `--voice` requires
+  `multiple` or `zip` instead.
+- `multiple`: the existing portable folder with `index.html`, assets, build
+  reports, server and voice helper scripts. No archive is created.
+- `zip`: the same folder plus `DECK-ID-pigeon.zip` beside it.
+
+For `single`, `output` / `--output` names the HTML file; `.html` is appended
+unless the path ends in `.html` or `.htm`. For `multiple` and `zip`, it names the
+directory. Defaults are `pigeon-FILENAME.html` and `pigeon-FILENAME/`, respectively.
+`--force` replaces an existing file or folder only after the staged build succeeds.
+
+`--single-file` aliases `--out-mode single`. Legacy `--no-zip` and `--zip` alias
+`multiple` and `zip`; these CLI switches are mutually exclusive with `--out-mode`.
+For existing TOML files, `no_zip = true` selects `multiple` and `false` selects
+`zip` when `out_mode` is absent. `out_mode` takes precedence over legacy `no_zip`,
+and an explicit CLI mode overrides both.
+
+Standalone builds stage all intermediate files temporarily, leaving only the
+HTML artifact (plus a companion PDF with `embed_pdf=false`). Use `multiple` when you need `build-report.json`, editable runtime
+files, persistent model-graph caches, or the local server.
+
+## Asset size and PDF options
+
+```toml
+title_effect = "none" # default: omit separate title animation SVGs
+embed_pdf = true      # false: write companion PDF beside HTML
+png_size = "768p"     # default; 1080p or original
+png_to_jpg = true     # false: keep slide PNG payloads instead
+jpg_quality = 90     # integer 1-100
+```
+
+CLI equivalents: `--title-effect`, `--embed-pdf` / `--no-embed-pdf`, `--png-size`,
+`--png`, and `--quality`. Explicit flags override TOML. JPEG conversion is the
+default; `--png` or `png_to_jpg = false` keeps PNG payloads.
+PNG bounds are 1366×768 or 1920×1080; aspect ratio is preserved, images are never
+upscaled, and SVG geometry/vector text is unchanged. Optimization covers PNG data
+URIs in canonical and semantic-tier SVGs before title splitting/hashing. JPEG is
+opt-in and flattens alpha on white. Source images/PDFs and shell icons are untouched.
+Pillow is required for the default JPEG conversion and for resizing. It is not
+needed when `png_size="original"` and `png_to_jpg=false`.
+
+With `embed_pdf=false`, single mode writes `SOURCE-STEM.pdf` beside the HTML;
+folder/ZIP modes put `SOURCE-STEM.pdf` beside `index.html`. The PDF bytes are
+preserved. Keep the companion alongside the HTML; it is absent from the embedded
+bundle. Single mode also omits pdf-lib. Annotated PDF export requires embedding.
+The runtime grays PDF actions if the PDF is missing, checks relative companion
+URLs over HTTP, and offers a local PDF picker if file security blocks discovery.
+PNG/session exports continue to work. Replacing an existing companion also
+requires `--force`; failed builds preserve the previous HTML and PDF.
+
+## Motion effects
+
+Use `[effects]` to configure the dependency-free particle morph and rack-focus
+runtime effects:
+
+```toml
+[effects]
+particle_morph = "sections"       # sections, all, or none
+particle_morph_slides = []        # destination IDs; overrides the mode when nonempty
+particle_morph_duration_ms = 1400
+particle_morph_cell = 10
+rack_focus = false
+```
+
+With the default `sections` mode, a particle morph runs when navigation crosses
+from one inferred or authored section to another. Set `particle_morph = "all"`
+to use it for every slide change, or `none` to disable it. A nonempty
+`particle_morph_slides` list selects exact destination slide IDs and takes
+precedence over the mode. The duration is 250–6000 ms and the sampling cell is
+4–32 pixels. The builder rejects destination IDs that are absent from the deck.
+
+Rack focus starts disabled unless `rack_focus = true` is set. Presenters can
+toggle it in the existing Overview panel under **Motion effects**; it then uses
+the slide's semantic or wand regions and advances through them before changing
+slides. The compact control stays within Pigeon's current overview design.
+
 ## Local voice triggers
 
-Voice recognition controls are enabled by default. `--no-voice` disables recognition;
+In `multiple` and `zip` modes, voice recognition controls are enabled by default. `--no-voice` disables recognition;
 `--voice` enables it regardless of the config. Both switches leave manual semantic
 rule actions available. Recognition starts only after an explicit click. The default
 `whisper` backend uses Pigeon's loopback server and a locally installed helper/model.
@@ -124,16 +207,22 @@ white `Q&A` page containing the organized list.
 [qa]
 enabled = true
 target = "_qa"             # pigeon-sem target on the authored Q&A slide
-model = "gpt-4.1-mini"      # fast model used by the loopback organizer
+model = "qwen3.7-flash"     # DashScope fast model used by the loopback organizer
 max_length = 4000           # bounded transcript/paragraph characters
 max_items = 50
 ```
 
-The local presentation server proxies `/api/qa/organize` to an OpenAI-compatible
-Responses API using `PIGEON_QA_API_KEY` (or `OPENAI_API_KEY`) and the optional
-`PIGEON_QA_BASE_URL`/`OPENAI_BASE_URL`. Credentials never enter the manifest or
-browser code. If the organizer is unavailable, the raw transcript remains
-visible and is retained on the generated page.
+The local presentation server proxies `/api/qa/organize` to DashScope's
+OpenAI-compatible Chat Completions API. The default base URL is
+`https://dashscope.aliyuncs.com/compatible-mode/v1`; set `DASHSCOPE_BASE_URL`
+for another region or workspace, or use the compatibility variables
+`PIGEON_QA_BASE_URL`/`OPENAI_BASE_URL`. Key precedence is the masked Voice-window
+key, `DASHSCOPE_API_KEY`, `PIGEON_QA_API_KEY`, then `OPENAI_API_KEY`.
+Credentials never enter the manifest, sessions, or logs. Before the API call,
+the raw bounded transcript is saved as a UTF-8 file under the deck's hidden
+`.qa-transcripts/` directory. The organizer asks for a direct question-and-answer
+response in fewer than 100 words, preferably one to three Markdown bullets; the
+raw transcript remains visible if organization fails.
 
 Every custom rule requires exactly `id`, `phrases`, `target`, `action`, and
 `multi`. IDs must be unique; IDs and targets start with an ASCII letter or

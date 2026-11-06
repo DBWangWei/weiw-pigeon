@@ -26,7 +26,7 @@ cd weiw-pigeon
 
 ## 3. Install PDF support
 
-Create a Python environment inside the repository and install PyMuPDF:
+Create a Python environment inside the repository and install PyMuPDF and Pillow:
 
 ```bash
 python3.12 -m venv .venv
@@ -49,15 +49,18 @@ bash ./typst-to-pigeon.sh "$HOME/Documents/Lectures/lecture01.pdf"
 By default, this creates:
 
 ```text
-~/Documents/Lectures/pigeon-lecture01/
+~/Documents/Lectures/pigeon-lecture01.html
 ```
 
-The output folder is beside the PDF and is named `pigeon-FILENAME`, with only
+The standalone HTML file is beside the PDF and is named `pigeon-FILENAME.html`, with only
 the final file suffix removed. For example, `lecture01.v2.pdf` produces
-`pigeon-lecture01.v2/`. A ZIP archive is also generated, and the command prints
-its location.
+`pigeon-lecture01.v2.html`. It embeds all presentation assets, including the PDF.
+No ZIP or companion folder is created by default.
 
-Defaults are local graph extraction, the Text Type title effect, and the Camera
+Use `--out-mode multiple` for a portable folder, or `--out-mode zip` for a
+folder plus a ZIP archive. Voice and live Q&A require one of those folder modes.
+
+Defaults are local graph extraction, no title animation, and the Camera
 slide transition. Default PDF conversion needs no internet after installation.
 An optional `pigeon.toml` beside the PDF can override these defaults, including
 the output location; explicit command-line options override the configuration.
@@ -71,14 +74,15 @@ bash ./typst-to-pigeon.sh "$HOME/Documents/Lectures/lecture01.pdf" --force
 ## 5. Open and present
 
 ```bash
-open "$HOME/Documents/Lectures/pigeon-lecture01/index.html"
+open "$HOME/Documents/Lectures/pigeon-lecture01.html"
 ```
 
 Use arrows or Space to move, `O` for the overview, `/` to search, `F` for
 presentation mode, and `?` for keyboard help.
 
-Keep the complete generated folder together when copying it to another
-computer, or share the generated ZIP and extract it there. Opening the
+Send just the HTML file when copying it to another computer. For `multiple`
+mode, keep the generated folder together; for `zip`, extract the archive first.
+Opening the
 presentation requires only a browser and works offline. External website links
 or online demos still need internet.
 
@@ -106,10 +110,10 @@ repository root with:
   examples/voice-enabled/week5-introduction-voice.typ \
   --config examples/voice-enabled/pigeon.toml \
   --output examples/voice-enabled/pigeon-week5-introduction-voice \
-  --graph lexical --voice --force
+  --out-mode multiple --graph lexical --voice --force
 ```
 
-Voice recognition is enabled by default for generated decks. Install the local
+Voice recognition is enabled by default for `multiple` and `zip` decks. Install the local
 Whisper helper once on the presenting Mac, then serve the generated folder:
 
 ```bash

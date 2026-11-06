@@ -92,16 +92,55 @@ class ServerTests(unittest.TestCase):
         self.server.qa_config = {'enabled': True, 'model': 'test-fast'}
         original = self.module.organize_qa
         self.addCleanup(setattr, self.module, 'organize_qa', original)
-        self.module.organize_qa = lambda text, model=None: f'organized: {text}'
+        seen = {}
+        self.module.organize_qa = lambda text, model=None, api_key=None: seen.update(text=text, model=model, api_key=api_key) or f'organized: {text}'
         status, data = self.request('GET', '/api/voice/status')
         token = json.loads(data)['token']
         headers = {'Origin': self.origin, 'Content-Type': 'application/json', 'X-Pigeon-Voice-Token': token}
-        status, data = self.request('POST', '/api/qa/organize', json.dumps({'text': 'Why?', 'model': 'test-fast'}).encode(), headers)
+        status, data = self.request('POST', '/api/qa/organize', json.dumps({'id': 'qa-1', 'text': 'Why?', 'model': 'test-fast'}).encode(), {**headers, 'X-Pigeon-QA-Key': 'manual-key'})
         self.assertEqual(status, 200)
         self.assertEqual(json.loads(data)['paragraph'], 'organized: Why?')
+        self.assertEqual(seen, {'text': 'Why?', 'model': 'test-fast', 'api_key': 'manual-key'})
+        raw_file = json.loads(data)['rawFile']
+        self.assertTrue(raw_file.startswith('.qa-transcripts/'))
+        self.assertEqual((self.root / raw_file).read_text(), 'Why?')
+        self.assertEqual(self.request('GET', '/' + raw_file, headers={'Host': f'127.0.0.1:{self.port}'})[0], 404)
+        def unavailable(text, model=None, api_key=None):
+            raise RuntimeError('provider unavailable')
+        self.module.organize_qa = unavailable
+        status, data = self.request('POST', '/api/qa/organize', json.dumps({'id': 'qa-2', 'text': 'Still saved'}).encode(), headers)
+        self.assertEqual(status, 503)
+        failed = json.loads(data)
+        self.assertTrue((self.root / failed['rawFile']).exists())
+        self.assertEqual((self.root / failed['rawFile']).read_text(), 'Still saved')
         self.assertEqual(self.request('POST', '/api/qa/organize', b'{}', {**headers, 'X-Pigeon-Voice-Token': 'wrong'})[0], 403)
         self.assertEqual(self.request('POST', '/api/qa/organize', b'{"text":"x"}', {**headers, 'Content-Type': 'text/plain'})[0], 415)
         self.assertEqual(self.request('POST', '/api/qa/organize', b'{"text":""}', headers)[0], 400)
+
+    def test_organizer_uses_dashscope_chat_completions_and_bounds_words(self):
+        captured = {}
+        original = self.module.urllib.request.urlopen
+
+        class Reply:
+            def __enter__(self): return self
+            def __exit__(self, *args): return False
+            def read(self, *args): return json.dumps({'choices': [{'message': {'content': ' '.join(['answer'] * 120)}}]}).encode()
+            def __iter__(self): return iter(())
+
+        def fake_urlopen(request, timeout=None):
+            captured['url'] = request.full_url
+            captured['headers'] = dict(request.headers)
+            captured['body'] = json.loads(request.data)
+            return Reply()
+
+        self.addCleanup(setattr, self.module.urllib.request, 'urlopen', original)
+        self.module.urllib.request.urlopen = fake_urlopen
+        organized = self.module.organize_qa('Why? Because.', model='qwen3.7-flash', api_key='manual-key', base_url='https://dashscope.example/v1')
+        self.assertEqual(captured['url'], 'https://dashscope.example/v1/chat/completions')
+        self.assertEqual(captured['headers']['Authorization'], 'Bearer manual-key')
+        self.assertEqual(captured['body']['model'], 'qwen3.7-flash')
+        self.assertEqual([message['role'] for message in captured['body']['messages']], ['system', 'user'])
+        self.assertLess(len(organized.split()), 100)
 
 
 class WorkerTests(unittest.TestCase):

@@ -151,7 +151,91 @@ window.PigeonTransitions = (() => {
         finish();
       }
     }
-    return {play, cancel, get active() { return current !== null; }};
+    function playParticle(snapshot, target, {duration = 1400, cell = 10, direction = 1, onComplete = () => {}} = {}) {
+      cancel();
+      if (!snapshot || !target || !window.PigeonParticleEffects || !target.getBoundingClientRect) {
+        snapshot?.overlay.remove(); onComplete(); return;
+      }
+      const stage = snapshot.stage;
+      const stageRect = stage.getBoundingClientRect();
+      const targetRect = target.getBoundingClientRect();
+      if (!targetRect.width || !targetRect.height || !stageRect.width || !stageRect.height) {
+        snapshot.overlay.remove(); onComplete(); return;
+      }
+      const sourceImage = snapshot.page.querySelector("img")?.src;
+      const targetImage = target.querySelector(":scope > img")?.src;
+      if (!sourceImage || !targetImage) { snapshot.overlay.remove(); onComplete(); return; }
+      const overlay = document.createElement("div");
+      overlay.className = "page-transition-overlay particle-morph-overlay";
+      overlay.setAttribute("aria-hidden", "true"); overlay.inert = true;
+      overlay.style.background = getComputedStyle(stage).background;
+      const page = document.createElement("div"); page.className = "page-transition-artwork particle-morph-page";
+      Object.assign(page.style, {
+        left: `${targetRect.left - stageRect.left}px`, top: `${targetRect.top - stageRect.top}px`,
+        width: `${targetRect.width}px`, height: `${targetRect.height}px`, background: "white",
+      });
+      const from = document.createElement("img"), to = document.createElement("img");
+      from.src = sourceImage; to.src = targetImage; from.alt = to.alt = ""; from.draggable = to.draggable = false;
+      from.className = "particle-morph-source"; to.className = "particle-morph-target";
+      const canvas = document.createElement("canvas"); canvas.className = "particle-morph-canvas";
+      const context = canvas.getContext("2d", {willReadFrequently: true});
+      if (!context) { snapshot.overlay.remove(); onComplete(); return; }
+      page.append(from, to, canvas); overlay.append(page); stage.append(overlay);
+      const job = {overlay, animations: [], timer: 0, raf: 0, mask: null}; current = job;
+      const load = image => new Promise((resolve, reject) => {
+        if (image.complete && image.naturalWidth) return resolve(image);
+        image.onload = () => resolve(image); image.onerror = reject;
+      });
+      const finish = () => {
+        if (current !== job) return;
+        current = null; clearTimeout(job.timer); cancelAnimationFrame(job.raf);
+        overlay.remove(); snapshot.overlay.remove(); onComplete();
+      };
+      Promise.all([load(from), load(to)]).then(() => {
+        if (current !== job) return;
+        const nativeWidth = Number(target.style.width.replace("px", "")) || 960;
+        const nativeHeight = Number(target.style.height.replace("px", "")) || Math.round(nativeWidth * targetRect.height / targetRect.width);
+        canvas.width = nativeWidth; canvas.height = nativeHeight;
+        const sourceCanvas = document.createElement("canvas"), targetCanvas = document.createElement("canvas");
+        sourceCanvas.width = targetCanvas.width = nativeWidth; sourceCanvas.height = targetCanvas.height = nativeHeight;
+        const sourceContext = sourceCanvas.getContext("2d", {willReadFrequently: true}), targetContext = targetCanvas.getContext("2d", {willReadFrequently: true});
+        if (!sourceContext || !targetContext) { finish(); return; }
+        sourceContext.drawImage(from, 0, 0, nativeWidth, nativeHeight); targetContext.drawImage(to, 0, 0, nativeWidth, nativeHeight);
+        const sourcePixels = sourceContext.getImageData(0, 0, nativeWidth, nativeHeight);
+        const targetPixels = targetContext.getImageData(0, 0, nativeWidth, nativeHeight);
+        const fx = window.PigeonParticleEffects;
+        const particles = fx.pairParticles(fx.sampleGrid(sourcePixels, cell), fx.sampleGrid(targetPixels, cell));
+        const draw = (progress) => {
+          context.clearRect(0, 0, nativeWidth, nativeHeight);
+          const cross = fx.smooth(progress);
+          from.style.opacity = String(1 - cross); to.style.opacity = String(cross);
+          context.save();
+          for (const particle of particles) {
+            const point = fx.position(particle, progress, nativeWidth / 2, nativeHeight / 2); if (point.opacity <= 0) continue;
+            const width = (particle.from.w + (particle.to.w - particle.from.w) * point.mix) * point.scale;
+            const height = (particle.from.h + (particle.to.h - particle.from.h) * point.mix) * point.scale;
+            if (point.mix < 1 && particle.from.opacity) {
+              context.globalAlpha = point.opacity * (1 - point.mix);
+              context.drawImage(sourceCanvas, particle.from.sx, particle.from.sy, particle.from.w, particle.from.h, point.x - width / 2, point.y - height / 2, width, height);
+            }
+            if (point.mix > 0 && particle.to.opacity) {
+              context.globalAlpha = point.opacity * point.mix;
+              context.drawImage(targetCanvas, particle.to.sx, particle.to.sy, particle.to.w, particle.to.h, point.x - width / 2, point.y - height / 2, width, height);
+            }
+          }
+          context.restore(); job.progress = progress;
+        };
+        const started = performance.now();
+        const frame = now => {
+          if (current !== job) return;
+          const progress = fx.clamp((now - started) / Math.max(250, duration)); draw(progress);
+          if (progress >= 1) finish(); else job.raf = requestAnimationFrame(frame);
+        };
+        draw(0); job.raf = requestAnimationFrame(frame); job.timer = setTimeout(finish, Math.max(500, duration + 250));
+        overlay.dataset.particleCount = String(particles.length);
+      }).catch(() => finish());
+    }
+    return {play, playParticle, cancel, get active() { return current !== null; }};
   }
   return {names, capture, create};
 })();

@@ -1,6 +1,13 @@
 # QA checklist
 
-After a build:
+For the default `single` mode, copy only the generated HTML into a new, empty
+directory, open it directly, and check navigation, artwork, overview, graph,
+annotations and PDF export. Confirm no companion-file or network requests occur.
+`test_single_file.py` checks default output, aliases/TOML precedence, inline
+script syntax/escaping, and failure-safe replacement. Use `--out-mode multiple`
+when you need the build reports and individual assets below.
+
+After a folder build:
 
 1. Inspect the page count and `build-report.json`. Review inferred titles, static-title warnings, custom wand targets and disabled local links. For PDF input, inspect per-page title detection, text mode (native/OCR/visual-only) and image/table counts.
 2. Check manifest/graph deck IDs and revisions, slide SVG hashes, native dimensions, PDF and optional title-layer assets.

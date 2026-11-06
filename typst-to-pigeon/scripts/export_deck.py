@@ -5,6 +5,7 @@ import argparse
 import hashlib
 import json
 import re
+import shutil
 import subprocess
 import xml.etree.ElementTree as ET
 from pathlib import Path
@@ -89,9 +90,11 @@ def extract_links(svg, source):
     return result
 
 
-def build(source, output, deck_id=None, title=None, navigation=None, skip_compile=False, tiers_config=None):
+def build(source, output, deck_id=None, title=None, navigation=None, skip_compile=False, tiers_config=None, title_effect="none", png_size="768p", png_to_jpg=True, jpg_quality=90):
     from tier_config import resolve_tier_config
     tier_config=resolve_tier_config(json.loads(tiers_config.read_text()) if tiers_config else {})
+    from image_assets import ImageAssets
+    images=ImageAssets(png_size, png_to_jpg, jpg_quality)
     source=source.resolve(); output=output.resolve()
     if not source.is_file(): raise ValueError(f'Source does not exist: {source}')
     is_pdf=source.suffix.lower()=='.pdf'
@@ -102,6 +105,7 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
         title=match.group(1) if match else source.stem
     deck=output/'public/deck'; slides_dir=deck/'slides'; thumbs=deck/'thumbs'
     for directory in [slides_dir,thumbs]: directory.mkdir(parents=True,exist_ok=True)
+    if (deck/'titles').exists(): shutil.rmtree(deck/'titles')
     pdf=deck/f'{deck_id}.pdf'
     warnings=[]
     if is_pdf:
@@ -149,6 +153,7 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
         target=deck/'resources'/name; target.parent.mkdir(exist_ok=True)
         target.write_bytes(local.read_bytes()); resources[href]=f'resources/{name}'
     for page,(svg,geo,page_text) in enumerate(zip(svgs,geometry,texts),1):
+        images.svg(svg)
         vbox=[float(v) for v in ET.parse(svg).getroot().get('viewBox').split()]
         width,height=vbox[2:]
         sx,sy=width/geo['width'],height/geo['height']
@@ -176,14 +181,16 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
         if overrides.get('titleRect'):
             rect=overrides['titleRect']
             title_words=[w for w in geo['words'] if rect['x']<=w['x']<rect['x']+rect['width'] and rect['y']<=w['y']<rect['y']+rect['height']]
-        layer=title_layers(svg,title_words,deck/'titles',svg.stem) if geo.get('textMode')!='ocr' else None
-        if slide_title and not layer: warnings.append(f'Page {page}: no separable title glyphs; title remains static. Set slides.{page}.title/titleRect in navigation JSON if needed.')
+        layer=title_layers(svg,title_words,deck/'titles',svg.stem) if title_effect!='none' and geo.get('textMode')!='ocr' else None
+        if title_effect!="none" and slide_title and not layer: warnings.append(f'Page {page}: no separable title glyphs; title remains static. Set slides.{page}.title/titleRect in navigation JSON if needed.')
         visual=geo['visual'] if is_pdf else extract_visual_regions(svg)
+        key_messages=[]
         # Match the compiled words to active #takeaway content, independent of fill.
         for snippet in snippets:
             matched=match_words(geo['words'],snippet)
             if matched:
                 rect=enclosing_background(svg,union(matched),(width,height))
+                key_messages.append(dict(text=' '.join(w['text'] for w in matched),role='takeaway',origin='typst-source',region=rect))
                 if not any(r['kind']=='takeaway' and abs(r['x']-rect['x'])<3 and abs(r['y']-rect['y'])<3 for r in visual):
                     visual.append(dict(id=f'takeaway-source-{len(visual)+1}',kind='takeaway',**rect))
         for region in nav.get('wandRegions',[]):
@@ -205,6 +212,7 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
             width=width,height=height,links=links,imageDescriptions=[],textRegions=geo['regions'],
             wandRegions=geo['regions']+visual,semanticRegions=semantic_by_page[page],titleLayer=layer))
         slides[-1]['_titleWords']=title_words
+        if key_messages: slides[-1]['keyMessages']=key_messages
         page_report=dict(page=page,semanticRegions=len(semantic_by_page[page]))
         if is_pdf:
             detection=geo['titleDetection'] if 'title' not in overrides else {'status':'overridden'}
@@ -214,7 +222,7 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
                                      tables=sum(r['kind']=='table' for r in visual)))
         page_reports.append(page_report)
     from tier_artwork import attach_tier_artwork
-    attach_tier_artwork(source,deck,slides,page_sizes,tier_records,tier_config,run,query,warnings)
+    attach_tier_artwork(source,deck,slides,page_sizes,tier_records,tier_config,run,query,warnings,title_effect=title_effect,images=images)
     if not is_pdf:
         from tier_records import merge_pdfpc_notes
         merge_pdfpc_notes(slides,query(source,"pdfpc-file"),tier_config,content_text)
@@ -224,7 +232,7 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
     revision=hashlib.sha256(json.dumps(dict(slides=slides,tiers=tier_config),sort_keys=True,ensure_ascii=False).encode()).hexdigest()[:16]
     route=nav.get('defaultRoute',[s['id'] for s in slides])
     if len(route)!=len(slides) or set(route)!=used_ids: raise ValueError('defaultRoute must include each slide ID once')
-    manifest=dict(schemaVersion='1.0',deckId=deck_id,title=title,revision=revision,pdf=f'{deck_id}.pdf',sourceType='pdf' if is_pdf else 'typst',
+    manifest=dict(titleEffect=title_effect,imageOptions=dict(pngSize=png_size,pngToJpg=png_to_jpg,jpgQuality=jpg_quality),schemaVersion='1.0',deckId=deck_id,title=title,revision=revision,pdf=f'{deck_id}.pdf',sourceType='pdf' if is_pdf else 'typst',
                   dimensions=dict(width=max(s['width'] for s in slides),height=max(s['height'] for s in slides)),
                   defaultRoute=route,hierarchy=nav.get('hierarchy') or None,focusRegions=nav.get('focusRegions',[]),
                   resources=list(resources.values()),slides=slides,tiers=tier_config)
@@ -241,6 +249,14 @@ def main():
     p.add_argument('--deck-id');p.add_argument('--title');p.add_argument('--navigation',type=Path)
     p.add_argument('--skip-compile',action='store_true')
     p.add_argument('--tiers-config',type=Path)
+    p.add_argument('--title-effect',default='none')
+    p.add_argument('--png-size',choices=['original','768p','1080p'],default='768p')
+    png_group = p.add_mutually_exclusive_group()
+    png_group.add_argument('--png',dest='png_to_jpg',action='store_false',default=True,
+                           help='Keep embedded slide images as PNG')
+    png_group.add_argument('--png-to-jpg',dest='png_to_jpg',action='store_true',help=argparse.SUPPRESS)
+    p.add_argument('--quality','--jpg-quality',dest='jpg_quality',type=int,default=90,
+                   help='JPEG quality, 1-100 (default: 90)')
     args=p.parse_args(); build(**vars(args))
 
 if __name__=='__main__':

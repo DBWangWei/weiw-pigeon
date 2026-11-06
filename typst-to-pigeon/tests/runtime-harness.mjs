@@ -20,11 +20,16 @@ const voiceLocal=await readFile(resolve(runtimeRoot,'src/voice-local.js'),'utf8'
   if(error.code==='ENOENT') return '';
   throw error;
 });
+const particleEffects=await readFile(resolve(runtimeRoot,'src/particle-effects.js'),'utf8').catch(error=>{
+  if(error.code==='ENOENT') return '';
+  throw error;
+});
 const transitions=await readFile(resolve(runtimeRoot,'src/slide-transitions.js'),'utf8');
 const diagrams=await readFile(resolve(runtimeRoot,'src/diagram.js'),'utf8');
 const pdfExport=await readFile(resolve(runtimeRoot,'src/pdf-export.js'),'utf8');
 const tierNav=await readFile(resolve(runtimeRoot,'src/semantic-tiers.js'),'utf8').catch(()=>'');
 const tierRenderer=await readFile(resolve(runtimeRoot,'src/tier-renderer.js'),'utf8').catch(()=>'');
+const graphLayout=await readFile(resolve(runtimeRoot,'src/graph-layout.js'),'utf8');
 const embedded=await readFile(resolve(root,'public/deck/embedded-deck.js'),'utf8');
 export function press(w,d,key,options={}) {
   d.querySelector('#stage').dispatchEvent(new w.KeyboardEvent('keydown',{key,bubbles:true,...options}));
@@ -48,7 +53,13 @@ export async function setup(t, options={}) {
   w.structuredClone=structuredClone;
   w.fetch=()=>{throw new Error('Unexpected fetch in file mode');};
   w.document.write(markup.replace(/<script[\s\S]*?<\/script>/g,''));
-  w.eval(effects);w.eval(wandEffects);w.eval(voiceDiagnostics);w.eval(voiceLocal);w.eval(voiceRuntime);w.eval(transitions);w.eval(diagrams);w.eval(pdfExport);w.eval(embedded);w.eval(tierNav);w.eval(tierRenderer);
+  if(!w.document.querySelector('#overviewEffects')) {
+    const effectsPanel=w.document.createElement('section');
+    effectsPanel.id='overviewEffects';
+    effectsPanel.className='overview-effects';
+    w.document.querySelector('#overviewContent')?.before(effectsPanel);
+  }
+  w.eval(effects);w.eval(wandEffects);w.eval(voiceDiagnostics);w.eval(voiceLocal);w.eval(voiceRuntime);w.eval(particleEffects);w.eval(transitions);w.eval(diagrams);w.eval(pdfExport);w.eval(embedded);w.eval(tierNav);w.eval(tierRenderer);
   if(options.voiceBackend) w.PIGEON_DECK_BUNDLE.json['public/deck/manifest.json'].voice.backend=options.voiceBackend;
   if(options.voiceCommands) w.PIGEON_DECK_BUNDLE.json['public/deck/manifest.json'].voice.commands=structuredClone(options.voiceCommands);
   if(options.qa) w.PIGEON_DECK_BUNDLE.json['public/deck/manifest.json'].qa=structuredClone(options.qa);
@@ -60,12 +71,14 @@ export async function setup(t, options={}) {
     const slide = w.PIGEON_DECK_BUNDLE.json['public/deck/manifest.json'].slides[0];
     slide.semanticRegions = [...(slide.semanticRegions || []), structuredClone(options.qaRegion)];
   }
+  if(options.mutateBundle) options.mutateBundle(w.PIGEON_DECK_BUNDLE, w);
   if(options.fetch) w.fetch=options.fetch;
+  w.eval(graphLayout);
   if(options.session) {
     const manifest=w.PIGEON_DECK_BUNDLE.json['public/deck/manifest.json'];
     w.localStorage.setItem(`pigeon-session-v1:${manifest.deckId}:${manifest.revision}`,JSON.stringify(options.session));
   }
-  w.eval(app+'\nwindow.testApp={tierAction,setTier,syncTierView,presentationSlide,applyTierURL,tierManifest,tierCandidate,diagram,state,get voice(){return voice},qaState,startQaCapture,captureQaTranscript,finishQaItem,openQaBoard,updateQaDisplay,normaliseManifest,navigateTo,nextSlide,fitCurrent,fitWhole,canvasPoint,sessionPayload,validateSession,toggleWhiteboard,keyHandler,setTool,openOverview,closeOverview,toggleBlackout,replaceSessionSafely,syncTitleEffect,stopTitleEffect,viewSequence,showWand,pageTransitions,cancelPageTransition,zoomAt,historyMove,resumeRoute,reconcilePresentation,undo,redo,applySession,drawSurface,exportPng,exportPdf};');
+  w.eval(app+'\nwindow.testApp={verifyPdf,setPdfAvailability,tierAction,setTier,syncTierView,presentationSlide,applyTierURL,tierManifest,tierCandidate,diagram,state,get voice(){return voice},qaState,startQaCapture,captureQaTranscript,finishQaItem,openQaBoard,updateQaDisplay,normaliseManifest,navigateTo,nextSlide,fitCurrent,fitWhole,canvasPoint,sessionPayload,validateSession,toggleWhiteboard,keyHandler,setTool,openOverview,closeOverview,toggleBlackout,replaceSessionSafely,syncTitleEffect,stopTitleEffect,viewSequence,showWand,pageTransitions,cancelPageTransition,zoomAt,historyMove,resumeRoute,reconcilePresentation,undo,redo,applySession,drawSurface,exportPng,exportPdf,renderOverview,renderOverviewEffects,renderRackFocus,rackFocusStep,particleMorphFor};');
   await new Promise(r=>setTimeout(r,40));
   return {w,a:w.testApp,d:w.document,calls};
 }

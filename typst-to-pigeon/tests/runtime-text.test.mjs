@@ -11,6 +11,17 @@ function clickAt(env, x = 100, y = 100, options = {}) {
   return env.d.querySelector(".diagram-text-editor");
 }
 
+function drag(env, from, to) {
+  const slide = env.a.state.deck.slides.find(slide => slide.id === env.a.state.currentId);
+  const canvas = env.d.querySelector(".slide-frame.current canvas");
+  for (const [type, [x, y]] of [["pointerdown", from], ["pointermove", to], ["pointerup", to]]) {
+    pointer(env.w, canvas, type, {
+      clientX: x / slide.width * 1440, clientY: y / slide.height * 1000,
+      buttons: type === "pointerup" ? 0 : 1,
+    });
+  }
+}
+
 function label(env, text = "A small label", x = 100, y = 100) {
   const editor = clickAt(env, x, y);
   assert.ok(editor, "clicking with Text opens the label editor");
@@ -52,7 +63,8 @@ test("Text toolbar and T place small red Arial Italic labels without Diagram mod
   assert.equal(rendered.getAttribute("font-family"), "Arial");
   assert.equal(rendered.getAttribute("font-style"), "italic");
   assert.equal(rendered.getAttribute("font-size"), "20");
-  assert.equal(d.querySelectorAll(".diagram-selection").length, 0);
+  assert.equal(d.querySelectorAll(".diagram-selection").length, 1);
+  assert.equal(d.querySelectorAll(".diagram-knob").length, 8);
   label(env, "Another label", 400, 300);
   assert.equal(a.state.annotations.intro.length, 2);
   press(w, d, "t", { repeat: true });
@@ -112,7 +124,9 @@ test("Text edits existing labels but places independent labels over shapes", asy
   const saved = label(env, "Independent label", 100, 100);
   assert.equal(a.state.annotations.intro.length, 2);
   assert.equal(a.state.annotations.intro[0].text, "Shape label");
-  const editor = clickAt(env, 110, 110);
+  assert.equal(clickAt(env, 110, 110), null, "a click selects a label for moving");
+  press(w, d, "Enter");
+  const editor = d.querySelector(".diagram-text-editor");
   assert.equal(editor.value, "Independent label");
   editor.value = "Edited label";
   press(w, d, "Enter", { metaKey: true });
@@ -122,6 +136,56 @@ test("Text edits existing labels but places independent labels over shapes", asy
   press(w, d, "p");
   assert.equal(a.state.tool, "pen");
   assert.equal(d.querySelector(".diagram-text-editor"), null);
+});
+
+test("Escape finishes Text editing with working move and resize handles, and double-click reopens the label", async t => {
+  const env = await setup(t), { a, d, w } = env;
+  press(w, d, "t");
+  clickAt(env, 100, 100).value = "Move and resize me";
+  press(w, d, "Escape");
+  const id = a.state.annotations.intro[0].id;
+  const saved = () => a.state.annotations.intro.find(o => o.id === id);
+  assert.equal(a.state.tool, "text");
+  assert.equal(d.querySelectorAll(".diagram-knob").length, 8);
+  drag(env, [150, 135], [200, 175]);
+  assert.equal(saved().x, 150);
+  assert.equal(saved().y, 140);
+  assert.equal(d.querySelector(".diagram-text-editor"), null);
+  const old = { ...saved() };
+  drag(env, [old.x + old.w, old.y + old.h], [old.x + old.w + 60, old.y + old.h + 30]);
+  assert.equal(saved().w, old.w + 60);
+  assert.equal(saved().h, old.h + 30);
+  a.undo();
+  assert.equal(saved().w, old.w);
+  assert.equal(saved().h, old.h);
+  a.undo();
+  assert.equal(saved().x, 100);
+  assert.equal(saved().y, 100);
+  a.redo();
+  a.redo();
+  const canvas = d.querySelector(".slide-frame.current canvas");
+  const slide = a.state.deck.slides.find(s => s.id === "intro");
+  canvas.dispatchEvent(new w.MouseEvent("dblclick", {
+    clientX: (saved().x + 25) / slide.width * 1440,
+    clientY: (saved().y + 25) / slide.height * 1000, bubbles: true,
+  }));
+  const editor = d.querySelector(".diagram-text-editor");
+  assert.equal(editor.value, "Move and resize me");
+  editor.value = "Edited after resize";
+  press(w, d, "Escape");
+  assert.equal(saved().text, "Edited after resize");
+  assert.equal(saved().w, old.w + 60);
+  assert.equal(a.state.annotations.intro.length, 1);
+  assert.doesNotThrow(() => a.validateSession(a.sessionPayload()));
+});
+
+test("highlighter strokes use half the previous default width", async t => {
+  const env = await setup(t);
+  env.a.setTool("highlighter");
+  drag(env, [100, 100], [300, 100]);
+  const stroke = env.a.state.annotations.intro[0];
+  assert.equal(stroke.tool, "highlighter");
+  assert.equal(stroke.width, 11);
 });
 
 test("Text creation is one undo step; empty drafts leave no invisible labels", async t => {

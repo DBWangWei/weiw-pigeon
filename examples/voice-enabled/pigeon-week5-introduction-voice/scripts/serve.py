@@ -8,53 +8,77 @@ import argparse
 import hmac
 import json
 import os
+import re
 import secrets
 import sys
 import time
 import urllib.error
 import urllib.request
-from urllib.parse import urljoin
 
 ROOT = Path(__file__).resolve().parents[1]
 MAX_AUDIO = 16000 * 2 * 12  # mono PCM16, 16 kHz, at most 12 seconds
 MAX_QA_BYTES = 24000
 MAX_QA_TEXT = 12000
+MAX_QA_WORDS = 99
 
 
-def response_text(payload):
-    chunks = []
-    for item in payload.get('output', []):
-        for part in item.get('content', []):
-            if part.get('type') == 'output_text' and isinstance(part.get('text'), str):
+def chat_content(payload):
+    choices = payload.get('choices') if isinstance(payload, dict) else None
+    message = choices[0].get('message') if choices and isinstance(choices[0], dict) else None
+    content = message.get('content') if isinstance(message, dict) else None
+    if isinstance(content, str):
+        return content
+    if isinstance(content, list):
+        chunks = []
+        for part in content:
+            if isinstance(part, str):
+                chunks.append(part)
+            elif isinstance(part, dict) and isinstance(part.get('text'), str):
                 chunks.append(part['text'])
-    return ''.join(chunks) or payload.get('output_text', '')
+        return ''.join(chunks)
+    return ''
 
 
-def organize_qa(text, model=None):
-    """Organize a presenter-repeated question and answer through an API key."""
-    key = os.environ.get('PIGEON_QA_API_KEY') or os.environ.get('OPENAI_API_KEY')
+def limit_qa_words(value, maximum=MAX_QA_WORDS):
+    """Keep the organizer display below the documented word budget."""
+    words = re.findall(r'\S+', value.strip())
+    if len(words) <= maximum:
+        return value.strip()
+    return ' '.join(words[:maximum]).rstrip(' ,;:') + '…'
+
+
+def organize_qa(text, model=None, api_key=None, base_url=None):
+    """Organize a presenter-repeated question and answer through DashScope."""
+    key = (api_key or os.environ.get('DASHSCOPE_API_KEY') or
+           os.environ.get('PIGEON_QA_API_KEY') or os.environ.get('OPENAI_API_KEY'))
     if not key:
-        raise RuntimeError('Q&A organizer is unavailable; set PIGEON_QA_API_KEY or OPENAI_API_KEY')
-    base = os.environ.get('PIGEON_QA_BASE_URL') or os.environ.get('OPENAI_BASE_URL', 'https://api.openai.com/v1')
-    model = model or os.environ.get('PIGEON_QA_MODEL') or os.environ.get('OPENAI_MODEL', 'gpt-4.1-mini')
+        raise RuntimeError('Q&A organizer is unavailable; set DASHSCOPE_API_KEY or enter a key in the Voice window')
+    base = (base_url or os.environ.get('DASHSCOPE_BASE_URL') or
+            os.environ.get('PIGEON_QA_BASE_URL') or
+            os.environ.get('OPENAI_BASE_URL') or
+            'https://dashscope.aliyuncs.com/compatible-mode/v1')
+    model = (model or os.environ.get('PIGEON_QA_MODEL') or
+             os.environ.get('DASHSCOPE_MODEL') or os.environ.get('OPENAI_MODEL') or
+             'qwen3.7-flash')
     if not isinstance(model, str) or not model.strip() or len(model) > 120:
         raise ValueError('Invalid Q&A model')
     prompt = (
-        'Rewrite the supplied presenter transcript as one concise, self-contained paragraph. '
-        'Preserve the audience question and the presenter answer, remove verbal filler, and do not '
-        'invent facts. Return JSON only with one string field named paragraph. '
-        'If the answer is incomplete, say so briefly rather than guessing.'
+        'Identify the audience question and the presenter answer in the supplied transcript. '
+        'Rewrite them as a concise response that directly addresses the question. Use one to three '
+        'Markdown bullet points when that improves clarity, and keep the total response under 100 '
+        'words. Remove verbal filler, preserve uncertainty or incomplete answers, and never invent '
+        'facts. Return only the final Markdown response; do not add a preamble or JSON wrapper.'
     )
     body = {
         'model': model.strip(),
-        'instructions': prompt,
-        'input': [{'role': 'user', 'content': [{'type': 'input_text', 'text': text}]}],
-        'max_output_tokens': 500,
-        'store': False,
+        'messages': [
+            {'role': 'system', 'content': prompt},
+            {'role': 'user', 'content': text},
+        ],
+        'temperature': 0.2,
+        'max_tokens': 180,
     }
-    if model.startswith(('gpt-5', 'gpt-6', 'o3', 'o4')):
-        body['reasoning'] = {'effort': 'low'}
-    endpoint = base.rstrip('/') + '/responses'
+    endpoint = base.rstrip('/') + '/chat/completions'
     request = urllib.request.Request(endpoint, data=json.dumps(body).encode('utf-8'), headers={
         'Content-Type': 'application/json', 'Authorization': 'Bearer ' + key})
     try:
@@ -78,17 +102,25 @@ def organize_qa(text, model=None):
         raise RuntimeError(message) from None
     except (urllib.error.URLError, TimeoutError) as error:
         raise RuntimeError(f'Q&A model provider is unreachable: {error}') from None
-    text_value = response_text(payload).strip()
-    if text_value.startswith('```'):
-        text_value = text_value.strip('`').removeprefix('json').strip()
+    organized = chat_content(payload).strip()
+    if not organized:
+        raise RuntimeError('Q&A model returned no organized response')
+    return limit_qa_words(organized)[:MAX_QA_TEXT]
+
+
+def save_qa_transcript(root, item_id, text):
+    """Save raw Q&A text in a hidden, non-public deck-local directory."""
+    safe_id = re.sub(r'[^A-Za-z0-9_-]+', '-', str(item_id or 'item')).strip('-_')[:48] or 'item'
+    folder = root / '.qa-transcripts'
+    folder.mkdir(mode=0o700, exist_ok=True)
+    stamp = time.strftime('%Y%m%d-%H%M%S', time.localtime())
+    path = folder / f'qa-{stamp}-{safe_id}-{secrets.token_hex(5)}.txt'
+    path.write_text(text, encoding='utf-8')
     try:
-        result = json.loads(text_value)
-    except json.JSONDecodeError:
-        result = {'paragraph': text_value}
-    paragraph = result.get('paragraph') if isinstance(result, dict) else None
-    if not isinstance(paragraph, str) or not paragraph.strip():
-        raise RuntimeError('Q&A model returned no paragraph')
-    return paragraph.strip()[:MAX_QA_TEXT]
+        path.chmod(0o600)
+    except OSError:
+        pass
+    return path.relative_to(root).as_posix()
 
 
 class Handler(SimpleHTTPRequestHandler):
@@ -167,17 +199,24 @@ class Handler(SimpleHTTPRequestHandler):
                 self.close_connection = True
                 self.json(400, {'error': 'Q&A transcript is empty or too large'})
                 return
+            raw_file = None
             try:
                 payload = json.loads(self.rfile.read(length))
                 text = payload.get('text') if isinstance(payload, dict) else None
                 model = payload.get('model') if isinstance(payload, dict) else None
+                item_id = payload.get('id') if isinstance(payload, dict) else None
                 if not isinstance(text, str) or not text.strip() or len(text) > MAX_QA_TEXT:
                     raise ValueError('Q&A transcript must be a nonempty bounded string')
+                raw_file = save_qa_transcript(self.server.root, item_id, text.strip())
                 configured_model = self.server.qa_config.get('model')
-                paragraph = organize_qa(text.strip(), model or configured_model)
-                self.json(200, {'paragraph': paragraph})
+                manual_key = self.headers.get('X-Pigeon-QA-Key', '').strip() or None
+                paragraph = organize_qa(text.strip(), model or configured_model, api_key=manual_key)
+                self.json(200, {'paragraph': paragraph, 'rawFile': raw_file})
             except (ValueError, RuntimeError, OSError) as error:
-                self.json(503 if isinstance(error, RuntimeError) else 400, {'error': str(error)})
+                result = {'error': str(error)}
+                if raw_file:
+                    result['rawFile'] = raw_file
+                self.json(503 if isinstance(error, RuntimeError) else 400, result)
             return
         if self.headers.get('Content-Type') != 'application/octet-stream':
             self.json(415, {'error': 'Expected mono PCM16 at 16000 Hz'})

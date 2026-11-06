@@ -7,27 +7,35 @@ usage() {
 Usage: typst-to-pigeon INPUT.typ|INPUT.pdf [OPTIONS]
 
 Build Pigeon using pigeon.toml beside INPUT. Explicit options override that file.
-By default, output is INPUT's directory/pigeon-FILENAME (without the suffix).
-For example, /talks/my.talk.pdf produces /talks/pigeon-my.talk/.
+By default, output is one standalone HTML file beside INPUT.
+For example, /talks/my.talk.pdf produces /talks/pigeon-my.talk.html.
+Use --out-mode multiple for a folder, or zip for a folder plus ZIP.
 Relative paths and paths containing spaces are supported.
 
 Options:
   --config FILE            Pigeon TOML file (default: INPUT directory/pigeon.toml)
-  --output DIR             Override output directory from pigeon.toml
-  --force                  Replace the existing output directory
+  --out-mode MODE          single (default), multiple, or zip
+  --single-file            Alias for --out-mode single
+  --output PATH            HTML path (single) or directory (multiple/zip)
+  --force                  Replace the existing output
   --title TEXT             Override the presentation title
   --deck-id ID             Override the deck identifier
   --navigation FILE        Use navigation JSON (relative to your current directory)
   --graph local|model      Graph extraction mode (default: local; pigeon.toml can override)
-  --title-effect NAME      text-type (default), none, split-text, blur-text,
+  --title-effect NAME      none (default; omits animation SVGs), text-type, split-text, blur-text,
                            shiny-text, or gradient-text
   --slide-transition NAME  camera (default), none, fade, blur, slide, zoom,
                            pixel, staggered-wipe, or stack
+  --embed-pdf              Embed PDF (default)
+  --no-embed-pdf           Write companion PDF beside HTML; disable annotated PDF export
+  --png-size PRESET        768p (default), 1080p, or original; never upscale
+  --png                    Keep embedded slide images as PNG (JPEG is the default)
+  --quality NUMBER         JPEG quality 1-100 (default: 90)
   --graph-provider NAME    codex-config (default) or env
-  --voice                  Enable local voice controls (explicit start required)
+  --voice                  Enable voice (requires multiple or zip; explicit start required)
   --no-voice               Disable recognition; keep manual semantic actions
-  --no-zip                 Do not create a ZIP archive
-  --zip                    Create a ZIP archive
+  --no-zip                 Compatibility alias for --out-mode multiple
+  --zip                    Compatibility alias for --out-mode zip
   -h, --help               Show this help
 
 Examples:
@@ -36,7 +44,8 @@ Examples:
   typst-to-pigeon "/path/to/My Talk/slides.typ" --force
   typst-to-pigeon slides.typ --graph model --graph-provider env
 
-Requires Python 3.11+ and Node.js 20.11+.
+Requires Python 3.11+ and Node.js 20.11+. PNG processing uses Pillow
+(install typst-to-pigeon/requirements.txt, or use --png-size original).
 
 EOF
 }
@@ -53,10 +62,11 @@ while [[ $# -gt 0 ]]; do
   case "$1" in
     -h|--help) usage; exit 0 ;;
     --force) options+=("$1"); shift ;;
-    --config|--output|--title|--deck-id|--navigation|--graph|--graph-provider|--title-effect|--slide-transition)
+    --config|--output|--title|--deck-id|--navigation|--graph|--graph-provider|--title-effect|--slide-transition|--out-mode|--png-size|--quality|--jpg-quality)
       [[ $# -ge 2 ]] || die "Missing value for $1"
       options+=("$1" "$2"); shift 2 ;;
-    --zip|--no-zip|--voice|--no-voice) options+=("$1"); shift ;;
+    --out-mode=*|--png-size=*|--quality=*|--jpg-quality=*|--title-effect=*) options+=("$1"); shift ;;
+    --single-file|--zip|--no-zip|--voice|--no-voice|--embed-pdf|--no-embed-pdf|--png|--png-to-jpg) options+=("$1"); shift ;;
     *) die "Unknown option: $1 (see --help)" ;;
   esac
 done

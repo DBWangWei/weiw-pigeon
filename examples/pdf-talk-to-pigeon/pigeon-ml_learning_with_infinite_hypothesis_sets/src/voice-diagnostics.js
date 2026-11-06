@@ -25,6 +25,11 @@
     const section = el("section", "voice-diagnostics"); section.setAttribute("aria-label", "Voice diagnostics");
     section.append(el("h3", "", "Voice diagnostics"),
       el("p", "voice-diagnostic-help", "Check the stages below to see where voice stops working."));
+    const qaKeyLabel = el("label", "voice-qa-key-label", "DashScope API key (optional; kept only in this window)");
+    const qaKeyInput = el("input", "voice-qa-api-key");
+    qaKeyInput.type = "password"; qaKeyInput.autocomplete = "new-password"; qaKeyInput.spellcheck = false;
+    qaKeyInput.placeholder = "DASHSCOPE_API_KEY"; qaKeyInput.setAttribute("aria-label", "DashScope API key");
+    qaKeyLabel.append(qaKeyInput);
     const list = el("dl", "voice-pipeline");
     for (const [id, label] of [["environment", "Recognition backend & language"], ["input", "1. Microphone input"],
       ["recognition", "2. Recognition"], ["text", "Recognized text"], ["match", "3. Phrase match"],
@@ -68,7 +73,7 @@
         if (!destroyed) reportButton.textContent = "Copied diagnostic report";
       } catch (_) { if (!destroyed) reportButton.textContent = "Select and copy the report below"; }
     });
-    section.append(list, deviceLabel, deviceButton, micControls, micHelp, form, timeline, reportButton, report);
+    section.append(qaKeyLabel, list, deviceLabel, deviceButton, micControls, micHelp, form, timeline, reportButton, report);
     panel.insertBefore(section, panel.querySelector(".voice-manual"));
     function newOption(value, label) {
       const option = el("option", "", label); option.value = value; return option;
@@ -266,7 +271,7 @@
     stage("match", "Waiting for recognized words or a typed test."); stage("action", "No action requested.");
     stage("artwork", "No emphasis crop requested."); refresh();
     return {support, setPack, status, event, heard, outcome, artwork, refresh, slideChanged, stopMicTest, snapshot, recognitionInput,
-      destroy() { stopMicTest(); destroyed = true; section.remove(); history.splice(0); lastResult = null; lastTest = ""; }};
+      destroy() { stopMicTest(); qaKeyInput.value = ""; destroyed = true; section.remove(); history.splice(0); lastResult = null; lastTest = ""; }};
   }
   window.PigeonVoiceDiagnostics = {create};
 })();

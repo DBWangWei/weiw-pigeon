@@ -353,7 +353,8 @@
       clipboard = [],
       editor = null,
       palette = null,
-      lastSurface = null;
+      lastSurface = null,
+      cursorCanvas = null;
     const alignment = {
       text: { textAlign: "left", verticalAlign: "top" },
       shape: { textAlign: "center", verticalAlign: "middle" },
@@ -369,9 +370,15 @@
       host.draw();
       renderSelection();
     };
+    function clearCursor() {
+      cursorCanvas?.style.removeProperty("cursor");
+      cursorCanvas = null;
+    }
     function sync() {
       toolbar.hidden = indicator.hidden = !active() || textTool();
+      if (!active() || !textTool()) clearCursor();
       if (lastSurface !== host.surface()) {
+        clearCursor();
         finish();
         closeEditor();
         selected.clear();
@@ -408,7 +415,7 @@
       document
         .querySelectorAll(".diagram-selection,.diagram-marquee")
         .forEach((n) => n.remove());
-      if (!active() || textTool() || !frame() || editor) return;
+      if (!active() || !frame() || editor) return;
       const canvas = frame().querySelector("canvas"),
         rect = canvas.getBoundingClientRect(),
         size = host.size();
@@ -704,9 +711,14 @@
       host.stopMotion();
       const p = host.point(event, canvas);
       let target = hit(p);
+      const current =
+          selected.size === 1
+            ? items().find((o) => selected.has(o.id))
+            : null,
+        handle = current && handleAt(p, current);
       event.preventDefault();
       canvas.setPointerCapture(event.pointerId);
-      if (textTool() || tool === "text") {
+      if (textTool() ? !target && !handle : tool === "text") {
         if (target && !isConnector(target)) edit(target);
         else if (textTool()) {
           target = {
@@ -735,18 +747,13 @@
         return true;
       }
       const before = copy(ops());
-      if (target && tool !== "select" && !["line", "arrow"].includes(tool)) {
+      if (target && !textTool() && tool !== "select" && !["line", "arrow"].includes(tool)) {
         selected = new Set([target.id]);
         gesture = { type: "pending-create", p, before, pointer: event.pointerId };
         redraw();
         return true;
       }
-      if (tool === "select") {
-        const current =
-            selected.size === 1
-              ? items().find((o) => selected.has(o.id))
-              : null,
-          handle = current && handleAt(p, current);
+      if (textTool() || tool === "select") {
         if (handle) {
           host.checkpoint();
           gesture = {
@@ -802,7 +809,18 @@
       return true;
     }
     function move(event, canvas) {
-      if (!gesture || event.pointerId !== gesture.pointer) return false;
+      if (!gesture) {
+        if (active() && textTool() && host.canDraw(canvas)) {
+          const p = host.point(event, canvas),
+            current = selected.size === 1 ? items().find(o => selected.has(o.id)) : null,
+            handle = current && handleAt(p, current);
+          if (cursorCanvas !== canvas) clearCursor();
+          cursorCanvas = canvas;
+          canvas.style.cursor = handle ? `${handle}-resize` : hit(p) ? "move" : "text";
+        } else clearCursor();
+        return false;
+      }
+      if (event.pointerId !== gesture.pointer) return false;
       const p = host.point(event, canvas);
       if (gesture.type === "pending-create") {
         if (Math.hypot(p.x - gesture.p.x, p.y - gesture.p.y) < 3) return true;
@@ -929,6 +947,7 @@
       if (draft && text.trim()) {
         host.checkpoint();
         ops().push({ ...draft, text });
+        selected = new Set([id]);
         host.persist();
       } else if (o && o.text !== text) {
         host.checkpoint();
@@ -1034,7 +1053,15 @@
         }
         return true;
       }
-      if (textTool()) return false;
+      if (textTool()) {
+        if (k === "Enter" && !mod && !event.altKey && selected.size === 1 &&
+            !event.target.closest?.("button,a,input,textarea,select,[contenteditable]")) {
+          event.preventDefault();
+          edit(items().find((o) => selected.has(o.id)));
+          return true;
+        }
+        return false;
+      }
       if (palette) {
         if (k === "Escape") {
           event.preventDefault();
@@ -1244,7 +1271,7 @@
       closeEditor,
       renderSelection,
       doubleClick(event, canvas) {
-        if (active() && !textTool() && host.canDraw(canvas)) {
+        if (active() && host.canDraw(canvas)) {
           const o = hit(host.point(event, canvas));
           if (o) {
             event.preventDefault();
@@ -1257,6 +1284,7 @@
       get editingId() { return editor?.id; },
       isDragging: () => !!gesture,
       reset() {
+        clearCursor();
         finish();
         closeEditor();
         selected.clear();

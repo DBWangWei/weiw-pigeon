@@ -1,3 +1,4 @@
 graph = "local"
+out_mode = "single"
 title_effect = "text-type"
 slide_transition = "camera"

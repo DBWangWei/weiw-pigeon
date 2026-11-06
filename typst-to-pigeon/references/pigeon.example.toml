@@ -1,18 +1,33 @@
 # Copy beside a Typst or PDF input as pigeon.toml. CLI options take precedence.
 graph = "local"
 graph_provider = "codex-config"
-title_effect = "text-type"
+title_effect = "none" # omit extra title SVGs
+embed_pdf = true
+png_size = "768p" # 1366x768; also 1080p (1920x1080) or original
+png_to_jpg = true # set false to keep PNG payloads
+jpg_quality = 90 # 1-100
 slide_transition = "camera"
-# Omit output to use pigeon-FILENAME beside each input.
-# output = "my-presentation"
-no_zip = true
+# Omit output to use pigeon-FILENAME.html beside each input.
+# Choose "multiple" or "zip" below for voice and live Q&A.
+out_mode = "single"
+# output = "my-presentation.html" # use a directory path for multiple/zip
+
+# Motion effects. Particle morph defaults to slide changes between sections.
+# Set particle_morph_slides to destination slide IDs to choose exact slides.
+[effects]
+particle_morph = "sections" # sections, all, or none
+particle_morph_slides = []
+particle_morph_duration_ms = 1400
+particle_morph_cell = 10
+rack_focus = false # can also be enabled from Overview > Motion effects
 
 # Optional: paths are relative to this file.
 # navigation = "slides.navigation.json"
 # deck_id = "my-talk"
 # title = "My presentation"
 
-# Local voice needs an explicit Start click; see voice.md for helper installation.
+# Local voice requires out_mode = "multiple" or "zip" and an explicit Start click.
+# See voice.md for helper installation. Single-file output excludes voice/Q&A.
 # --voice / --no-voice override enabled; manual semantic actions remain available.
 [voice]
 backend = "whisper" # optional "browser" uses Chrome's on-device language pack
@@ -33,7 +48,7 @@ auto_close_ms = 0
 [qa]
 enabled = true
 target = "_qa"
-model = "gpt-4.1-mini"
+model = "qwen3.7-flash"
 max_length = 4000
 max_items = 50
 

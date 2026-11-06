@@ -22,18 +22,34 @@ class ConfigTests(unittest.TestCase):
         self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
         return result
 
-    def test_without_config_builds_offline_with_text_type(self):
+    def test_multiple_mode_defaults_to_no_title_assets(self):
         with tempfile.TemporaryDirectory(prefix='pigeon-config ') as tmp:
             root = Path(tmp); source = root / 'My talk.v2.typ'; source.write_text(FIXTURE.read_text())
-            self.run_builder(source, '--no-zip', cwd=SKILL)
+            self.run_builder(source, '--out-mode', 'multiple', cwd=SKILL)
             output = root / 'pigeon-My talk.v2'
             manifest = json.loads((output / 'public/deck/manifest.json').read_text())
             graph = json.loads((output / 'public/deck/knowledge-graph.json').read_text())
             release = json.loads((output / 'release.json').read_text())
-            self.assertEqual(manifest['titleEffect'], 'text-type')
+            self.assertEqual(manifest['titleEffect'], 'none')
+            self.assertFalse(any(slide['titleLayer'] for slide in manifest['slides']))
+            self.assertFalse((output / 'public/deck/titles').exists())
+            self.assertEqual(manifest['imageOptions'], {'pngSize':'768p','pngToJpg':True,'jpgQuality':90})
             self.assertEqual(manifest['slideTransition'], 'camera')
+            self.assertEqual(manifest['effects'], {
+                'particleMorph': 'sections',
+                'particleMorphSlides': [],
+                'particleMorphDurationMs': 1400,
+                'particleMorphCell': 10,
+                'rackFocus': False,
+            })
             self.assertEqual(manifest['pigeonVersion'], '1.0.4')
             self.assertEqual(release['version'], '1.0.4')
+            self.assertEqual(release['particleMorph'], 'sections')
+            self.assertEqual(release['particleMorphSlides'], [])
+            self.assertEqual(release['particleMorphDurationMs'], 1400)
+            self.assertEqual(release['particleMorphCell'], 10)
+            self.assertFalse(release['rackFocus'])
+            self.assertFalse((root / 'My talk.v2-pigeon.zip').exists())
             self.assertTrue((output / 'src/slide-transitions.js').is_file())
             self.assertEqual(graph['extraction']['mode'], 'lexical')
 
@@ -46,19 +62,28 @@ title_effect = "blur-text"
 slide_transition = "pixel"
 output = "configured-output"
 no_zip = true
+[effects]
+particle_morph = "all"
+particle_morph_slides = ["03"]
+particle_morph_duration_ms = 850
+particle_morph_cell = 12
+rack_focus = true
 ''')
             self.run_builder(source, cwd=SKILL)
             output = root / 'configured-output'
             manifest = json.loads((output / 'public/deck/manifest.json').read_text())
             self.assertEqual(manifest['titleEffect'], 'blur-text')
             self.assertEqual(manifest['slideTransition'], 'pixel')
+            self.assertEqual(manifest['effects']['particleMorph'], 'all')
+            self.assertEqual(manifest['effects']['particleMorphSlides'], ['03'])
+            self.assertTrue(manifest['effects']['rackFocus'])
             release = json.loads((output / 'release.json').read_text())
             self.assertEqual(release['slideTransition'], 'pixel')
             self.assertTrue(output.is_dir())
             self.assertFalse((root / 'slides-pigeon.zip').exists())
             self.assertFalse((output / 'pigeon.toml').exists())
 
-    def test_cli_values_override_toml_and_zip_switch_is_explicit(self):
+    def test_cli_values_and_output_mode_override_toml(self):
         with tempfile.TemporaryDirectory(prefix='pigeon-config ') as tmp:
             root = Path(tmp); source = root / 'slides.typ'; source.write_text(FIXTURE.read_text())
             (root / 'pigeon.toml').write_text('''
@@ -68,7 +93,7 @@ slide_transition = "pixel"
 output = "configured-output"
 no_zip = true
 ''')
-            self.run_builder(source, '--graph', 'local', '--output', 'cli-output', '--title-effect', 'none', '--slide-transition', 'fade', '--zip')
+            self.run_builder(source, '--graph', 'local', '--output', 'cli-output', '--title-effect', 'none', '--slide-transition', 'fade', '--out-mode', 'zip')
             output = root / 'cli-output'
             manifest = json.loads((output / 'public/deck/manifest.json').read_text())
             self.assertEqual(manifest['titleEffect'], 'none')
@@ -81,7 +106,7 @@ no_zip = true
     def test_pigeon_table_is_supported_and_unknown_keys_are_rejected(self):
         with tempfile.TemporaryDirectory(prefix='pigeon-config ') as tmp:
             root = Path(tmp); source = root / 'slides.typ'; source.write_text(FIXTURE.read_text())
-            (root / 'pigeon.toml').write_text('[pigeon]\ngraph = "local"\ntitle_effect = "text-type"\n')
+            (root / 'pigeon.toml').write_text('[pigeon]\ngraph = "local"\ntitle_effect = "text-type"\nout_mode = "multiple"\n')
             self.run_builder(source)
             manifest = json.loads((root / 'pigeon-slides/public/deck/manifest.json').read_text())
             self.assertEqual(manifest['titleEffect'], 'text-type')
@@ -114,13 +139,14 @@ no_zip = true
     def test_invalid_settings_fail_cleanly_before_creating_output(self):
         with tempfile.TemporaryDirectory(prefix='pigeon-config ') as tmp:
             root = Path(tmp); source = root / 'slides.typ'; source.write_text(FIXTURE.read_text())
-            for content in ('graph = []', 'title_effect = 2', 'slide_transition = "bogus"', 'slide_transition = false', 'output = ""', 'no_zip = "yes"', 'pigeon = 3', 'force = true', 'graph = ['):
+            for content in ('embed_pdf = 1', 'png_size = "bad"', 'png_to_jpg = 2', 'jpg_quality = 101', 'jpg_quality = true', 'graph = []', 'title_effect = 2', 'slide_transition = "bogus"', 'slide_transition = false', 'output = ""', 'no_zip = "yes"', 'out_mode = "bogus"', 'out_mode = []', 'pigeon = 3', 'force = true', 'graph = [', '[effects]\nparticle_morph_cell = 3', '[effects]\nrack_focus = "yes"'):
                 with self.subTest(content=content):
                     (root / 'pigeon.toml').write_text(content)
                     result = subprocess.run([sys.executable, str(BUILDER), str(source)], capture_output=True, text=True)
                     self.assertNotEqual(result.returncode, 0)
                     self.assertNotIn('Traceback', result.stderr)
                     self.assertFalse((root / 'pigeon-slides').exists())
+                    self.assertFalse((root / 'pigeon-slides.html').exists())
             result = subprocess.run([sys.executable, str(BUILDER), str(source), '--config', str(root / 'missing.toml')], capture_output=True, text=True)
             self.assertNotEqual(result.returncode, 0)
             self.assertIn('does not exist', result.stderr)

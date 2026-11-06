@@ -92,7 +92,7 @@ class VoiceConfigTests(unittest.TestCase):
             for index, (command, flag, configured) in enumerate(commands):
                 config.write_text(f'[voice]\nenabled={str(configured).lower()}\n')
                 output = root / f'output-{index}'
-                result = subprocess.run([*command, str(source), '--output', str(output), '--graph', 'local', flag], env=env, capture_output=True, text=True)
+                result = subprocess.run([*command, str(source), '--output', str(output), '--graph', 'local', flag, '--zip'], env=env, capture_output=True, text=True)
                 self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
                 manifest = json.loads((output / 'public/deck/manifest.json').read_text())
                 self.assertEqual(manifest['voice']['enabled'], flag == '--voice')

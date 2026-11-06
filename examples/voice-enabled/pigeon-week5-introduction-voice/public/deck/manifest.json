@@ -7209,8 +7209,15 @@
   "qa": {
     "enabled": true,
     "target": "_qa",
-    "model": "gpt-4.1-mini",
+    "model": "qwen3.7-flash",
     "maxLength": 4000,
     "maxItems": 50
+  },
+  "effects": {
+    "particleMorph": "sections",
+    "particleMorphSlides": [],
+    "particleMorphDurationMs": 1400,
+    "particleMorphCell": 10,
+    "rackFocus": false
   }
 }

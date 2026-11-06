@@ -24,3 +24,9 @@ typst-to-pigeon talk.typ --slide-transition pixel
 ```
 
 The Transition selector in the top bar can change the session after the release is open. Navigation, keyboard tools, drawing canvases, whiteboards and title effects remain available while a transition runs. A new navigation, zoom, overview action, reduced-motion change or session action cancels the current transition and removes its temporary overlay.
+
+Particle morph is configured separately under `[effects]`; it is the default
+when the destination belongs to a different section. Use `particle_morph =
+"all"` or `"none"`, or provide `particle_morph_slides` for exact destination
+IDs. The effect rasterizes only for the duration of the transition and restores
+the source SVG artwork afterward.

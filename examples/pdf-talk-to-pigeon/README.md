@@ -23,10 +23,16 @@ PyMuPDF. Then run from the repository root:
 ./typst-to-pigeon.sh examples/pdf-talk-to-pigeon/ml_learning_with_infinite_hypothesis_sets.pdf --force
 ```
 
-The generated folder and ZIP are written beside the PDF. `pigeon.toml` gives the
+This example's `out_mode = "multiple"` writes the generated folder beside the
+PDF. Use `--out-mode single` for a standalone HTML file or `--out-mode zip`
+when an archive is needed. `pigeon.toml` gives the
 presentation a readable title and selects local graph extraction, Text Type
 titles, and Camera transitions. Command-line options override these settings.
 PDF conversion does not require Typst or Poppler.
+
+Particle morph is enabled by default between sections. Open **Overview → Motion
+effects** to enable rack focus for the current session, or use the `[effects]`
+table to select exact particle-morph destination slides.
 
 The sibling `ml_learning_with_infinite_hypothesis_sets.navigation.json` preserves
 the lecture's section boundaries at its repeated “This lecture” pages. It also

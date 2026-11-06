@@ -11,7 +11,7 @@ from qa_config import resolve_qa_config
 class QaConfigTests(unittest.TestCase):
     def test_defaults_are_enabled_and_camel_case(self):
         qa = resolve_qa_config({})
-        self.assertEqual(qa, {"enabled": True, "target": "_qa", "model": "gpt-4.1-mini", "maxLength": 4000, "maxItems": 50})
+        self.assertEqual(qa, {"enabled": True, "target": "_qa", "model": "qwen3.7-flash", "maxLength": 4000, "maxItems": 50})
 
     def test_overrides_and_strict_validation(self):
         qa = resolve_qa_config({"enabled": False, "target": "questions", "model": "fast", "max_length": 800, "max_items": 3})

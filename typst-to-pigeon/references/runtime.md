@@ -23,11 +23,13 @@ Core controls are:
 
 Repeating a tool key turns that tool off; another tool key switches tools. The selected tool remains active while slide navigation advances. The laser dot stays visible while laser mode is selected. Magic wand targets include text, rendered images, connected bordered tables and recognized takeaways; takeaway regions receive the strongest spotlight. In presentation mode the wand keeps the pointer visible. Escape dismisses dialogs first. In native fullscreen Pigeon requests an Escape-only Keyboard Lock where supported and permitted, so the first press closes Help and a later press can leave fullscreen. Holding Escape retains the browser's emergency exit. Safari/Firefox and browsers that deny the lock may still exit native fullscreen; Pigeon keeps its presentation layout. Press `?` again or use Close to dismiss Help without invoking the browser's Escape behavior.
 
-**Text** is an annotation tool independent of Diagram mode. New labels use 20 pt Arial Italic, left/top alignment, transparent fill and the active annotation color (initially red). The toolbar swatches and `1`–`4` change the color before typing; numbers entered in the editor remain text. Finish with Escape, Cmd/Ctrl+Enter or blur. Click another position for a new label or an existing text label to edit it. Empty drafts are discarded; creating a label is one undo step. Font and color survive sessions and SVG/PNG/PDF rendering. Text stays selected across slide/board navigation. `T` retains its existing Overview and Diagram meanings.
+**Text** is an annotation tool independent of Diagram mode. New labels use 20 pt Arial Italic, left/top alignment, transparent fill and the active annotation color (initially red). The toolbar swatches and `1`–`4` change the color before typing; numbers entered in the editor remain text. Finish with Escape, Cmd/Ctrl+Enter or blur. The finished label stays selected with eight resize handles: drag the label to move it, or a handle to change its width and height. Click an existing label to select it, then double-click or press Enter to edit it. Click empty space for a new label. Empty drafts are discarded; creating a label is one undo step, and moves/resizes use the shared undo history. Font and color survive sessions and SVG/PNG/PDF rendering. The Text tool stays active across slide/board navigation. `T` retains its existing Overview and Diagram meanings.
+
+**Screen fitting:** the current slide is centered and fills the limiting viewport dimension with a small margin. `Home` fits every slide and inserted board; `0` fits the current slide. Both fit modes follow window resizing, and the canvas grid adapts to the viewport aspect ratio. Manual pan/zoom is preserved until another fit is requested. Older saved camera layouts are refitted on reopening without discarding annotations. Overview and Graph occupy 90% of the viewport width, with compact margins on small screens. New highlighter strokes use an 11-unit width; saved strokes keep their original widths.
 
 **Pen down mode** and Diagram mode show compact notices at the top right in normal and presentation layouts. A single backtick (or Escape after closing overlays) lifts the pen and keeps Pen selected. Slide/board navigation retains the setting and finishes the previous stroke. Leaving a canvas, zooming, changing colors, undoing, holding Space to pan, or opening a dialog finishes the stroke; subsequent movement starts a new one. Switching tools, repeating P to turn Pen off, or losing window/tab focus disables the mode. It is never saved in sessions.
 
-The **Title effect** selector offers Text Type (default), None, Split Text, Blur Text, Shiny Text and Gradient Text. The choice is saved per deck in browser storage. `title_effect` in `pigeon.toml` sets the initial release choice and `--title-effect NAME` overrides it; an already-saved browser preference takes precedence. None uses the untouched original slide SVG. Other choices swap to the body SVG plus an inline title glyph layer only after both are ready. Title fonts, line breaks and positions come from the original Typst/PDF artwork, not browser typesetting. Effects replay on entering a slide; Shiny and Gradient repeat while it is active. Reduced-motion preference suppresses animation. Boards and unmatched titles stay static. PNG exports use the original complete slide artwork.
+The **Title effect** selector offers None (default), Text Type, Split Text, Blur Text, Shiny Text and Gradient Text. The choice is saved per deck in browser storage. `title_effect` in `pigeon.toml` sets the initial release choice and `--title-effect NAME` overrides it; an already-saved browser preference takes precedence only when title assets are included. With `none` (the build default), no separate title SVGs are generated and the selector is disabled. None uses the untouched original slide SVG. Other choices swap to the body SVG plus an inline title glyph layer only after both are ready. Title fonts, line breaks and positions come from the original Typst/PDF artwork, not browser typesetting. Effects replay on entering a slide; Shiny and Gradient repeat while it is active. Reduced-motion preference suppresses animation. Boards and unmatched titles stay static. PNG exports use the original complete slide artwork.
 
 Pigeon is version **1.0.4**. Open **About** in the top bar, or choose **About Pigeon** at the bottom of the `?` keyboard guide, for the icon, author and collaboration contact.
 
@@ -37,7 +39,20 @@ These are independent SVG adaptations of five React Bits designs, not the entire
 
 The default slide transition is the original **Camera** movement: **0.38 seconds**, `cubic-bezier(.2,.8,.2,1)`. The generated runtime also offers None, Fade, Blur, Slide, Zoom, Pixel, Staggered Wipe and Stack. The build-time default can be set with `slide_transition` in `pigeon.toml` or overridden with `--slide-transition NAME`; the in-app Transition selector changes the current viewing session. Reduced motion disables these effects. Each transition snapshots only the outgoing artwork and ink, so the destination slide remains the live, interactive page.
 
+Particle morph is a separate transition for section changes. It samples the
+outgoing and incoming SVG artwork into deterministic cells, transports paired
+cells along curved paths, and then leaves the exact destination SVG interactive.
+It is enabled for destination slides in different sections by default. The
+`[effects]` table can select `all`, `none`, or an explicit `particle_morph_slides`
+list. Reduced-motion preferences suppress it. Rack focus is a temporary overlay
+over semantic/wand regions and is off by default; open **Overview → Motion
+effects** to enable it for the current session. Arrow navigation steps through
+the marked regions while it is enabled, and the overlay is hidden in Overview,
+whiteboards, and blackout mode.
+
 `embedded-deck.js` contains the manifest, graph, original SVGs, title layers, PDF and explicitly mapped resources for direct-file opening. Storage is namespaced by deck ID and revision so unrelated annotations are not silently applied. The manifest controls PDF/resource paths; no original talk filename or demo is required.
+
+**PDF availability:** `pdfEmbedded=false` uses a companion PDF beside the HTML. HTTP probes it; blocked file access exposes Session → Choose PDF fallback. Missing PDF controls are gray, while navigation and PNG/session exports continue. Annotated PDF export is disabled in companion mode even when the fallback is available. Older manifests default to embedded PDF behavior.
 
 **PDF export:** the **Export PDF** button beside **Present** preserves the
 original PDF pages and adds transparent PNG ink overlays (3×, maximum 4096 pixels
@@ -100,10 +115,12 @@ tests call the production matcher and resolver with an explicit test source.
 With `[qa] enabled = true`, say “take questions now” or “take any questions now”
 after repeating an audience question. Final recognition segments are accumulated
 in memory until the next trigger or `Q`; the configured `_qa` semantic region
-shows the live list. Finishing an item sends its bounded transcript to the
-same-origin `/api/qa/organize` endpoint, which uses the configured fast
-OpenAI-compatible Responses model and falls back to the raw transcript when the
-organizer is unavailable. `Q` inserts or refreshes a white `Q&A` board whose
+shows the live list. Finishing an item saves its raw transcript under the
+deck-local `.qa-transcripts/` directory, then sends it to the same-origin
+`/api/qa/organize` endpoint. The default DashScope Chat Completions model is
+`qwen3.7-flash`; it identifies the question and answer and returns fewer than
+100 words, preferably as bullets. Set `DASHSCOPE_API_KEY` or enter a key in the
+masked Voice-window field. `Q` inserts or refreshes a white `Q&A` board whose
 diagram text is included in session and PDF export paths.
 
 ## Semantic-tier navigation

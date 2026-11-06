@@ -7,7 +7,10 @@ const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
 const PIGEON_VERSION = "1.0.4";
-const fileMode = window.location.protocol === "file:";
+// Bump when the canvas placement algorithm changes so an old saved camera
+// does not reopen a deck with large off-screen gaps on a different display.
+const CAMERA_LAYOUT_VERSION = 2;
+const fileMode = window.PIGEON_SINGLE_FILE === true || window.location.protocol === "file:";
 const startupTierURL = window.location.href;
 const embeddedDeck = fileMode ? (window.PIGEON_DECK_BUNDLE || window.TALK_DECK_BUNDLE) : null;
 const deckAsset = path => path.startsWith("public/") ? path : `public/deck/${path}`;
@@ -70,6 +73,7 @@ const state = {
   tierMode: "slide", tier: 0, tierTrail: [], tierDebug: false, tierGeneration: 0,
   camera: { x: 0, y: 0, scale: 1 },
   autoFit: true,
+  cameraFit: "slide",
   tool: "navigate",
   stickyPen: false,
   color: COLORS.red,
@@ -92,6 +96,8 @@ const state = {
   graphFocus: null,
   titleEffect: "none",
   slideTransition: "camera",
+  rackFocusEnabled: false,
+  rackFocusIndex: 0,
   reducedMotion: window.matchMedia?.("(prefers-reduced-motion: reduce)")
     .matches,
 };
@@ -116,6 +122,7 @@ const els = {
   routeText: $("#routeText"),
   zoom: $("#zoomLabel"),
   overview: $("#overviewPanel"),
+  overviewEffects: $("#overviewEffects"),
   overviewContent: $("#overviewContent"),
   search: $("#searchDialog"),
   searchInput: $("#searchInput"),
@@ -223,12 +230,20 @@ function normaliseManifest(raw) {
   return {
     id: deck.id || deck.deckId || "pigeon-deck",
     focusRegions: deck.focusRegions || [],
-    pdf: deckAsset(deck.pdf || `${deck.deckId || deck.id}.pdf`),
+    pdf: deck.pdfEmbedded === false ? deck.pdf : deckAsset(deck.pdf || `${deck.deckId || deck.id}.pdf`),
+    pdfEmbedded: deck.pdfEmbedded !== false,
     resources: deck.resources || [],
     titleEffect: deck.titleEffect || "none",
     slideTransition: PigeonTransitions.names.includes(deck.slideTransition) ? deck.slideTransition : "camera",
     voice: deck.voice || {enabled: false, rules: []},
-    qa: deck.qa || {enabled: false, target: "_qa", model: "gpt-4.1-mini", maxLength: 4000, maxItems: 50},
+    qa: deck.qa || {enabled: false, target: "_qa", model: "qwen3.7-flash", maxLength: 4000, maxItems: 50},
+    effects: {
+      particleMorph: deck.effects?.particleMorph || "sections",
+      particleMorphSlides: Array.isArray(deck.effects?.particleMorphSlides) ? deck.effects.particleMorphSlides : [],
+      particleMorphDurationMs: Number(deck.effects?.particleMorphDurationMs) || 1400,
+      particleMorphCell: Number(deck.effects?.particleMorphCell) || 10,
+      rackFocus: deck.effects?.rackFocus === true,
+    },
     tiers: deck.tiers || {mode: "slide", presets: {}},
     title: deck.title || "Pigeon presentation",
     revision: deck.revision || deck.contentRevision || "generated",
@@ -321,67 +336,7 @@ function normaliseGraph(raw) {
   };
 }
 function layoutGraph(concepts, relationships) {
-  // Group by explicit cluster or the section containing most original mentions.
-  const clusters = new Map();
-  for (const node of concepts) {
-    const counts = new Map();
-    for (const id of node.slides) {
-      const section = state.deck.sections.find((section) =>
-        section.slides.includes(id),
-      );
-      const label = section?.label || "Across the talk";
-      counts.set(label, (counts.get(label) || 0) + 1);
-    }
-    const cluster = String(
-      node.cluster ||
-        [...counts].sort((a, b) => b[1] - a[1])[0]?.[0] ||
-        "Across the talk",
-    );
-    if (!clusters.has(cluster)) clusters.set(cluster, []);
-    clusters.get(cluster).push({ ...node, cluster });
-  }
-  const groups = [...clusters].sort((a, b) => a[0].localeCompare(b[0]));
-  const columns = groups.length > 1 ? 2 : 1;
-  const rows = Math.ceil(groups.length / columns);
-  const output = [];
-  groups.forEach(([label, nodes], index) => {
-    const width = 960 / columns,
-      height = 660 / rows;
-    const centerX = ((index % columns) + 0.5) * width + 10;
-    const centerY = (Math.floor(index / columns) + 0.5) * height + 20;
-    nodes.sort(
-      (a, b) =>
-        (b.importance || 0) - (a.importance || 0) || a.id.localeCompare(b.id),
-    );
-    const localColumns = Math.min(
-      4,
-      Math.ceil(Math.sqrt((nodes.length * width) / height)),
-    );
-    const localRows = Math.ceil(nodes.length / localColumns);
-    nodes.forEach((node, localIndex) =>
-      output.push({
-        ...node,
-        radius: 13 + Math.min(5, Number(node.importance) || 0),
-        x:
-          centerX -
-          width * 0.41 +
-          (((localIndex % localColumns) + 0.5) * width * 0.82) / localColumns,
-        y:
-          centerY -
-          height * 0.32 +
-          ((Math.floor(localIndex / localColumns) + 0.5) * height * 0.7) /
-            localRows,
-        clusterBounds: {
-          x: centerX - width * 0.46,
-          y: centerY - height * 0.4,
-          width: width * 0.92,
-          height: height * 0.84,
-          label: state.deck.sections.find((section) => section.id === label)?.label || label,
-        },
-      }),
-    );
-  });
-  return output;
+  return window.PigeonGraphLayout.layout(concepts, relationships, state.deck.sections);
 }
 
 async function loadJson(path) {
@@ -431,14 +386,22 @@ async function loadDeck() {
   );
   document.title = `Pigeon · ${state.deck.title}`;
   if (els.about) els.about.querySelector(".about-version").textContent = `Version ${PIGEON_VERSION}`;
-  $("#pdfLink").href = state.deck.pdf;
+  setPdfAvailability(false, "Checking PDF availability…");
   state.visited.add(state.currentId);
   state.titleEffect = state.deck.titleEffect;
   try { state.titleEffect = localStorage.getItem(`pigeon-title-effect:${state.deck.id}`) || state.titleEffect; } catch (_) {}
   if (!PigeonTitleEffects.names.includes(state.titleEffect)) state.titleEffect = "none";
+  const hasTitleLayers = state.deck.slides.some(slide => slide.titleLayer || slide.semanticTiers?.candidates?.some(candidate => candidate.titleLayer));
+  if (!hasTitleLayers) state.titleEffect = "none";
+  $("#titleEffectSelect").disabled = !hasTitleLayers;
+  $("#titleEffectSelect").title = hasTitleLayers ? "Title animation" : "Title animation was omitted from this build";
   $("#titleEffectSelect").value = state.titleEffect;
   state.slideTransition = state.deck.slideTransition;
   $("#slideTransitionSelect").value = state.slideTransition;
+  // The manifest may opt into rack focus, but the normal default remains off.
+  // An explicit overview toggle is kept in the session afterwards.
+  state.rackFocusEnabled = state.deck.effects?.rackFocus === true;
+  state.rackFocusIndex = 0;
   els.title.textContent = state.deck.title;
   els.title.title = state.deck.title;
   els.ready.textContent = state.graphError
@@ -451,6 +414,7 @@ async function loadDeck() {
   voice?.contextChanged();
   updateUI();
   verifyAssets();
+  verifyPdf();
   return true;
 }
 
@@ -638,6 +602,57 @@ function slideSize(id = state.currentId) {
   const slide = getSlide(id);
   return {width: slide?.width || 960, height: slide?.height || 540};
 }
+function rackFocusRegions(slide = getSlide()) {
+  return (slide?.wandRegions || slide?.textRegions || []).filter(region =>
+    [region.x, region.y, region.width, region.height].every(Number.isFinite) &&
+    region.width > 8 && region.height > 8 && region.x >= 0 && region.y >= 0);
+}
+function particleMorphFor(source, target) {
+  if (!source || !target || state.whiteboard || state.reducedMotion) return false;
+  const effects = state.deck.effects || {};
+  if (effects.particleMorphSlides?.length) return effects.particleMorphSlides.includes(target.id);
+  if (effects.particleMorph === "all") return true;
+  if (effects.particleMorph === "none") return false;
+  return (source.section || "Talk") !== (target.section || "Talk");
+}
+function renderRackFocus() {
+  $$(".rack-focus-overlay").forEach(node => node.remove());
+  if (!state.rackFocusEnabled || state.overview || state.whiteboard || state.blackout) return;
+  const slide = getSlide();
+  const regions = rackFocusRegions(slide);
+  if (!slide || !regions.length) return;
+  state.rackFocusIndex = clamp(state.rackFocusIndex, 0, regions.length - 1);
+  const region = regions[state.rackFocusIndex];
+  const frame = $$(".slide-frame").find(candidate => candidate.dataset.slideId === slide.id);
+  if (!frame) return;
+  const overlay = document.createElement("div");
+  overlay.className = "rack-focus-overlay";
+  overlay.setAttribute("aria-hidden", "true");
+  const size = slideSize(slide.id);
+  const panels = [
+    [0, 0, size.width, region.y],
+    [0, region.y + region.height, size.width, Math.max(0, size.height - region.y - region.height)],
+    [0, region.y, region.x, region.height],
+    [region.x + region.width, region.y, Math.max(0, size.width - region.x - region.width), region.height],
+  ];
+  panels.forEach(([x, y, width, height]) => {
+    if (width <= 0 || height <= 0) return;
+    const panel = document.createElement("div"); panel.className = "rack-focus-panel";
+    Object.assign(panel.style, {left: `${x}px`, top: `${y}px`, width: `${width}px`, height: `${height}px`}); overlay.append(panel);
+  });
+  const border = document.createElement("div"); border.className = "rack-focus-border";
+  Object.assign(border.style, {left: `${region.x}px`, top: `${region.y}px`, width: `${region.width}px`, height: `${region.height}px`});
+  border.textContent = `${state.rackFocusIndex + 1} / ${regions.length}`; overlay.append(border);
+  frame.append(overlay);
+}
+function rackFocusStep(direction) {
+  if (!state.rackFocusEnabled || state.whiteboard || state.overview) return false;
+  const regions = rackFocusRegions();
+  if (!regions.length) return false;
+  const next = state.rackFocusIndex + direction;
+  if (next < 0 || next >= regions.length) return false;
+  state.rackFocusIndex = next; renderRackFocus(); return true;
+}
 function qaTarget() { return state.deck.qa?.target || "_qa"; }
 function qaEnabled() { return state.deck.qa?.enabled !== false; }
 function qaRegion(slide) {
@@ -723,14 +738,19 @@ async function qaSessionToken() {
 async function organizeQaItem(item) {
   try {
     const token = await qaSessionToken();
+    const headers = {"Content-Type": "application/json", "X-Pigeon-Voice-Token": token};
+    const manualKey = document.querySelector(".voice-qa-api-key")?.value?.trim();
+    if (manualKey) headers["X-Pigeon-QA-Key"] = manualKey;
     const response = await fetch("/api/qa/organize", {
-      method: "POST", headers: {"Content-Type": "application/json", "X-Pigeon-Voice-Token": token},
-      body: JSON.stringify({text: item.raw.slice(0, Number(state.deck.qa?.maxLength) || 4000), model: state.deck.qa?.model}),
+      method: "POST", headers,
+      body: JSON.stringify({id: item.id, text: item.raw.slice(0, Number(state.deck.qa?.maxLength) || 4000), model: state.deck.qa?.model}),
     });
     const payload = await response.json();
+    if (typeof payload.rawFile === "string") item.rawFile = payload.rawFile;
     if (!response.ok) throw Error(payload.error || "Q&A organizer failed");
     if (typeof payload.paragraph !== "string" || !payload.paragraph.trim()) throw Error("Q&A organizer returned no paragraph");
     item.text = payload.paragraph.trim().slice(0, Number(state.deck.qa?.maxLength) || 4000);
+    item.rawFile = typeof payload.rawFile === "string" ? payload.rawFile : "";
     item.status = "ready";
   } catch (error) {
     item.status = "error";
@@ -784,6 +804,19 @@ function openQaBoard() {
 function layoutSize() {
   return {width: Math.max(...state.deck.slides.map(s => s.width)), height: Math.max(...state.deck.slides.map(s => s.height))};
 }
+function canvasColumns(sequenceLength = viewSequence().length) {
+  const cell = layoutSize();
+  const bounds = els.stage.getBoundingClientRect();
+  const gapX = cell.width + 90, gapY = cell.height + 110;
+  let best = 1, bestScale = 0;
+  for (let columns = 1; columns <= sequenceLength; columns++) {
+    const width = columns * gapX - 90;
+    const height = Math.ceil(sequenceLength / columns) * gapY - 110;
+    const scale = Math.min((bounds.width || 1440) / (width + 150), (bounds.height || 900) / (height + 150));
+    if (scale > bestScale) { best = columns; bestScale = scale; }
+  }
+  return best;
+}
 function viewSequence(metadata = state.boardMeta) {
   return state.deck.route.map(id => getSlide(id)).flatMap(slide => [
     {id: slide.id, name: null},
@@ -802,15 +835,14 @@ function parentCameraFor(id) {
   if (entry) return {...entry.camera};
   const bounds = els.stage.getBoundingClientRect();
   const {width, height} = slideSize(id);
-  const scale = Math.min(bounds.width / (width + 120), bounds.height / (height + 130), 1.25);
+  const scale = clamp(Math.min(bounds.width / width, bounds.height / height) * (state.presentation ? 1 : .96), .05, 32);
   const position = framePosition(state.deck.slides.findIndex(slide => slide.id === id));
   return {scale, x: -(position.x + width / 2) * scale, y: -(position.y + height / 2) * scale};
 }
-function framePosition(index, name = null, sequence = viewSequence()) {
+function framePosition(index, name = null, sequence = viewSequence(), columns = canvasColumns(sequence.length)) {
   const size = slideSize(state.deck.slides[index]?.id);
   const cell = layoutSize();
   index = Math.max(0, sequence.findIndex(view => view.id === state.deck.slides[index]?.id && view.name === name));
-  const columns = sequence.length > 20 ? 5 : 4;
   const gapX = cell.width + 90,
     gapY = cell.height + 110;
   return {
@@ -942,6 +974,44 @@ function renderFrames() {
     drawSurface(slide.id);
   });
 }
+function relayoutFrames() {
+  const before = framePositions();
+  for (const frame of $$(".slide-frame", els.world)) {
+    const slide = getSlide(frame.dataset.slideId);
+    if (!slide) continue;
+    const index = state.deck.slides.indexOf(slide);
+    const p = framePosition(index, frame.dataset.boardName || null);
+    frame.style.left = `${p.x}px`;
+    frame.style.top = `${p.y}px`;
+  }
+  shiftSavedCameras(before, framePositions());
+}
+function framePositions() {
+  return new Map($$(".slide-frame", els.world).map(frame => [frame.dataset.frameKey,
+    {x: parseFloat(frame.style.left), y: parseFloat(frame.style.top)}]));
+}
+function shiftSavedCameras(before, after) {
+  const shifted = new Set();
+  function shift(camera, key) {
+    const old = before.get(key), next = after.get(key);
+    if (camera && old && next && !shifted.has(camera)) {
+      shifted.add(camera);
+      camera.x -= (next.x - old.x) * camera.scale;
+      camera.y -= (next.y - old.y) * camera.scale;
+    }
+  }
+  function shiftReturn(value) { if (value) shift(value.camera, frameKey(value.id, value.boardName || null)); }
+  shift(state.camera, activeFrameKey());
+  shift(boardReturnCamera, frameKey(state.currentId));
+  shiftReturn(state.detourReturn);
+  state.tierTrail.forEach(shiftReturn);
+  for (const entry of state.history) {
+    shift(entry.camera, frameKey(entry.id, entry.board ? entry.boardName : null));
+    shift(entry.boardReturnCamera, frameKey(entry.id));
+    shiftReturn(entry.detourReturn);
+    entry.tierTrail?.forEach(shiftReturn);
+  }
+}
 function escapeHtml(text) {
   return String(text).replace(
     /[&<>'"]/g,
@@ -972,11 +1042,14 @@ function fitCurrent(animate = true) {
   if (state.currentStroke?.sticky) finishActiveStroke();
   if (state.currentStroke || !state.deck.slides.length) return;
   state.autoFit = true;
+  state.cameraFit = "slide";
   const rect = els.stage.getBoundingClientRect();
   const {width, height} = slideSize();
-  const scale = state.presentation
-    ? Math.min(rect.width / width, rect.height / height)
-    : clamp(Math.min(rect.width / (width + 120), rect.height / (height + 130)), 0.03, 1.25);
+  const scale = clamp(
+    Math.min(rect.width / width, rect.height / height) * (state.presentation ? 1 : 0.96),
+    0.05,
+    32,
+  );
   const index = state.deck.slides.findIndex((s) => s.id === state.currentId);
   const p = framePosition(Math.max(0, index), state.whiteboard ? boardName : null);
   state.camera = { scale, x: -(p.x + width / 2) * scale, y: -(p.y + height / 2) * scale };
@@ -995,22 +1068,22 @@ function fitWhole() {
   if (state.currentStroke?.sticky) finishActiveStroke();
   if (state.currentStroke || !state.deck.slides.length) return;
   const rect = els.stage.getBoundingClientRect();
-  const count = viewSequence().length;
-  const cols = count > 20 ? 5 : 4;
-  const rows = Math.ceil(count / cols);
-  const cell = layoutSize();
-  const width = (cols - 1) * (cell.width + 90) + cell.width;
-  const height = (rows - 1) * (cell.height + 110) + cell.height;
+  const frames = $$(".slide-frame", els.world);
+  const left = Math.min(...frames.map(frame => parseFloat(frame.style.left)));
+  const top = Math.min(...frames.map(frame => parseFloat(frame.style.top)));
+  const right = Math.max(...frames.map(frame => parseFloat(frame.style.left) + parseFloat(frame.style.width)));
+  const bottom = Math.max(...frames.map(frame => parseFloat(frame.style.top) + parseFloat(frame.style.height)));
+  const width = right - left, height = bottom - top;
+  const scale = clamp(Math.min(rect.width / (width + 150), rect.height / (height + 150)), 0.03, 32);
   state.camera = {
-    scale: clamp(
-      Math.min(rect.width / (width + 150), rect.height / (height + 150)),
-      0.1,
-      1,
-    ),
-    x: 0,
-    y: 0,
+    scale,
+    x: -(left + right) / 2 * scale,
+    y: -(top + bottom) / 2 * scale,
   };
-  state.autoFit = false;
+  state.autoFit = true;
+  state.cameraFit = "deck";
+  clearTimeout(cameraTransitionTimer);
+  els.world.style.transition = "none";
   updateCamera();
   persist();
 }
@@ -1085,6 +1158,7 @@ function updateUI() {
   updateCamera();
   syncTierView();
   syncTitleEffect();
+  renderRackFocus();
   voice?.contextChanged();
 }
 function addHistory(id) {
@@ -1129,7 +1203,8 @@ function navigateTo(id, options = {}) {
   const newPosition = sequence.findIndex(view => frameKey(view.id, view.name) === frameKey(id, targetName));
   const direction = options.direction || Math.sign(newPosition - oldPosition) || 1;
   const changed = old !== id || targetName !== (state.whiteboard ? boardName : null);
-  const snapshot = changed && !state.reducedMotion && !["camera", "none"].includes(state.slideTransition)
+  const particleMorph = changed && !targetName && !state.whiteboard && particleMorphFor(getSlide(old), target);
+  const snapshot = changed && !state.reducedMotion && (particleMorph || !["camera", "none"].includes(state.slideTransition))
     ? PigeonTransitions.capture({stage: els.stage, frame: $(".slide-frame.current"),
         asset: state.whiteboard ? null : assetUrl(deckAsset(presentationSlide().asset)),
         color: state.whiteboard && boardInfo().color === "black" ? "#111827" : "white"})
@@ -1151,6 +1226,7 @@ function navigateTo(id, options = {}) {
   if (targetName) boardReturnCamera = old === id && !state.whiteboard ? {...state.camera} : parentCameraFor(id);
   state.currentId = id;
   state.whiteboard = !!targetName;
+  state.rackFocusIndex = direction < 0 ? Math.max(0, rackFocusRegions(target).length - 1) : 0;
   if (targetName) boardName = targetName;
   if (options.tierMode) state.tierMode = options.tierMode;
   state.tier = options.tier ?? (targetName ? 0 : window.PigeonTiers?.entry(state.deck,state.deck.slides.indexOf(target),state.tierMode) || 0);
@@ -1160,26 +1236,36 @@ function navigateTo(id, options = {}) {
   hideWand();
   state.currentIndex = state.deck.slides.findIndex((s) => s.id === id);
   state.deck.slides.forEach((s) => drawSurface(s.id));
-  fitCurrent(state.slideTransition === "camera");
+  // Particle morph owns the transition. Settle the camera before its overlay
+  // measures the destination; an animated camera would leave it off-screen.
+  fitCurrent(state.slideTransition === "camera" && !particleMorph);
   addHistory(id);
   // Update the active slide before voice captures its page identity. This
   // prevents the new recognizer session from retaining the departing page.
   voice?.slideChanged();
   updateUI();
-  if (snapshot) pageTransitions.play(snapshot, $(".slide-frame.current"), {
-    name: state.slideTransition, direction,
-    onComplete() {
+  if (snapshot) {
+    const complete = () => {
       if (transitionRequest !== pageTransitionRequest) return;
       pageTransitionPending = false;
       syncTitleEffect(true);
-    },
-  });
+    };
+    if (particleMorph) pageTransitions.playParticle(snapshot, $(".slide-frame.current"), {
+      duration: state.deck.effects?.particleMorphDurationMs,
+      cell: state.deck.effects?.particleMorphCell,
+      direction, onComplete: complete,
+    });
+    else pageTransitions.play(snapshot, $(".slide-frame.current"), {
+      name: state.slideTransition, direction, onComplete: complete,
+    });
+  }
   renderOverview();
   persist();
 }
 function nextSlide(direction = 1) {
   if(hasTiers() && window.PigeonTiers) {tierAction(direction>0?"next":"prev");return;}
   finishActiveStroke();
+  if (rackFocusStep(direction)) return;
   const sequence = viewSequence();
   const current = sequence.findIndex(view => frameKey(view.id, view.name) === activeFrameKey());
   const target = sequence[clamp(current + direction, 0, sequence.length - 1)];
@@ -1382,7 +1468,7 @@ function bindCanvas(canvas) {
     state.currentStroke = {
       surface: surfaceKey(canvas.dataset.slideId), pointerId: event.pointerId,
       id: canvas.dataset.slideId, type: "stroke", tool: state.tool, sticky,
-      color: state.color, width: state.tool === "highlighter" ? 22 : 3.7,
+      color: state.color, width: state.tool === "highlighter" ? 11 : 3.7,
       opacity: state.tool === "highlighter" ? 0.28 : 1,
       points: [canvasPoint(event, canvas)],
     };
@@ -1687,8 +1773,26 @@ function renderWand() {
 }
 
 function renderOverview() {
+  renderOverviewEffects();
   if (state.mode === "graph" && !state.graphError) renderGraph();
   else renderHierarchy();
+}
+function renderOverviewEffects() {
+  if (!els.overviewEffects) return;
+  const effects = state.deck.effects || {};
+  const mode = effects.particleMorph === "all"
+    ? "every slide"
+    : effects.particleMorph === "none"
+      ? "off"
+      : "section changes";
+  els.overviewEffects.innerHTML = `<div class="overview-effects-copy"><h3>Motion effects</h3><p>Particle morph: <strong>${mode}</strong>. Rack focus steps through the marked regions on the current slide.</p></div><label class="overview-effect-toggle"><input type="checkbox" id="rackFocusToggle" ${state.rackFocusEnabled ? "checked" : ""}> <span>Enable rack focus</span></label>`;
+  const toggle = $("#rackFocusToggle", els.overviewEffects);
+  toggle?.addEventListener("change", () => {
+    state.rackFocusEnabled = toggle.checked;
+    state.rackFocusIndex = 0;
+    renderRackFocus();
+    persist();
+  });
 }
 function renderHierarchy() {
   state.hierarchyFocus ||= activeFrameKey();
@@ -1725,37 +1829,21 @@ function renderHierarchy() {
   );
 }
 function graphEdgePath(source, target) {
-  const dx = target.x - source.x,
-    dy = target.y - source.y,
-    length = Math.hypot(dx, dy) || 1;
-  // Clip to the compact concept cards, keeping arrowheads outside the text.
-  const border = Math.min(44 * length / Math.abs(dx), 24 * length / Math.abs(dy));
-  const start = border + 1,
-    end = border + 4;
-  return {
-    x1: source.x + (dx / length) * start,
-    y1: source.y + (dy / length) * start,
-    x2: target.x - (dx / length) * end,
-    y2: target.y - (dy / length) * end,
-  };
+  return window.PigeonGraphLayout.edgePath(source, target);
 }
+
 function graphNodeElement(id) {
   return $$(".graph-node", els.overviewContent).find(
     (node) => node.dataset.concept === id,
   );
 }
 function graphLabel(label) {
-  const lines = [];
-  for (const word of label.split(/\s+/)) {
-    const last = lines.length - 1;
-    if (last >= 0 && lines[last].length + word.length + 1 <= 16)
-      lines[last] += ` ${word}`;
-    else lines.push(word);
-  }
-  return lines.slice(0, 4).map((line, index, visible) =>
-    `<tspan x="0" y="${(index - (visible.length - 1) / 2) * 11 + 3.5}">${escapeHtml(index === 3 && lines.length > 4 ? line + "…" : line)}</tspan>`
+  const lines = window.PigeonGraphLayout.wrapLabel(label);
+  return lines.map((line, index) =>
+    `<tspan x="0" y="${(index - (lines.length - 1) / 2) * 14 + 4}">${escapeHtml(line)}</tspan>`
   ).join("");
 }
+
 function renderGraph() {
   if (state.graphError) {
     els.overviewContent.innerHTML = `<p role="alert">${escapeHtml(state.graphError)}</p>`;
@@ -1772,7 +1860,8 @@ function renderGraph() {
       nodes.map((node) => [node.cluster, node.clusterBounds]),
     ).values(),
   ];
-  els.overviewContent.innerHTML = `<div class="graph-view"><div class="graph-canvas-wrap"><svg class="graph-canvas" viewBox="0 0 1000 740" role="group" aria-label="Knowledge graph. Arrow keys change concepts; Enter opens evidence."><defs><marker id="arrow" markerWidth="4" markerHeight="4" refX="3.5" refY="2" orient="auto"><path d="M0,0 L0,4 L4,2 z" fill="#8c99b3"></path></marker></defs>
+  const canvas = window.PigeonGraphLayout.bounds(nodes);
+  els.overviewContent.innerHTML = `<div class="graph-view"><div class="graph-canvas-wrap"><div class="graph-controls" role="group" aria-label="Graph zoom"><button type="button" data-graph-zoom="out" aria-label="Zoom graph out">−</button><button type="button" data-graph-zoom="fit">Fit</button><button type="button" data-graph-zoom="actual">100%</button><button type="button" data-graph-zoom="in" aria-label="Zoom graph in">+</button><output id="graphZoomLevel"></output></div><div class="graph-scroll" tabindex="0" aria-label="Scrollable graph"><svg class="graph-canvas" viewBox="0 0 ${canvas.width} ${canvas.height}" role="group" aria-label="Knowledge graph. Arrow keys change concepts; Enter opens evidence."><defs><marker id="arrow" markerWidth="4" markerHeight="4" refX="3.5" refY="2" orient="auto"><path d="M0,0 L0,4 L4,2 z" fill="#8c99b3"></path></marker></defs>
     ${clusters.map((cluster) => `<g class="graph-cluster"><rect x="${cluster.x}" y="${cluster.y}" width="${cluster.width}" height="${cluster.height}" rx="15"></rect><text x="${cluster.x + 14}" y="${cluster.y + 20}">${escapeHtml(cluster.label)}</text></g>`).join("")}
     ${state.graph.relationships
       .map((edge, index) => {
@@ -1782,8 +1871,8 @@ function renderGraph() {
         return `<g class="graph-edge" data-source="${escapeHtml(edge.source)}" data-target="${escapeHtml(edge.target)}"><line class="${/propos/i.test(edge.status || "") ? "proposal" : ""}" x1="${line.x1}" y1="${line.y1}" x2="${line.x2}" y2="${line.y2}" marker-end="url(#arrow)"></line><text class="edge-label" x="${(start.x + end.x) / 2}" y="${(start.y + end.y) / 2 - 5}" text-anchor="middle">${index + 1}</text><title>${escapeHtml(start.label + " — " + edge.predicate + " → " + end.label)}</title></g>`;
       })
       .join("")}
-    ${nodes.map((node) => `<g class="graph-node ${(node.slides || []).includes(state.currentId) ? "current-concept" : ""}" data-concept="${escapeHtml(node.id)}" tabindex="${node.id === state.graphFocus ? 0 : -1}" role="button" aria-label="${escapeHtml(node.label)}"><title>${escapeHtml(node.label)}</title><rect class="node-shape" x="${node.x - 44}" y="${node.y - 24}" width="88" height="48" rx="8"></rect><text transform="translate(${node.x} ${node.y})" text-anchor="middle">${graphLabel(node.label)}</text></g>`).join("")}
-    </svg><div class="graph-canvas-hint">Arrows select · Enter opens evidence · Edge numbers match the relationship list</div></div><aside class="graph-details" id="graphDetails" aria-label="Focused concept evidence"></aside></div>`;
+    ${nodes.map((node) => `<g class="graph-node ${(node.slides || []).includes(state.currentId) ? "current-concept" : ""}" data-concept="${escapeHtml(node.id)}" tabindex="${node.id === state.graphFocus ? 0 : -1}" role="button" aria-label="${escapeHtml(node.label)}"><title>${escapeHtml(node.label)}</title><rect class="node-shape" x="${node.x - node.width / 2}" y="${node.y - node.height / 2}" width="${node.width}" height="${node.height}" rx="8"></rect><text transform="translate(${node.x} ${node.y})" text-anchor="middle">${graphLabel(node.label)}</text></g>`).join("")}
+    </svg></div><div class="graph-canvas-hint">Scroll to explore · Arrows select · Enter opens evidence · Edge numbers match the list</div></div><aside class="graph-details" id="graphDetails" aria-label="Focused concept evidence"></aside></div>`;
   for (const node of $$(".graph-node", els.overviewContent)) {
     node.addEventListener("click", () => focusConcept(node.dataset.concept));
     node.addEventListener("keydown", (event) => {
@@ -1795,7 +1884,31 @@ function renderGraph() {
       }
     });
   }
+  const scroll = $(".graph-scroll", els.overviewContent);
+  const svg = $(".graph-canvas", scroll);
+  let scale = 1;
+  function setScale(next) {
+    const centerX = (scroll.scrollLeft + scroll.clientWidth / 2) / scale;
+    const centerY = (scroll.scrollTop + scroll.clientHeight / 2) / scale;
+    scale = Math.max(0.08, Math.min(2, next));
+    svg.style.width = `${canvas.width * scale}px`;
+    svg.style.height = `${canvas.height * scale}px`;
+    $("#graphZoomLevel").textContent = `${Math.round(scale * 100)}%`;
+    scroll.scrollLeft = Math.max(0, centerX * scale - scroll.clientWidth / 2);
+    scroll.scrollTop = Math.max(0, centerY * scale - scroll.clientHeight / 2);
+  }
+  for (const button of $$("[data-graph-zoom]", els.overviewContent)) {
+    button.addEventListener("click", () => {
+      const action = button.dataset.graphZoom;
+      const fit = Math.min(scroll.clientWidth / canvas.width, scroll.clientHeight / canvas.height, 1);
+      setScale(action === "fit" ? fit : action === "actual" ? 1 : scale * (action === "in" ? 1.25 : 0.8));
+    });
+  }
+  setScale(1);
   focusConcept(state.graphFocus, false);
+  requestAnimationFrame(() => {
+    if (scroll.isConnected) graphNodeElement(state.graphFocus)?.scrollIntoView?.({block: "nearest", inline: "nearest"});
+  });
 }
 function evidenceMarkup(evidence) {
   return (evidence || [])
@@ -1864,7 +1977,11 @@ function focusConcept(id, moveFocus = true) {
     );
     bindEvidenceLinks(details);
   }
-  if (moveFocus) graphNodeElement(id)?.focus();
+  if (moveFocus) {
+    const node = graphNodeElement(id);
+    node?.focus({preventScroll: true});
+    node?.scrollIntoView?.({block: "nearest", inline: "nearest"});
+  }
   persist();
 }
 
@@ -1893,6 +2010,7 @@ function closeOverview() {
   els.overview.classList.remove("open");
   els.overview.setAttribute("aria-hidden", "true");
   document.body.classList.remove("overview-mode");
+  renderRackFocus();
   voice?.contextChanged();
   $("#stage").focus();
   persist();
@@ -2216,12 +2334,18 @@ function sessionPayload() {
     schemaVersion: 2,
     deckId: state.deck.id,
     revision: state.deck.revision,
+    cameraLayoutVersion: CAMERA_LAYOUT_VERSION,
+    canvasColumns: canvasColumns(),
     savedAt: new Date().toISOString(),
     currentId: state.currentId,
     tier: state.tier, tierMode: state.tierMode, tierTrail: state.tierTrail,
     routeCursor,
     camera: state.camera,
+    autoFit: state.autoFit,
+    cameraFit: state.cameraFit,
     whiteboard: state.whiteboard,
+    rackFocusEnabled: state.rackFocusEnabled,
+    rackFocusIndex: state.rackFocusIndex,
     boardName,
     boardReturnCamera,
     overview: state.overview,
@@ -2252,6 +2376,12 @@ function validateSession(input) {
       "This session belongs to a different deck revision. It has not been applied.",
     );
   const ids = new Set(state.deck.slides.map((slide) => slide.id));
+  if (input.autoFit !== undefined && typeof input.autoFit !== "boolean")
+    fail("auto-fit preference");
+  if (input.cameraFit !== undefined && !["slide", "deck"].includes(input.cameraFit))
+    fail("camera fit mode");
+  if (input.canvasColumns !== undefined && (!Number.isInteger(input.canvasColumns) || input.canvasColumns < 1 || input.canvasColumns > 100000))
+    fail("canvas columns");
   const object = (value) =>
     value &&
     typeof value === "object" &&
@@ -2419,6 +2549,8 @@ function validateSession(input) {
     !integer(input.routeCursor, 0, state.deck.route.length - 1) ||
     !board(input.boardName) ||
     typeof input.whiteboard !== "boolean" ||
+    (input.rackFocusEnabled !== undefined && typeof input.rackFocusEnabled !== "boolean") ||
+    (input.rackFocusIndex !== undefined && !integer(input.rackFocusIndex, 0, 10000)) ||
     typeof input.overview !== "boolean" ||
     !["hierarchy", "graph"].includes(input.mode) ||
     !["navigate", "laser", "pen", "highlighter", "eraser", "wand", "text", "diagram"].includes(
@@ -2429,11 +2561,9 @@ function validateSession(input) {
     fail("navigation or tool fields");
   if (
     input.graphFocus !== null &&
-    (typeof input.graphFocus !== "string" ||
-      (!state.graphError &&
-        !state.graph.concepts.some((node) => node.id === input.graphFocus)))
+    typeof input.graphFocus !== "string"
   )
-    fail("unknown concept focus");
+    fail("concept focus");
   if (!Array.isArray(input.visited) || input.visited.some((id) => !ids.has(id)))
     fail("visited slides");
   if (
@@ -2471,6 +2601,8 @@ function validateSession(input) {
     schemaVersion: 2,
     deckId: input.deckId,
     revision: input.revision,
+    cameraLayoutVersion: CAMERA_LAYOUT_VERSION,
+    canvasColumns: canvasColumns(viewSequence(boardMeta).length),
     savedAt:
       typeof input.savedAt === "string"
         ? input.savedAt
@@ -2479,13 +2611,19 @@ function validateSession(input) {
     ...tierFields(input),
     routeCursor: input.routeCursor,
     camera: camera(input.camera),
+    autoFit: input.cameraLayoutVersion !== CAMERA_LAYOUT_VERSION || input.autoFit !== false,
+    cameraFit: input.cameraFit || "slide",
     whiteboard: input.whiteboard,
+    rackFocusEnabled: input.rackFocusEnabled ?? state.deck.effects?.rackFocus === true,
+    rackFocusIndex: input.rackFocusIndex ?? 0,
     boardName: input.boardName,
     boardReturnCamera:
       input.boardReturnCamera === null ? null : camera(input.boardReturnCamera),
     overview: input.overview,
     mode: input.mode,
-    graphFocus: state.graphError ? null : input.graphFocus,
+    // Rebuilding a local graph may change concept IDs without changing slides.
+    // Recover annotations and navigation even when an old focus no longer exists.
+    graphFocus: !state.graphError && state.graph.concepts.some((node) => node.id === input.graphFocus) ? input.graphFocus : null,
     history: input.history.map(view),
     historyIndex: input.historyIndex,
     annotations: inkMap(input.annotations, false),
@@ -2520,6 +2658,33 @@ function validateSession(input) {
       shift(view.camera, view.id, view.board ? view.boardName : null);
       shift(view.boardReturnCamera, view.id);
       migrateReturn(view.detourReturn);
+    }
+  } else {
+    // Keep each saved camera relative to its own slide when the responsive
+    // grid changes between displays. Ink remains in original slide coordinates.
+    const sequence = viewSequence(result.boardMeta);
+    const oldColumns = input.canvasColumns || (state.deck.slides.length > 20 ? 5 : 4);
+    const nextColumns = canvasColumns(sequence.length);
+    if (oldColumns !== nextColumns) {
+      function shift(camera, id, name = null) {
+        if (!camera) return;
+        const index = state.deck.slides.findIndex(slide => slide.id === id);
+        const old = framePosition(index, name, sequence, oldColumns);
+        const next = framePosition(index, name, sequence, nextColumns);
+        camera.x -= (next.x - old.x) * camera.scale;
+        camera.y -= (next.y - old.y) * camera.scale;
+      }
+      function shiftReturn(value) { if (value) shift(value.camera, value.id, value.boardName || null); }
+      shift(result.camera, result.currentId, result.whiteboard ? result.boardName : null);
+      shift(result.boardReturnCamera, result.currentId);
+      shiftReturn(result.detourReturn);
+      result.tierTrail.forEach(shiftReturn);
+      for (const entry of result.history) {
+        shift(entry.camera, entry.id, entry.board ? entry.boardName : null);
+        shift(entry.boardReturnCamera, entry.id);
+        shiftReturn(entry.detourReturn);
+        entry.tierTrail.forEach(shiftReturn);
+      }
     }
   }
   return result;
@@ -2592,8 +2757,11 @@ function applySession(input) {
     currentId: payload.currentId,
     tier: payload.tier, tierMode: payload.tierMode, tierTrail: payload.tierTrail,
     camera: payload.camera,
-    autoFit: false,
+    autoFit: payload.autoFit !== false,
+    cameraFit: payload.cameraFit,
     whiteboard: payload.whiteboard,
+    rackFocusEnabled: payload.rackFocusEnabled,
+    rackFocusIndex: payload.rackFocusIndex,
     overview: payload.overview,
     mode:
       state.graphError && payload.mode === "graph" ? "hierarchy" : payload.mode,
@@ -2650,6 +2818,7 @@ async function initStorage() {
       applySession(payload);
       restoredSession = true;
       renderFrames();
+      if (state.autoFit) restoreCameraFit();
       updateUI();
       if (state.overview) openOverview();
     }
@@ -2713,6 +2882,7 @@ async function replaceSessionSafely(input) {
   setTool(state.tool);
   setColor(state.color);
   updateUI();
+  if (state.autoFit) restoreCameraFit();
   renderOverview();
   if (state.overview) openOverview();
   else closeOverview();
@@ -2764,6 +2934,39 @@ async function pdfInk(slide, ops) {
     canvas.width = canvas.height = 0;
   }
 }
+let pdfAvailable = false;
+let pdfObjectUrl;
+function setPdfAvailability(available, reason = "") {
+  pdfAvailable = available;
+  const button = $("#exportPdfButton"), link = $("#pdfLink");
+  button.disabled = !available || !state.deck.pdfEmbedded;
+  button.title = button.disabled ? (state.deck.pdfEmbedded ? reason : "Annotated PDF export requires an embedded PDF") : "Export all slides, drawings, and inserted boards as PDF";
+  link.setAttribute("aria-disabled", String(!available));
+  link.tabIndex = available ? 0 : -1;
+  link.title = available ? "Open the source PDF" : reason;
+  if (available) link.href = state.deck.pdf;
+  else link.removeAttribute("href");
+  $("#choosePdfLabel").hidden = state.deck.pdfEmbedded || available;
+}
+async function verifyPdf() {
+  try {
+    if (state.deck.pdfEmbedded && fileMode) {
+      if (!assetUrl(state.deck.pdf).startsWith("data:application/pdf;base64,")) throw new Error("Missing PDF data");
+    } else {
+      const response = await fetch(state.deck.pdf);
+      if (!response.ok) throw new Error(`PDF unavailable (${response.status})`);
+      const bytes = new Uint8Array(await response.arrayBuffer());
+      if (new TextDecoder().decode(bytes.slice(0, 5)) !== "%PDF-") throw new Error("The companion file is not a PDF");
+      if (!state.deck.pdfEmbedded && fileMode) {
+        if (pdfObjectUrl) URL.revokeObjectURL(pdfObjectUrl);
+        pdfObjectUrl = URL.createObjectURL(new Blob([bytes], {type: "application/pdf"}));
+      }
+    }
+    setPdfAvailability(true);
+  } catch (error) {
+    setPdfAvailability(false, state.deck.pdfEmbedded ? "Source PDF unavailable" : "Companion PDF unavailable. Keep it beside the HTML, or choose the PDF below.");
+  }
+}
 async function exportPdf() {
   const button = $("#exportPdfButton");
   if (button.disabled) return;
@@ -2781,10 +2984,18 @@ async function exportPdf() {
       annotations: state.annotations, boards: state.boards, boardMeta: state.boardMeta });
     const filename = `${state.deck.id}-annotated.pdf`;
     let source;
-    if (fileMode) source = assetUrl(state.deck.pdf);
+    if (fileMode) {
+      try { source = assetUrl(state.deck.pdf); }
+      catch (error) { setPdfAvailability(false, "Source PDF unavailable"); throw error; }
+    }
     else {
-      const response = await fetch(state.deck.pdf);
-      if (!response.ok) throw new Error(`Cannot load the source PDF (${response.status})`);
+      let response;
+      try { response = await fetch(state.deck.pdf); }
+      catch (error) { setPdfAvailability(false, "Source PDF unavailable"); throw error; }
+      if (!response.ok) {
+        setPdfAvailability(false, "Source PDF unavailable");
+        throw new Error(`Cannot load the source PDF (${response.status})`);
+      }
       source = new Uint8Array(await response.arrayBuffer());
     }
     const result = await PigeonPdf.export({ ...snapshot, source, renderInk: pdfInk,
@@ -2794,7 +3005,7 @@ async function exportPdf() {
   } catch (error) {
     toast(`PDF export failed: ${error.message || error}`);
   } finally {
-    button.disabled = false;
+    button.disabled = !pdfAvailable || !state.deck.pdfEmbedded;
     button.removeAttribute("aria-busy");
     label.textContent = originalLabel;
   }
@@ -2855,7 +3066,6 @@ async function verifyAssets() {
     }
   }
   add("public/deck/knowledge-graph.json");
-  add(state.deck.pdf);
   state.deck.resources.forEach(path => add(deckAsset(path)));
   const results = await Promise.allSettled(
     [...assets].map(async ([path, hash]) => {
@@ -3154,22 +3364,9 @@ function dismissTopOverlay() {
   return false;
 }
 function relayoutBoards() {
-  const before = new Map($$(".slide-frame").map(frame => [frame.dataset.frameKey, {x: parseFloat(frame.style.left), y: parseFloat(frame.style.top)}]));
+  const before = framePositions();
   renderFrames();
-  const after = new Map($$(".slide-frame").map(frame => [frame.dataset.frameKey, {x: parseFloat(frame.style.left), y: parseFloat(frame.style.top)}]));
-  function shift(camera, key) {
-    const old = before.get(key), next = after.get(key);
-    if (camera && old && next) { camera.x -= (next.x - old.x) * camera.scale; camera.y -= (next.y - old.y) * camera.scale; }
-  }
-  function shiftReturn(value) { if (value) shift(value.camera, frameKey(value.id, value.boardName || null)); }
-  shift(state.camera, activeFrameKey());
-  shift(boardReturnCamera, frameKey(state.currentId));
-  shiftReturn(state.detourReturn);
-  for (const entry of state.history) {
-    shift(entry.camera, frameKey(entry.id, entry.board ? entry.boardName : null));
-    shift(entry.boardReturnCamera, frameKey(entry.id));
-    shiftReturn(entry.detourReturn);
-  }
+  shiftSavedCameras(before, framePositions());
 }
 function insertBoard(color = "white", name = null) {
   finishActiveStroke();
@@ -3416,12 +3613,18 @@ document.addEventListener("fullscreenchange", () => {
   reconcilePresentation(keepPresentation);
 });
 window.addEventListener("resize", () => {
-  if (!state.overview) {
-    if (state.autoFit) fitCurrent(false);
-    else updateCamera();
-    persist();
-  }
+  if (!state.deck.slides.length) return;
+  relayoutFrames();
+  restoreCameraFit();
+  persist();
 });
+
+function restoreCameraFit() {
+  if (state.autoFit) {
+    if (state.cameraFit === "deck" && !state.presentation) fitWhole();
+    else fitCurrent(false);
+  } else updateCamera();
+}
 
 setTool("navigate");
 setColor(COLORS.red);
@@ -3438,6 +3641,8 @@ loadDeck().then(async (loaded) => {
   if (!restoredSession) {
     fitCurrent(false);
     addHistory(state.currentId);
+  } else if (state.autoFit) {
+    restoreCameraFit();
   }
   if (state.overview) openOverview();
   await initStorage();
@@ -3477,8 +3682,8 @@ loadDeck().then(async (loaded) => {
 });
 
 // Blob URLs keep the PDF fallback usable without file fetches or top-level data navigation.
-let pdfObjectUrl;
 $("#pdfLink").addEventListener("click", event => {
+  if (!pdfAvailable) { event.preventDefault(); return; }
   if (!fileMode) return;
   event.preventDefault();
   try {
@@ -3491,6 +3696,20 @@ $("#pdfLink").addEventListener("click", event => {
   } catch (error) {
     toast(`PDF unavailable: ${error.message}`);
   }
+});
+
+$("#choosePdfInput").addEventListener("change", async event => {
+  const file = event.target.files[0];
+  event.target.value = "";
+  if (!file) return;
+  try {
+    const bytes = new Uint8Array(await file.arrayBuffer());
+    if (new TextDecoder().decode(bytes.slice(0, 5)) !== "%PDF-") throw new Error("Choose a PDF file");
+    if (pdfObjectUrl) URL.revokeObjectURL(pdfObjectUrl);
+    pdfObjectUrl = URL.createObjectURL(new Blob([bytes], {type: "application/pdf"}));
+    setPdfAvailability(true);
+    $("#pdfLink").href = pdfObjectUrl;
+  } catch (error) { toast(`PDF unavailable: ${error.message}`); }
 });
 
 $("#sessionButton").addEventListener("click", () => {

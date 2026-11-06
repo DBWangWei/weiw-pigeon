@@ -8,7 +8,7 @@ import re
 DEFAULTS = {
     "enabled": True,
     "target": "_qa",
-    "model": "gpt-4.1-mini",
+    "model": "qwen3.7-flash",
     "max_length": 4000,
     "max_items": 50,
 }

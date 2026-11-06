@@ -148,15 +148,17 @@ test("PDF overlays align with cropped pages at every quarter-turn rotation", asy
   assert.equal(w.PIGEON_DECK_BUNDLE.assets[a.state.deck.pdf], sourceData, "source PDF stays unchanged");
 });
 
-test("missing PDF data reports an error, restores the export button and allows retry", async t => {
+test("missing PDF data disables PDF actions until availability is rechecked", async t => {
   const { a, d, w, downloads } = await exporter(t);
   const source = w.PIGEON_DECK_BUNDLE.assets[a.state.deck.pdf];
   delete w.PIGEON_DECK_BUNDLE.assets[a.state.deck.pdf];
   await a.exportPdf();
   assert.equal(downloads.length, 0);
   assert.match(d.querySelector("#toast").textContent, /PDF export failed/);
-  assert.equal(d.querySelector("#exportPdfButton").disabled, false);
+  assert.equal(d.querySelector("#exportPdfButton").disabled, true);
+  assert.equal(d.querySelector("#pdfLink").getAttribute("aria-disabled"), "true");
   w.PIGEON_DECK_BUNDLE.assets[a.state.deck.pdf] = source;
+  await a.verifyPdf();
   await a.exportPdf();
   assert.equal(downloads.length, 1);
 });

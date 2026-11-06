@@ -388,6 +388,7 @@
             Knowledge graph <span>How</span>
           </button>
         </div>
+        <section class="overview-effects" id="overviewEffects" aria-label="Motion effects"></section>
         <div class="overview-content" id="overviewContent"></div>
       </aside>
 
@@ -522,8 +523,8 @@
           <div>
             <h3>Live Q&amp;A</h3>
             <p>After repeating a question, say “take questions now” or “take any questions now”, then answer it.</p>
-            <p>Final transcript segments are organized into one paragraph and shown in the authored <code>_qa</code> region.</p>
-            <p><kbd>Q</kbd> finishes the current item and inserts a white Q&amp;A page with the captured list.</p>
+            <p>Final transcript segments are saved under <code>.qa-transcripts/</code> and organized by DashScope's <code>qwen3.7-flash</code> into a direct response under 100 words, usually as bullets.</p>
+            <p><kbd>Q</kbd> finishes the current item and inserts a white Q&amp;A page with the captured list. Set <code>DASHSCOPE_API_KEY</code> or enter a masked key in the Voice window.</p>
           </div>
         </section>
         <section class="shortcut-grid diagram-help" aria-labelledby="diagramHelpHeading">

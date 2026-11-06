@@ -1,0 +1,15 @@
+{
+  "appName": "Pigeon",
+  "version": "1.0.2",
+  "icon": "public/icons/pigeon.png",
+  "deckId": "week5-introduction",
+  "title": "Introduction to Week 5 \u00b7 DSAA3073 \u00b7 26Fall",
+  "revision": "02f012768a8a3160",
+  "slides": 20,
+  "concepts": 49,
+  "relationships": 92,
+  "graphMode": "lexical",
+  "titleEffect": "text-type",
+  "slideTransition": "camera",
+  "sourceType": "typst"
+}

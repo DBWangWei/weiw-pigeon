@@ -13,12 +13,12 @@ takeaway callouts demonstrate Pigeon's stronger magic-wand emphasis.
 
 - [Editable Typst source](OLS-beyond-memoization.typ)
 - [Compiled PDF](OLS-beyond-memoization.pdf)
-- [Pigeon presentation](pigeon-OLS-beyond-memoization/index.html): open this file
+- [Pigeon presentation](pigeon-OLS-beyond-memoization.html): open this file
   locally after downloading or cloning the repository.
 
-The source, template, logo, and figures are all included. Copy the complete
-`pigeon-OLS-beyond-memoization/` folder to present on another computer. No internet
-connection is needed to view it.
+The source, template, logo, and figures are all included. Copy only
+`pigeon-OLS-beyond-memoization.html` to present on another computer. No internet
+connection or companion files are needed to view it.
 
 ## Rebuild
 
@@ -28,9 +28,15 @@ From the repository root, with the dependencies described in the main README:
 ./typst-to-pigeon.sh examples/typst-talk-to-pigeon/OLS-beyond-memoization.typ --force
 ```
 
-The generated folder and ZIP are written beside the Typst source. `pigeon.toml`
+This example's `out_mode = "single"` writes one standalone HTML file beside the
+Typst source. Use `--out-mode multiple` for a generated folder or `--out-mode zip`
+when an archive is needed. `pigeon.toml`
 selects local graph extraction, Text Type titles, and Camera transitions.
 Command-line options override these settings.
+
+Particle morph is enabled by default between sections. Open **Overview → Motion
+effects** to enable rack focus for the current session, or use the `[effects]`
+table to select exact particle-morph destination slides.
 
 To compile only the standalone PDF, run inside this example directory:
 
@@ -50,7 +56,7 @@ uniqueness from fitted-value uniqueness, the pseudoinverse from the projector,
 and ridge smoothing from orthogonal projection. A constant-fit example and
 spectral-weight plots make these distinctions concrete.
 
-The local knowledge graph uses titles, sections, and recurring terms; its edges
-are navigation and mention relationships, not a verified map of mathematical
-implications. Review `pigeon-OLS-beyond-memoization/build-report.json` for extraction
-details.
+The local knowledge graph prioritizes authored takeaways and semantic messages,
+then uses conservative text salience and topic similarity. Open **Overview →
+Knowledge graph** to inspect it. Review the graph guide for selection details
+and limitations.

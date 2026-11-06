@@ -7,19 +7,18 @@
     "provider": "local",
     "reviewRequired": true,
     "inputRevision": "a0a6a139f98479b9",
-    "method": "titles-sections-recurring-terms"
+    "method": "structure-weighted-messages-and-topics",
+    "semanticRelations": "authored associations plus explicitly qualified topic similarity"
   },
   "concepts": [
     {
-      "id": "slide-01-938db8",
-      "label": "Introduction to Week 5",
-      "aliases": [
-        "01"
-      ],
-      "type": "slide",
-      "description": "Source slide 01 in the talk.",
-      "importance": 3,
+      "id": "section-dsaa3073-26fall-ed2691",
+      "label": "DSAA3073 · 26Fall",
+      "aliases": [],
+      "type": "section",
+      "importance": 2,
       "cluster": "DSAA3073 · 26Fall",
+      "description": "Source section; its edges group the selected slide messages.",
       "mentions": [
         {
           "slideId": "01",
@@ -30,379 +29,22 @@
       ]
     },
     {
-      "id": "slide-02-a953f0",
-      "label": "Two voices, two microphones",
-      "aliases": [
-        "02"
-      ],
-      "type": "slide",
-      "description": "Source slide 02 in the talk.",
-      "importance": 3,
-      "cluster": "1 · A new hook",
-      "mentions": [
-        {
-          "slideId": "02",
-          "kind": "text",
-          "evidence": "Two voices, two microphones",
-          "page": 2
-        }
-      ]
-    },
-    {
-      "id": "slide-03-0b8efa",
-      "label": "From recordings to a linear inverse problem",
-      "aliases": [
-        "03"
-      ],
-      "type": "slide",
-      "description": "Source slide 03 in the talk.",
-      "importance": 3,
-      "cluster": "1 · A new hook",
-      "mentions": [
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "From recordings to a linear inverse problem",
-          "page": 3
-        }
-      ]
-    },
-    {
-      "id": "slide-04-6cd5b6",
-      "label": "A tiny recording error becomes a large source error",
-      "aliases": [
-        "04"
-      ],
-      "type": "slide",
-      "description": "Source slide 04 in the talk.",
-      "importance": 3,
-      "cluster": "1 · A new hook",
-      "mentions": [
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "A tiny recording error becomes a large source error",
-          "page": 4
-        }
-      ]
-    },
-    {
-      "id": "slide-05-c97550",
-      "label": "Why the obvious fixes do not settle the problem",
-      "aliases": [
-        "05"
-      ],
-      "type": "slide",
-      "description": "Source slide 05 in the talk.",
-      "importance": 3,
-      "cluster": "1 · A new hook",
-      "mentions": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "Why the obvious fixes do not settle the problem",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "slide-06-aacd83",
-      "label": "Four ideas that apply beyond this example",
-      "aliases": [
-        "06"
-      ],
-      "type": "slide",
-      "description": "Source slide 06 in the talk.",
-      "importance": 3,
-      "cluster": "2 · The plan",
-      "mentions": [
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "Four ideas that apply beyond this example",
-          "page": 6
-        }
-      ]
-    },
-    {
-      "id": "slide-07-19b100",
-      "label": "The problem: recover a signal from noisy observations",
-      "aliases": [
-        "07"
-      ],
-      "type": "slide",
-      "description": "Source slide 07 in the talk.",
-      "importance": 3,
-      "cluster": "2 · The plan",
-      "mentions": [
-        {
-          "slideId": "07",
-          "kind": "text",
-          "evidence": "The problem: recover a signal from noisy observations",
-          "page": 7
-        }
-      ]
-    },
-    {
-      "id": "slide-08-323783",
-      "label": "First separate two sources of randomness",
-      "aliases": [
-        "08"
-      ],
-      "type": "slide",
-      "description": "Source slide 08 in the talk.",
-      "importance": 3,
-      "cluster": "2 · The plan",
-      "mentions": [
-        {
-          "slideId": "08",
-          "kind": "text",
-          "evidence": "First separate two sources of randomness",
-          "page": 8
-        }
-      ]
-    },
-    {
-      "id": "slide-09-3514ac",
-      "label": "An inverse can exist and still be unreliable",
-      "aliases": [
-        "09"
-      ],
-      "type": "slide",
-      "description": "Source slide 09 in the talk.",
-      "importance": 3,
-      "cluster": "2 · The plan",
-      "mentions": [
-        {
-          "slideId": "09",
-          "kind": "text",
-          "evidence": "An inverse can exist and still be unreliable",
-          "page": 9
-        }
-      ]
-    },
-    {
-      "id": "slide-10-4a44dc",
-      "label": "Tikhonov changes the objective; ridge specializes it",
-      "aliases": [
-        "10"
-      ],
-      "type": "slide",
-      "description": "Source slide 10 in the talk.",
-      "importance": 3,
-      "cluster": "2 · The plan",
-      "mentions": [
-        {
-          "slideId": "10",
-          "kind": "text",
-          "evidence": "Tikhonov changes the objective; ridge specializes it",
-          "page": 10
-        }
-      ]
-    },
-    {
-      "id": "slide-11-4fc82b",
-      "label": "The mechanism: damp weak directions more strongly",
-      "aliases": [
-        "11"
-      ],
-      "type": "slide",
-      "description": "Source slide 11 in the talk.",
-      "importance": 3,
-      "cluster": "2 · The plan",
-      "mentions": [
-        {
-          "slideId": "11",
-          "kind": "text",
-          "evidence": "The mechanism: damp weak directions more strongly",
-          "page": 11
-        }
-      ]
-    },
-    {
-      "id": "slide-12-6b51d4",
-      "label": "What we can prove before testing prediction quality",
-      "aliases": [
-        "12"
-      ],
-      "type": "slide",
-      "description": "Source slide 12 in the talk.",
-      "importance": 3,
-      "cluster": "2 · The plan",
-      "mentions": [
-        {
-          "slideId": "12",
-          "kind": "text",
-          "evidence": "What we can prove before testing prediction quality",
-          "page": 12
-        }
-      ]
-    },
-    {
-      "id": "slide-13-3fdba3",
-      "label": "A little bias can buy a useful variance reduction",
-      "aliases": [
-        "13"
-      ],
-      "type": "slide",
-      "description": "Source slide 13 in the talk.",
-      "importance": 3,
-      "cluster": "2 · The plan",
-      "mentions": [
-        {
-          "slideId": "13",
-          "kind": "text",
-          "evidence": "A little bias can buy a useful variance reduction",
-          "page": 13
-        }
-      ]
-    },
-    {
-      "id": "slide-14-8527a8",
-      "label": "Three limits to keep in view",
-      "aliases": [
-        "14"
-      ],
-      "type": "slide",
-      "description": "Source slide 14 in the talk.",
-      "importance": 3,
-      "cluster": "2 · The plan",
-      "mentions": [
-        {
-          "slideId": "14",
-          "kind": "text",
-          "evidence": "Three limits to keep in view",
-          "page": 14
-        }
-      ]
-    },
-    {
-      "id": "slide-15-e629fa",
-      "label": "Six distinctions that beginners often find hard",
-      "aliases": [
-        "15"
-      ],
-      "type": "slide",
-      "description": "Source slide 15 in the talk.",
-      "importance": 3,
-      "cluster": "3 · How to study it",
-      "mentions": [
-        {
-          "slideId": "15",
-          "kind": "text",
-          "evidence": "Six distinctions that beginners often find hard",
-          "page": 15
-        }
-      ]
-    },
-    {
-      "id": "slide-16-b17ef6",
-      "label": "Connections to the undergraduate mathematical core",
-      "aliases": [
-        "16"
-      ],
-      "type": "slide",
-      "description": "Source slide 16 in the talk.",
-      "importance": 3,
-      "cluster": "3 · How to study it",
-      "mentions": [
-        {
-          "slideId": "16",
-          "kind": "text",
-          "evidence": "Connections to the undergraduate mathematical core",
-          "page": 16
-        }
-      ]
-    },
-    {
-      "id": "slide-17-452354",
-      "label": "Connections to other CS, AI, and DS courses",
-      "aliases": [
-        "17"
-      ],
-      "type": "slide",
-      "description": "Source slide 17 in the talk.",
-      "importance": 3,
-      "cluster": "3 · How to study it",
-      "mentions": [
-        {
-          "slideId": "17",
-          "kind": "text",
-          "evidence": "Connections to other CS, AI, and DS courses",
-          "page": 17
-        }
-      ]
-    },
-    {
-      "id": "slide-18-4ec959",
-      "label": "Mindmap 1 · The academic progression",
-      "aliases": [
-        "18"
-      ],
-      "type": "slide",
-      "description": "Source slide 18 in the talk.",
-      "importance": 3,
-      "cluster": "4 · Two views of the whole",
-      "mentions": [
-        {
-          "slideId": "18",
-          "kind": "text",
-          "evidence": "Mindmap 1 · The academic progression",
-          "page": 18
-        }
-      ]
-    },
-    {
-      "id": "slide-19-9400f1",
-      "label": "Mindmap 2 · What can the data actually reveal?",
-      "aliases": [
-        "19"
-      ],
-      "type": "slide",
-      "description": "Source slide 19 in the talk.",
-      "importance": 3,
-      "cluster": "4 · Two views of the whole",
-      "mentions": [
-        {
-          "slideId": "19",
-          "kind": "text",
-          "evidence": "Mindmap 2 · What can the data actually reveal?",
-          "page": 19
-        }
-      ]
-    },
-    {
-      "id": "slide-20-f5ca38",
-      "label": "Return to the microphones: what should we do?",
-      "aliases": [
-        "20"
-      ],
-      "type": "slide",
-      "description": "Source slide 20 in the talk.",
-      "importance": 3,
-      "cluster": "4 · Two views of the whole",
-      "mentions": [
-        {
-          "slideId": "20",
-          "kind": "text",
-          "evidence": "Return to the microphones: what should we do?",
-          "page": 20
-        }
-      ]
-    },
-    {
-      "id": "section-dsaa3073-26fall-ed2691",
-      "label": "DSAA3073 · 26Fall",
+      "id": "message-bias-variance-inverse-problems-tikhonov-regularization-4d3654",
+      "label": "Bias–variance · inverse problems · Tikhonov regularization",
       "aliases": [],
-      "type": "section",
-      "description": "A section containing 1 source slide(s).",
+      "type": "message",
       "importance": 4,
       "cluster": "DSAA3073 · 26Fall",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
       "mentions": [
         {
           "slideId": "01",
           "kind": "text",
-          "evidence": "Introduction to Week 5",
+          "evidence": "Bias–variance · inverse problems · Tikhonov regularization",
           "page": 1
         }
       ]
@@ -412,839 +54,28 @@
       "label": "1 · A new hook",
       "aliases": [],
       "type": "section",
-      "description": "A section containing 4 source slide(s).",
-      "importance": 4,
+      "importance": 2,
       "cluster": "1 · A new hook",
+      "description": "Source section; its edges group the selected slide messages.",
       "mentions": [
         {
           "slideId": "02",
           "kind": "text",
           "evidence": "Two voices, two microphones",
           "page": 2
-        }
-      ]
-    },
-    {
-      "id": "section-2-the-plan-a2a432",
-      "label": "2 · The plan",
-      "aliases": [],
-      "type": "section",
-      "description": "A section containing 9 source slide(s).",
-      "importance": 4,
-      "cluster": "2 · The plan",
-      "mentions": [
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "Four ideas that apply beyond this example",
-          "page": 6
-        }
-      ]
-    },
-    {
-      "id": "section-3-how-to-study-it-ff37d3",
-      "label": "3 · How to study it",
-      "aliases": [],
-      "type": "section",
-      "description": "A section containing 3 source slide(s).",
-      "importance": 4,
-      "cluster": "3 · How to study it",
-      "mentions": [
-        {
-          "slideId": "15",
-          "kind": "text",
-          "evidence": "Six distinctions that beginners often find hard",
-          "page": 15
-        }
-      ]
-    },
-    {
-      "id": "section-4-two-views-of-the-whole-006832",
-      "label": "4 · Two views of the whole",
-      "aliases": [],
-      "type": "section",
-      "description": "A section containing 3 source slide(s).",
-      "importance": 4,
-      "cluster": "4 · Two views of the whole",
-      "mentions": [
-        {
-          "slideId": "18",
-          "kind": "text",
-          "evidence": "Mindmap 1 · The academic progression",
-          "page": 18
-        }
-      ]
-    },
-    {
-      "id": "concept-learning-edd957",
-      "label": "learning",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses learning as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "learning",
-          "page": 3
         },
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "learning",
-          "page": 4
-        },
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "learning",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "concept-sheet-78af7b",
-      "label": "sheet",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses sheet as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "sheet",
-          "page": 3
-        },
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "sheet",
-          "page": 4
-        },
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "sheet",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "concept-noise-efe2a5",
-      "label": "noise",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses noise as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "noise",
-          "page": 3
-        },
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "noise",
-          "page": 4
-        },
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "noise",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "concept-error-ca00fc",
-      "label": "error",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses error as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "error",
-          "page": 3
-        },
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "error",
-          "page": 4
-        },
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "error",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "concept-measurement-6c5a69",
-      "label": "measurement",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses measurement as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "measurement",
-          "page": 3
-        },
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "measurement",
-          "page": 4
-        },
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "measurement",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "concept-dsaa3073-aa5977",
-      "label": "dsaa3073",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses dsaa3073 as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "01",
-          "kind": "text",
-          "evidence": "dsaa3073",
-          "page": 1
-        },
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "dsaa3073",
-          "page": 6
-        },
-        {
-          "slideId": "07",
-          "kind": "text",
-          "evidence": "dsaa3073",
-          "page": 7
-        }
-      ]
-    },
-    {
-      "id": "concept-variance-7c0766",
-      "label": "variance",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses variance as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "01",
-          "kind": "text",
-          "evidence": "variance",
-          "page": 1
-        },
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "variance",
-          "page": 5
-        },
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "variance",
-          "page": 6
-        }
-      ]
-    },
-    {
-      "id": "concept-source-41cf67",
-      "label": "source",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses source as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "02",
-          "kind": "text",
-          "evidence": "source",
-          "page": 2
-        },
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "source",
-          "page": 3
-        },
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "source",
-          "page": 4
-        }
-      ]
-    },
-    {
-      "id": "concept-ridge-409e36",
-      "label": "ridge",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses ridge as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "01",
-          "kind": "text",
-          "evidence": "ridge",
-          "page": 1
-        },
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "ridge",
-          "page": 6
-        },
-        {
-          "slideId": "10",
-          "kind": "text",
-          "evidence": "ridge",
-          "page": 10
-        }
-      ]
-    },
-    {
-      "id": "concept-response-a9f4b3",
-      "label": "response",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses response as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "response",
-          "page": 6
-        },
-        {
-          "slideId": "07",
-          "kind": "text",
-          "evidence": "response",
-          "page": 7
-        },
-        {
-          "slideId": "08",
-          "kind": "text",
-          "evidence": "response",
-          "page": 8
-        }
-      ]
-    },
-    {
-      "id": "concept-penalty-debfc5",
-      "label": "penalty",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses penalty as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "penalty",
-          "page": 5
-        },
-        {
-          "slideId": "10",
-          "kind": "text",
-          "evidence": "penalty",
-          "page": 10
-        },
-        {
-          "slideId": "13",
-          "kind": "text",
-          "evidence": "penalty",
-          "page": 13
-        }
-      ]
-    },
-    {
-      "id": "concept-measurements-5852a8",
-      "label": "measurements",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses measurements as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "measurements",
-          "page": 4
-        },
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "measurements",
-          "page": 5
-        },
-        {
-          "slideId": "07",
-          "kind": "text",
-          "evidence": "measurements",
-          "page": 7
-        }
-      ]
-    },
-    {
-      "id": "concept-inverse-7705ac",
-      "label": "inverse",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses inverse as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "01",
-          "kind": "text",
-          "evidence": "inverse",
-          "page": 1
-        },
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "inverse",
-          "page": 3
-        },
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "inverse",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "concept-change-12ea12",
-      "label": "change",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses change as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "change",
-          "page": 3
-        },
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "change",
-          "page": 6
-        },
-        {
-          "slideId": "07",
-          "kind": "text",
-          "evidence": "change",
-          "page": 7
-        }
-      ]
-    },
-    {
-      "id": "concept-prediction-70ad7b",
-      "label": "prediction",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses prediction as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "prediction",
-          "page": 6
-        },
-        {
-          "slideId": "08",
-          "kind": "text",
-          "evidence": "prediction",
-          "page": 8
-        },
-        {
-          "slideId": "12",
-          "kind": "text",
-          "evidence": "prediction",
-          "page": 12
-        }
-      ]
-    },
-    {
-      "id": "concept-directions-b36fd7",
-      "label": "directions",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses directions as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "directions",
-          "page": 5
-        },
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "directions",
-          "page": 6
-        },
-        {
-          "slideId": "11",
-          "kind": "text",
-          "evidence": "directions",
-          "page": 11
-        }
-      ]
-    },
-    {
-      "id": "concept-coefficient-7ef50a",
-      "label": "coefficient",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses coefficient as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "10",
-          "kind": "text",
-          "evidence": "coefficient",
-          "page": 10
-        },
-        {
-          "slideId": "11",
-          "kind": "text",
-          "evidence": "coefficient",
-          "page": 11
-        },
-        {
-          "slideId": "13",
-          "kind": "text",
-          "evidence": "coefficient",
-          "page": 13
-        }
-      ]
-    },
-    {
-      "id": "concept-amplification-ccc52f",
-      "label": "amplification",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses amplification as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "amplification",
-          "page": 5
-        },
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "amplification",
-          "page": 6
-        },
-        {
-          "slideId": "11",
-          "kind": "text",
-          "evidence": "amplification",
-          "page": 11
-        }
-      ]
-    },
-    {
-      "id": "concept-training-c2fb78",
-      "label": "training",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses training as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "training",
-          "page": 6
-        },
-        {
-          "slideId": "08",
-          "kind": "text",
-          "evidence": "training",
-          "page": 8
-        },
-        {
-          "slideId": "14",
-          "kind": "text",
-          "evidence": "training",
-          "page": 14
-        }
-      ]
-    },
-    {
-      "id": "concept-sources-878a52",
-      "label": "sources",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses sources as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "02",
-          "kind": "text",
-          "evidence": "sources",
-          "page": 2
-        },
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "sources",
-          "page": 4
-        },
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "sources",
-          "page": 6
-        }
-      ]
-    },
-    {
-      "id": "concept-solution-8270f2",
-      "label": "solution",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses solution as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "solution",
-          "page": 4
-        },
-        {
-          "slideId": "09",
-          "kind": "text",
-          "evidence": "solution",
-          "page": 9
-        },
-        {
-          "slideId": "10",
-          "kind": "text",
-          "evidence": "solution",
-          "page": 10
-        }
-      ]
-    },
-    {
-      "id": "concept-small-81db8e",
-      "label": "small",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses small as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "small",
-          "page": 3
-        },
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "small",
-          "page": 5
-        },
-        {
-          "slideId": "09",
-          "kind": "text",
-          "evidence": "small",
-          "page": 9
-        }
-      ]
-    },
-    {
-      "id": "concept-signal-d04192",
-      "label": "signal",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses signal as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "signal",
-          "page": 5
-        },
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "signal",
-          "page": 6
-        },
-        {
-          "slideId": "07",
-          "kind": "text",
-          "evidence": "signal",
-          "page": 7
-        }
-      ]
-    },
-    {
-      "id": "concept-reduces-90581b",
-      "label": "reduces",
-      "aliases": [],
-      "type": "concept",
-      "description": "The source uses reduces as a recurring talk concept.",
-      "importance": 5,
-      "cluster": "Across the talk",
-      "mentions": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "reduces",
-          "page": 5
-        },
-        {
-          "slideId": "11",
-          "kind": "text",
-          "evidence": "reduces",
-          "page": 11
-        },
-        {
-          "slideId": "13",
-          "kind": "text",
-          "evidence": "reduces",
-          "page": 13
-        }
-      ]
-    }
-  ],
-  "relationships": [
-    {
-      "id": "section-dsaa3073-26fall-ed2691-contains-slide-01-938db8-01",
-      "source": "section-dsaa3073-26fall-ed2691",
-      "target": "slide-01-938db8",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "01",
-          "kind": "text",
-          "evidence": "Introduction to Week 5",
-          "page": 1
-        }
-      ]
-    },
-    {
-      "id": "section-1-a-new-hook-5ad725-contains-slide-02-a953f0-02",
-      "source": "section-1-a-new-hook-5ad725",
-      "target": "slide-02-a953f0",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "02",
-          "kind": "text",
-          "evidence": "Two voices, two microphones",
-          "page": 2
-        }
-      ]
-    },
-    {
-      "id": "section-1-a-new-hook-5ad725-contains-slide-03-0b8efa-03",
-      "source": "section-1-a-new-hook-5ad725",
-      "target": "slide-03-0b8efa",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
         {
           "slideId": "03",
           "kind": "text",
           "evidence": "From recordings to a linear inverse problem",
           "page": 3
-        }
-      ]
-    },
-    {
-      "id": "section-1-a-new-hook-5ad725-contains-slide-04-6cd5b6-04",
-      "source": "section-1-a-new-hook-5ad725",
-      "target": "slide-04-6cd5b6",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "04",
           "kind": "text",
           "evidence": "A tiny recording error becomes a large source error",
           "page": 4
-        }
-      ]
-    },
-    {
-      "id": "section-1-a-new-hook-5ad725-contains-slide-05-c97550-05",
-      "source": "section-1-a-new-hook-5ad725",
-      "target": "slide-05-c97550",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "05",
           "kind": "text",
@@ -1254,141 +85,146 @@
       ]
     },
     {
-      "id": "section-2-the-plan-a2a432-contains-slide-06-aacd83-06",
-      "source": "section-2-the-plan-a2a432",
-      "target": "slide-06-aacd83",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+      "id": "message-can-we-recover-the-two-voices-from-the-recordings-2d74d5",
+      "label": "Can we recover the two voices from the recordings?",
+      "aliases": [],
+      "type": "message",
+      "importance": 4,
+      "cluster": "1 · A new hook",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
+      "mentions": [
+        {
+          "slideId": "02",
+          "kind": "text",
+          "evidence": "Can we recover the two voices from the recordings?",
+          "page": 2
+        }
+      ]
+    },
+    {
+      "id": "message-the-mixing-weights-are-known-but-the-recordings-contain-noise-54bba0",
+      "label": "The mixing weights are known, but the recordings contain noise.",
+      "aliases": [],
+      "type": "message",
+      "importance": 4,
+      "cluster": "1 · A new hook",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "The mixing weights are known, but the recordings contain noise.",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "message-agreement-with-noisy-measurements-does-not-guarantee-agreement-with-the-true-sources-162491",
+      "label": "💡 Agreement with noisy measurements does not guarantee agreement with the true sources.",
+      "aliases": [],
+      "type": "message",
+      "importance": 5,
+      "cluster": "1 · A new hook",
+      "description": "Authored takeaway. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "takeaway-region",
+        "role": "takeaway"
+      },
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "💡 Agreement with noisy measurements does not guarantee agreement with the true sources.",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "message-identify-which-errors-come-from-the-measurements-and-which-directions-amplify-them-then-calculate-how-reducing-amplification-changes-bias-and-variance-7cad46",
+      "label": "💡 Identify which errors come from the measurements and which directions amplify them. Then calculate how reducing amplification changes bias and variance.",
+      "aliases": [],
+      "type": "message",
+      "importance": 5,
+      "cluster": "1 · A new hook",
+      "description": "Authored takeaway. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "takeaway-region",
+        "role": "takeaway"
+      },
+      "mentions": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "💡 Identify which errors come from the measurements and which directions amplify them. Then calculate how reducing amplification changes bias and variance.",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "section-2-the-plan-a2a432",
+      "label": "2 · The plan",
+      "aliases": [],
+      "type": "section",
+      "importance": 2,
+      "cluster": "2 · The plan",
+      "description": "Source section; its edges group the selected slide messages.",
+      "mentions": [
         {
           "slideId": "06",
           "kind": "text",
           "evidence": "Four ideas that apply beyond this example",
           "page": 6
-        }
-      ]
-    },
-    {
-      "id": "section-2-the-plan-a2a432-contains-slide-07-19b100-07",
-      "source": "section-2-the-plan-a2a432",
-      "target": "slide-07-19b100",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "07",
           "kind": "text",
           "evidence": "The problem: recover a signal from noisy observations",
           "page": 7
-        }
-      ]
-    },
-    {
-      "id": "section-2-the-plan-a2a432-contains-slide-08-323783-08",
-      "source": "section-2-the-plan-a2a432",
-      "target": "slide-08-323783",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "08",
           "kind": "text",
           "evidence": "First separate two sources of randomness",
           "page": 8
-        }
-      ]
-    },
-    {
-      "id": "section-2-the-plan-a2a432-contains-slide-09-3514ac-09",
-      "source": "section-2-the-plan-a2a432",
-      "target": "slide-09-3514ac",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "09",
           "kind": "text",
           "evidence": "An inverse can exist and still be unreliable",
           "page": 9
-        }
-      ]
-    },
-    {
-      "id": "section-2-the-plan-a2a432-contains-slide-10-4a44dc-10",
-      "source": "section-2-the-plan-a2a432",
-      "target": "slide-10-4a44dc",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "10",
           "kind": "text",
           "evidence": "Tikhonov changes the objective; ridge specializes it",
           "page": 10
-        }
-      ]
-    },
-    {
-      "id": "section-2-the-plan-a2a432-contains-slide-11-4fc82b-11",
-      "source": "section-2-the-plan-a2a432",
-      "target": "slide-11-4fc82b",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "11",
           "kind": "text",
           "evidence": "The mechanism: damp weak directions more strongly",
           "page": 11
-        }
-      ]
-    },
-    {
-      "id": "section-2-the-plan-a2a432-contains-slide-12-6b51d4-12",
-      "source": "section-2-the-plan-a2a432",
-      "target": "slide-12-6b51d4",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "12",
           "kind": "text",
           "evidence": "What we can prove before testing prediction quality",
           "page": 12
-        }
-      ]
-    },
-    {
-      "id": "section-2-the-plan-a2a432-contains-slide-13-3fdba3-13",
-      "source": "section-2-the-plan-a2a432",
-      "target": "slide-13-3fdba3",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "13",
           "kind": "text",
           "evidence": "A little bias can buy a useful variance reduction",
           "page": 13
-        }
-      ]
-    },
-    {
-      "id": "section-2-the-plan-a2a432-contains-slide-14-8527a8-14",
-      "source": "section-2-the-plan-a2a432",
-      "target": "slide-14-8527a8",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "14",
           "kind": "text",
@@ -1398,45 +234,215 @@
       ]
     },
     {
-      "id": "section-3-how-to-study-it-ff37d3-contains-slide-15-e629fa-15",
-      "source": "section-3-how-to-study-it-ff37d3",
-      "target": "slide-15-e629fa",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+      "id": "message-4-check-what-each-result-proves-existence-uniqueness-stability-and-prediction-accuracy-require-different-arguments-8682d6",
+      "label": "4 · Check what each result proves Existence, uniqueness, stability, and prediction accuracy require different arguments.",
+      "aliases": [],
+      "type": "message",
+      "importance": 4,
+      "cluster": "2 · The plan",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
+      "mentions": [
+        {
+          "slideId": "06",
+          "kind": "text",
+          "evidence": "4 · Check what each result proves Existence, uniqueness, stability, and prediction accuracy require different arguments.",
+          "page": 6
+        }
+      ]
+    },
+    {
+      "id": "message-a-recovered-signal-or-predictor-that-remains-useful-when-observations-change-slightly-a9f729",
+      "label": "A recovered signal or predictor that remains useful when observations change slightly.",
+      "aliases": [],
+      "type": "message",
+      "importance": 4,
+      "cluster": "2 · The plan",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
+      "mentions": [
+        {
+          "slideId": "07",
+          "kind": "text",
+          "evidence": "A recovered signal or predictor that remains useful when observations change slightly.",
+          "page": 7
+        }
+      ]
+    },
+    {
+      "id": "message-geometry-will-explain-one-mechanism-of-instability-75695d",
+      "label": "Geometry will explain one mechanism of instability.",
+      "aliases": [],
+      "type": "message",
+      "importance": 4,
+      "cluster": "2 · The plan",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
+      "mentions": [
+        {
+          "slideId": "08",
+          "kind": "text",
+          "evidence": "Geometry will explain one mechanism of instability.",
+          "page": 8
+        }
+      ]
+    },
+    {
+      "id": "message-our-inverse-exists-and-varies-continuously-but-its-smallest-singular-value-is-0-02-the-difference-direction-noise-is-multiplied-by-50-bf0756",
+      "label": "💡 Our inverse exists and varies continuously, but its smallest singular value is 0.02. The difference- direction noise is multiplied by 50.",
+      "aliases": [],
+      "type": "message",
+      "importance": 5,
+      "cluster": "2 · The plan",
+      "description": "Authored takeaway. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "takeaway-region",
+        "role": "takeaway"
+      },
+      "mentions": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "💡 Our inverse exists and varies continuously, but its smallest singular value is 0.02. The difference- direction noise is multiplied by 50.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "message-the-penalty-changes-which-solution-we-prefer-it-does-not-remove-the-measurement-noise-f509af",
+      "label": "💡 The penalty changes which solution we prefer. It does not remove the measurement noise.",
+      "aliases": [],
+      "type": "message",
+      "importance": 5,
+      "cluster": "2 · The plan",
+      "description": "Authored takeaway. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "takeaway-region",
+        "role": "takeaway"
+      },
+      "mentions": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "💡 The penalty changes which solution we prefer. It does not remove the measurement noise.",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "message-ridge-reduces-both-noise-amplification-and-true-signal-in-the-weak-direction-080192",
+      "label": "Ridge reduces both noise amplification and true signal in the weak direction.",
+      "aliases": [],
+      "type": "message",
+      "importance": 4,
+      "cluster": "2 · The plan",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
+      "mentions": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "Ridge reduces both noise amplification and true signal in the weak direction.",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "message-a-unique-stable-estimate-can-still-have-large-prediction-error-08f080",
+      "label": "💡 A unique, stable estimate can still have large prediction error.",
+      "aliases": [],
+      "type": "message",
+      "importance": 5,
+      "cluster": "2 · The plan",
+      "description": "Authored takeaway. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "takeaway-region",
+        "role": "takeaway"
+      },
+      "mentions": [
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "💡 A unique, stable estimate can still have large prediction error.",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "message-a-moderate-penalty-improves-this-example-stronger-shrinkage-reduces-variance-further-but-can-make-total-error-worse-536be6",
+      "label": "💡 A moderate penalty improves this example. Stronger shrinkage reduces variance further but can make total error worse.",
+      "aliases": [],
+      "type": "message",
+      "importance": 5,
+      "cluster": "2 · The plan",
+      "description": "Authored takeaway. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "takeaway-region",
+        "role": "takeaway"
+      },
+      "mentions": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "💡 A moderate penalty improves this example. Stronger shrinkage reduces variance further but can make total error worse.",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "message-it-equals-the-usual-ols-inverse-formula-only-under-full-column-rank-1e63de",
+      "label": "It equals the usual OLS inverse formula only under full column rank.",
+      "aliases": [],
+      "type": "message",
+      "importance": 4,
+      "cluster": "2 · The plan",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
+      "mentions": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "It equals the usual OLS inverse formula only under full column rank.",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "section-3-how-to-study-it-ff37d3",
+      "label": "3 · How to study it",
+      "aliases": [],
+      "type": "section",
+      "importance": 2,
+      "cluster": "3 · How to study it",
+      "description": "Source section; its edges group the selected slide messages.",
+      "mentions": [
         {
           "slideId": "15",
           "kind": "text",
           "evidence": "Six distinctions that beginners often find hard",
           "page": 15
-        }
-      ]
-    },
-    {
-      "id": "section-3-how-to-study-it-ff37d3-contains-slide-16-b17ef6-16",
-      "source": "section-3-how-to-study-it-ff37d3",
-      "target": "slide-16-b17ef6",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "16",
           "kind": "text",
           "evidence": "Connections to the undergraduate mathematical core",
           "page": 16
-        }
-      ]
-    },
-    {
-      "id": "section-3-how-to-study-it-ff37d3-contains-slide-17-452354-17",
-      "source": "section-3-how-to-study-it-ff37d3",
-      "target": "slide-17-452354",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "17",
           "kind": "text",
@@ -1446,45 +452,89 @@
       ]
     },
     {
-      "id": "section-4-two-views-of-the-whole-006832-contains-slide-18-4ec959-18",
-      "source": "section-4-two-views-of-the-whole-006832",
-      "target": "slide-18-4ec959",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+      "id": "message-hard-distinction-question-to-ask-yourself-training-randomness-noise-in-a-new-response-what-is-being-redrawn-and-what-stays-fixed-inside-this-expectation-b685ea",
+      "label": "Hard distinction Question to ask yourself Training randomness / noise in a new response What is being redrawn, and what stays fixed inside this expectation?",
+      "aliases": [],
+      "type": "message",
+      "importance": 4,
+      "cluster": "3 · How to study it",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
+      "mentions": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "Hard distinction Question to ask yourself Training randomness / noise in a new response What is being redrawn, and what stays fixed inside this expectation?",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "message-multivariable-calculus-and-convex-optimization-gradient-hessian-positive-definiteness-norm-budgets-and-penalties-derive-the-estimator-and-prove-that-it-is-the-unique-minimum-c6f396",
+      "label": "Multivariable calculus and convex optimization Gradient, Hessian, positive definiteness; norm budgets and penalties Derive the estimator and prove that it is the unique minimum.",
+      "aliases": [],
+      "type": "message",
+      "importance": 4,
+      "cluster": "3 · How to study it",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
+      "mentions": [
+        {
+          "slideId": "16",
+          "kind": "text",
+          "evidence": "Multivariable calculus and convex optimization Gradient, Hessian, positive definiteness; norm budgets and penalties Derive the estimator and prove that it is the unique minimum.",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "id": "message-optional-bayesian-connection-with-gaussian-observation-noise-and-an-isotropic-zero-mean-gaussian-prior-ridge-gives-the-maximum-a-posteriori-map-estimate-the-parameter-value-with-highest-64a768",
+      "label": "Optional Bayesian connection: with Gaussian observation noise and an isotropic, zero-mean Gaussian prior, ridge gives the maximum a posteriori (MAP) estimate—the parameter value with highest",
+      "aliases": [],
+      "type": "message",
+      "importance": 4,
+      "cluster": "3 · How to study it",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
+      "mentions": [
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "Optional Bayesian connection: with Gaussian observation noise and an isotropic, zero-mean Gaussian prior, ridge gives the maximum a posteriori (MAP) estimate—the parameter value with highest posterior density.",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "section-4-two-views-of-the-whole-006832",
+      "label": "4 · Two views of the whole",
+      "aliases": [],
+      "type": "section",
+      "importance": 2,
+      "cluster": "4 · Two views of the whole",
+      "description": "Source section; its edges group the selected slide messages.",
+      "mentions": [
         {
           "slideId": "18",
           "kind": "text",
           "evidence": "Mindmap 1 · The academic progression",
           "page": 18
-        }
-      ]
-    },
-    {
-      "id": "section-4-two-views-of-the-whole-006832-contains-slide-19-9400f1-19",
-      "source": "section-4-two-views-of-the-whole-006832",
-      "target": "slide-19-9400f1",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "19",
           "kind": "text",
           "evidence": "Mindmap 2 · What can the data actually reveal?",
           "page": 19
-        }
-      ]
-    },
-    {
-      "id": "section-4-two-views-of-the-whole-006832-contains-slide-20-f5ca38-20",
-      "source": "section-4-two-views-of-the-whole-006832",
-      "target": "slide-20-f5ca38",
-      "predicate": "contains",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
           "slideId": "20",
           "kind": "text",
@@ -1494,1154 +544,1421 @@
       ]
     },
     {
-      "id": "slide-03-0b8efa-mentions-concept-learning-edd957-03",
-      "source": "slide-03-0b8efa",
-      "target": "concept-learning-edd957",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+      "id": "message-squared-bias-variance-across-training-samples-noise-in-a-new-response-2-inverse-geometry-hadamard-criteria-svd-where-is-sensitivity-b49a00",
+      "label": "Squared bias + variance across training samples + noise in a new response 2 · Inverse geometry Hadamard criteria → SVD Where is sensitivity?",
+      "aliases": [],
+      "type": "message",
+      "importance": 4,
+      "cluster": "4 · Two views of the whole",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
+      "mentions": [
         {
-          "slideId": "03",
+          "slideId": "18",
           "kind": "text",
-          "evidence": "learning",
-          "page": 3
+          "evidence": "Squared bias + variance across training samples + noise in a new response 2 · Inverse geometry Hadamard criteria → SVD Where is sensitivity?",
+          "page": 18
         }
       ]
     },
     {
-      "id": "slide-04-6cd5b6-mentions-concept-learning-edd957-04",
-      "source": "slide-04-6cd5b6",
-      "target": "concept-learning-edd957",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+      "id": "message-what-can-the-data-reveal-dd4f1c",
+      "label": "What can the data reveal?",
+      "aliases": [],
+      "type": "message",
+      "importance": 4,
+      "cluster": "4 · Two views of the whole",
+      "description": "Heuristically selected slide message. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "salient-text",
+        "role": "message"
+      },
+      "mentions": [
         {
-          "slideId": "04",
+          "slideId": "19",
           "kind": "text",
-          "evidence": "learning",
-          "page": 4
+          "evidence": "What can the data reveal?",
+          "page": 19
         }
       ]
     },
     {
-      "id": "slide-05-c97550-mentions-concept-learning-edd957-05",
-      "source": "slide-05-c97550",
-      "target": "concept-learning-edd957",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+      "id": "message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810",
+      "label": "💡 The week’s calculations show how a penalty changes bias, variance, and total expected error.",
+      "aliases": [],
+      "type": "message",
+      "importance": 5,
+      "cluster": "4 · Two views of the whole",
+      "description": "Authored takeaway. Read the quoted evidence in context.",
+      "selection": {
+        "origin": "takeaway-region",
+        "role": "takeaway"
+      },
+      "mentions": [
         {
-          "slideId": "05",
+          "slideId": "20",
           "kind": "text",
-          "evidence": "learning",
-          "page": 5
+          "evidence": "💡 The week’s calculations show how a penalty changes bias, variance, and total expected error.",
+          "page": 20
         }
       ]
     },
     {
-      "id": "slide-03-0b8efa-mentions-concept-sheet-78af7b-03",
-      "source": "slide-03-0b8efa",
-      "target": "concept-sheet-78af7b",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "sheet",
-          "page": 3
-        }
-      ]
-    },
-    {
-      "id": "slide-04-6cd5b6-mentions-concept-sheet-78af7b-04",
-      "source": "slide-04-6cd5b6",
-      "target": "concept-sheet-78af7b",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "sheet",
-          "page": 4
-        }
-      ]
-    },
-    {
-      "id": "slide-05-c97550-mentions-concept-sheet-78af7b-05",
-      "source": "slide-05-c97550",
-      "target": "concept-sheet-78af7b",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "sheet",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "slide-03-0b8efa-mentions-concept-noise-efe2a5-03",
-      "source": "slide-03-0b8efa",
-      "target": "concept-noise-efe2a5",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+      "id": "concept-noise-efe2a5",
+      "label": "noise",
+      "aliases": [],
+      "type": "concept",
+      "importance": 3,
+      "cluster": "Across the talk",
+      "description": "A repeated topic in selected slide messages or titles; not an automatically verified claim.",
+      "mentions": [
         {
           "slideId": "03",
           "kind": "text",
           "evidence": "noise",
           "page": 3
-        }
-      ]
-    },
-    {
-      "id": "slide-04-6cd5b6-mentions-concept-noise-efe2a5-04",
-      "source": "slide-04-6cd5b6",
-      "target": "concept-noise-efe2a5",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
-          "slideId": "04",
+          "slideId": "09",
           "kind": "text",
           "evidence": "noise",
-          "page": 4
-        }
-      ]
-    },
-    {
-      "id": "slide-05-c97550-mentions-concept-noise-efe2a5-05",
-      "source": "slide-05-c97550",
-      "target": "concept-noise-efe2a5",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+          "page": 9
+        },
         {
-          "slideId": "05",
+          "slideId": "10",
           "kind": "text",
           "evidence": "noise",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "slide-03-0b8efa-mentions-concept-error-ca00fc-03",
-      "source": "slide-03-0b8efa",
-      "target": "concept-error-ca00fc",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+          "page": 10
+        },
         {
-          "slideId": "03",
+          "slideId": "11",
           "kind": "text",
-          "evidence": "error",
-          "page": 3
-        }
-      ]
-    },
-    {
-      "id": "slide-04-6cd5b6-mentions-concept-error-ca00fc-04",
-      "source": "slide-04-6cd5b6",
-      "target": "concept-error-ca00fc",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+          "evidence": "noise",
+          "page": 11
+        },
         {
-          "slideId": "04",
+          "slideId": "15",
           "kind": "text",
-          "evidence": "error",
-          "page": 4
-        }
-      ]
-    },
-    {
-      "id": "slide-05-c97550-mentions-concept-error-ca00fc-05",
-      "source": "slide-05-c97550",
-      "target": "concept-error-ca00fc",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+          "evidence": "noise",
+          "page": 15
+        },
         {
-          "slideId": "05",
+          "slideId": "17",
           "kind": "text",
-          "evidence": "error",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "slide-03-0b8efa-mentions-concept-measurement-6c5a69-03",
-      "source": "slide-03-0b8efa",
-      "target": "concept-measurement-6c5a69",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+          "evidence": "noise",
+          "page": 17
+        },
         {
-          "slideId": "03",
+          "slideId": "18",
           "kind": "text",
-          "evidence": "measurement",
-          "page": 3
+          "evidence": "noise",
+          "page": 18
         }
       ]
     },
     {
-      "id": "slide-04-6cd5b6-mentions-concept-measurement-6c5a69-04",
-      "source": "slide-04-6cd5b6",
-      "target": "concept-measurement-6c5a69",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "measurement",
-          "page": 4
-        }
-      ]
-    },
-    {
-      "id": "slide-05-c97550-mentions-concept-measurement-6c5a69-05",
-      "source": "slide-05-c97550",
-      "target": "concept-measurement-6c5a69",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "measurement",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "slide-01-938db8-mentions-concept-dsaa3073-aa5977-01",
-      "source": "slide-01-938db8",
-      "target": "concept-dsaa3073-aa5977",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+      "id": "concept-inverse-7705ac",
+      "label": "inverse",
+      "aliases": [],
+      "type": "concept",
+      "importance": 3,
+      "cluster": "Across the talk",
+      "description": "A repeated topic in selected slide messages or titles; not an automatically verified claim.",
+      "mentions": [
         {
           "slideId": "01",
           "kind": "text",
-          "evidence": "dsaa3073",
+          "evidence": "inverse",
           "page": 1
-        }
-      ]
-    },
-    {
-      "id": "slide-06-aacd83-mentions-concept-dsaa3073-aa5977-06",
-      "source": "slide-06-aacd83",
-      "target": "concept-dsaa3073-aa5977",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+        },
         {
-          "slideId": "06",
+          "slideId": "03",
           "kind": "text",
-          "evidence": "dsaa3073",
-          "page": 6
+          "evidence": "inverse",
+          "page": 3
+        },
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "inverse",
+          "page": 9
+        },
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "inverse",
+          "page": 14
+        },
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "inverse",
+          "page": 18
         }
       ]
     },
     {
-      "id": "slide-07-19b100-mentions-concept-dsaa3073-aa5977-07",
-      "source": "slide-07-19b100",
-      "target": "concept-dsaa3073-aa5977",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
+      "id": "concept-variance-7c0766",
+      "label": "variance",
+      "aliases": [],
+      "type": "concept",
+      "importance": 3,
+      "cluster": "Across the talk",
+      "description": "A repeated topic in selected slide messages or titles; not an automatically verified claim.",
+      "mentions": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "variance",
+          "page": 1
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "variance",
+          "page": 5
+        },
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "variance",
+          "page": 13
+        },
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "variance",
+          "page": 18
+        },
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "variance",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "concept-changes-bias-220ec3",
+      "label": "changes bias",
+      "aliases": [],
+      "type": "concept",
+      "importance": 3,
+      "cluster": "Across the talk",
+      "description": "A repeated topic in selected slide messages or titles; not an automatically verified claim.",
+      "mentions": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "changes bias",
+          "page": 5
+        },
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "changes bias",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "concept-new-response-cf2654",
+      "label": "new response",
+      "aliases": [],
+      "type": "concept",
+      "importance": 3,
+      "cluster": "Across the talk",
+      "description": "A repeated topic in selected slide messages or titles; not an automatically verified claim.",
+      "mentions": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "new response",
+          "page": 15
+        },
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "new response",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "concept-penalty-changes-3ec6f7",
+      "label": "penalty changes",
+      "aliases": [],
+      "type": "concept",
+      "importance": 3,
+      "cluster": "Across the talk",
+      "description": "A repeated topic in selected slide messages or titles; not an automatically verified claim.",
+      "mentions": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "penalty changes",
+          "page": 10
+        },
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "penalty changes",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "concept-error-ca00fc",
+      "label": "error",
+      "aliases": [],
+      "type": "concept",
+      "importance": 3,
+      "cluster": "Across the talk",
+      "description": "A repeated topic in selected slide messages or titles; not an automatically verified claim.",
+      "mentions": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "error",
+          "page": 4
+        },
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "error",
+          "page": 12
+        },
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "error",
+          "page": 13
+        },
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "error",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "concept-problem-47a493",
+      "label": "problem",
+      "aliases": [],
+      "type": "concept",
+      "importance": 3,
+      "cluster": "Across the talk",
+      "description": "A repeated topic in selected slide messages or titles; not an automatically verified claim.",
+      "mentions": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "problem",
+          "page": 3
+        },
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "problem",
+          "page": 5
+        },
         {
           "slideId": "07",
           "kind": "text",
-          "evidence": "dsaa3073",
+          "evidence": "problem",
           "page": 7
         }
       ]
     },
     {
-      "id": "slide-01-938db8-mentions-concept-variance-7c0766-01",
-      "source": "slide-01-938db8",
-      "target": "concept-variance-7c0766",
-      "predicate": "mentions",
+      "id": "concept-ridge-409e36",
+      "label": "ridge",
+      "aliases": [],
+      "type": "concept",
+      "importance": 3,
+      "cluster": "Across the talk",
+      "description": "A repeated topic in selected slide messages or titles; not an automatically verified claim.",
+      "mentions": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 10
+        },
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 11
+        },
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "concept-amplification-ccc52f",
+      "label": "amplification",
+      "aliases": [],
+      "type": "concept",
+      "importance": 3,
+      "cluster": "Across the talk",
+      "description": "A repeated topic in selected slide messages or titles; not an automatically verified claim.",
+      "mentions": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "amplification",
+          "page": 5
+        },
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "amplification",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "concept-connections-1e5fac",
+      "label": "connections",
+      "aliases": [],
+      "type": "concept",
+      "importance": 3,
+      "cluster": "3 · How to study it",
+      "description": "A repeated topic in selected slide messages or titles; not an automatically verified claim.",
+      "mentions": [
+        {
+          "slideId": "16",
+          "kind": "text",
+          "evidence": "connections",
+          "page": 16
+        },
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "connections",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "concept-direction-93c4ab",
+      "label": "direction",
+      "aliases": [],
+      "type": "concept",
+      "importance": 3,
+      "cluster": "2 · The plan",
+      "description": "A repeated topic in selected slide messages or titles; not an automatically verified claim.",
+      "mentions": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "direction",
+          "page": 9
+        },
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "direction",
+          "page": 11
+        }
+      ]
+    }
+  ],
+  "relationships": [
+    {
+      "id": "section-dsaa3073-26fall-ed2691-message-bias-variance-inverse-problems-tikhonov-regularization-4d3654-contains-0b9da5",
+      "source": "section-dsaa3073-26fall-ed2691",
+      "target": "message-bias-variance-inverse-problems-tikhonov-regularization-4d3654",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
           "slideId": "01",
           "kind": "text",
-          "evidence": "variance",
+          "evidence": "Bias–variance · inverse problems · Tikhonov regularization",
           "page": 1
         }
       ]
     },
     {
-      "id": "slide-05-c97550-mentions-concept-variance-7c0766-05",
-      "source": "slide-05-c97550",
-      "target": "concept-variance-7c0766",
-      "predicate": "mentions",
+      "id": "section-1-a-new-hook-5ad725-message-can-we-recover-the-two-voices-from-the-recordings-2d74d5-contains-1ab4b7",
+      "source": "section-1-a-new-hook-5ad725",
+      "target": "message-can-we-recover-the-two-voices-from-the-recordings-2d74d5",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "variance",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "slide-06-aacd83-mentions-concept-variance-7c0766-06",
-      "source": "slide-06-aacd83",
-      "target": "concept-variance-7c0766",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "variance",
-          "page": 6
-        }
-      ]
-    },
-    {
-      "id": "slide-02-a953f0-mentions-concept-source-41cf67-02",
-      "source": "slide-02-a953f0",
-      "target": "concept-source-41cf67",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
           "slideId": "02",
           "kind": "text",
-          "evidence": "source",
+          "evidence": "Can we recover the two voices from the recordings?",
           "page": 2
         }
       ]
     },
     {
-      "id": "slide-03-0b8efa-mentions-concept-source-41cf67-03",
-      "source": "slide-03-0b8efa",
-      "target": "concept-source-41cf67",
-      "predicate": "mentions",
+      "id": "section-1-a-new-hook-5ad725-message-the-mixing-weights-are-known-but-the-recordings-contain-noise-54bba0-contains-a24f8c",
+      "source": "section-1-a-new-hook-5ad725",
+      "target": "message-the-mixing-weights-are-known-but-the-recordings-contain-noise-54bba0",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
           "slideId": "03",
           "kind": "text",
-          "evidence": "source",
+          "evidence": "The mixing weights are known, but the recordings contain noise.",
           "page": 3
         }
       ]
     },
     {
-      "id": "slide-04-6cd5b6-mentions-concept-source-41cf67-04",
-      "source": "slide-04-6cd5b6",
-      "target": "concept-source-41cf67",
-      "predicate": "mentions",
+      "id": "section-1-a-new-hook-5ad725-message-agreement-with-noisy-measurements-does-not-guarantee-agreement-with-the-true-sources-162491-contains-91435c",
+      "source": "section-1-a-new-hook-5ad725",
+      "target": "message-agreement-with-noisy-measurements-does-not-guarantee-agreement-with-the-true-sources-162491",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
           "slideId": "04",
           "kind": "text",
-          "evidence": "source",
+          "evidence": "💡 Agreement with noisy measurements does not guarantee agreement with the true sources.",
           "page": 4
         }
       ]
     },
     {
-      "id": "slide-01-938db8-mentions-concept-ridge-409e36-01",
-      "source": "slide-01-938db8",
-      "target": "concept-ridge-409e36",
-      "predicate": "mentions",
+      "id": "section-1-a-new-hook-5ad725-message-identify-which-errors-come-from-the-measurements-and-which-directions-amplify-them-then-calculate-how-reducing-amplification-changes-bias-and-variance-7cad46-contains-426754",
+      "source": "section-1-a-new-hook-5ad725",
+      "target": "message-identify-which-errors-come-from-the-measurements-and-which-directions-amplify-them-then-calculate-how-reducing-amplification-changes-bias-and-variance-7cad46",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
-          "slideId": "01",
+          "slideId": "05",
           "kind": "text",
-          "evidence": "ridge",
-          "page": 1
+          "evidence": "💡 Identify which errors come from the measurements and which directions amplify them. Then calculate how reducing amplification changes bias and variance.",
+          "page": 5
         }
       ]
     },
     {
-      "id": "slide-06-aacd83-mentions-concept-ridge-409e36-06",
-      "source": "slide-06-aacd83",
-      "target": "concept-ridge-409e36",
-      "predicate": "mentions",
+      "id": "section-2-the-plan-a2a432-message-4-check-what-each-result-proves-existence-uniqueness-stability-and-prediction-accuracy-require-different-arguments-8682d6-contains-52f7b6",
+      "source": "section-2-the-plan-a2a432",
+      "target": "message-4-check-what-each-result-proves-existence-uniqueness-stability-and-prediction-accuracy-require-different-arguments-8682d6",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
           "slideId": "06",
           "kind": "text",
-          "evidence": "ridge",
+          "evidence": "4 · Check what each result proves Existence, uniqueness, stability, and prediction accuracy require different arguments.",
           "page": 6
         }
       ]
     },
     {
-      "id": "slide-10-4a44dc-mentions-concept-ridge-409e36-10",
-      "source": "slide-10-4a44dc",
-      "target": "concept-ridge-409e36",
-      "predicate": "mentions",
+      "id": "section-2-the-plan-a2a432-message-a-recovered-signal-or-predictor-that-remains-useful-when-observations-change-slightly-a9f729-contains-4135f9",
+      "source": "section-2-the-plan-a2a432",
+      "target": "message-a-recovered-signal-or-predictor-that-remains-useful-when-observations-change-slightly-a9f729",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "10",
-          "kind": "text",
-          "evidence": "ridge",
-          "page": 10
-        }
-      ]
-    },
-    {
-      "id": "slide-06-aacd83-mentions-concept-response-a9f4b3-06",
-      "source": "slide-06-aacd83",
-      "target": "concept-response-a9f4b3",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "response",
-          "page": 6
-        }
-      ]
-    },
-    {
-      "id": "slide-07-19b100-mentions-concept-response-a9f4b3-07",
-      "source": "slide-07-19b100",
-      "target": "concept-response-a9f4b3",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
           "slideId": "07",
           "kind": "text",
-          "evidence": "response",
+          "evidence": "A recovered signal or predictor that remains useful when observations change slightly.",
           "page": 7
         }
       ]
     },
     {
-      "id": "slide-08-323783-mentions-concept-response-a9f4b3-08",
-      "source": "slide-08-323783",
-      "target": "concept-response-a9f4b3",
-      "predicate": "mentions",
+      "id": "section-2-the-plan-a2a432-message-geometry-will-explain-one-mechanism-of-instability-75695d-contains-2dfb16",
+      "source": "section-2-the-plan-a2a432",
+      "target": "message-geometry-will-explain-one-mechanism-of-instability-75695d",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
           "slideId": "08",
           "kind": "text",
-          "evidence": "response",
+          "evidence": "Geometry will explain one mechanism of instability.",
           "page": 8
         }
       ]
     },
     {
-      "id": "slide-05-c97550-mentions-concept-penalty-debfc5-05",
-      "source": "slide-05-c97550",
-      "target": "concept-penalty-debfc5",
-      "predicate": "mentions",
+      "id": "section-2-the-plan-a2a432-message-our-inverse-exists-and-varies-continuously-but-its-smallest-singular-value-is-0-02-the-difference-direction-noise-is-multiplied-by-50-bf0756-contains-72177d",
+      "source": "section-2-the-plan-a2a432",
+      "target": "message-our-inverse-exists-and-varies-continuously-but-its-smallest-singular-value-is-0-02-the-difference-direction-noise-is-multiplied-by-50-bf0756",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
-          "slideId": "05",
+          "slideId": "09",
           "kind": "text",
-          "evidence": "penalty",
-          "page": 5
+          "evidence": "💡 Our inverse exists and varies continuously, but its smallest singular value is 0.02. The difference- direction noise is multiplied by 50.",
+          "page": 9
         }
       ]
     },
     {
-      "id": "slide-10-4a44dc-mentions-concept-penalty-debfc5-10",
-      "source": "slide-10-4a44dc",
-      "target": "concept-penalty-debfc5",
-      "predicate": "mentions",
+      "id": "section-2-the-plan-a2a432-message-the-penalty-changes-which-solution-we-prefer-it-does-not-remove-the-measurement-noise-f509af-contains-a07915",
+      "source": "section-2-the-plan-a2a432",
+      "target": "message-the-penalty-changes-which-solution-we-prefer-it-does-not-remove-the-measurement-noise-f509af",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
           "slideId": "10",
           "kind": "text",
-          "evidence": "penalty",
+          "evidence": "💡 The penalty changes which solution we prefer. It does not remove the measurement noise.",
           "page": 10
         }
       ]
     },
     {
-      "id": "slide-13-3fdba3-mentions-concept-penalty-debfc5-13",
-      "source": "slide-13-3fdba3",
-      "target": "concept-penalty-debfc5",
-      "predicate": "mentions",
+      "id": "section-2-the-plan-a2a432-message-ridge-reduces-both-noise-amplification-and-true-signal-in-the-weak-direction-080192-contains-1e9e29",
+      "source": "section-2-the-plan-a2a432",
+      "target": "message-ridge-reduces-both-noise-amplification-and-true-signal-in-the-weak-direction-080192",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
-          "slideId": "13",
+          "slideId": "11",
           "kind": "text",
-          "evidence": "penalty",
-          "page": 13
+          "evidence": "Ridge reduces both noise amplification and true signal in the weak direction.",
+          "page": 11
         }
       ]
     },
     {
-      "id": "slide-04-6cd5b6-mentions-concept-measurements-5852a8-04",
-      "source": "slide-04-6cd5b6",
-      "target": "concept-measurements-5852a8",
-      "predicate": "mentions",
+      "id": "section-2-the-plan-a2a432-message-a-unique-stable-estimate-can-still-have-large-prediction-error-08f080-contains-e415f4",
+      "source": "section-2-the-plan-a2a432",
+      "target": "message-a-unique-stable-estimate-can-still-have-large-prediction-error-08f080",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "04",
-          "kind": "text",
-          "evidence": "measurements",
-          "page": 4
-        }
-      ]
-    },
-    {
-      "id": "slide-05-c97550-mentions-concept-measurements-5852a8-05",
-      "source": "slide-05-c97550",
-      "target": "concept-measurements-5852a8",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "measurements",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "slide-07-19b100-mentions-concept-measurements-5852a8-07",
-      "source": "slide-07-19b100",
-      "target": "concept-measurements-5852a8",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "07",
-          "kind": "text",
-          "evidence": "measurements",
-          "page": 7
-        }
-      ]
-    },
-    {
-      "id": "slide-01-938db8-mentions-concept-inverse-7705ac-01",
-      "source": "slide-01-938db8",
-      "target": "concept-inverse-7705ac",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "01",
-          "kind": "text",
-          "evidence": "inverse",
-          "page": 1
-        }
-      ]
-    },
-    {
-      "id": "slide-03-0b8efa-mentions-concept-inverse-7705ac-03",
-      "source": "slide-03-0b8efa",
-      "target": "concept-inverse-7705ac",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "inverse",
-          "page": 3
-        }
-      ]
-    },
-    {
-      "id": "slide-05-c97550-mentions-concept-inverse-7705ac-05",
-      "source": "slide-05-c97550",
-      "target": "concept-inverse-7705ac",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "inverse",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "slide-03-0b8efa-mentions-concept-change-12ea12-03",
-      "source": "slide-03-0b8efa",
-      "target": "concept-change-12ea12",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "03",
-          "kind": "text",
-          "evidence": "change",
-          "page": 3
-        }
-      ]
-    },
-    {
-      "id": "slide-06-aacd83-mentions-concept-change-12ea12-06",
-      "source": "slide-06-aacd83",
-      "target": "concept-change-12ea12",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "change",
-          "page": 6
-        }
-      ]
-    },
-    {
-      "id": "slide-07-19b100-mentions-concept-change-12ea12-07",
-      "source": "slide-07-19b100",
-      "target": "concept-change-12ea12",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "07",
-          "kind": "text",
-          "evidence": "change",
-          "page": 7
-        }
-      ]
-    },
-    {
-      "id": "slide-06-aacd83-mentions-concept-prediction-70ad7b-06",
-      "source": "slide-06-aacd83",
-      "target": "concept-prediction-70ad7b",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "prediction",
-          "page": 6
-        }
-      ]
-    },
-    {
-      "id": "slide-08-323783-mentions-concept-prediction-70ad7b-08",
-      "source": "slide-08-323783",
-      "target": "concept-prediction-70ad7b",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "08",
-          "kind": "text",
-          "evidence": "prediction",
-          "page": 8
-        }
-      ]
-    },
-    {
-      "id": "slide-12-6b51d4-mentions-concept-prediction-70ad7b-12",
-      "source": "slide-12-6b51d4",
-      "target": "concept-prediction-70ad7b",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
           "slideId": "12",
           "kind": "text",
-          "evidence": "prediction",
+          "evidence": "💡 A unique, stable estimate can still have large prediction error.",
           "page": 12
         }
       ]
     },
     {
-      "id": "slide-05-c97550-mentions-concept-directions-b36fd7-05",
-      "source": "slide-05-c97550",
-      "target": "concept-directions-b36fd7",
-      "predicate": "mentions",
+      "id": "section-2-the-plan-a2a432-message-a-moderate-penalty-improves-this-example-stronger-shrinkage-reduces-variance-further-but-can-make-total-error-worse-536be6-contains-2eb48d",
+      "source": "section-2-the-plan-a2a432",
+      "target": "message-a-moderate-penalty-improves-this-example-stronger-shrinkage-reduces-variance-further-but-can-make-total-error-worse-536be6",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "directions",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "slide-06-aacd83-mentions-concept-directions-b36fd7-06",
-      "source": "slide-06-aacd83",
-      "target": "concept-directions-b36fd7",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "directions",
-          "page": 6
-        }
-      ]
-    },
-    {
-      "id": "slide-11-4fc82b-mentions-concept-directions-b36fd7-11",
-      "source": "slide-11-4fc82b",
-      "target": "concept-directions-b36fd7",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "11",
-          "kind": "text",
-          "evidence": "directions",
-          "page": 11
-        }
-      ]
-    },
-    {
-      "id": "slide-10-4a44dc-mentions-concept-coefficient-7ef50a-10",
-      "source": "slide-10-4a44dc",
-      "target": "concept-coefficient-7ef50a",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "10",
-          "kind": "text",
-          "evidence": "coefficient",
-          "page": 10
-        }
-      ]
-    },
-    {
-      "id": "slide-11-4fc82b-mentions-concept-coefficient-7ef50a-11",
-      "source": "slide-11-4fc82b",
-      "target": "concept-coefficient-7ef50a",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "11",
-          "kind": "text",
-          "evidence": "coefficient",
-          "page": 11
-        }
-      ]
-    },
-    {
-      "id": "slide-13-3fdba3-mentions-concept-coefficient-7ef50a-13",
-      "source": "slide-13-3fdba3",
-      "target": "concept-coefficient-7ef50a",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
           "slideId": "13",
           "kind": "text",
-          "evidence": "coefficient",
+          "evidence": "💡 A moderate penalty improves this example. Stronger shrinkage reduces variance further but can make total error worse.",
           "page": 13
         }
       ]
     },
     {
-      "id": "slide-05-c97550-mentions-concept-amplification-ccc52f-05",
-      "source": "slide-05-c97550",
-      "target": "concept-amplification-ccc52f",
-      "predicate": "mentions",
+      "id": "section-2-the-plan-a2a432-message-it-equals-the-usual-ols-inverse-formula-only-under-full-column-rank-1e63de-contains-e124fd",
+      "source": "section-2-the-plan-a2a432",
+      "target": "message-it-equals-the-usual-ols-inverse-formula-only-under-full-column-rank-1e63de",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "05",
-          "kind": "text",
-          "evidence": "amplification",
-          "page": 5
-        }
-      ]
-    },
-    {
-      "id": "slide-06-aacd83-mentions-concept-amplification-ccc52f-06",
-      "source": "slide-06-aacd83",
-      "target": "concept-amplification-ccc52f",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "amplification",
-          "page": 6
-        }
-      ]
-    },
-    {
-      "id": "slide-11-4fc82b-mentions-concept-amplification-ccc52f-11",
-      "source": "slide-11-4fc82b",
-      "target": "concept-amplification-ccc52f",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "11",
-          "kind": "text",
-          "evidence": "amplification",
-          "page": 11
-        }
-      ]
-    },
-    {
-      "id": "slide-06-aacd83-mentions-concept-training-c2fb78-06",
-      "source": "slide-06-aacd83",
-      "target": "concept-training-c2fb78",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "06",
-          "kind": "text",
-          "evidence": "training",
-          "page": 6
-        }
-      ]
-    },
-    {
-      "id": "slide-08-323783-mentions-concept-training-c2fb78-08",
-      "source": "slide-08-323783",
-      "target": "concept-training-c2fb78",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "08",
-          "kind": "text",
-          "evidence": "training",
-          "page": 8
-        }
-      ]
-    },
-    {
-      "id": "slide-14-8527a8-mentions-concept-training-c2fb78-14",
-      "source": "slide-14-8527a8",
-      "target": "concept-training-c2fb78",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
           "slideId": "14",
           "kind": "text",
-          "evidence": "training",
+          "evidence": "It equals the usual OLS inverse formula only under full column rank.",
           "page": 14
         }
       ]
     },
     {
-      "id": "slide-02-a953f0-mentions-concept-sources-878a52-02",
-      "source": "slide-02-a953f0",
-      "target": "concept-sources-878a52",
-      "predicate": "mentions",
+      "id": "section-3-how-to-study-it-ff37d3-message-hard-distinction-question-to-ask-yourself-training-randomness-noise-in-a-new-response-what-is-being-redrawn-and-what-stays-fixed-inside-this-expectation-b685ea-contains-c0fa9c",
+      "source": "section-3-how-to-study-it-ff37d3",
+      "target": "message-hard-distinction-question-to-ask-yourself-training-randomness-noise-in-a-new-response-what-is-being-redrawn-and-what-stays-fixed-inside-this-expectation-b685ea",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
-          "slideId": "02",
+          "slideId": "15",
           "kind": "text",
-          "evidence": "sources",
-          "page": 2
+          "evidence": "Hard distinction Question to ask yourself Training randomness / noise in a new response What is being redrawn, and what stays fixed inside this expectation?",
+          "page": 15
         }
       ]
     },
     {
-      "id": "slide-04-6cd5b6-mentions-concept-sources-878a52-04",
-      "source": "slide-04-6cd5b6",
-      "target": "concept-sources-878a52",
-      "predicate": "mentions",
+      "id": "section-3-how-to-study-it-ff37d3-message-multivariable-calculus-and-convex-optimization-gradient-hessian-positive-definiteness-norm-budgets-and-penalties-derive-the-estimator-and-prove-that-it-is-the-unique-minimum-c6f396-contains-0bef1d",
+      "source": "section-3-how-to-study-it-ff37d3",
+      "target": "message-multivariable-calculus-and-convex-optimization-gradient-hessian-positive-definiteness-norm-budgets-and-penalties-derive-the-estimator-and-prove-that-it-is-the-unique-minimum-c6f396",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
-          "slideId": "04",
+          "slideId": "16",
           "kind": "text",
-          "evidence": "sources",
-          "page": 4
+          "evidence": "Multivariable calculus and convex optimization Gradient, Hessian, positive definiteness; norm budgets and penalties Derive the estimator and prove that it is the unique minimum.",
+          "page": 16
         }
       ]
     },
     {
-      "id": "slide-06-aacd83-mentions-concept-sources-878a52-06",
-      "source": "slide-06-aacd83",
-      "target": "concept-sources-878a52",
-      "predicate": "mentions",
+      "id": "section-3-how-to-study-it-ff37d3-message-optional-bayesian-connection-with-gaussian-observation-noise-and-an-isotropic-zero-mean-gaussian-prior-ridge-gives-the-maximum-a-posteriori-map-estimate-the-parameter-value-with-highest-64a768-contains-461634",
+      "source": "section-3-how-to-study-it-ff37d3",
+      "target": "message-optional-bayesian-connection-with-gaussian-observation-noise-and-an-isotropic-zero-mean-gaussian-prior-ridge-gives-the-maximum-a-posteriori-map-estimate-the-parameter-value-with-highest-64a768",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
-          "slideId": "06",
+          "slideId": "17",
           "kind": "text",
-          "evidence": "sources",
-          "page": 6
+          "evidence": "Optional Bayesian connection: with Gaussian observation noise and an isotropic, zero-mean Gaussian prior, ridge gives the maximum a posteriori (MAP) estimate—the parameter value with highest posterior density.",
+          "page": 17
         }
       ]
     },
     {
-      "id": "slide-04-6cd5b6-mentions-concept-solution-8270f2-04",
-      "source": "slide-04-6cd5b6",
-      "target": "concept-solution-8270f2",
-      "predicate": "mentions",
+      "id": "section-4-two-views-of-the-whole-006832-message-squared-bias-variance-across-training-samples-noise-in-a-new-response-2-inverse-geometry-hadamard-criteria-svd-where-is-sensitivity-b49a00-contains-a1e12d",
+      "source": "section-4-two-views-of-the-whole-006832",
+      "target": "message-squared-bias-variance-across-training-samples-noise-in-a-new-response-2-inverse-geometry-hadamard-criteria-svd-where-is-sensitivity-b49a00",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
-          "slideId": "04",
+          "slideId": "18",
           "kind": "text",
-          "evidence": "solution",
-          "page": 4
+          "evidence": "Squared bias + variance across training samples + noise in a new response 2 · Inverse geometry Hadamard criteria → SVD Where is sensitivity?",
+          "page": 18
         }
       ]
     },
     {
-      "id": "slide-09-3514ac-mentions-concept-solution-8270f2-09",
-      "source": "slide-09-3514ac",
-      "target": "concept-solution-8270f2",
-      "predicate": "mentions",
+      "id": "section-4-two-views-of-the-whole-006832-message-what-can-the-data-reveal-dd4f1c-contains-21c9aa",
+      "source": "section-4-two-views-of-the-whole-006832",
+      "target": "message-what-can-the-data-reveal-dd4f1c",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
-          "slideId": "09",
+          "slideId": "19",
           "kind": "text",
-          "evidence": "solution",
-          "page": 9
+          "evidence": "What can the data reveal?",
+          "page": 19
         }
       ]
     },
     {
-      "id": "slide-10-4a44dc-mentions-concept-solution-8270f2-10",
-      "source": "slide-10-4a44dc",
-      "target": "concept-solution-8270f2",
-      "predicate": "mentions",
+      "id": "section-4-two-views-of-the-whole-006832-message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810-contains-b102a0",
+      "source": "section-4-two-views-of-the-whole-006832",
+      "target": "message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810",
+      "predicate": "contains",
       "status": "observation",
-      "qualification": "",
+      "qualification": "Section membership, not a semantic assertion.",
       "evidence": [
         {
-          "slideId": "10",
+          "slideId": "20",
           "kind": "text",
-          "evidence": "solution",
-          "page": 10
+          "evidence": "💡 The week’s calculations show how a penalty changes bias, variance, and total expected error.",
+          "page": 20
         }
       ]
     },
     {
-      "id": "slide-03-0b8efa-mentions-concept-small-81db8e-03",
-      "source": "slide-03-0b8efa",
-      "target": "concept-small-81db8e",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "id": "message-bias-variance-inverse-problems-tikhonov-regularization-4d3654-concept-inverse-7705ac-addresses-aad7ca",
+      "source": "message-bias-variance-inverse-problems-tikhonov-regularization-4d3654",
+      "target": "concept-inverse-7705ac",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "Bias–variance · inverse problems · Tikhonov regularization",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "message-bias-variance-inverse-problems-tikhonov-regularization-4d3654-concept-variance-7c0766-addresses-f244ef",
+      "source": "message-bias-variance-inverse-problems-tikhonov-regularization-4d3654",
+      "target": "concept-variance-7c0766",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "Bias–variance · inverse problems · Tikhonov regularization",
+          "page": 1
+        }
+      ]
+    },
+    {
+      "id": "message-the-mixing-weights-are-known-but-the-recordings-contain-noise-54bba0-concept-noise-efe2a5-addresses-1accf7",
+      "source": "message-the-mixing-weights-are-known-but-the-recordings-contain-noise-54bba0",
+      "target": "concept-noise-efe2a5",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
       "evidence": [
         {
           "slideId": "03",
           "kind": "text",
-          "evidence": "small",
+          "evidence": "The mixing weights are known, but the recordings contain noise.",
           "page": 3
         }
       ]
     },
     {
-      "id": "slide-05-c97550-mentions-concept-small-81db8e-05",
-      "source": "slide-05-c97550",
-      "target": "concept-small-81db8e",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "id": "message-the-mixing-weights-are-known-but-the-recordings-contain-noise-54bba0-concept-inverse-7705ac-shares-slide-topic-0e5cf3",
+      "source": "message-the-mixing-weights-are-known-but-the-recordings-contain-noise-54bba0",
+      "target": "concept-inverse-7705ac",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "inverse",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "message-the-mixing-weights-are-known-but-the-recordings-contain-noise-54bba0-concept-problem-47a493-shares-slide-topic-5c0a47",
+      "source": "message-the-mixing-weights-are-known-but-the-recordings-contain-noise-54bba0",
+      "target": "concept-problem-47a493",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "03",
+          "kind": "text",
+          "evidence": "problem",
+          "page": 3
+        }
+      ]
+    },
+    {
+      "id": "message-agreement-with-noisy-measurements-does-not-guarantee-agreement-with-the-true-sources-162491-concept-error-ca00fc-shares-slide-topic-99c08d",
+      "source": "message-agreement-with-noisy-measurements-does-not-guarantee-agreement-with-the-true-sources-162491",
+      "target": "concept-error-ca00fc",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "04",
+          "kind": "text",
+          "evidence": "error",
+          "page": 4
+        }
+      ]
+    },
+    {
+      "id": "message-identify-which-errors-come-from-the-measurements-and-which-directions-amplify-them-then-calculate-how-reducing-amplification-changes-bias-and-variance-7cad46-concept-variance-7c0766-addresses-0e219f",
+      "source": "message-identify-which-errors-come-from-the-measurements-and-which-directions-amplify-them-then-calculate-how-reducing-amplification-changes-bias-and-variance-7cad46",
+      "target": "concept-variance-7c0766",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
       "evidence": [
         {
           "slideId": "05",
           "kind": "text",
-          "evidence": "small",
+          "evidence": "💡 Identify which errors come from the measurements and which directions amplify them. Then calculate how reducing amplification changes bias and variance.",
           "page": 5
         }
       ]
     },
     {
-      "id": "slide-09-3514ac-mentions-concept-small-81db8e-09",
-      "source": "slide-09-3514ac",
-      "target": "concept-small-81db8e",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
-      "evidence": [
-        {
-          "slideId": "09",
-          "kind": "text",
-          "evidence": "small",
-          "page": 9
-        }
-      ]
-    },
-    {
-      "id": "slide-05-c97550-mentions-concept-signal-d04192-05",
-      "source": "slide-05-c97550",
-      "target": "concept-signal-d04192",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "id": "message-identify-which-errors-come-from-the-measurements-and-which-directions-amplify-them-then-calculate-how-reducing-amplification-changes-bias-and-variance-7cad46-concept-changes-bias-220ec3-addresses-92b82f",
+      "source": "message-identify-which-errors-come-from-the-measurements-and-which-directions-amplify-them-then-calculate-how-reducing-amplification-changes-bias-and-variance-7cad46",
+      "target": "concept-changes-bias-220ec3",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
       "evidence": [
         {
           "slideId": "05",
           "kind": "text",
-          "evidence": "signal",
+          "evidence": "💡 Identify which errors come from the measurements and which directions amplify them. Then calculate how reducing amplification changes bias and variance.",
           "page": 5
         }
       ]
     },
     {
-      "id": "slide-06-aacd83-mentions-concept-signal-d04192-06",
-      "source": "slide-06-aacd83",
-      "target": "concept-signal-d04192",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "id": "message-identify-which-errors-come-from-the-measurements-and-which-directions-amplify-them-then-calculate-how-reducing-amplification-changes-bias-and-variance-7cad46-concept-problem-47a493-shares-slide-topic-f30c42",
+      "source": "message-identify-which-errors-come-from-the-measurements-and-which-directions-amplify-them-then-calculate-how-reducing-amplification-changes-bias-and-variance-7cad46",
+      "target": "concept-problem-47a493",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
       "evidence": [
         {
-          "slideId": "06",
+          "slideId": "05",
           "kind": "text",
-          "evidence": "signal",
-          "page": 6
+          "evidence": "problem",
+          "page": 5
         }
       ]
     },
     {
-      "id": "slide-07-19b100-mentions-concept-signal-d04192-07",
-      "source": "slide-07-19b100",
-      "target": "concept-signal-d04192",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "id": "message-identify-which-errors-come-from-the-measurements-and-which-directions-amplify-them-then-calculate-how-reducing-amplification-changes-bias-and-variance-7cad46-concept-amplification-ccc52f-shares-slide-topic-975a6b",
+      "source": "message-identify-which-errors-come-from-the-measurements-and-which-directions-amplify-them-then-calculate-how-reducing-amplification-changes-bias-and-variance-7cad46",
+      "target": "concept-amplification-ccc52f",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "05",
+          "kind": "text",
+          "evidence": "amplification",
+          "page": 5
+        }
+      ]
+    },
+    {
+      "id": "message-a-recovered-signal-or-predictor-that-remains-useful-when-observations-change-slightly-a9f729-concept-problem-47a493-shares-slide-topic-f655be",
+      "source": "message-a-recovered-signal-or-predictor-that-remains-useful-when-observations-change-slightly-a9f729",
+      "target": "concept-problem-47a493",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
       "evidence": [
         {
           "slideId": "07",
           "kind": "text",
-          "evidence": "signal",
+          "evidence": "problem",
           "page": 7
         }
       ]
     },
     {
-      "id": "slide-05-c97550-mentions-concept-reduces-90581b-05",
-      "source": "slide-05-c97550",
-      "target": "concept-reduces-90581b",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "id": "message-our-inverse-exists-and-varies-continuously-but-its-smallest-singular-value-is-0-02-the-difference-direction-noise-is-multiplied-by-50-bf0756-concept-noise-efe2a5-addresses-132d7c",
+      "source": "message-our-inverse-exists-and-varies-continuously-but-its-smallest-singular-value-is-0-02-the-difference-direction-noise-is-multiplied-by-50-bf0756",
+      "target": "concept-noise-efe2a5",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
       "evidence": [
         {
-          "slideId": "05",
+          "slideId": "09",
           "kind": "text",
-          "evidence": "reduces",
-          "page": 5
+          "evidence": "💡 Our inverse exists and varies continuously, but its smallest singular value is 0.02. The difference- direction noise is multiplied by 50.",
+          "page": 9
         }
       ]
     },
     {
-      "id": "slide-11-4fc82b-mentions-concept-reduces-90581b-11",
-      "source": "slide-11-4fc82b",
-      "target": "concept-reduces-90581b",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "id": "message-our-inverse-exists-and-varies-continuously-but-its-smallest-singular-value-is-0-02-the-difference-direction-noise-is-multiplied-by-50-bf0756-concept-inverse-7705ac-addresses-83879d",
+      "source": "message-our-inverse-exists-and-varies-continuously-but-its-smallest-singular-value-is-0-02-the-difference-direction-noise-is-multiplied-by-50-bf0756",
+      "target": "concept-inverse-7705ac",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "💡 Our inverse exists and varies continuously, but its smallest singular value is 0.02. The difference- direction noise is multiplied by 50.",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "message-our-inverse-exists-and-varies-continuously-but-its-smallest-singular-value-is-0-02-the-difference-direction-noise-is-multiplied-by-50-bf0756-concept-direction-93c4ab-shares-slide-topic-2ed5a3",
+      "source": "message-our-inverse-exists-and-varies-continuously-but-its-smallest-singular-value-is-0-02-the-difference-direction-noise-is-multiplied-by-50-bf0756",
+      "target": "concept-direction-93c4ab",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "09",
+          "kind": "text",
+          "evidence": "direction",
+          "page": 9
+        }
+      ]
+    },
+    {
+      "id": "message-the-penalty-changes-which-solution-we-prefer-it-does-not-remove-the-measurement-noise-f509af-concept-noise-efe2a5-addresses-60a9e6",
+      "source": "message-the-penalty-changes-which-solution-we-prefer-it-does-not-remove-the-measurement-noise-f509af",
+      "target": "concept-noise-efe2a5",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "💡 The penalty changes which solution we prefer. It does not remove the measurement noise.",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "message-the-penalty-changes-which-solution-we-prefer-it-does-not-remove-the-measurement-noise-f509af-concept-penalty-changes-3ec6f7-addresses-d9d59e",
+      "source": "message-the-penalty-changes-which-solution-we-prefer-it-does-not-remove-the-measurement-noise-f509af",
+      "target": "concept-penalty-changes-3ec6f7",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "💡 The penalty changes which solution we prefer. It does not remove the measurement noise.",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "message-the-penalty-changes-which-solution-we-prefer-it-does-not-remove-the-measurement-noise-f509af-concept-ridge-409e36-shares-slide-topic-842f8c",
+      "source": "message-the-penalty-changes-which-solution-we-prefer-it-does-not-remove-the-measurement-noise-f509af",
+      "target": "concept-ridge-409e36",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "10",
+          "kind": "text",
+          "evidence": "ridge",
+          "page": 10
+        }
+      ]
+    },
+    {
+      "id": "message-ridge-reduces-both-noise-amplification-and-true-signal-in-the-weak-direction-080192-concept-noise-efe2a5-addresses-c0f9fd",
+      "source": "message-ridge-reduces-both-noise-amplification-and-true-signal-in-the-weak-direction-080192",
+      "target": "concept-noise-efe2a5",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
       "evidence": [
         {
           "slideId": "11",
           "kind": "text",
-          "evidence": "reduces",
+          "evidence": "Ridge reduces both noise amplification and true signal in the weak direction.",
           "page": 11
         }
       ]
     },
     {
-      "id": "slide-13-3fdba3-mentions-concept-reduces-90581b-13",
-      "source": "slide-13-3fdba3",
-      "target": "concept-reduces-90581b",
-      "predicate": "mentions",
-      "status": "observation",
-      "qualification": "",
+      "id": "message-ridge-reduces-both-noise-amplification-and-true-signal-in-the-weak-direction-080192-concept-ridge-409e36-addresses-b299be",
+      "source": "message-ridge-reduces-both-noise-amplification-and-true-signal-in-the-weak-direction-080192",
+      "target": "concept-ridge-409e36",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "Ridge reduces both noise amplification and true signal in the weak direction.",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "message-ridge-reduces-both-noise-amplification-and-true-signal-in-the-weak-direction-080192-concept-amplification-ccc52f-shares-slide-topic-cde185",
+      "source": "message-ridge-reduces-both-noise-amplification-and-true-signal-in-the-weak-direction-080192",
+      "target": "concept-amplification-ccc52f",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "amplification",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "message-ridge-reduces-both-noise-amplification-and-true-signal-in-the-weak-direction-080192-concept-direction-93c4ab-shares-slide-topic-3fdc1b",
+      "source": "message-ridge-reduces-both-noise-amplification-and-true-signal-in-the-weak-direction-080192",
+      "target": "concept-direction-93c4ab",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "11",
+          "kind": "text",
+          "evidence": "direction",
+          "page": 11
+        }
+      ]
+    },
+    {
+      "id": "message-a-unique-stable-estimate-can-still-have-large-prediction-error-08f080-concept-error-ca00fc-addresses-b92f9b",
+      "source": "message-a-unique-stable-estimate-can-still-have-large-prediction-error-08f080",
+      "target": "concept-error-ca00fc",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "12",
+          "kind": "text",
+          "evidence": "💡 A unique, stable estimate can still have large prediction error.",
+          "page": 12
+        }
+      ]
+    },
+    {
+      "id": "message-a-moderate-penalty-improves-this-example-stronger-shrinkage-reduces-variance-further-but-can-make-total-error-worse-536be6-concept-variance-7c0766-addresses-acada4",
+      "source": "message-a-moderate-penalty-improves-this-example-stronger-shrinkage-reduces-variance-further-but-can-make-total-error-worse-536be6",
+      "target": "concept-variance-7c0766",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
       "evidence": [
         {
           "slideId": "13",
           "kind": "text",
-          "evidence": "reduces",
+          "evidence": "💡 A moderate penalty improves this example. Stronger shrinkage reduces variance further but can make total error worse.",
           "page": 13
+        }
+      ]
+    },
+    {
+      "id": "message-a-moderate-penalty-improves-this-example-stronger-shrinkage-reduces-variance-further-but-can-make-total-error-worse-536be6-concept-error-ca00fc-addresses-61da21",
+      "source": "message-a-moderate-penalty-improves-this-example-stronger-shrinkage-reduces-variance-further-but-can-make-total-error-worse-536be6",
+      "target": "concept-error-ca00fc",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "💡 A moderate penalty improves this example. Stronger shrinkage reduces variance further but can make total error worse.",
+          "page": 13
+        }
+      ]
+    },
+    {
+      "id": "message-it-equals-the-usual-ols-inverse-formula-only-under-full-column-rank-1e63de-concept-inverse-7705ac-addresses-1583d3",
+      "source": "message-it-equals-the-usual-ols-inverse-formula-only-under-full-column-rank-1e63de",
+      "target": "concept-inverse-7705ac",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "14",
+          "kind": "text",
+          "evidence": "It equals the usual OLS inverse formula only under full column rank.",
+          "page": 14
+        }
+      ]
+    },
+    {
+      "id": "message-hard-distinction-question-to-ask-yourself-training-randomness-noise-in-a-new-response-what-is-being-redrawn-and-what-stays-fixed-inside-this-expectation-b685ea-concept-noise-efe2a5-addresses-53e2b9",
+      "source": "message-hard-distinction-question-to-ask-yourself-training-randomness-noise-in-a-new-response-what-is-being-redrawn-and-what-stays-fixed-inside-this-expectation-b685ea",
+      "target": "concept-noise-efe2a5",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "Hard distinction Question to ask yourself Training randomness / noise in a new response What is being redrawn, and what stays fixed inside this expectation?",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "message-hard-distinction-question-to-ask-yourself-training-randomness-noise-in-a-new-response-what-is-being-redrawn-and-what-stays-fixed-inside-this-expectation-b685ea-concept-new-response-cf2654-addresses-062db0",
+      "source": "message-hard-distinction-question-to-ask-yourself-training-randomness-noise-in-a-new-response-what-is-being-redrawn-and-what-stays-fixed-inside-this-expectation-b685ea",
+      "target": "concept-new-response-cf2654",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "15",
+          "kind": "text",
+          "evidence": "Hard distinction Question to ask yourself Training randomness / noise in a new response What is being redrawn, and what stays fixed inside this expectation?",
+          "page": 15
+        }
+      ]
+    },
+    {
+      "id": "message-multivariable-calculus-and-convex-optimization-gradient-hessian-positive-definiteness-norm-budgets-and-penalties-derive-the-estimator-and-prove-that-it-is-the-unique-minimum-c6f396-concept-connections-1e5fac-shares-slide-topic-393c07",
+      "source": "message-multivariable-calculus-and-convex-optimization-gradient-hessian-positive-definiteness-norm-budgets-and-penalties-derive-the-estimator-and-prove-that-it-is-the-unique-minimum-c6f396",
+      "target": "concept-connections-1e5fac",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "16",
+          "kind": "text",
+          "evidence": "connections",
+          "page": 16
+        }
+      ]
+    },
+    {
+      "id": "message-optional-bayesian-connection-with-gaussian-observation-noise-and-an-isotropic-zero-mean-gaussian-prior-ridge-gives-the-maximum-a-posteriori-map-estimate-the-parameter-value-with-highest-64a768-concept-noise-efe2a5-addresses-9a406e",
+      "source": "message-optional-bayesian-connection-with-gaussian-observation-noise-and-an-isotropic-zero-mean-gaussian-prior-ridge-gives-the-maximum-a-posteriori-map-estimate-the-parameter-value-with-highest-64a768",
+      "target": "concept-noise-efe2a5",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "Optional Bayesian connection: with Gaussian observation noise and an isotropic, zero-mean Gaussian prior, ridge gives the maximum a posteriori (MAP) estimate—the parameter value with highest posterior density.",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "message-optional-bayesian-connection-with-gaussian-observation-noise-and-an-isotropic-zero-mean-gaussian-prior-ridge-gives-the-maximum-a-posteriori-map-estimate-the-parameter-value-with-highest-64a768-concept-ridge-409e36-addresses-c4203d",
+      "source": "message-optional-bayesian-connection-with-gaussian-observation-noise-and-an-isotropic-zero-mean-gaussian-prior-ridge-gives-the-maximum-a-posteriori-map-estimate-the-parameter-value-with-highest-64a768",
+      "target": "concept-ridge-409e36",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "Optional Bayesian connection: with Gaussian observation noise and an isotropic, zero-mean Gaussian prior, ridge gives the maximum a posteriori (MAP) estimate—the parameter value with highest posterior density.",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "message-optional-bayesian-connection-with-gaussian-observation-noise-and-an-isotropic-zero-mean-gaussian-prior-ridge-gives-the-maximum-a-posteriori-map-estimate-the-parameter-value-with-highest-64a768-concept-connections-1e5fac-shares-slide-topic-37ece2",
+      "source": "message-optional-bayesian-connection-with-gaussian-observation-noise-and-an-isotropic-zero-mean-gaussian-prior-ridge-gives-the-maximum-a-posteriori-map-estimate-the-parameter-value-with-highest-64a768",
+      "target": "concept-connections-1e5fac",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "17",
+          "kind": "text",
+          "evidence": "connections",
+          "page": 17
+        }
+      ]
+    },
+    {
+      "id": "message-squared-bias-variance-across-training-samples-noise-in-a-new-response-2-inverse-geometry-hadamard-criteria-svd-where-is-sensitivity-b49a00-concept-noise-efe2a5-addresses-d99aae",
+      "source": "message-squared-bias-variance-across-training-samples-noise-in-a-new-response-2-inverse-geometry-hadamard-criteria-svd-where-is-sensitivity-b49a00",
+      "target": "concept-noise-efe2a5",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "Squared bias + variance across training samples + noise in a new response 2 · Inverse geometry Hadamard criteria → SVD Where is sensitivity?",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "message-squared-bias-variance-across-training-samples-noise-in-a-new-response-2-inverse-geometry-hadamard-criteria-svd-where-is-sensitivity-b49a00-concept-inverse-7705ac-addresses-b4048e",
+      "source": "message-squared-bias-variance-across-training-samples-noise-in-a-new-response-2-inverse-geometry-hadamard-criteria-svd-where-is-sensitivity-b49a00",
+      "target": "concept-inverse-7705ac",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "Squared bias + variance across training samples + noise in a new response 2 · Inverse geometry Hadamard criteria → SVD Where is sensitivity?",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "message-squared-bias-variance-across-training-samples-noise-in-a-new-response-2-inverse-geometry-hadamard-criteria-svd-where-is-sensitivity-b49a00-concept-variance-7c0766-shares-slide-topic-f6bc1f",
+      "source": "message-squared-bias-variance-across-training-samples-noise-in-a-new-response-2-inverse-geometry-hadamard-criteria-svd-where-is-sensitivity-b49a00",
+      "target": "concept-variance-7c0766",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "variance",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "message-squared-bias-variance-across-training-samples-noise-in-a-new-response-2-inverse-geometry-hadamard-criteria-svd-where-is-sensitivity-b49a00-concept-new-response-cf2654-shares-slide-topic-6bd505",
+      "source": "message-squared-bias-variance-across-training-samples-noise-in-a-new-response-2-inverse-geometry-hadamard-criteria-svd-where-is-sensitivity-b49a00",
+      "target": "concept-new-response-cf2654",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "18",
+          "kind": "text",
+          "evidence": "new response",
+          "page": 18
+        }
+      ]
+    },
+    {
+      "id": "message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810-concept-variance-7c0766-addresses-44625b",
+      "source": "message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810",
+      "target": "concept-variance-7c0766",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "💡 The week’s calculations show how a penalty changes bias, variance, and total expected error.",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810-concept-changes-bias-220ec3-addresses-7dd3bc",
+      "source": "message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810",
+      "target": "concept-changes-bias-220ec3",
+      "predicate": "addresses",
+      "status": "heuristic",
+      "qualification": "Topic occurs in the selected message.",
+      "evidence": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "💡 The week’s calculations show how a penalty changes bias, variance, and total expected error.",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810-concept-penalty-changes-3ec6f7-shares-slide-topic-b09c29",
+      "source": "message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810",
+      "target": "concept-penalty-changes-3ec6f7",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "penalty changes",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810-concept-error-ca00fc-shares-slide-topic-c16408",
+      "source": "message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810",
+      "target": "concept-error-ca00fc",
+      "predicate": "shares slide topic",
+      "status": "heuristic",
+      "qualification": "Topic is in the slide title, not necessarily in this message.",
+      "evidence": [
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "error",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "message-a-moderate-penalty-improves-this-example-stronger-shrinkage-reduces-variance-further-but-can-make-total-error-worse-536be6-message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810-shares-topic-2d5cd7",
+      "source": "message-a-moderate-penalty-improves-this-example-stronger-shrinkage-reduces-variance-further-but-can-make-total-error-worse-536be6",
+      "target": "message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810",
+      "predicate": "shares topic",
+      "status": "heuristic",
+      "qualification": "Shared salient terms: bias, error, penalty, total, variance. No causal or entailment claim.",
+      "evidence": [
+        {
+          "slideId": "13",
+          "kind": "text",
+          "evidence": "💡 A moderate penalty improves this example. Stronger shrinkage reduces variance further but can make total error worse.",
+          "page": 13
+        },
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "💡 The week’s calculations show how a penalty changes bias, variance, and total expected error.",
+          "page": 20
+        }
+      ]
+    },
+    {
+      "id": "message-bias-variance-inverse-problems-tikhonov-regularization-4d3654-message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810-shares-topic-b15ab5",
+      "source": "message-bias-variance-inverse-problems-tikhonov-regularization-4d3654",
+      "target": "message-the-week-s-calculations-show-how-a-penalty-changes-bias-variance-and-total-expected-error-363810",
+      "predicate": "shares topic",
+      "status": "heuristic",
+      "qualification": "Shared salient terms: bias, variance, week. No causal or entailment claim.",
+      "evidence": [
+        {
+          "slideId": "01",
+          "kind": "text",
+          "evidence": "Bias–variance · inverse problems · Tikhonov regularization",
+          "page": 1
+        },
+        {
+          "slideId": "20",
+          "kind": "text",
+          "evidence": "💡 The week’s calculations show how a penalty changes bias, variance, and total expected error.",
+          "page": 20
         }
       ]
     }

@@ -1,0 +1,35 @@
+import test from 'node:test';
+import assert from 'node:assert/strict';
+import {setup} from './runtime-harness.mjs';
+test('graph renders scalable cards, zoom controls and source evidence',async t=>{
+  const {w,d,a}=await setup(t);
+  assert.equal(a.state.graphError,null);
+  a.state.mode='graph';a.openOverview();
+  const svg=d.querySelector('.graph-canvas'),scroll=d.querySelector('.graph-scroll');
+  assert(svg && scroll);
+  assert.equal(d.querySelectorAll('.graph-node').length,a.state.graph.concepts.length);
+  assert.equal(svg.querySelector('.node-shape').getAttribute('width'),'200');
+  assert.equal(d.querySelector('#graphZoomLevel').textContent,'100%');
+  const width=parseFloat(svg.style.width);
+  d.querySelector('[data-graph-zoom="in"]').click();
+  assert.equal(parseFloat(svg.style.width),width*1.25);
+  d.querySelector('[data-graph-zoom="actual"]').click();
+  assert.equal(parseFloat(svg.style.width),width);
+  d.querySelector('[data-graph-zoom="fit"]').click();
+  assert(parseFloat(svg.style.width)<=width);
+  d.querySelector('.graph-node').dispatchEvent(new w.MouseEvent('click',{bubbles:true}));
+  assert(d.querySelector('#graphDetails .evidence-link'));
+  assert(d.querySelector('#graphDetails h3').textContent);
+  a.closeOverview();
+});
+test('rebuilding graph IDs retains saved annotations and resets only obsolete focus',async t=>{
+  const {a}=await setup(t);
+  const session=a.sessionPayload();
+  session.graphFocus='slide-obsolete-extraction-id';
+  session.annotations[session.currentId]=[{type:'stroke',tool:'pen',opacity:1,color:'#DC2626',width:4,points:[{x:10,y:10}]}];
+  const restored=a.validateSession(session);
+  assert.equal(restored.graphFocus,null);
+  assert.deepEqual(JSON.parse(JSON.stringify(restored.annotations)),JSON.parse(JSON.stringify(session.annotations)));
+  session.graphFocus=42;
+  assert.throws(()=>a.validateSession(session),/concept focus/);
+});

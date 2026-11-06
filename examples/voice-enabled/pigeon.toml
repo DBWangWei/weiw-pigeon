@@ -1,10 +1,17 @@
 graph = "lexical"
-no_zip = false
+out_mode = "multiple"
+
+[effects]
+particle_morph = "sections"
+particle_morph_slides = []
+particle_morph_duration_ms = 1400
+particle_morph_cell = 10
+rack_focus = false
 
 [qa]
 enabled = true
 target = "_qa"
-model = "gpt-4.1-mini"
+model = "qwen3.7-flash"
 max_length = 4000
 max_items = 50
 

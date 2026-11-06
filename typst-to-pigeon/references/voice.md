@@ -64,7 +64,8 @@ counts by target, and a semantic region count per physical page.
 
 ## Start and use voice
 
-Generate a deck normally and use Chrome. In the generated presentation folder,
+Generate a folder with `--out-mode multiple` (or `zip`) and use Chrome. The
+default `single` mode is an offline handoff without voice or live Q&A. In the generated presentation folder,
 install the local speech helper once per presenting machine:
 
 ```sh
@@ -101,7 +102,7 @@ pending responses are cancelled on mute, slide changes, inactive views or page
 exit. An inference already running may finish, but its late reply cannot act on
 a new slide. Audio buffers, queue and diagnostic history are bounded.
 
-Recognition is enabled in newly generated decks by default, but capture starts
+Recognition is enabled in `multiple` and `zip` decks by default, but capture starts
 only after a click. `--no-voice` or `[voice] enabled = false` disables recognition;
 `--voice` overrides the file. Server `--no-voice` skips loading the native worker.
 Missing setup leaves manual controls available. Direct-file/static hosting cannot
@@ -228,7 +229,11 @@ returns to navigation and clears any active drawing tool. Custom commands use
 `[[voice.commands]]` with `id`, `phrases`, and one of the supported `command`
 values documented in [config.md](config.md#local-voice-triggers). The Q&A
 command “take questions now” (also “take any questions now”) starts a bounded
-in-memory transcript item when `[qa] enabled = true`.
+in-memory transcript item when `[qa] enabled = true`. Press `Q` to finish it;
+the raw transcript is saved locally and organized through DashScope's
+OpenAI-compatible Chat Completions API (`qwen3.7-flash` by default). A masked
+Voice-window API-key field can override `DASHSCOPE_API_KEY` for the current
+page only.
 
 ## Rehearsal
 
