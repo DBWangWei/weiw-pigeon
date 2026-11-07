@@ -18,7 +18,9 @@ takeaway callouts demonstrate Pigeon's stronger magic-wand emphasis.
 
 The source, template, logo, and figures are all included. Copy only
 `pigeon-OLS-beyond-memoization.html` to present on another computer. No internet
-connection or companion files are needed to view it.
+connection or companion files are needed to view it. This example sets
+`embed_pdf = true`; new builds use a companion PDF by default unless that option
+is set.
 
 ## Rebuild
 
@@ -66,3 +68,5 @@ The shared template also re-exports `tick` from `shared/pigeon-tick.typ` and
 calls `#tick-band()` for every `s` slide. Add `#tick(id: "question-1")[...]` or
 `#tick(kind: "done", resolves: "question-1")[...]` to a source to reserve and
 populate the ticker band. Sources without any ticks do not reserve that space.
+The two rows use compact `● NOW` and `→ NEXT` status markers while keeping the
+message text left-aligned.

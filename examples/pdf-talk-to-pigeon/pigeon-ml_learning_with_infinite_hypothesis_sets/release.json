@@ -1,6 +1,6 @@
 {
   "appName": "Pigeon",
-  "version": "1.0.4",
+  "version": "1.0.5",
   "icon": "public/icons/pigeon.png",
   "deckId": "ml-learning-with-infinite-hypothesis-sets",
   "title": "Learning with Infinite Hypothesis Sets",

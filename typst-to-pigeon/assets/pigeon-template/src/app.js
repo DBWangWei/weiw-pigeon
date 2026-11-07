@@ -6,7 +6,7 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-const PIGEON_VERSION = "1.0.4";
+const PIGEON_VERSION = "1.0.5";
 // Bump when the canvas placement algorithm changes so an old saved camera
 // does not reopen a deck with large off-screen gaps on a different display.
 const CAMERA_LAYOUT_VERSION = 2;
@@ -160,6 +160,7 @@ function normaliseManifest(raw) {
     readingText: [s.text || "", ...(s.semanticTiers?.notes || []).filter(n=>n.public).map(n=>n.text)].join("\n"),
     section: s.section || "Talk",
     summary: s.summary || s.description || "",
+    ticker: s.ticker,
     page: Number(s.page ?? s.physicalPage ?? i + 1),
     text: [
       s.title,
@@ -865,8 +866,23 @@ function tickerFor(key) {
 function tickerLabel(part, fallback = "") {
   const tick = part?.tick ? tickerFor(part.tick) : null;
   if (!tick) return fallback;
-  const prefix = tick.kind === "done" ? "✓ " : tick.kind === "next" ? "Next: " : "";
-  return prefix + (tick.plain || "");
+  return tick.plain || "";
+}
+function paintTickerLabel(node, part, fallback = "") {
+  const label = tickerLabel(part, fallback);
+  node.replaceChildren();
+  if (!label) return label;
+  const tick = part?.tick ? tickerFor(part.tick) : null;
+  const markers = {now: "● NOW", next: "→ NEXT", done: "✓ DONE"};
+  if (tick && markers[tick.kind]) {
+    const marker = document.createElement("span");
+    marker.className = `ticker-marker ticker-marker-${tick.kind}`;
+    marker.textContent = markers[tick.kind];
+    node.append(marker, document.createTextNode(` ${label}`));
+  } else {
+    node.textContent = label;
+  }
+  return label;
 }
 function renderTickerFrame(frame, slide, active = false) {
   const layer = frame.querySelector(".ticker-layer");
@@ -883,8 +899,6 @@ function renderTickerFrame(frame, slide, active = false) {
   const left = page.left || (running.left ? {tick: running.left.key} : null);
   const right = page.right || (running.right ? {tick: running.right.key} : null);
   const section = running.section || page.section || "";
-  const leftText = tickerLabel(left, section);
-  const rightText = tickerLabel(right);
   layer.style.left = `${band.x || 0}px`;
   layer.style.top = `${band.y || Math.max(0, slide.height - (band.h || 28))}px`;
   layer.style.width = `${band.w || slide.width}px`;
@@ -892,10 +906,44 @@ function renderTickerFrame(frame, slide, active = false) {
   layer.style.backgroundColor = band.fill || "#fff";
   const current = layer.querySelector(".ticker-current");
   const next = layer.querySelector(".ticker-next");
-  current.textContent = leftText;
-  next.textContent = rightText;
+  const leftText = paintTickerLabel(current, left, section);
+  const rightText = paintTickerLabel(next, right);
   current.hidden = !leftText;
   next.hidden = !rightText;
+  // The Typst band is a two-row lower third. The normalized manifest keeps
+  // the absolute geometry for each row; position the live, clickable labels
+  // inside the band instead of collapsing them into one horizontal grid row.
+  const partGeometry = (part, fallbackY, fallbackWidth, xOverride = null) => {
+    if (!part) return null;
+    const x = xOverride == null
+      ? (Number.isFinite(Number(part.x)) ? Number(part.x) : Number(band.x || 0) + 12)
+      : xOverride;
+    const y = Number.isFinite(Number(part.y)) ? Number(part.y) : fallbackY;
+    const width = Number.isFinite(Number(part.w)) ? Number(part.w) : fallbackWidth;
+    const height = Number.isFinite(Number(part.h)) ? Number(part.h) : Math.max(1, Number(band.h || 28) / 2);
+    return {
+      left: x - Number(band.x || 0),
+      top: y - Number(band.y || 0),
+      width,
+      height,
+    };
+  };
+  const half = Number(band.h || 28) / 2;
+  const rowWidth = Math.max(0, Number(band.w || slide.width) - 24);
+  const inset = Number.isFinite(Number(band.inset)) ? Number(band.inset) : 12;
+  const geometries = [
+    [current, partGeometry(page.left || band.left, Number(band.y || 0), rowWidth)],
+    // `right` names the second row in the manifest schema. Its content is
+    // left-aligned with the current row in the PDF and in the live overlay.
+    [next, partGeometry(page.right || band.right, Number(band.y || 0) + half, rowWidth, Number(band.x || 0) + inset)],
+  ];
+  for (const [node, geometry] of geometries) {
+    if (!geometry) continue;
+    node.style.left = `${geometry.left}px`;
+    node.style.top = `${geometry.top}px`;
+    node.style.width = `${geometry.width}px`;
+    node.style.height = `${geometry.height}px`;
+  }
   layer.setAttribute("aria-label", [leftText, rightText].filter(Boolean).join(". "));
   const targetFor = part => tickerFor(part?.tick)?.slide;
   for (const [node, part] of [[current, left], [next, right]]) {
@@ -1914,6 +1962,23 @@ function graphNodeElement(id) {
     (node) => node.dataset.concept === id,
   );
 }
+function revealGraphNode(node) {
+  // scrollIntoView also scrolls the document to the offscreen overview, even
+  // with body overflow hidden. Only move the graph's own scroll container.
+  if (!state.overview || state.mode !== "graph" || !node?.isConnected) return;
+  const scroll = node.closest(".graph-scroll");
+  if (!scroll) return;
+  const viewport = scroll.getBoundingClientRect();
+  const bounds = node.getBoundingClientRect();
+  const left = viewport.left + scroll.clientLeft;
+  const top = viewport.top + scroll.clientTop;
+  const right = left + scroll.clientWidth;
+  const bottom = top + scroll.clientHeight;
+  if (bounds.left < left) scroll.scrollLeft += bounds.left - left;
+  else if (bounds.right > right) scroll.scrollLeft += bounds.right - right;
+  if (bounds.top < top) scroll.scrollTop += bounds.top - top;
+  else if (bounds.bottom > bottom) scroll.scrollTop += bounds.bottom - bottom;
+}
 function graphLabel(label) {
   const lines = window.PigeonGraphLayout.wrapLabel(label);
   return lines.map((line, index) =>
@@ -1984,7 +2049,7 @@ function renderGraph() {
   setScale(1);
   focusConcept(state.graphFocus, false);
   requestAnimationFrame(() => {
-    if (scroll.isConnected) graphNodeElement(state.graphFocus)?.scrollIntoView?.({block: "nearest", inline: "nearest"});
+    if (scroll.isConnected) revealGraphNode(graphNodeElement(state.graphFocus));
   });
 }
 function evidenceMarkup(evidence) {
@@ -2056,8 +2121,8 @@ function focusConcept(id, moveFocus = true) {
   }
   if (moveFocus) {
     const node = graphNodeElement(id);
-    node?.focus({preventScroll: true});
-    node?.scrollIntoView?.({block: "nearest", inline: "nearest"});
+    if (state.overview) node?.focus({preventScroll: true});
+    revealGraphNode(node);
   }
   persist();
 }
@@ -3367,7 +3432,11 @@ function keyHandler(event) {
   }
 }
 function focusOverviewSurface() {
-  if (state.mode === "graph") graphNodeElement(state.graphFocus)?.focus();
+  if (state.mode === "graph") {
+    const node = graphNodeElement(state.graphFocus);
+    node?.focus({preventScroll: true});
+    revealGraphNode(node);
+  }
   else focusHierarchy(state.hierarchyFocus || activeFrameKey());
 }
 function toggleOverviewMode() {

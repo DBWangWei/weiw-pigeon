@@ -2,7 +2,7 @@
 graph = "local"
 graph_provider = "codex-config"
 title_effect = "none" # omit extra title SVGs
-embed_pdf = true
+embed_pdf = false # set true to embed the source PDF in the HTML
 png_size = "768p" # 1366x768; also 1080p (1920x1080) or original
 png_to_jpg = true # set false to keep PNG payloads
 jpg_quality = 90 # 1-100

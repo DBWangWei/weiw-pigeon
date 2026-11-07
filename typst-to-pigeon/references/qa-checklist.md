@@ -1,8 +1,10 @@
 # QA checklist
 
-For the default `single` mode, copy only the generated HTML into a new, empty
-directory, open it directly, and check navigation, artwork, overview, graph,
-annotations and PDF export. Confirm no companion-file or network requests occur.
+For the default `single` mode, copy the generated HTML and its companion PDF
+into a new, empty directory, open the HTML directly, and check navigation,
+artwork, overview, graph, annotations and companion-PDF discovery. Confirm the
+annotated PDF action is disabled. Use `--embed-pdf` when the embedded PDF export
+path is the target of the check.
 `test_single_file.py` checks default output, aliases/TOML precedence, inline
 script syntax/escaping, and failure-safe replacement. Use `--out-mode multiple`
 when you need the build reports and individual assets below.
@@ -36,7 +38,7 @@ python3 scripts/typst_to_pigeon.py tests/fixtures/geometry.pdf --output /tmp/pig
 PIGEON_FIXTURE_ROOT=/tmp/pigeon-pdf-geometry-check PIGEON_TEST_DEPS=/path/to/node_modules node --test tests/runtime-pdf.test.mjs
 ```
 
-The Python tests use real Typst/Poppler with a loopback fake Responses API: TOML discovery, CLI precedence, offline defaults, configured model extraction, repair, cache reuse, transactional failure, Unicode/multiline title reconstruction, duplicate metadata IDs, blank pages, resource bundling and ZIP integrity. PDF tests additionally exercise title/no-title/cover/repeated-header cases, wrapped titles, image/table/vector targets, crop and rotation coordinates, title-artwork raster reconstruction, optional OCR failure and mocked OCR geometry, source-byte preservation, PDF builds without Typst/Poppler, model image preparation and transactional malformed/encrypted-input failures. Without PyMuPDF the PDF tests are skipped; a 1.0.4 release requires running them with that dependency installed. They make no external model calls. The runtime tests use Happy DOM, canvas/image/animation stubs and the generated file bundle; `PIGEON_TEST_DEPS` must point to a directory containing `happy-dom`. They check state and wiring, not actual browser rendering.
+The Python tests use real Typst/Poppler with a loopback fake Responses API: TOML discovery, CLI precedence, offline defaults, configured model extraction, repair, cache reuse, transactional failure, Unicode/multiline title reconstruction, duplicate metadata IDs, blank pages, resource bundling and ZIP integrity. PDF tests additionally exercise title/no-title/cover/repeated-header cases, wrapped titles, image/table/vector targets, crop and rotation coordinates, title-artwork raster reconstruction, optional OCR failure and mocked OCR geometry, source-byte preservation, PDF builds without Typst/Poppler, model image preparation and transactional malformed/encrypted-input failures. Without PyMuPDF the PDF tests are skipped; a 1.0.5 release requires running them with that dependency installed. They make no external model calls. The runtime tests use Happy DOM, canvas/image/animation stubs and the generated file bundle; `PIGEON_TEST_DEPS` must point to a directory containing `happy-dom`. They check state and wiring, not actual browser rendering.
 
 The ZIP includes static runtime/assets, title layers, mapped resources, notices, README, release metadata and the server, speech worker, setup script and small native bridge sources. It must exclude the downloaded engine/model, source `.typ` files, caches, credentials, test fixtures and development dependencies. Report browser launch failures separately from successful static/DOM checks.
 

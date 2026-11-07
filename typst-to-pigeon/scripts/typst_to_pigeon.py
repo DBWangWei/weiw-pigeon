@@ -34,7 +34,7 @@ GRAPH_PROVIDERS = {"codex-config", "env"}
 OUTPUT_MODES = {"single", "multiple", "zip"}
 TITLE_EFFECTS = {"none", "split-text", "blur-text", "shiny-text", "gradient-text", "text-type"}
 SLIDE_TRANSITIONS = {"camera", "none", "fade", "blur", "slide", "zoom", "pixel", "staggered-wipe", "stack"}
-PIGEON_VERSION = "1.0.4"
+PIGEON_VERSION = "1.0.5"
 SINGLE_RUNTIME_SCRIPTS = (
     "src/ticker.js",
     "src/title-effects.js",
@@ -325,7 +325,7 @@ def main() -> int:
     parser.add_argument("--graph-provider", choices=sorted(GRAPH_PROVIDERS), default=None)
     parser.add_argument("--title-effect", choices=sorted(TITLE_EFFECTS), default=None, help="Config value or none by default; none omits title animation SVGs")
     parser.add_argument("--slide-transition", choices=sorted(SLIDE_TRANSITIONS), default=None, help="Config value or camera (original movement) by default")
-    parser.add_argument("--embed-pdf", action=argparse.BooleanOptionalAction, default=None, help="Embed source PDF (default); --no-embed-pdf writes a companion PDF beside the HTML")
+    parser.add_argument("--embed-pdf", action=argparse.BooleanOptionalAction, default=None, help="Embed source PDF (opt-in); --no-embed-pdf writes a companion PDF beside the HTML (default)")
     parser.add_argument("--png-size", choices=sorted(PNG_SIZES), default=None, help="Embedded PNG bounds: 768p (1366x768, default), 1080p (1920x1080), original; never upscales")
     png_group = parser.add_mutually_exclusive_group()
     png_group.add_argument("--png", dest="png_to_jpg", action="store_false", default=None, help="Keep embedded slide images as PNG (JPEG is the default)")
@@ -386,12 +386,13 @@ def main() -> int:
     graph_provider = choose(args.graph_provider, config, "graph_provider", "codex-config")
     title_effect = choose(args.title_effect, config, "title_effect", "none")
     slide_transition = choose(args.slide_transition, config, "slide_transition", "camera")
-    embed_pdf = choose(args.embed_pdf, config, "embed_pdf", True)
+    embed_pdf = choose(args.embed_pdf, config, "embed_pdf", False)
     png_size = choose(args.png_size, config, "png_size", "768p")
     png_to_jpg = choose(args.png_to_jpg, config, "png_to_jpg", True)
     jpg_quality = choose(args.jpg_quality, config, "jpg_quality", 90)
     ImageAssets(png_size, png_to_jpg, jpg_quality)
-    companion = output.parent / source.with_suffix(".pdf").name if out_mode == "single" else output / source.with_suffix(".pdf").name
+    companion_name = source.name if source.suffix.lower() == ".pdf" else source.with_suffix(".pdf").name
+    companion = output.parent / companion_name if out_mode == "single" else output / companion_name
     if not embed_pdf and out_mode == "single":
         if companion.is_symlink():
             raise ValueError(f"Companion PDF must not be a symlink: {companion}")

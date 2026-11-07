@@ -2,7 +2,7 @@
 
 # weiw-pigeon
 
-Pigeon **1.0.4** converts a Typst slide source or PDF deck into an offline HTML presentation
+Pigeon **1.0.5** converts a Typst slide source or PDF deck into an offline HTML presentation
 with an infinite canvas, non-linear navigation, a concept graph, search and
 annotation tools. The original page appearance is preserved as SVG artwork.
 
@@ -32,9 +32,11 @@ From this repository:
 By default, this creates one self-contained `pigeon-FILENAME.html` beside the source, where
 `FILENAME` is the basename without its last suffix. For example,
 `/talks/week5.typ` produces `/talks/pigeon-week5.html`. Send that HTML file to a
-recipient, who can double-click it in a current browser. No server, installation,
-or additional files are needed; navigation, overview, graphs, annotations,
-motion effects, semantic tiers, and PDF export work offline.
+recipient, who can double-click it in a current browser. The default build also
+writes `week5.pdf` beside the HTML; keep those two files together. Use
+`--embed-pdf` when the PDF must be included in one standalone HTML file.
+Navigation, overview, graphs, annotations, motion effects, and semantic tiers
+work offline.
 
 ```bash
 open /path/to/pigeon-talk.html       # macOS; or open in Safari or Firefox
@@ -104,7 +106,7 @@ and semantic-tier SVGs; it does not rewrite source PNGs, the source/companion
 PDF, or shell icons.
 The TOML setting `png_to_jpg = false` is equivalent to `--png`.
 
-`--no-embed-pdf` writes the source-stem PDF, such as `talk.pdf`, beside
+PDF embedding is off by default. The default writes the source-stem PDF, such as `talk.pdf`, beside
 `pigeon-talk.html` (or the source
 PDF filename beside folder-mode `index.html`) and omits the PDF from the bundle.
 Single-file mode also omits the PDF export library. Keep the two files together.
@@ -112,15 +114,17 @@ The runtime checks the companion PDF; unavailable PDF actions are gray.
 Annotated **Export PDF** requires embedding and stays gray in companion mode.
 If local `file://` security blocks discovery, **Session → Choose PDF fallback…**
 lets you select the companion for opening. HTTP hosting discovers it automatically.
-PNG and session exports remain available. `--embed-pdf` restores the default.
+PNG and session exports remain available. `--embed-pdf` opts into embedding.
 See [configuration](typst-to-pigeon/references/config.md#asset-size-and-pdf-options)
 for TOML equivalents.
 
 ## Files to keep
 
-For the default single-file output, keep and send **only `pigeon-FILENAME.html`**.
-It embeds the runtime, styles, icons, deck data, slides, linked deck resources,
-source PDF, PDF export library, and third-party notices. With `--no-embed-pdf`, keep the companion PDF too.
+For the default single-file output, keep and send `pigeon-FILENAME.html` together
+with its companion `FILENAME.pdf`. The HTML embeds the runtime, styles, icons,
+deck data, slides, linked deck resources, and third-party notices. Use
+`--embed-pdf` to produce a single file that also contains the source PDF and PDF
+export library.
 
 For `--out-mode multiple`, keep the `pigeon-FILENAME/` directory together.
 The smallest set for direct offline opening of the presentation is:
@@ -130,12 +134,14 @@ index.html
 styles.css
 src/                         # all runtime files, including src/vendor/
 public/icons/                # Pigeon icon used by the shell
-public/deck/embedded-deck.js # manifest, graph, SVGs, PDF and resources bundled here
+public/deck/embedded-deck.js # manifest, graph, SVGs and resources bundled here
 ```
 
 The other files are optional for direct file opening. Keep `public/deck/` in
 full if the presentation will also be served over HTTP, because HTTP mode reads
-the manifest, graph, slide assets and source PDF from that directory. Keep
+the manifest, graph and slide assets from that directory. With `embed_pdf = false`,
+keep the companion source-stem PDF beside `index.html`; embedded builds keep it
+in `public/deck/`. Keep
 `scripts/` when using local Whisper voice or Q&A; keep `Start Presentation.command`
 if you want the macOS launcher. `README.txt`, `release.json`, `build-report.json`,
 `config/`, `prompts/`, and `schemas/` are documentation or build metadata and are
@@ -226,12 +232,15 @@ Typst sources can add a live lower-third ticker with the bundled
 ```
 
 Use `#tick(kind: "now", ...)` (the default) for the current thread, `kind: "next"` for a
-right-hand preview, and `kind: "done"` with `resolves: "id"` to close a thread.
+preview in the second ticker row, and `kind: "done"` with `resolves: "id"` to close a thread.
 The template's `tick-band()` reserves the lower band only when the source has
 at least one tick, so ticker-free slides retain the larger main-text area.
 When a ticker is present, the compiled Typst band and the live Pigeon ticker
 share the same geometry; the baked copy remains in the PDF while the player
-updates the lower third as the talk progresses. For a custom template, copy
+updates the lower third as the talk progresses. The two rows use compact status
+markers: a red `● NOW` marker for the current thread, a blue `→ NEXT` marker
+for the upcoming thread, and a green `✓ DONE` marker for a resolved thread.
+For a custom template, copy
 [`typst-to-pigeon/assets/pigeon-tick.typ`](typst-to-pigeon/assets/pigeon-tick.typ),
 import `tick` and `tick-band`, and call `#tick-band()` in the footer.
 
@@ -486,6 +495,12 @@ tests and Safari/Firefox rehearsal. These checks do not establish browser
 rendering or OCR recognition quality. Animation design references are documented in
 `typst-to-pigeon/assets/pigeon-template/THIRD_PARTY_NOTICES.txt`.
 
+Version 1.0.5 adds the compact status-marker ticker: `● NOW`, `→ NEXT`, and
+`✓ DONE` remain left-aligned in the fixed two-row lower third across Typst/PDF
+and HTML output. Cover and final Q&A pages suppress ticker bands and ticker
+content. It also updates the generated runtime and documentation to version
+1.0.5.
+
 Version 1.0.4 adds authored semantic tiers for explicitly marked Typst
 content. Slide mode preserves ordinary navigation, while Step mode traverses
 authored question, answer, evidence and takeaway states before moving to another
@@ -524,6 +539,7 @@ Live voice rehearsal currently targets Google Chrome on macOS. Manual presentati
 
 ## Version documentation
 
+- [1.0.5](docs/versions/1.0.5/README.md): status-marker ticker styling, final-page ticker suppression, and the 1.0.5 runtime/documentation update.
 - [1.0.4](docs/versions/1.0.4/README.md): authored semantic tiers, tier-aware navigation, and the six-page semantic-tier example.
 - [1.0.3](docs/versions/1.0.3/README.md): local Whisper voice triggers, semantic Typst markers, configurable actions, and the voice-enabled Week 5 example.
 - [1.0.2](docs/versions/1.0.2/README.md): outline sections and diagram mode.

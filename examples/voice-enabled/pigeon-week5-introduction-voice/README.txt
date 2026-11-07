@@ -1,6 +1,6 @@
 Pigeon
 Interactive canvas presentation · Introduction to Week 5 · DSAA3073 · 26Fall
-Version 1.0.4
+Version 1.0.5
 
 Double-click index.html to open the presentation directly. Keep the extracted folder together.
 For predictable browser storage, run: python3 scripts/serve.py

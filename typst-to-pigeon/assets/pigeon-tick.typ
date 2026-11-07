@@ -16,8 +16,15 @@
 }
 
 #let tick-render(kind, body) = {
-  if kind == "done" [✓ #body]
-  else if kind == "next" { text(fill: luma(90))[Next: #body] }
+  if kind == "done" {
+    [#text(fill: rgb("#3f7d4b"), weight: "bold")[✓ DONE ] #body]
+  }
+  else if kind == "next" {
+    [#text(fill: rgb("#276fbf"), weight: "bold")[→ NEXT ] #body]
+  }
+  else if kind == "now" {
+    [#text(fill: rgb("#c43d32"), weight: "bold")[● NOW ] #body]
+  }
   else if kind == "section" { text(fill: luma(90), weight: "medium")[#body] }
   else { body }
 }
@@ -47,8 +54,9 @@
 
 #let tick-band(height: 28pt, fill: white, inset: 12pt, gap: 16pt,
   size: 15pt, fallback: "section", render: tick-render, enabled: true) = context {
-  if query(<pigeon-tick>).len() > 0 {
-    let pg = here().page()
+  let pg = here().page()
+  let final = counter(page).final().first()
+  if enabled and query(<pigeon-tick>).len() > 0 and pg != final {
     let state = _state(pg)
     let section = _section-at(pg)
     let left-content = if enabled and state.left != none { render(state.left.kind, state.left.body) }
@@ -68,13 +76,23 @@
       } else { 0 }
       let left-part = if lm != none {
         (tick: if state.left != none { state.left.key },
-          x: inset / 1pt, y: (height - lm.height) / 2 / 1pt,
+          x: inset / 1pt,
+          y: if rm != none {
+            (height / 2 - lm.height) / 2 / 1pt
+          } else {
+            (height - lm.height) / 2 / 1pt
+          },
           w: lm.width / 1pt, h: lm.height / 1pt)
       } else { none }
       let right-part = if rm != none {
         (tick: if state.right != none { state.right.key },
-          x: (size.width - inset - rm.width) / 1pt,
-          y: (height - rm.height) / 2 / 1pt,
+          // The next ticker is the second row, not a right-aligned column.
+          x: inset / 1pt,
+          y: if lm != none {
+            (height / 2 + (height / 2 - rm.height) / 2) / 1pt
+          } else {
+            (height - rm.height) / 2 / 1pt
+          },
           w: rm.width / 1pt, h: rm.height / 1pt)
       } else { none }
       block(width: 100%, height: height, fill: fill, clip: true,
@@ -86,9 +104,14 @@
             overflow: used > size.width / 1pt - 2 * inset / 1pt, enabled: enabled,
             section: section, gap: gap, inset: inset / 1pt,
             left: left-part, right: right-part)) <pigeon-band>])
-          if left-content != none { left-content }
-          h(1fr)
-          if right-content != none { right-content }
+          if left-content != none and right-content != none {
+            grid(columns: 1, rows: (1fr, 1fr), gutter: 0pt,
+              align: left + horizon, left-content, right-content)
+          } else if left-content != none {
+            align(left + horizon, left-content)
+          } else if right-content != none {
+            align(left + horizon, right-content)
+          }
         })
     })
   }

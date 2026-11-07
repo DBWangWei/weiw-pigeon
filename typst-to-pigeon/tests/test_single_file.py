@@ -54,7 +54,7 @@ class SingleFileTests(unittest.TestCase):
         shutil.copy2(SKILL / 'tests/fixtures/geometry.typ', source)
         return source
 
-    def test_default_is_only_one_html_with_offline_assets_and_safe_script_text(self):
+    def test_default_uses_companion_pdf_with_offline_assets_and_safe_script_text(self):
         with tempfile.TemporaryDirectory(prefix='pigeon single ') as tmp:
             root = Path(tmp)
             source = self.source(root)
@@ -67,7 +67,8 @@ class SingleFileTests(unittest.TestCase):
             result = self.build(source, '--title', title, launcher=SKILL.parent / 'typst-to-pigeon.sh')
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             target = root / 'pigeon-My talk.v2.html'
-            self.assertEqual(set(root.iterdir()), {source, target, resource, navigation})
+            companion = root / 'My talk.v2.pdf'
+            self.assertEqual(set(root.iterdir()), {source, target, companion, resource, navigation})
             document = PresentationHTML(target.read_text())
             self.assertFalse(document.external_assets)
             self.assertEqual(len(document.scripts), 3)
@@ -77,17 +78,32 @@ class SingleFileTests(unittest.TestCase):
             self.assertEqual(len(manifest['slides']), 3)
             self.assertFalse(manifest['voice']['enabled'])
             self.assertFalse(manifest['qa']['enabled'])
+            self.assertFalse(manifest['pdfEmbedded'])
+            self.assertEqual(manifest['pdf'], 'My%20talk.v2.pdf')
             self.assertIn(resource.read_text(), bundle['resources'].values())
-            self.assertIn('data:application/pdf;base64,', ''.join(bundle['assets'].values()))
+            self.assertFalse(any(uri.startswith('data:application/pdf') for uri in bundle['assets'].values()))
             self.assertIn('pigeon-third-party-notices', target.read_text())
             config = document.scripts[1].removeprefix('window.PIGEON_SINGLE_FILE_SCRIPTS=')
             runtime, _ = json.JSONDecoder().raw_decode(config)
-            self.assertIn('src/vendor/pdf-lib.min.js', runtime)
+            self.assertNotIn('src/vendor/pdf-lib.min.js', runtime)
             self.assertIn('src/app.js', runtime)
             self.assertNotIn('src/voice.js', runtime)
             for code in [*document.scripts, *runtime.values()]:
                 checked = subprocess.run(['node', '--check'], input=code, capture_output=True, text=True)
                 self.assertEqual(checked.returncode, 0, checked.stderr)
+
+    def test_embed_pdf_is_explicit_opt_in(self):
+        with tempfile.TemporaryDirectory(prefix='pigeon embed ') as tmp:
+            root = Path(tmp)
+            source = self.source(root)
+            result = self.build(source, '--embed-pdf')
+            self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
+            target = root / 'pigeon-My talk.v2.html'
+            self.assertEqual(set(root.iterdir()), {source, target})
+            bundle = embedded_bundle(PresentationHTML(target.read_text()))
+            manifest = bundle['json']['public/deck/manifest.json']
+            self.assertTrue(manifest['pdfEmbedded'])
+            self.assertIn('data:application/pdf;base64,', ''.join(bundle['assets'].values()))
 
     def test_companion_pdf_omits_bundle_and_library_and_preserves_failed_build(self):
         with tempfile.TemporaryDirectory(prefix='pigeon companion ') as tmp:
@@ -140,7 +156,7 @@ class SingleFileTests(unittest.TestCase):
             self.assertTrue((root / 'configured.html').is_file())
             self.assertFalse((root / 'configured').exists())
             (root / 'pigeon.toml').write_text('out_mode="single"\nno_zip=false\noutput="from-config.html"\n')
-            result = self.build(source)
+            result = self.build(source, '--force')
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             self.assertTrue((root / 'from-config.html').is_file())
             result = self.build(source, '--out-mode', 'multiple', '--output', str(root / 'folder'))
@@ -185,7 +201,7 @@ class SingleFileTests(unittest.TestCase):
             root = Path(tmp)
             source = root / 'slides.PDF'
             shutil.copy2(SKILL / 'tests/fixtures/geometry.pdf', source)
-            result = self.build(source)
+            result = self.build(source, '--png', '--png-size', 'original')
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             target = root / 'pigeon-slides.html'
             self.assertEqual(set(root.iterdir()), {source, target})
@@ -204,7 +220,7 @@ class SingleFileTests(unittest.TestCase):
             source = root / 'slides.pdf'
             shutil.copy2(SKILL / 'tests/fixtures/geometry.pdf', source)
             original = source.read_bytes()
-            result = self.build(source, '--no-embed-pdf')
+            result = self.build(source, '--no-embed-pdf', '--png', '--png-size', 'original')
             self.assertEqual(result.returncode, 0, result.stdout + result.stderr)
             target = root / 'pigeon-slides.html'
             self.assertEqual(set(root.iterdir()), {source, target})

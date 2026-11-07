@@ -88,6 +88,44 @@ def mask_ticker_page(geo, page_text, page_data):
     return '\n'.join(lines) + ('\n' if lines else ''), geo
 
 
+def mask_ticker_svg(svg, raw_band):
+    """Remove a suppressed ticker band from compiled SVG artwork.
+
+    ``pigeon-tick`` has no visible footprint in the source, but copied helpers
+    still draw the lower-third block. The live manifest suppresses cover and
+    final pages; remove the matching Typst path/group as well so static artwork
+    cannot show a stale message underneath the player.
+    """
+    if not isinstance(raw_band, dict) or not raw_band.get('fill'):
+        return
+    fill = str(raw_band['fill']).strip().lower()
+    tree = ET.parse(svg)
+    root = tree.getroot()
+    removed = False
+    for parent in root.iter():
+        children = list(parent)
+        for child in children:
+            if child.tag.split('}')[-1] != 'path' or (child.get('fill') or '').lower() != fill:
+                continue
+            transform = child.get('transform')
+            if not transform:
+                continue
+            siblings = [item for item in children if item is not child and item.get('transform') == transform]
+            if not any(item.tag.split('}')[-1] == 'g' for item in siblings):
+                continue
+            parent.remove(child)
+            for sibling in siblings:
+                if sibling.tag.split('}')[-1] == 'g':
+                    parent.remove(sibling)
+            removed = True
+    if not removed:
+        return
+    ET.register_namespace('', 'http://www.w3.org/2000/svg')
+    ET.register_namespace('xlink', 'http://www.w3.org/1999/xlink')
+    ET.register_namespace('h5', 'http://www.w3.org/1999/xhtml')
+    tree.write(svg, encoding='unicode', xml_declaration=False)
+
+
 def text_geometry(pdf):
     root=ET.fromstring(run(['pdftotext','-bbox-layout',str(pdf),'-'],pdf.parent))
     ns={'x':'http://www.w3.org/1999/xhtml'}
@@ -201,9 +239,22 @@ def build(source, output, deck_id=None, title=None, navigation=None, skip_compil
         name=f'{len(resources)+1:03d}-{local.name}'
         target=deck/'resources'/name; target.parent.mkdir(exist_ok=True)
         target.write_bytes(local.read_bytes()); resources[href]=f'resources/{name}'
+    cover_band = next((item for item in ticker_raw.get('bands', [])
+                       if isinstance(item, dict) and int(float(item.get('page', 0))) == 1), None)
+    final_band = next((item for item in ticker_raw.get('bands', [])
+                       if isinstance(item, dict) and int(float(item.get('page', 0))) == len(svgs)), None)
     for page,(svg,geo,page_text) in enumerate(zip(svgs,geometry,texts),1):
         ticker_page = next((item for item in (ticker or {}).get('pages', []) if item.get('page') == page), None)
-        page_text, geo = mask_ticker_page(geo, page_text, ticker_page)
+        mask_page = ticker_page
+        if page == 1 and cover_band:
+            mask_page = {'band': cover_band}
+        elif page == len(svgs) and final_band:
+            mask_page = {'band': final_band}
+        page_text, geo = mask_ticker_page(geo, page_text, mask_page)
+        if ticker and page == 1 and cover_band:
+            mask_ticker_svg(svg, cover_band)
+        elif ticker and page == len(svgs) and final_band:
+            mask_ticker_svg(svg, final_band)
         images.svg(svg)
         vbox=[float(v) for v in ET.parse(svg).getroot().get('viewBox').split()]
         width,height=vbox[2:]

@@ -5,7 +5,7 @@ description: Turn a Typst slide source or PDF deck into a portable Pigeon HTML p
 
 # Typst to Pigeon
 
-Use this skill when the user has a Typst slide source or PDF deck and wants the Pigeon presentation system generated beside it. The skill preserves the source file, compiles Typst pages or renders PDF pages to SVG, extracts slide metadata and visual wand targets, builds a revisioned manifest and graph, and embeds the assets for offline `file://` opening. It writes one standalone HTML file by default. `--out-mode multiple` writes the portable folder; `--out-mode zip` writes the folder plus an archive.
+Use this skill when the user has a Typst slide source or PDF deck and wants the Pigeon presentation system generated beside it. The skill preserves the source file, compiles Typst pages or renders PDF pages to SVG, extracts slide metadata and visual wand targets, builds a revisioned manifest and graph, and embeds the assets for offline `file://` opening. It writes one standalone HTML file plus a companion PDF by default; `--embed-pdf` opts into embedding the PDF. `--out-mode multiple` writes the portable folder; `--out-mode zip` writes the folder plus an archive.
 
 Run the entry point from this skill directory. Both formats require Python 3.11+ and Node.js 20.11+. Install `requirements.txt` for Pillow PNG resizing; PDF requirements include it. Typst input also requires Typst with `eval` support and Poppler. PDF input requires `python3 -m pip install -r requirements-pdf.txt`; it does not require Typst or Poppler:
 
@@ -26,11 +26,15 @@ Title animation defaults to **None**. This omits title-body and title-glyph SVGs
 
 Embedded raster payloads use JPEG quality 90 by default for opaque images and fit within 1366×768 (`--png-size 768p`). `1080p` uses 1920×1080; `original` skips resizing. Pass `--png` to keep PNG payloads, or `--quality N` to change JPEG quality from 1–100. Transparent source images remain PNG automatically so logos and icons retain alpha. Canonical and semantic-tier images share the same processing before hashes/title separation; source PNGs and PDF bytes remain unchanged. Install Pillow via `requirements.txt`.
 
-Pigeon is currently version **1.0.4**. Every generated release includes an **About Pigeon** dialog with the Pigeon icon, author/contact information, and a link to it from the `?` keyboard guide.
+Pigeon is currently version **1.0.5**. Every generated release includes an **About Pigeon** dialog with the Pigeon icon, author/contact information, and a link to it from the `?` keyboard guide.
 
 Single-file releases omit voice and live Q&A, their scripts and the voice panel.
-They embed CSS, icons, all offline runtime scripts, deck data, PDF export and
-third-party notices, and need no companion files by default. `--no-embed-pdf` writes a companion beside the HTML and omits the PDF export library; annotated PDF export stays disabled. HTTP discovers the companion, while local browsers may require Session → Choose PDF fallback. Missing PDFs must never prevent slide navigation. For build reports, cached
+They embed CSS, icons, all offline runtime scripts, deck data and third-party
+notices. PDF embedding is off by default: a companion PDF is written beside the
+HTML and the PDF export library is omitted. `--embed-pdf` opts into embedding
+the PDF and enables annotated PDF export. HTTP discovers the companion, while
+local browsers may require Session → Choose PDF fallback. Missing PDFs must
+never prevent slide navigation. For build reports, cached
 model graphs, voice or live Q&A use `--out-mode multiple` or `zip`.
 
 Voice recognition is enabled by default in `multiple` and `zip` releases. Mark Typst
@@ -58,8 +62,10 @@ opens a thread, `tick(kind: "next", ...)` previews the next thread, and
 templates re-export these helpers and call `#tick-band()` from `s`. The band is
 emitted only when at least one tick exists, so ticker-free sources keep the
 larger body area. A ticker source reserves the same band in Typst/PDF and in
-the live player. Ticker text is removed from graph/search evidence while the
-PDF keeps the authored static copy.
+the live player. The live and PDF rows use compact status markers (`● NOW`,
+`→ NEXT`, and `✓ DONE`) while keeping the message text left-aligned. Ticker
+text is removed from graph/search evidence while the PDF keeps the authored
+static copy.
 
 The generated manifest enables the **Mind map** by default. It is the graph
 overview selected after the knowledge graph loads; the hierarchy overview is
@@ -81,7 +87,7 @@ Press `D` for Diagram mode. It provides an offline Excalidraw-style editor: `V/1
 
 For page geometry, partial/absent metadata, title matching, custom wand targets and linked resources, read [references/input-contract.md](references/input-contract.md). Each page keeps its native dimensions; portrait and mixed-size decks are supported. Custom or computed Typst macros may require explicit navigation overrides. For release verification, use [references/qa-checklist.md](references/qa-checklist.md). The reusable Pigeon shell and icon live in `assets/pigeon-template/`; do not copy generated deck assets or talk-specific demos from an earlier release.
 
-For single-file generation, move the HTML into an otherwise empty directory and open it locally in Safari/Firefox; check navigation, artwork, overview, and PDF export with no companion-file or network requests. For folder generation, inspect `build-report.json`, check that `public/deck/manifest.json` and `public/deck/knowledge-graph.json` have the same revision, confirm `public/deck/embedded-deck.js` exists, and check the output's `index.html` contains no template placeholders. Run `node --check` on the generated JavaScript and serve the folder with `python3 scripts/serve.py` for live voice rehearsal. Report the checks actually performed; DOM tests and compilation do not prove browser rendering.
+For single-file generation, move the HTML and its companion PDF into an otherwise empty directory and open the HTML locally in Safari/Firefox; check navigation, artwork, overview, companion-PDF discovery, and the disabled annotated PDF action. Use `--embed-pdf` when testing embedded PDF export. For folder generation, inspect `build-report.json`, check that `public/deck/manifest.json` and `public/deck/knowledge-graph.json` have the same revision, confirm `public/deck/embedded-deck.js` exists, and check the output's `index.html` contains no template placeholders. Run `node --check` on the generated JavaScript and serve the folder with `python3 scripts/serve.py` for live voice rehearsal. Report the checks actually performed; DOM tests and compilation do not prove browser rendering.
 
 Export the whole annotated deck through **Export PDF** beside **Present** in the top bar. Original PDF artwork stays sharp; annotation overlays and inserted white/black boards (including drafts) are included. The bundled PDF library works offline. Transparent PDF wand regions have an opaque backing to prevent doubled text.
 

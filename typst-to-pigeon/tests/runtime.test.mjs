@@ -251,6 +251,7 @@ test('outline section labels group overview slides and arrow navigation crosses 
   manifest.hierarchy=null;
   manifest.slides.forEach((s,i)=>s.section=i<2?'1. Foundations':'2. Practice');
   a.state.deck=a.normaliseManifest(manifest);
+  a.state.mode='hierarchy';
   a.openOverview();
   const sections=[...d.querySelectorAll('.section-block')];
   assert.equal(sections.length,2);assert.match(sections[0].textContent,/1\. Foundations/);

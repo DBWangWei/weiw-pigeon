@@ -54,8 +54,9 @@ By default, this creates:
 
 The standalone HTML file is beside the PDF and is named `pigeon-FILENAME.html`, with only
 the final file suffix removed. For example, `lecture01.v2.pdf` produces
-`pigeon-lecture01.v2.html`. It embeds all presentation assets, including the PDF.
-No ZIP or companion folder is created by default.
+`pigeon-lecture01.v2.html`. By default, the source PDF remains a companion file
+beside the HTML; use `--embed-pdf` to include it in the HTML. No ZIP or companion
+folder is created by default.
 
 Use `--out-mode multiple` for a portable folder, or `--out-mode zip` for a
 folder plus a ZIP archive. Voice and live Q&A require one of those folder modes.
@@ -80,7 +81,7 @@ open "$HOME/Documents/Lectures/pigeon-lecture01.html"
 Use arrows or Space to move, `O` for the overview, `/` to search, `F` for
 presentation mode, and `?` for keyboard help.
 
-Send just the HTML file when copying it to another computer. For `multiple`
+Send the HTML and its companion PDF when copying it to another computer. For `multiple`
 mode, keep the generated folder together; for `zip`, extract the archive first.
 Opening the
 presentation requires only a browser and works offline. External website links

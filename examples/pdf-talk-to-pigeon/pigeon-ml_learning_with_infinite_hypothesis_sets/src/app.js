@@ -6,7 +6,7 @@
 const $ = (selector, root = document) => root.querySelector(selector);
 const $$ = (selector, root = document) => [...root.querySelectorAll(selector)];
 const clamp = (value, min, max) => Math.max(min, Math.min(max, value));
-const PIGEON_VERSION = "1.0.4";
+const PIGEON_VERSION = "1.0.5";
 // Bump when the canvas placement algorithm changes so an old saved camera
 // does not reopen a deck with large off-screen gaps on a different display.
 const CAMERA_LAYOUT_VERSION = 2;

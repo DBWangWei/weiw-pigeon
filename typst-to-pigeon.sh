@@ -26,8 +26,8 @@ Options:
                            shiny-text, or gradient-text
   --slide-transition NAME  camera (default), none, fade, blur, slide, zoom,
                            pixel, staggered-wipe, or stack
-  --embed-pdf              Embed PDF (default)
-  --no-embed-pdf           Write companion PDF beside HTML; disable annotated PDF export
+  --embed-pdf              Embed PDF (opt-in)
+  --no-embed-pdf           Write companion PDF beside HTML (default); disable annotated PDF export
   --png-size PRESET        768p (default), 1080p, or original; never upscale
   --png                    Keep embedded slide images as PNG (JPEG is the default)
   --quality NUMBER         JPEG quality 1-100 (default: 90)

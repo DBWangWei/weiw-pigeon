@@ -76,6 +76,7 @@ def _band(raw: dict, page: int) -> dict:
         "fill": raw.get("fill"),
         "enabled": raw.get("enabled", True) is not False,
         "overflow": bool(raw.get("overflow", False)),
+        "inset": _number(raw.get("inset"), 12.0) or 12.0,
     }
     # Keep the metadata useful even when a Typst version serializes nulls.
     result["left"] = _part(raw.get("left"), x, y)
@@ -120,6 +121,8 @@ def build_ticker(raw: dict | None, records: list[dict], slide_count: int | None 
         return None
     records = list(records or [])
     record_pages = {_page(record.get("page")): record for record in records if _page(record.get("page"))}
+    count = slide_count or len(records)
+    last_page = count if count > 0 else None
     warnings: list[dict] = []
     ticks: list[dict] = []
     ids: dict[str, dict] = {}
@@ -143,13 +146,19 @@ def build_ticker(raw: dict | None, records: list[dict], slide_count: int | None 
             "shown": [],
             "art": None,
         }
-        ticks.append(tick)
         if tick["id"]:
             if tick["id"] in ids:
                 warnings.append({"code": "tick.duplicate-id", "id": tick["id"], "page": page})
             ids[tick["id"]] = tick
         if page not in record_pages:
             warnings.append({"code": "tick.off-slide", "page": page, "key": tick["key"]})
+        # Cover and final-page ticks are authoring declarations only. Keep
+        # their IDs in the validation map so later `done` ticks can resolve
+        # them, but do not publish them to the runtime ticker. The final page
+        # is reserved for Q&A/closing content and must never inherit a stale
+        # lower third.
+        if page != 1 and page != last_page:
+            ticks.append(tick)
 
     for tick in ticks:
         target = tick.get("resolves")
@@ -160,13 +169,14 @@ def build_ticker(raw: dict | None, records: list[dict], slide_count: int | None 
 
     raw_bands = {int(_page(item.get("page"))): item for item in raw.get("bands", [])
                  if isinstance(item, dict) and _page(item.get("page")) is not None}
-    count = slide_count or len(records)
     pages: list[dict] = []
     by_key: defaultdict[str, list[int]] = defaultdict(list)
     for page in range(1, count + 1):
         record = record_pages.get(page, {})
         left, right = _state(ticks, records, page)
-        band = _band(raw_bands[page], page) if page in raw_bands else None
+        # The cover and final page never receive a live lower third, even when
+        # an older source file declares a band there.
+        band = _band(raw_bands[page], page) if page in raw_bands and page != 1 and page != last_page else None
         raw_band = raw_bands.get(page)
         if raw_band and isinstance(raw_band.get("left"), dict) and raw_band["left"].get("tick"):
             expected = left["key"] if left else None

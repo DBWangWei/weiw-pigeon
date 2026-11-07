@@ -56,7 +56,9 @@ stored in `pigeon.toml` or the generated presentation.
 `--out-mode single|multiple|zip` overrides `out_mode` in TOML:
 
 - `single` (default): one standalone HTML file with CSS, icons, runtime, deck
-  data, linked deck resources, PDF, PDF-export library, and license notices embedded.
+  data, linked deck resources, and license notices. PDF embedding is off by
+  default; the source-stem PDF is written beside the HTML. Use `embed_pdf=true`
+  or `--embed-pdf` to include it in the HTML with the PDF-export library.
   Double-click the file locally; it can also be hosted as one file. Voice and
   live Q&A are disabled and their UI/scripts are omitted. `--voice` requires
   `multiple` or `zip` instead.
@@ -83,7 +85,7 @@ files, persistent model-graph caches, or the local server.
 
 ```toml
 title_effect = "none" # default: omit separate title animation SVGs
-embed_pdf = true      # false: write companion PDF beside HTML
+embed_pdf = false     # true: embed the source PDF; false is the default
 png_size = "768p"     # default; 1080p or original
 png_to_jpg = true     # false: keep slide PNG payloads instead
 jpg_quality = 90     # integer 1-100
@@ -104,11 +106,12 @@ needed when `png_size="original"` and `png_to_jpg=false`.
 
 Import `assets/pigeon-tick.typ` in a Typst template and expose `tick` and
 `tick-band`. A `#tick(kind: "now", id: "...")[...]` opens a lower-third thread;
-`kind: "next"` places a preview on the right; and
+`kind: "next"` places a preview in the second ticker row; and
 `kind: "done", resolves: "id"` closes a previous thread. `#tick-band()` emits
 the reserved footer only when the source contains at least one tick. This keeps
 the body area larger for ticker-free sources and aligns the compiled PDF band
-with the live runtime ticker. The exporter records the result under
+with the live runtime ticker. Both rows are left-aligned and use compact
+colored status markers (`● NOW`, `→ NEXT`, and `✓ DONE`). The exporter records the result under
 `manifest.ticker` and excludes its baked words from graph/search evidence.
 
 Generated manifests set `mindMap.enabled = true` and

@@ -83,3 +83,5 @@ thread, `tick(kind: "next")[...]` for a preview, or
 reserves the ticker band only when the source contains ticks, so ticker-free
 slides keep the larger body area. The generated manifest opens on the graph
 backed **Mind map** overview by default.
+The two rows use compact `● NOW` and `→ NEXT` status markers while keeping the
+message text left-aligned.

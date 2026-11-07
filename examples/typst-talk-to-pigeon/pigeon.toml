@@ -1,4 +1,5 @@
 graph = "local"
 out_mode = "single"
+embed_pdf = true # this example ships as one self-contained HTML file
 title_effect = "text-type"
 slide_transition = "camera"

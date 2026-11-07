@@ -42,8 +42,8 @@ class ConfigTests(unittest.TestCase):
                 'particleMorphCell': 10,
                 'rackFocus': False,
             })
-            self.assertEqual(manifest['pigeonVersion'], '1.0.4')
-            self.assertEqual(release['version'], '1.0.4')
+            self.assertEqual(manifest['pigeonVersion'], '1.0.5')
+            self.assertEqual(release['version'], '1.0.5')
             self.assertEqual(release['particleMorph'], 'sections')
             self.assertEqual(release['particleMorphSlides'], [])
             self.assertEqual(release['particleMorphDurationMs'], 1400)

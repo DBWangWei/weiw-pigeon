@@ -24759,7 +24759,7 @@
   },
   "titleEffect": "text-type",
   "slideTransition": "camera",
-  "pigeonVersion": "1.0.4",
+  "pigeonVersion": "1.0.5",
   "voice": {
     "enabled": true,
     "backend": "whisper",
