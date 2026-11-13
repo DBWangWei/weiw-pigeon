@@ -131,22 +131,39 @@ def text_geometry(pdf):
     ns={'x':'http://www.w3.org/1999/xhtml'}
     result=[]
     for page in root.findall('.//x:page',ns):
+        page_width=float(page.get('width'))
+        page_height=float(page.get('height'))
         words,lines,regions=[],[],[]
         def box(el):
-            return dict(x=float(el.get('xMin')), y=float(el.get('yMin')),
-                        width=float(el.get('xMax'))-float(el.get('xMin')),
-                        height=float(el.get('yMax'))-float(el.get('yMin')))
+            left=max(0.0,min(page_width,float(el.get('xMin'))))
+            top=max(0.0,min(page_height,float(el.get('yMin'))))
+            right=max(0.0,min(page_width,float(el.get('xMax'))))
+            bottom=max(0.0,min(page_height,float(el.get('yMax'))))
+            if right <= left or bottom <= top:
+                return None
+            return dict(x=left, y=top, width=right-left, height=bottom-top)
         for line in page.findall('.//x:line',ns):
-            line_words=[dict(text=w.text or '',**box(w)) for w in line.findall('x:word',ns)]
+            line_box=box(line)
+            line_words=[]
+            for word in line.findall('x:word',ns):
+                word_box=box(word)
+                if word_box:
+                    line_words.append(dict(text=word.text or '',**word_box))
+            if not line_box or not line_words:
+                continue
             words.extend(line_words)
-            lines.append(dict(text=' '.join(w['text'] for w in line_words),words=line_words,**box(line)))
+            lines.append(dict(text=' '.join(w['text'] for w in line_words),words=line_words,**line_box))
         for block in page.findall('.//x:block',ns):
-            items=block.findall('x:line',ns) if box(block)['height'] > float(page.get('height'))*.2 else [block]
+            block_box=box(block)
+            if not block_box:
+                continue
+            items=block.findall('x:line',ns) if block_box['height'] > page_height*.2 else [block]
             for item in items:
                 text=' '.join(w.text or '' for w in item.findall('.//x:word',ns)).strip()
-                if not text: continue
-                regions.append(dict(id=f'text-{len(regions)+1}',kind='text',text=text,**box(item)))
-        result.append(dict(width=float(page.get('width')),height=float(page.get('height')),words=words,lines=lines,regions=regions))
+                item_box=box(item)
+                if not text or not item_box: continue
+                regions.append(dict(id=f'text-{len(regions)+1}',kind='text',text=text,**item_box))
+        result.append(dict(width=page_width,height=page_height,words=words,lines=lines,regions=regions))
     return result
 
 

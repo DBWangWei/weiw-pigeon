@@ -16,6 +16,10 @@ import tempfile
 import threading
 import unittest
 import xml.etree.ElementTree as ET
+from unittest.mock import patch
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1] / 'scripts'))
+import export_deck
 
 SKILL = Path(__file__).resolve().parents[1]
 BUILDER = SKILL / 'scripts/typst_to_pigeon.py'
@@ -29,6 +33,25 @@ def execute(command, **kwargs):
 
 
 class PipelineTests(unittest.TestCase):
+    def test_typst_text_geometry_crops_boxes_at_slide_boundary(self):
+        bbox = 'xmlns="http://www.w3.org/1999/xhtml" xMin="90" yMin="95" xMax="110" yMax="105"'
+        outside = 'xmlns="http://www.w3.org/1999/xhtml" xMin="10" yMin="101" xMax="20" yMax="110"'
+        xml = f'''<doc xmlns="http://www.w3.org/1999/xhtml">
+  <page width="100" height="100">
+    <block {bbox}><line {bbox}><word {bbox}>Visible</word></line></block>
+    <block {outside}><line {outside}><word {outside}>Hidden</word></line></block>
+  </page>
+</doc>'''
+        with patch.object(export_deck, 'run', return_value=xml):
+            geometry = export_deck.text_geometry(Path('/private/tmp/unused.pdf'))
+        page = geometry[0]
+        self.assertEqual(page['words'][0]['text'], 'Visible')
+        self.assertEqual((page['words'][0]['x'], page['words'][0]['y'], page['words'][0]['width'], page['words'][0]['height']), (90.0, 95.0, 10.0, 5.0))
+        self.assertEqual(len(page['lines']), 1)
+        self.assertEqual(len(page['regions']), 1)
+        self.assertLessEqual(page['regions'][0]['x'] + page['regions'][0]['width'], page['width'])
+        self.assertLessEqual(page['regions'][0]['y'] + page['regions'][0]['height'], page['height'])
+
     def test_configured_model_cache_and_failure_preserves_output(self):
         requests = []
         response_mode = ['repair']
